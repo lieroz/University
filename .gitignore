@@ -34,8 +34,3 @@
 
 # Vim swap files
 *.swp
-
-# Text and office files
-*.odt
-*.docs
-*.txt
