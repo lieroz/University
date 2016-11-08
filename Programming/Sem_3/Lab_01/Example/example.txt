@@ -1,0 +1,9 @@
+pub_id pub_name                                 city                 state country   income_for_the_year
+0736   New_Moon_Books                           Boston               MA    USA           65.80
+0877   Binnet_&_Hardley                         Washington           DC    USA           54.75
+1389   Algodata_Infosystems                     Berkeley             CA    USA           74.80
+1622   Five_Lakes_Publishing                    Chicago              IL    USA           90.27
+7538   Ramona_Publishers                        Dallas               TX    USA           84.1
+9901   GGG&G                                    Munchen              NULL  Germany       17.
+9952   Scootney_Books                           New_York             NY    USA           63.44
+9999   Lucerne_Publishing                       Paris                NULL  France        23432.889
