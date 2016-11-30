@@ -26,7 +26,6 @@ void Destructor(Dequeue* self) {
 	free(self);
 }
 
-// ------------------------------------------------------------------------
 void copy(const int* from, int* to, int count) {
 	const int* f_ptr = from;
 	int* t_ptr = to;
@@ -63,7 +62,6 @@ void reserve(Dequeue* self, int size) {
 	self->self_size = size;
 }
 
-// ------------------------------------------------------------------------
 void push_front(Dequeue* self, int value) {
 	reserve(self, self->self_size + 1);
 
@@ -106,10 +104,18 @@ int pop_back(Dequeue* self) {
 	return result;
 }
 
-int size(Dequeue* self) {
+void to_sdtout(const Dequeue* self) {
+	for (size_t i = 0; i < self->self_size; ++i) {
+		fprintf(stdout, "%d ", self->base[i]);
+	}
+
+	fprintf(stdout, "\n");
+}
+
+int size(const Dequeue* self) {
 	return self->self_size;
 }
 
-bool empty(Dequeue* self) {
+bool empty(const Dequeue* self) {
 	return self->self_size == 0;
 }

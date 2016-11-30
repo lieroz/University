@@ -23,13 +23,14 @@ typedef struct {
 Dequeue* Constructor();
 void Destructor(Dequeue*);
 
-void push_front(Dequeue*, int);
+void push_front(Dequeue*, const int);
 int pop_front(Dequeue*);
 
-void push_back(Dequeue*, int);
+void push_back(Dequeue*, const int);
 int pop_back(Dequeue*);
 
-int size(Dequeue*);
-bool empty(Dequeue*);
+void to_sdtout(const Dequeue*);
+int size(const Dequeue*);
+bool empty(const Dequeue*);
 
 #endif //LAB_09_DEQUEUE_H
