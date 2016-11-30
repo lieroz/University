@@ -6,5 +6,4 @@
 2) Реализовать алгоритм топологической сортировки для ациклического орграфа и
 протестировать его на примере графа, изображенного на рисунке 4 (а).  
 
-
-
+![The screen](https://raw.githubusercontent.com/University/Programming/Sem_3/Lab_09/Example/graphs.jpg) 
