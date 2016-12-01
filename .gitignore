@@ -34,3 +34,9 @@
 
 # Vim swap files
 *.swp
+
+# Directories
+.idea/
+cmake-build-debug/
+Tasks/
+Types&DataStructures/
