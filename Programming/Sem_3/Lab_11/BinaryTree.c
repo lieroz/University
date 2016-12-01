@@ -9,9 +9,9 @@ BSTNode* FindMin(BSTNode* node) {
     // Go to the left sub tree to find the min element
     if (node->left) {
         return FindMin(node->left);
-    } else { 
-        return node;
     }
+
+    return node;
 }
 
 BSTNode* FindMax(BSTNode* node) {

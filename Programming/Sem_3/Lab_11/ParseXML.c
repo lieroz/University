@@ -46,10 +46,11 @@ BSTNode* FillTree(FILE* f) {
 	int current_index = 0;
 	int onset = 0;
 	int i = 0;
+
 	while (!feof(f)) {
 		++current_index;
-
 		char symbol = fgetc(f);
+
 		if (symbol == '<') {
 
 			while (symbol != '>') {
@@ -81,12 +82,14 @@ BSTNode* FillTree(FILE* f) {
 
 			int element_length = current_index - onset;
 			char* buffer = (char*) malloc(sizeof(char) * (element_length + 1));
+
 			for (int i = 0; i < element_length; ++i) {
 				buffer[i] = fgetc(f);
 			}
-			buffer[element_length] = '\0';
 
+			buffer[element_length] = '\0';
 			AssignValues(object, buffer, i);
+
 			if (i == OBJECT_FEATURE_COUNT) {
 				root = Insert(root, object);
 				i = 0;

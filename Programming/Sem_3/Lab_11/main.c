@@ -45,6 +45,12 @@ int main(const int argc, const char** argv) {
 	fscanf(stdin, "%s", name);
 
 	BSTNode* object = Find(root, name);
+
+	if (object == NULL) {
+		fprintf(stderr, "Employee not found.\n");
+		return 0;
+	}
+
 	PrintObject(object, stdout);
 
 	ClearTree(root);
