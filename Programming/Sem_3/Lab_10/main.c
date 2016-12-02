@@ -221,7 +221,7 @@ void PrintArr(int dist[], int n, int parent[]) {
 	fprintf(stdout, "Vertex\t  Distance\tPath");
 
 	for (int i = 1; i < n; i++) {
-		fprintf(stdout, "\n%d -> %d \t\t %d\t\t%d ", src, i, dist[i], src);
+		fprintf(stdout, "\n%d -> %d\t\t\t%d\t\t\t%d ", src, i, dist[i], src);
 		PrintPath(parent, i);
 	}
 }
@@ -283,27 +283,62 @@ void DijkstraShortestDistance(Graph* graph, int src) {
 	PrintArr(dist, V, parent);
 }
 
+Graph* BuildGraph(FILE* f) {
+	int vertex_count = 0;
+
+	fscanf(f, "%d", &vertex_count);
+
+	Graph* G = CreateGraph(vertex_count);
+
+	while (!feof(f)) {
+		int vertex_index = 0;
+		int vertex = 0;
+		int weight = 0;
+
+		fscanf(f, "%d %d %d", &vertex_index, &vertex, &weight);
+		AddEdge(G, vertex_index, vertex, weight);
+	}
+
+	return G;
+}
+
 // Driver program to test above functions
 int main() {
-	// create the graph given in above fugure
-	int V = 9;
-	Graph* graph = CreateGraph(V);
-	AddEdge(graph, 0, 1, 4);
-	AddEdge(graph, 0, 7, 8);
-	AddEdge(graph, 1, 2, 8);
-	AddEdge(graph, 1, 7, 11);
-	AddEdge(graph, 2, 3, 7);
-	AddEdge(graph, 2, 8, 2);
-	AddEdge(graph, 2, 5, 4);
-	AddEdge(graph, 3, 4, 9);
-	AddEdge(graph, 3, 5, 14);
-	AddEdge(graph, 4, 5, 10);
-	AddEdge(graph, 5, 6, 2);
-	AddEdge(graph, 6, 7, 1);
-	AddEdge(graph, 6, 8, 6);
-	AddEdge(graph, 7, 8, 7);
+	FILE* a = fopen("a.txt", "r");
+	Graph* A = BuildGraph(a);
 
-	DijkstraShortestDistance(graph, 0);
+	fprintf(stdout, "ShortestDistance A:\n");
+	DijkstraShortestDistance(A, 0);
+	fprintf(stdout, "\n\n");
+
+	fclose(a);
+
+	FILE* b = fopen("b.txt", "r");
+	Graph* B = BuildGraph(b);
+
+	fprintf(stdout, "ShortestDistance B:\n");
+	DijkstraShortestDistance(B, 0);
+	fprintf(stdout, "\n\n");
+
+	fclose(b);
+
+	FILE* c = fopen("c.txt", "r");
+	Graph* C = BuildGraph(c);
+
+	fprintf(stdout, "ShortestDistance C:\n");
+	DijkstraShortestDistance(C, 0);
+	fprintf(stdout, "\n\n");
+
+	fclose(c);
+
+	FILE* d = fopen("d.txt", "r");
+	Graph* D = BuildGraph(d);
+
+	fprintf(stdout, "ShortestDistance D:\n");
+	DijkstraShortestDistance(D, 0);
+	fprintf(stdout, "\n\n");
+
+	fclose(d);
 
 	return 0;
 }
