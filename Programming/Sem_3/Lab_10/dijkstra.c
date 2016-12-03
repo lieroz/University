@@ -45,7 +45,8 @@ void DijkstraShortestDistance(Graph* graph, int src) {
 	}
 
 	// Make dist value of src vertex as 0 so that it is extracted first
-	min_heap->array[src] = NewMinHeapNode(src, dist[src]);
+	min_heap->array[src]->v = src;
+	min_heap->array[src]->dist = dist[src];
 	min_heap->pos[src] = src;
 	dist[src] = 0;
 	DecreaseKey(min_heap, src, dist[src]);
@@ -77,8 +78,11 @@ void DijkstraShortestDistance(Graph* graph, int src) {
 			}
 			p_crawl = p_crawl->next;
 		}
+
+		free(min_heap_node);
 	}
 
 	// print the calculated shortest distances
 	PrintArr(dist, V, parent);
+	DestroyMinHeap(min_heap);
 }

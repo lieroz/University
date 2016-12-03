@@ -29,6 +29,9 @@ typedef struct {
 // A utility function that creates a graph of V vertices
 Graph* CreateGraph(int);
 
+// An utility function to destroy Graph
+void DestroyGraph(Graph*);
+
 // Adds an edge to an undirected graph
 void AddEdge(Graph*, int, int, int);
 

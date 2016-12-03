@@ -30,6 +30,24 @@ Graph* CreateGraph(int V) {
 	return graph;
 }
 
+void DestroyGraph(Graph* graph) {
+	for (size_t i = 0; i < graph->V; ++i) {
+		AdjListNode* p_crawler = graph->array[i].head;
+
+		while (p_crawler != NULL) {
+			AdjListNode* temp = p_crawler;
+			p_crawler = p_crawler->next;
+			free(temp);
+		}
+
+		graph->array[i].head = NULL;
+	}
+
+	free(graph->array);
+	free(graph);
+}
+
+
 void AddEdge(Graph* graph, int src, int dest, int weight) {
 	// Add an edge from src to dest.  A new node is added to the adjacency
 	// list of src.  The node is added at the begining

@@ -28,6 +28,7 @@ int main() {
 	DijkstraShortestDistance(A, 0);
 	fprintf(stdout, "\n\n");
 
+	DestroyGraph(A);
 	fclose(a);
 
 	FILE* b = fopen("b.txt", "r");
@@ -37,6 +38,7 @@ int main() {
 	DijkstraShortestDistance(B, 0);
 	fprintf(stdout, "\n\n");
 
+	DestroyGraph(B);
 	fclose(b);
 
 	FILE* c = fopen("c.txt", "r");
@@ -46,6 +48,7 @@ int main() {
 	DijkstraShortestDistance(C, 0);
 	fprintf(stdout, "\n\n");
 
+	DestroyGraph(C);
 	fclose(c);
 
 	FILE* d = fopen("d.txt", "r");
@@ -55,6 +58,7 @@ int main() {
 	DijkstraShortestDistance(D, 0);
 	fprintf(stdout, "\n\n");
 
+	DestroyGraph(D);
 	fclose(d);
 
 	return 0;

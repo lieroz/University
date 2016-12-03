@@ -29,6 +29,9 @@ MinHeapNode* NewMinHeapNode(int, int);
 // A utility function to create a Min Heap
 MinHeap* CreateMinHeap(int);
 
+// An utility function to destroy Min Heap
+void DestroyMinHeap(MinHeap*);
+
 // A utility function to check if the given minHeap is ampty or not
 int IsEmpty(MinHeap*);
 

@@ -24,6 +24,16 @@ MinHeap* CreateMinHeap(int capacity) {
 	return min_heap;
 }
 
+void DestroyMinHeap(MinHeap* min_heap) {
+	for (size_t i = 0; i < min_heap->size; ++i) {
+		free(min_heap->array[i]);
+	}
+
+	free(min_heap->array);
+	free(min_heap->pos);
+	free(min_heap);
+}
+
 // A utility function to swap two nodes of min heap. Needed for min heapify
 void SwapMinHeapNode(MinHeapNode** a, MinHeapNode** b) {
 	MinHeapNode* t = *a;
