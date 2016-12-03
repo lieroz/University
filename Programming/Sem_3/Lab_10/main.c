@@ -24,6 +24,7 @@ int main() {
 	FILE* a = fopen("a.txt", "r");
 	Graph* A = BuildGraph(a);
 
+	fprintf(stdout, "\033[0;32m"); // changes the color of output text
 	fprintf(stdout, "ShortestDistance A:\n");
 	DijkstraShortestDistance(A, 0);
 	fprintf(stdout, "\n\n");
