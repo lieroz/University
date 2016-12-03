@@ -57,7 +57,6 @@ int main() {
 
 	fprintf(stdout, "ShortestDistance D:\n");
 	DijkstraShortestDistance(D, 0);
-	fprintf(stdout, "\n\n");
 
 	DestroyGraph(D);
 	fclose(d);

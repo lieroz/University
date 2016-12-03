@@ -20,7 +20,7 @@ void PrintPath(int parent[], int j) {
 // A utility function used to print the solution
 void PrintArr(int dist[], int n, int parent[]) {
 	int src = 0;
-	fprintf(stdout, "Vertex\t  Distance\tPath");
+	fprintf(stdout, "Vertex\t\tDistance\t\tPath");
 
 	for (int i = 1; i < n; i++) {
 		fprintf(stdout, "\n%d -> %d\t\t\t%d\t\t\t%d ", src, i, dist[i], src);
