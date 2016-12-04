@@ -15,6 +15,6 @@ void PrintProducts(xmlDoc* file, xmlNode* root);
 
 void PrintShipments(xmlDoc* file, xmlNode* root);
 
-void PrintTable(const char* file_name, void (*print)(xmlDoc*, xmlNode*));
+void PrintTable(const char* file_name, void (* print)(xmlDoc*, xmlNode*));
 
 #endif //LAB_12_PRINTDOCS_H

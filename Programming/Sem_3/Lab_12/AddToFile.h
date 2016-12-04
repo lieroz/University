@@ -16,6 +16,6 @@ void AddProduct(const char* file_name, xmlDoc* file, xmlNode* root);
 
 void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root);
 
-void AddToFile(const char* file_name, void (*add)(const char*, xmlDoc*, xmlNode*));
+void AddToFile(const char* file_name, void (* add)(const char*, xmlDoc*, xmlNode*));
 
 #endif //LAB_12_ADDTOFILE_H

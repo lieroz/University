@@ -17,15 +17,12 @@ void AddSupplier(const char* file_name, xmlDoc* file, xmlNode* root) {
 	char* buffer = malloc(sizeof(char) * size);
 	int supplier_id = 0;
 
-
 	sscanf((const char*) table_child, "%d", &supplier_id);
-	sprintf((char*) table_child, "%d", ++supplier_id);
-	xmlNewChild(new_node, 0, BAD_CAST "SupplierID", table_child);
-
+	sprintf(buffer, "%d", ++supplier_id);
+	xmlNewChild(new_node, 0, BAD_CAST "SupplierID", BAD_CAST buffer);
 
 	ScanInput(buffer, size, "SupplierName", false);
 	xmlNewChild(new_node, 0, BAD_CAST "SupplierName", BAD_CAST buffer);
-
 
 	ScanInput(buffer, size, "Status", false);
 	int status = 0;
@@ -37,10 +34,8 @@ void AddSupplier(const char* file_name, xmlDoc* file, xmlNode* root) {
 	sprintf(buffer, "%d", status);
 	xmlNewChild(new_node, 0, BAD_CAST "Status", BAD_CAST buffer);
 
-
 	ScanInput(buffer, size, "City", false);
 	xmlNewChild(new_node, 0, BAD_CAST "City", BAD_CAST buffer);
-
 
 	xmlSaveFormatFileEnc(file_name ? file_name : "-", file, "UTF-8", 1);
 
@@ -67,17 +62,14 @@ void AddProduct(const char* file_name, xmlDoc* file, xmlNode* root) {
 	sprintf((char*) table_child, "%d", ++product_id);
 	xmlNewChild(new_node, 0, BAD_CAST "ProductID", table_child);
 
-
 	ScanInput(buffer, size, "ProductName", false);
 	xmlNewChild(new_node, 0, BAD_CAST "ProductName", BAD_CAST buffer);
-
 
 	ScanInput(buffer, size, "Color", true);
 
 	if (strlen(buffer) != 0) {
 		xmlNewChild(new_node, 0, BAD_CAST "Color", BAD_CAST buffer);
 	}
-
 
 	ScanInput(buffer, size, "Weight", true);
 	double weight = 0;
@@ -96,7 +88,6 @@ void AddProduct(const char* file_name, xmlDoc* file, xmlNode* root) {
 		xmlNewChild(new_node, 0, BAD_CAST "Weight", BAD_CAST buffer);
 	}
 
-
 	ScanInput(buffer, size, "Price", true);
 	double price = 0;
 
@@ -114,10 +105,8 @@ void AddProduct(const char* file_name, xmlDoc* file, xmlNode* root) {
 		xmlNewChild(new_node, 0, BAD_CAST "Price", BAD_CAST buffer);
 	}
 
-
 	ScanInput(buffer, size, "City", false);
 	xmlNewChild(new_node, 0, BAD_CAST "City", BAD_CAST buffer);
-
 
 	xmlSaveFormatFileEnc(file_name ? file_name : "-", file, "UTF-8", 1);
 
@@ -144,28 +133,28 @@ void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root) {
 	sprintf((char*) table_child, "%d", ++shipment_id);
 	xmlNewChild(new_node, 0, (const xmlChar*) "ShipmentID", table_child);
 
-
 	ScanInput(buffer, size, "SupplierID", false);
 	int supplier_id = 0;
 
-	while (sscanf(buffer, "%d", &supplier_id) != 1) {
+	while (sscanf(buffer, "%d", &supplier_id) != 1
+		|| !SearchForPrimaryKey(supplier_id, "XML_Suppliers.xml", "SupplierID")) {
 		ScanInput(buffer, size, "SupplierID", false);
 	}
 
 	sprintf(buffer, "%d", supplier_id);
 	xmlNewChild(new_node, 0, BAD_CAST "SupplierID", BAD_CAST buffer);
 
-
 	ScanInput(buffer, size, "ProductID", false);
 	int product_id = 0;
 
-	while (sscanf(buffer, "%d", &product_id) != 1) {
+	while (sscanf(buffer, "%d", &product_id) != 1
+		|| !SearchForPrimaryKey(product_id, "XML_Products.xml", "ProductID")
+		|| SearchForPair(supplier_id, product_id)) {
 		ScanInput(buffer, size, "ProductID", false);
 	}
 
 	sprintf(buffer, "%d", product_id);
 	xmlNewChild(new_node, 0, BAD_CAST "ProductID", BAD_CAST buffer);
-
 
 	ScanInput(buffer, size, "Qty", false);
 	int qty = 0;
@@ -177,7 +166,6 @@ void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root) {
 	sprintf(buffer, "%d", qty);
 	xmlNewChild(new_node, 0, BAD_CAST "Qty", BAD_CAST buffer);
 
-
 	xmlSaveFormatFileEnc(file_name ? file_name : "-", file, "UTF-8", 1);
 
 	free(buffer);
@@ -186,7 +174,7 @@ void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root) {
 	xmlFree(current);
 }
 
-void AddToFile(const char* file_name, void (*add)(const char*, xmlDoc*, xmlNode*)) {
+void AddToFile(const char* file_name, void (* add)(const char*, xmlDoc*, xmlNode*)) {
 	xmlDoc* file = xmlReadFile(file_name, NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(file);
 
