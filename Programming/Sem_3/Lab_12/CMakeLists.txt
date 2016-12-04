@@ -7,3 +7,9 @@ set(SOURCE_FILES
     main.c)
 
 add_executable(Lab_12 ${SOURCE_FILES})
+
+find_package(LibXml2 REQUIRED)
+
+include_directories(${LIBXML2_INCLUDE_DIR})
+
+target_link_libraries( Lab_12 ${LIBXML2_LIBRARIES})
