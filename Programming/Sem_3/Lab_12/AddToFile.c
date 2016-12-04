@@ -11,45 +11,40 @@ void AddSupplier(const char* file_name, xmlDoc* file, xmlNode* root) {
 		current = current->next;
 	}
 
-	xmlNode* new_node = xmlNewChild(root, 0, (const xmlChar*) "Supplier", 0);
+	xmlNode* new_node = xmlNewChild(root, 0, BAD_CAST "Supplier", 0);
 	xmlChar* table_child = xmlNodeListGetString(file, current->children->children, 1);
-	int key = 0;
+	size_t size = 256;
+	char* buffer = malloc(sizeof(char) * size);
+	int supplier_id = 0;
 
-	sscanf((const char*) table_child, "%d", &key);
-	sprintf((char*) table_child, "%d", ++key);
-	xmlNewChild(new_node, 0, (const xmlChar*) "SupplierID", table_child);
 
-	fprintf(stdout, "Enter SupplierName: ");
+	sscanf((const char*) table_child, "%d", &supplier_id);
+	sprintf((char*) table_child, "%d", ++supplier_id);
+	xmlNewChild(new_node, 0, BAD_CAST "SupplierID", table_child);
 
-	if (fscanf(stdin, "%s", table_child) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+
+	ScanInput(buffer, size, "SupplierName", false);
+	xmlNewChild(new_node, 0, BAD_CAST "SupplierName", BAD_CAST buffer);
+
+
+	ScanInput(buffer, size, "Status", false);
+	int status = 0;
+
+	while (sscanf(buffer, "%d", &status) != 1 || (status < 0 || status > 100)) {
+		ScanInput(buffer, size, "Status", false);
 	}
 
-	xmlNewChild(new_node, 0, (const xmlChar*) "SupplierName", table_child);
+	sprintf(buffer, "%d", status);
+	xmlNewChild(new_node, 0, BAD_CAST "Status", BAD_CAST buffer);
 
-	fprintf(stdout, "Enter Status: ");
 
-	if (fscanf(stdin, "%d", &key) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
-	}
+	ScanInput(buffer, size, "City", false);
+	xmlNewChild(new_node, 0, BAD_CAST "City", BAD_CAST buffer);
 
-	sprintf((char*) table_child, "%d", key);
-	xmlNewChild(new_node, 0, (const xmlChar*) "Status", table_child);
-
-	fprintf(stdout, "Enter City: ");
-
-	if (fscanf(stdin, "%s", table_child) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
-	}
-
-	xmlNewChild(new_node, 0, (const xmlChar*) "City", table_child);
 
 	xmlSaveFormatFileEnc(file_name ? file_name : "-", file, "UTF-8", 1);
 
-ERROR:
+	free(buffer);
 	xmlFree(table_child);
 	xmlFree(new_node);
 	xmlFree(current);
@@ -62,65 +57,71 @@ void AddProduct(const char* file_name, xmlDoc* file, xmlNode* root) {
 		current = current->next;
 	}
 
-	xmlNode* new_node = xmlNewChild(root, 0, (const xmlChar*) "Product", 0);
+	xmlNode* new_node = xmlNewChild(root, 0, BAD_CAST "Product", 0);
 	xmlChar* table_child = xmlNodeListGetString(file, current->children->children, 1);
-	int key = 0;
+	size_t size = 256;
+	char* buffer = malloc(sizeof(char) * size);
+	int product_id = 0;
 
-	sscanf((const char*) table_child, "%d", &key);
-	sprintf((char*) table_child, "%d", ++key);
-	xmlNewChild(new_node, 0, (const xmlChar*) "ProductID", table_child);
+	sscanf((const char*) table_child, "%d", &product_id);
+	sprintf((char*) table_child, "%d", ++product_id);
+	xmlNewChild(new_node, 0, BAD_CAST "ProductID", table_child);
 
-	fprintf(stdout, "Enter ProductName: ");
 
-	if (fscanf(stdin, "%s", table_child) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+	ScanInput(buffer, size, "ProductName", false);
+	xmlNewChild(new_node, 0, BAD_CAST "ProductName", BAD_CAST buffer);
+
+
+	ScanInput(buffer, size, "Color", true);
+
+	if (strlen(buffer) != 0) {
+		xmlNewChild(new_node, 0, BAD_CAST "Color", BAD_CAST buffer);
 	}
 
-	xmlNewChild(new_node, 0, (const xmlChar*) "ProductName", table_child);
 
-	fprintf(stdout, "Enter Color: ");
+	ScanInput(buffer, size, "Weight", true);
+	double weight = 0;
 
-	if (fscanf(stdin, "%s", table_child) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+	if (strlen(buffer) != 0) {
+
+		while (sscanf(buffer, "%lf", &weight) != 1 || weight <= 0) {
+			ScanInput(buffer, size, "Weight", true);
+
+			if (strlen(buffer) == 0) {
+				break;
+			}
+		}
+
+		sprintf(buffer, "%.2lf", weight);
+		xmlNewChild(new_node, 0, BAD_CAST "Weight", BAD_CAST buffer);
 	}
 
-	xmlNewChild(new_node, 0, (const xmlChar*) "Color", table_child);
 
-	double temp = 0;
-	fprintf(stdout, "Enter Weight: ");
+	ScanInput(buffer, size, "Price", true);
+	double price = 0;
 
-	if (fscanf(stdin, "%lf", &temp) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+	if (strlen(buffer) != 0) {
+
+		while (sscanf(buffer, "%lf", &price) != 1 || price < 0) {
+			ScanInput(buffer, size, "Price", true);
+
+			if (strlen(buffer) == 0) {
+				break;
+			}
+		}
+
+		sprintf(buffer, "%.2lf", price);
+		xmlNewChild(new_node, 0, BAD_CAST "Price", BAD_CAST buffer);
 	}
 
-	sprintf((char*) table_child, "%.2lf", temp);
-	xmlNewChild(new_node, 0, (const xmlChar*) "SupplierID", table_child);
 
-	fprintf(stdout, "Enter Price: ");
+	ScanInput(buffer, size, "City", false);
+	xmlNewChild(new_node, 0, BAD_CAST "City", BAD_CAST buffer);
 
-	if (fscanf(stdin, "%lf", &temp) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
-	}
-
-	sprintf((char*) table_child, "%.2lf", temp);
-	xmlNewChild(new_node, 0, (const xmlChar*) "Price", table_child);
-
-	fprintf(stdout, "Enter City: ");
-
-	if (fscanf(stdin, "%s", table_child) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
-	}
-
-	xmlNewChild(new_node, 0, (const xmlChar*) "City", table_child);
 
 	xmlSaveFormatFileEnc(file_name ? file_name : "-", file, "UTF-8", 1);
 
-ERROR:
+	free(buffer);
 	xmlFree(table_child);
 	xmlFree(new_node);
 	xmlFree(current);
@@ -135,47 +136,51 @@ void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root) {
 
 	xmlNode* new_node = xmlNewChild(root, 0, (const xmlChar*) "Shipment", 0);
 	xmlChar* table_child = xmlNodeListGetString(file, current->children->children, 1);
-	int key = 0;
+	size_t size = 256;
+	char* buffer = malloc(sizeof(char) * size);
+	int shipment_id = 0;
 
-	sscanf((const char*) table_child, "%d", &key);
-	sprintf((char*) table_child, "%d", ++key);
+	sscanf((const char*) table_child, "%d", &shipment_id);
+	sprintf((char*) table_child, "%d", ++shipment_id);
 	xmlNewChild(new_node, 0, (const xmlChar*) "ShipmentID", table_child);
 
-	fprintf(stdout, "Enter SupplierID: ");
 
-	if (fscanf(stdin, "%d", &key) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+	ScanInput(buffer, size, "SupplierID", false);
+	int supplier_id = 0;
+
+	while (sscanf(buffer, "%d", &supplier_id) != 1) {
+		ScanInput(buffer, size, "SupplierID", false);
 	}
 
-	sprintf((char*) table_child, "%d", key);
-	xmlNewChild(new_node, 0, (const xmlChar*) "SupplierID", table_child);
+	sprintf(buffer, "%d", supplier_id);
+	xmlNewChild(new_node, 0, BAD_CAST "SupplierID", BAD_CAST buffer);
 
-	fprintf(stdout, "Enter ProductID: ");
 
-	if (fscanf(stdin, "%d", &key) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+	ScanInput(buffer, size, "ProductID", false);
+	int product_id = 0;
+
+	while (sscanf(buffer, "%d", &product_id) != 1) {
+		ScanInput(buffer, size, "ProductID", false);
 	}
 
-	sprintf((char*) table_child, "%d", key);
-	xmlNewChild(new_node, 0, (const xmlChar*) "ProductID", table_child);
+	sprintf(buffer, "%d", product_id);
+	xmlNewChild(new_node, 0, BAD_CAST "ProductID", BAD_CAST buffer);
 
-	fprintf(stdout, "Enter Qty: ");
 
-	if (fscanf(stdin, "%d", &key) != 1) {
-		fprintf(stderr, "ERROR: INVALID INPUT");
-		goto ERROR;
+	ScanInput(buffer, size, "Qty", false);
+	int qty = 0;
+
+	while (sscanf(buffer, "%d", &qty) != 1 || qty <= 0) {
+		ScanInput(buffer, size, "Qty", false);
 	}
 
-	assert(key > 0);
+	sprintf(buffer, "%d", qty);
+	xmlNewChild(new_node, 0, BAD_CAST "Qty", BAD_CAST buffer);
 
-	sprintf((char*) table_child, "%d", key);
-	xmlNewChild(new_node, 0, (const xmlChar*) "Qty", table_child);
 
 	xmlSaveFormatFileEnc(file_name ? file_name : "-", file, "UTF-8", 1);
 
-ERROR:
+	free(buffer);
 	xmlFree(table_child);
 	xmlFree(new_node);
 	xmlFree(current);

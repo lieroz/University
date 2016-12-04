@@ -5,7 +5,7 @@
 
 int main(const int argc, const char* argv[]) {
 	xmlKeepBlanksDefault(0);
-	AddToFile("XML_Products.xml", AddProduct);
+	AddToFile("XML_Shipments.xml", AddShipment);
 
 //	while (true) {
 //		int choice = 0;

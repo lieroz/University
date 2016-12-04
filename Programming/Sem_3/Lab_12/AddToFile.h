@@ -8,6 +8,8 @@
 #include <libxml/parser.h>
 #include <assert.h>
 
+#include "Helpers.h"
+
 void AddSupplier(const char* file_name, xmlDoc* file, xmlNode* root);
 
 void AddProduct(const char* file_name, xmlDoc* file, xmlNode* root);
