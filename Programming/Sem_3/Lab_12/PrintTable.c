@@ -89,6 +89,7 @@ void PrintShipments(xmlDoc* file, xmlNode* root) {
 				        BOLD("%s"), content);
 		}
 	}
+
 	xmlFree(content);
 }
 

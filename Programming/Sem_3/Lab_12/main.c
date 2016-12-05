@@ -2,11 +2,13 @@
 #include "AddToFile.h"
 #include "RemoveFromFile.h"
 #include "ModifyTableContent.h"
+#include "TaskFunctions.h"
 
 int main(const int argc, const char* argv[]) {
 	xmlKeepBlanksDefault(0);
-	ModifyTableContent("XML_Shipments.xml", "ShipmentID", 57, ModifyShipment);
-
+//	ModifyTableContent("XML_Suppliers.xml", "SupplierID", 674, ModifySupplier);
+//	GetCityLocalizedSuppliers();
+	GetAllEngagedSuppliers();
 //	while (true) {
 //		int choice = 0;
 //
