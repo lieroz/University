@@ -2,10 +2,11 @@
 
 #include "PrintTable.h"
 #include "AddToFile.h"
+#include "RemoveFromFile.h"
 
 int main(const int argc, const char* argv[]) {
 	xmlKeepBlanksDefault(0);
-	AddToFile("XML_Shipments.xml", AddShipment);
+	RemoveFromFile("XML_Suppliers.xml", 57, RemoveSupplier);
 
 //	while (true) {
 //		int choice = 0;
