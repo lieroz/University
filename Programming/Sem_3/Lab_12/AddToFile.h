@@ -5,9 +5,6 @@
 #ifndef LAB_12_ADDTOFILE_H
 #define LAB_12_ADDTOFILE_H
 
-#include <libxml/parser.h>
-#include <assert.h>
-
 #include "Helpers.h"
 
 void AddSupplier(const char* file_name, xmlDoc* file, xmlNode* root);

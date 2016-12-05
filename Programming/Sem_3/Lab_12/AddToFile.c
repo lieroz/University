@@ -123,7 +123,7 @@ void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root) {
 		current = current->next;
 	}
 
-	xmlNode* new_node = xmlNewChild(root, 0, (const xmlChar*) "Shipment", 0);
+	xmlNode* new_node = xmlNewChild(root, 0, BAD_CAST "Shipment", 0);
 	xmlChar* table_child = xmlNodeListGetString(file, current->children->children, 1);
 	size_t size = 256;
 	char* buffer = malloc(sizeof(char) * size);
@@ -131,7 +131,7 @@ void AddShipment(const char* file_name, xmlDoc* file, xmlNode* root) {
 
 	sscanf((const char*) table_child, "%d", &shipment_id);
 	sprintf((char*) table_child, "%d", ++shipment_id);
-	xmlNewChild(new_node, 0, (const xmlChar*) "ShipmentID", table_child);
+	xmlNewChild(new_node, 0, BAD_CAST "ShipmentID", table_child);
 
 	ScanInput(buffer, size, "SupplierID", false);
 	int supplier_id = 0;
@@ -178,8 +178,8 @@ void AddToFile(const char* file_name, void (* add)(const char*, xmlDoc*, xmlNode
 	xmlDoc* file = xmlReadFile(file_name, NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(file);
 
-//	add(file_name, file, root);
-	add(NULL, file, root);
+	add(file_name, file, root);
+//	add(NULL, file, root);
 
 	xmlFree(root);
 	xmlFree(file);

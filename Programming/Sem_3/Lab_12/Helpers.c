@@ -22,7 +22,7 @@ void ScanInput(char* buffer, size_t size, const char* name, bool is_null) {
 bool SearchForPrimaryKey(int primary_key, const char* file_name, const char* tag_name) {
 	xmlDoc* file = xmlReadFile(file_name, NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(file);
-	xmlChar* temp;
+	xmlChar* temp = NULL;
 
 	int compared_key = 0;
 	bool flag = false;
@@ -38,12 +38,11 @@ bool SearchForPrimaryKey(int primary_key, const char* file_name, const char* tag
 				if (compared_key == primary_key) {
 					flag = true;
 				}
-
-				xmlFree(temp);
 			}
 		}
 	}
 
+	xmlFree(temp);
 	xmlFree(root);
 	xmlFree(file);
 
@@ -53,8 +52,8 @@ bool SearchForPrimaryKey(int primary_key, const char* file_name, const char* tag
 bool SearchForPair(int supplier_id, int product_id) {
 	xmlDoc* file = xmlReadFile("XML_Shipments.xml", NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(file);
-	xmlChar* temp_supplier;
-	xmlChar* temp_product;
+	xmlChar* temp_supplier = NULL;
+	xmlChar* temp_product = NULL;
 
 	int compared_sup = 0;
 	int compared_prod = 0;
@@ -74,13 +73,12 @@ bool SearchForPair(int supplier_id, int product_id) {
 				if (compared_sup == supplier_id && compared_prod == product_id) {
 					flag = true;
 				}
-
-				xmlFree(temp_supplier);
-				xmlFree(temp_product);
 			}
 		}
 	}
 
+	xmlFree(temp_supplier);
+	xmlFree(temp_product);
 	xmlFree(root);
 	xmlFree(file);
 
