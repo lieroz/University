@@ -9,12 +9,15 @@
 
 #include <libxml/parser.h>
 
-void RemoveSupplier(const char* file_name, xmlDoc* file, xmlNode* root, int primary_key);
+void RemoveSupplier(const char* file_name, const char* tag_name, xmlDoc* file, xmlNode* root, int primary_key);
 
-void RemoveProduct(const char* file_name, xmlDoc* file, xmlNode* root, int primary_key);
+void RemoveProduct(const char* file_name, const char* tag_name, xmlDoc* file, xmlNode* root, int primary_key);
 
-void RemoveShipment(const char* file_name, xmlDoc* file, xmlNode* root, int primary_key);
+void RemoveShipment(const char* file_name, const char* tag_name, xmlDoc* file, xmlNode* root, int primary_key);
 
-void RemoveFromFile(const char* file_name, int primary_key, void (* remove)(const char*, xmlDoc*, xmlNode*, int));
+void RemoveFromFile(const char* file_name,
+                    const char* tag_name,
+                    int primary_key,
+                    void (* remove)(const char*, const char*, xmlDoc*, xmlNode*, int));
 
 #endif //LAB_12_REMOVEFROMFILE_H
