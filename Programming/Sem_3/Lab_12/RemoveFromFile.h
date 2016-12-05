@@ -9,12 +9,16 @@
 
 #include <libxml/parser.h>
 
+// Removes supplier from table.
 void RemoveSupplier(const char* file_name, const char* tag_name, xmlDoc* file, xmlNode* root, int primary_key);
 
+// Removes product from table.
 void RemoveProduct(const char* file_name, const char* tag_name, xmlDoc* file, xmlNode* root, int primary_key);
 
+// Removes shipment from table.
 void RemoveShipment(const char* file_name, const char* tag_name, xmlDoc* file, xmlNode* root, int primary_key);
 
+// Wrapper for 'Removers'.
 void RemoveFromFile(const char* file_name,
                     const char* tag_name,
                     int primary_key,

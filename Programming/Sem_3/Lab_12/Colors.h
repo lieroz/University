@@ -2,6 +2,10 @@
 // Created by lieroz on 04.12.16.
 //
 
+/*
+ * Module for modifying color of output text.
+ */
+
 #ifndef LAB_12_COLORS_H
 #define LAB_12_COLORS_H
 

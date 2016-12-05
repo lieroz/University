@@ -231,8 +231,8 @@ void ModifyTableContent(const char* file_name,
 	xmlDoc* file = xmlReadFile(file_name, NULL, 1);
 	xmlNode* root = xmlDocGetRootElement(file);
 
-//	modify(file_name, tag_name, file, root, primary_key);
-	modify(NULL, tag_name, file, root, primary_key);
+	modify(file_name, tag_name, file, root, primary_key);
+//	modify(NULL, tag_name, file, root, primary_key);
 
 	xmlFree(root);
 	xmlFree(file);
