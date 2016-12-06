@@ -124,3 +124,85 @@ void GetAllEngagedSuppliers() {
 }
 // ---------------------------------------------------------------------------------------------------------------------
 
+double GetProductPrice(int product_id) {
+	xmlDoc* file = xmlReadFile("XML_Products.xml", NULL, 0);
+	xmlNode* root = xmlDocGetRootElement(file);
+	xmlChar* temp = NULL;
+	int compared_key = 0;
+	double result = 0;
+
+	for (xmlNode* i = root->children; i; i = i->next) {
+
+		for (xmlNode* j = i->children; j; j = j->next) {
+
+			if (!xmlStrcmp(j->name, BAD_CAST "ProductID")) {
+				temp = xmlNodeListGetString(file, j->children, 1);
+				sscanf((const char*) temp, "%d", &compared_key);
+
+				if (compared_key == product_id) {
+
+					while (xmlStrcmp(j->name, BAD_CAST "Price")) {
+						j = j->next;
+					}
+
+					temp = xmlNodeListGetString(file, j->children, 1);
+					sscanf((const char*) temp, "%lf", &result);
+					goto END;
+				}
+			}
+		}
+	}
+
+END:
+	xmlFree(temp);
+	xmlFree(root);
+	xmlFree(file);
+
+	return result;
+}
+
+void GetTotalProductCostBySupplier(int supplier_id) {
+	xmlDoc* file = xmlReadFile("XML_Shipments.xml", NULL, 0);
+	xmlNode* root = xmlDocGetRootElement(file);
+	xmlChar* temp = NULL;
+
+	if (!SearchForPrimaryKey(supplier_id, "XML_Suppliers.xml", "SupplierID")) {
+		fprintf(stderr, "ERROR: NO SUCH SUPPLIER!");
+		goto END;
+	}
+
+	int compared_key = 0;
+	double result = 0;
+	int product_id = 0;
+	int quantity = 0;
+
+	for (xmlNode* i = root->children; i; i = i->next) {
+
+		for (xmlNode* j = i->children; j; j = j->next) {
+
+			if (!xmlStrcmp(j->name, BAD_CAST "SupplierID")) {
+				temp = xmlNodeListGetString(file, j->children, 1);
+				sscanf((const char*) temp, "%d", &compared_key);
+
+				if (compared_key == supplier_id) {
+					j = j->next;
+					temp = xmlNodeListGetString(file, j->children, 1);
+					sscanf((const char*) temp, "%d", &product_id);
+
+					j = j->next;
+					temp = xmlNodeListGetString(file, j->children, 1);
+					sscanf((const char*) temp, "%d", &quantity);
+
+					result += GetProductPrice(product_id) * quantity;
+				}
+			}
+		}
+	}
+
+	FPRINTF(BOLD(MAGENTA("Total products shipped by SupplierID{%d} cost: ")) BOLD(BLUE("%lf")), supplier_id, result);
+
+END:
+	xmlFree(temp);
+	xmlFree(root);
+	xmlFree(file);
+}

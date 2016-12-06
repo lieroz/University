@@ -5,10 +5,13 @@
 #include "TaskFunctions.h"
 
 int main(const int argc, const char* argv[]) {
+	xmlInitParser();
 	xmlKeepBlanksDefault(0);
+
 //	ModifyTableContent("XML_Suppliers.xml", "SupplierID", 674, ModifySupplier);
 //	GetCityLocalizedSuppliers();
-	GetAllEngagedSuppliers();
+//	GetAllEngagedSuppliers();
+	GetTotalProductCostBySupplier(674);
 //	while (true) {
 //		int choice = 0;
 //
