@@ -15,7 +15,7 @@ bool find(const xmlChar* key, xmlChar** array, size_t size) {
 	return false;
 }
 
-size_t GetCityIndex(const xmlChar* city, xmlChar** cities, size_t size) {
+size_t get_city_index(const xmlChar* city, xmlChar** cities, size_t size) {
 	for (size_t i = 0; i < size; ++i) {
 
 		if (!xmlStrcmp(city, cities[i])) {
@@ -50,9 +50,9 @@ void GetCityLocalizedSuppliers() {
 					nodes[count][0] = i;
 					cities[count++] = city_name;
 				} else {
-					nodes[GetCityIndex(city_name, cities, count)][cities_count[GetCityIndex(city_name,
-					                                                                        cities,
-					                                                                        count)]++] = i;
+					nodes[get_city_index(city_name, cities, count)][cities_count[get_city_index(city_name,
+					                                                                            cities,
+					                                                                            count)]++] = i;
 				}
 			}
 		}
@@ -145,15 +145,17 @@ double GetProductPrice(int product_id) {
 						j = j->next;
 					}
 
-					temp = xmlNodeListGetString(file, j->children, 1);
-					sscanf((const char*) temp, "%lf", &result);
+					if (!xmlStrcmp(j->name, BAD_CAST "Price")) {
+						temp = xmlNodeListGetString(file, j->children, 1);
+						sscanf((const char*) temp, "%lf", &result);
+					}
 					goto END;
 				}
 			}
 		}
 	}
 
-END:
+	END:
 	xmlFree(temp);
 	xmlFree(root);
 	xmlFree(file);
@@ -199,10 +201,102 @@ void GetTotalProductCostBySupplier(int supplier_id) {
 		}
 	}
 
-	FPRINTF(BOLD(MAGENTA("Total products shipped by SupplierID{%d} cost: ")) BOLD(BLUE("%lf")), supplier_id, result);
+	FPRINTF(BOLD(MAGENTA("Total products shipped by SupplierID{%d} cost: "))
+		        BOLD(BLUE("%lf")), supplier_id, result);
 
-END:
+	END:
 	xmlFree(temp);
+	xmlFree(root);
+	xmlFree(file);
+}
+// ---------------------------------------------------------------------------------------------------------------------
+
+bool find_id(int id, int* array_id, size_t size) {
+	for (size_t i = 0; i < size; ++i) {
+
+		if (id == array_id[i]) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+size_t get_id_index(int id, int* array_id, size_t size) {
+	for (size_t i = 0; i < size; ++i) {
+
+		if (id == array_id[i]) {
+			return i;
+		}
+	}
+}
+
+void GetAllSuppliersTotalProductsQuantity() {
+	xmlDoc* file = xmlReadFile("XML_Shipments.xml", NULL, 0);
+	xmlNode* root = xmlDocGetRootElement(file);
+	int* suppliers_id = (int*) malloc(sizeof(int) * 128);
+	int* products_quantity = (int*) malloc(sizeof(int) * 128);
+	size_t count = 0;
+	xmlChar* temp = NULL;
+	int supplier_id = 0;
+	int qty = 0;
+
+	for (xmlNode* i = root->children; i; i = i->next) {
+
+		for (xmlNode* j = i->children; j; j = j->next) {
+
+			if (!xmlStrcmp(j->name, BAD_CAST "SupplierID")) {
+				temp = xmlNodeListGetString(file, j->children, 1);
+				sscanf((const char*) temp, "%d", &supplier_id);
+				j = j->next->next;
+
+				temp = xmlNodeListGetString(file, j->children, 1);
+				sscanf((const char*) temp, "%d", &qty);
+
+				if (!find_id(supplier_id, suppliers_id, count)) {
+					products_quantity[count] = qty;
+					suppliers_id[count++] = supplier_id;
+				} else {
+					products_quantity[get_id_index(supplier_id, suppliers_id, count)] += qty;
+				}
+			}
+		}
+	}
+
+	xmlFree(root);
+	xmlFree(file);
+
+	file = xmlReadFile("XML_Suppliers.xml", NULL, 0);
+	root = xmlDocGetRootElement(file);
+
+	fprintf(stdout, GREEN(BOLD("| SupplierID | Quantity |\n")));
+
+	for (xmlNode* i = root->children; i; i = i->next) {
+
+		for (xmlNode* j = i->children; j; j = j->next) {
+
+			if (!xmlStrcmp(j->name, BAD_CAST "SupplierID")) {
+				temp = xmlNodeListGetString(file, j->children, 1);
+				sscanf((const char*) temp, "%d", &supplier_id);
+
+				if (find_id(supplier_id, suppliers_id, count)) {
+					qty = products_quantity[get_id_index(supplier_id, suppliers_id, count)];
+				} else {
+					qty = 0;
+				}
+			}
+		}
+
+		fprintf(stdout, BOLD(MAGENTA("| %*d | %*d |\n")),
+		        (int) strlen("SupplierID"),
+		        supplier_id,
+		        (int) strlen("Quantity"),
+		        qty);
+	}
+
+	xmlFree(temp);
+	free(products_quantity);
+	free(suppliers_id);
 	xmlFree(root);
 	xmlFree(file);
 }
@@ -239,7 +333,7 @@ void GetProductColor(int product_id) {
 		}
 	}
 
-END:
+	END:
 	xmlFree(temp);
 	xmlFree(root);
 	xmlFree(file);
@@ -256,7 +350,6 @@ void GetProductColorBySupplier(int supplier_id) {
 	}
 
 	int compared_key = 0;
-	double result = 0;
 	int product_id = 0;
 
 	fprintf(stdout, BOLD(MAGENTA("Product colors shipped by SupplierID{%d}: ")), supplier_id);

@@ -21,6 +21,9 @@ void GetAllEngagedSuppliers();
 // Computes total cost of products which supplier ships.
 void GetTotalProductCostBySupplier(int supplier_id);
 
+// Prints all suppliers who ships products now.
+void GetAllSuppliersTotalProductsQuantity();
+
 // Prints all product colors which supplier ships.
 void GetProductColorBySupplier(int supplier_id);
 

@@ -11,8 +11,9 @@ int main(const int argc, const char* argv[]) {
 //	ModifyTableContent("XML_Suppliers.xml", "SupplierID", 674, ModifySupplier);
 //	GetCityLocalizedSuppliers();
 //	GetAllEngagedSuppliers();
-	GetTotalProductCostBySupplier(448);
-	GetProductColorBySupplier(448);
+//	GetTotalProductCostBySupplier(448);
+//	GetProductColorBySupplier(448);
+	GetAllSuppliersTotalProductsQuantity();
 //	while (true) {
 //		int choice = 0;
 //
