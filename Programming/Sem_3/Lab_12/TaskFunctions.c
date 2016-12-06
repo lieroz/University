@@ -372,10 +372,11 @@ void GetProductColorBySupplier(int supplier_id) {
 		}
 	}
 
+	fprintf(stdout, "\n");
+
 	END:
 	xmlFree(temp);
 	xmlFree(root);
 	xmlFree(file);
 }
 // ---------------------------------------------------------------------------------------------------------------------
-
