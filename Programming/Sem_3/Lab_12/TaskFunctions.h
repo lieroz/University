@@ -18,7 +18,10 @@ void GetCityLocalizedSuppliers();
 // Prints into stdout all engaged suppliers.
 void GetAllEngagedSuppliers();
 
-// Returns total cost of products which Supplier ships.
+// Computes total cost of products which supplier ships.
 void GetTotalProductCostBySupplier(int supplier_id);
+
+// Prints all product colors which supplier ships.
+void GetProductColorBySupplier(int supplier_id);
 
 #endif //LAB_12_TASKFUNCTIONS_H
