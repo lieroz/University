@@ -1,7 +1,7 @@
-#include "PrintTable.h"
 #include "AddToFile.h"
 #include "RemoveFromFile.h"
 #include "ModifyTableContent.h"
+#include "PrintTable.h"
 #include "TaskFunctions.h"
 
 int main(const int argc, const char* argv[]) {
