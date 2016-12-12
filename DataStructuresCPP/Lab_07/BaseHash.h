@@ -17,10 +17,10 @@ struct HashFunc {
 
 template <class K, class V, class F = HashFunc<K>>
 class BaseHash {
-
-		const size_t INIT_SIZE = 8;
-
 	protected:
+
+		const size_t INIT_SIZE = 128;
+		const double REHASH = 0.75;
 
 		struct Node {
 			K key{};
@@ -33,11 +33,14 @@ class BaseHash {
 			~Node() { delete next; }
 		};
 
+		F hash_func{};
+		size_t base_size{INIT_SIZE};
+		size_t table_size{};
 		std::vector<Node*> table;
 
 	public:
 
-		BaseHash() : table{INIT_SIZE, nullptr} {}
+		explicit BaseHash() : table{INIT_SIZE, nullptr} {}
 		virtual ~BaseHash() = default;
 
 		// Inserts element into a hash table
@@ -56,6 +59,7 @@ class BaseHash {
 		}
 
 	protected:
+		virtual void rehash() = 0;
 
 		virtual void _insert(const K&, const V&) = 0;
 		virtual void _remove(const K&) = 0;

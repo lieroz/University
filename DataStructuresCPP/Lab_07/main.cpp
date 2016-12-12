@@ -3,6 +3,9 @@
 #include "AVLTree.h"
 #include "NaiveTree.h"
 
+#include "OpenHash.h"
+#include "ClosedHash.h"
+
 int main() {
 
 	AVLTree<int> avl_tree;
