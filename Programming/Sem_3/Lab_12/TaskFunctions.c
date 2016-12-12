@@ -27,14 +27,14 @@ size_t get_city_index(const xmlChar* city, xmlChar** cities, size_t size) {
 void GetCityLocalizedSuppliers() {
 	xmlDoc* file = xmlReadFile("XML_Suppliers.xml", NULL, 0);
 	xmlNode* root = xmlDocGetRootElement(file);
-	xmlNode*** nodes = (xmlNode***) malloc(sizeof(xmlNode**) * 256);
+	xmlNode*** nodes = (xmlNode***) malloc(sizeof(xmlNode**) * 1024);
 
-	for (size_t i = 0; i < 256; ++i) {
-		nodes[i] = (xmlNode**) malloc(sizeof(xmlNode*) * 20);
+	for (size_t i = 0; i < 1024; ++i) {
+		nodes[i] = (xmlNode**) malloc(sizeof(xmlNode*) * 1024);
 	}
 
-	size_t* cities_count = (size_t*) malloc(sizeof(size_t) * 256);
-	xmlChar** cities = (xmlChar**) malloc(sizeof(xmlChar*) * 256);
+	size_t* cities_count = (size_t*) malloc(sizeof(size_t) * 1024);
+	xmlChar** cities = (xmlChar**) malloc(sizeof(xmlChar*) * 1024);
 	xmlChar* city_name = NULL;
 	size_t count = 0;
 
@@ -74,10 +74,6 @@ void GetCityLocalizedSuppliers() {
 		}
 
 		fprintf(stdout, "\n");
-	}
-
-	for (size_t i = 0; i < count; ++i) {
-		xmlFree(cities[i]);
 	}
 
 	free(cities_count);
