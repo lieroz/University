@@ -15,7 +15,7 @@ class ClosedHash : public BaseHash<K, V, F> {
 	public:
 
 		explicit ClosedHash() = default;
-		~ClosedHash() = default;
+		~ClosedHash();
 
 	private:
 
@@ -25,6 +25,22 @@ class ClosedHash : public BaseHash<K, V, F> {
 		void _remove(const K&) override;
 		const Node* _search(const K&) override;
 };
+
+template <class K, class V, class F>
+ClosedHash<K, V, F>::~ClosedHash() {
+	for (size_t hash{}; hash < BaseHash<K, V, F>::base_size; ++hash) {
+
+		if (BaseHash<K, V, F>::table[hash] != nullptr) {
+			Node* p_crawl = BaseHash<K, V, F>::table[hash];
+
+			while (p_crawl != nullptr) {
+				Node* prev = p_crawl;
+				p_crawl = p_crawl->next;
+				delete prev;
+			}
+		}
+	}
+}
 
 template <class K, class V, class F>
 void ClosedHash<K, V, F>::rehash() {

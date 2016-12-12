@@ -11,7 +11,7 @@
 template <class K>
 struct HashFunc {
 	size_t operator()(const K& key, const size_t& range) const {
-		return reinterpret_cast<size_t>(key) % range;
+		return static_cast<size_t>(key) % range;
 	}
 };
 
