@@ -26,7 +26,7 @@ class BaseTree {
 
 	public:
 
-		BaseTree() = default;
+		explicit BaseTree() = default;
 		virtual ~BaseTree() = default;
 
 		// Adds element to tree
