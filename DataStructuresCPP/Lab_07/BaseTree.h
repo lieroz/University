@@ -31,12 +31,12 @@ class BaseTree {
 
 		// Adds element to tree
 		void insert(const T& _key) {
-			root = insert(root, _key);
+			root = _insert(root, _key);
 		}
 
 		// Removes element from tree
 		void remove(const T& _key) {
-			root = remove(root, _key);
+			root = _remove(root, _key);
 		}
 
 		// Returns true if element was found
@@ -46,8 +46,8 @@ class BaseTree {
 
 	protected:
 
-		virtual Node* insert(Node*, const T&) = 0;
-		virtual Node* remove(Node*, const T&) = 0;
+		virtual Node* _insert(Node*, const T&) = 0;
+		virtual Node* _remove(Node*, const T&) = 0;
 
 	private:
 
