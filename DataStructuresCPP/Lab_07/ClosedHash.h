@@ -7,10 +7,9 @@
 
 #include "BaseHash.h"
 
-template <class K, class V, class F = HashFunc<K>>
-class ClosedHash : public BaseHash<K, V, F> {
-
-		typedef typename BaseHash<K, V, F>::Node Node;
+template <class T, class HASH_FUNC>
+class ClosedHash : public BaseHash<T, HASH_FUNC> {
+		typedef typename BaseHash<T, HASH_FUNC>::Node Node;
 
 	public:
 
@@ -21,123 +20,128 @@ class ClosedHash : public BaseHash<K, V, F> {
 
 		void rehash() override;
 
-		void _insert(const K&, const V&) override;
-		void _remove(const K&) override;
-		const Node* _search(const K&) override;
+		void _insert(const T&) override;
+		void _remove(const T&) override;
+		const T& _search(const T&) override;
+
+		void print(std::ostream&) const override;
 };
 
-template <class K, class V, class F>
-ClosedHash<K, V, F>::~ClosedHash() {
-	for (size_t hash{}; hash < BaseHash<K, V, F>::base_size; ++hash) {
+template <class T, class HASH_FUNC>
+ClosedHash<T, HASH_FUNC>::~ClosedHash() {
+	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
+		Node* node{BaseHash<T, HASH_FUNC>::table[i]};
 
-		if (BaseHash<K, V, F>::table[hash] != nullptr) {
-			Node* p_crawl = BaseHash<K, V, F>::table[hash];
-
-			while (p_crawl != nullptr) {
-				Node* prev = p_crawl;
-				p_crawl = p_crawl->next;
-				delete prev;
-			}
+		while (node != nullptr) {
+			Node* temp{node};
+			node = node->next;
+			delete temp;
 		}
 	}
 }
 
-template <class K, class V, class F>
-void ClosedHash<K, V, F>::rehash() {
-	size_t old_table_size{BaseHash<K, V, F>::base_size};
-	BaseHash<K, V, F>::base_size *= 2;
-	std::vector<Node*> old_table{BaseHash<K, V, F>::table};
-	BaseHash<K, V, F>::table.resize(BaseHash<K, V, F>::base_size, nullptr);
-	BaseHash<K, V, F>::table_size = 0;
+template <class T, class HASH_FUNC>
+void ClosedHash<T, HASH_FUNC>::rehash() {
+	size_t old_table_size{BaseHash<T, HASH_FUNC>::table.size()};
+	std::vector<Node*> old_table{BaseHash<T, HASH_FUNC>::table};
+	BaseHash<T, HASH_FUNC>::table.resize(old_table_size * 2, nullptr);
+
+	BaseHash<T, HASH_FUNC>::table_size = 0;
 
 	for (size_t hash{}; hash < old_table_size; ++hash) {
 
 		if (old_table[hash] != nullptr) {
-			Node* p_crawl = old_table[hash];
+			Node* p_crawl{old_table[hash]};
 
 			while (p_crawl != nullptr) {
-				_insert(p_crawl->key, p_crawl->value);
-				Node* temp = p_crawl;
+				_insert(p_crawl->key);
 				p_crawl = p_crawl->next;
-				delete temp;
 			}
 		}
 	}
 }
 
-template <class K, class V, class F>
-void ClosedHash<K, V, F>::_insert(const K& _key, const V& _value) {
-	auto hash = BaseHash<K, V, F>::hash_func(_key, BaseHash<K, V, F>::base_size);
-
-	if (BaseHash<K, V, F>::table[hash] == nullptr) {
-		BaseHash<K, V, F>::table[hash] = new Node(_key, _value);
-		++BaseHash<K, V, F>::table_size;
-	} else {
-		Node* p_crawl = BaseHash<K, V, F>::table[hash];
-
-		while (p_crawl->next != nullptr) {
-			p_crawl = p_crawl->next;
-		}
-
-		if (p_crawl->key == _key) {
-			p_crawl->value = _value;
-		} else {
-			p_crawl->next = new Node(_key, _value);
-		}
-	}
-
-	if ((static_cast<double>(BaseHash<K, V, F>::table_size) / static_cast<double>(BaseHash<K, V, F>::base_size))
-		>= BaseHash<K, V, F>::REHASH) {
+template <class T, class HASH_FUNC>
+void ClosedHash<T, HASH_FUNC>::_insert(const T& _key) {
+	if (static_cast<double>(BaseHash<T, HASH_FUNC>::table_size) / static_cast<double>(BaseHash<T, HASH_FUNC>::table.size()) >= BaseHash<T, HASH_FUNC>::REHASH) {
 		rehash();
 	}
-};
 
-template <class K, class V, class F>
-void ClosedHash<K, V, F>::_remove(const K& _key) {
-	auto hash = BaseHash<K, V, F>::hash_func(_key, BaseHash<K, V, F>::base_size);
+	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
 
-	if (BaseHash<K, V, F>::table[hash] != nullptr) {
-		Node* prev{nullptr};
-		Node* p_crawl{BaseHash<K, V, F>::table[hash]};
+	if (BaseHash<T, HASH_FUNC>::table[hash] == nullptr) {
+		++BaseHash<T, HASH_FUNC>::table_size;
+	}
 
-		while (p_crawl->next != nullptr && p_crawl->key != _key) {
-			prev = p_crawl;
-			p_crawl = p_crawl->next;
-		}
+	for (Node* p_crawl{BaseHash<T, HASH_FUNC>::table[hash]}; p_crawl != nullptr; p_crawl = p_crawl->next) {
 
 		if (p_crawl->key == _key) {
-			if (prev == nullptr) {
-				Node* next{p_crawl->next};
-				delete p_crawl;
-				BaseHash<K, V, F>::table[hash] = next;
-			} else {
-				Node* next = p_crawl->next;
-				delete p_crawl;
-				prev->next = next;
-			}
+			return;
+		}
+	}
 
-			--BaseHash<K, V, F>::table_size;
+	Node* new_node{new Node(_key)};
+	new_node->next = BaseHash<T, HASH_FUNC>::table[hash];
+	BaseHash<T, HASH_FUNC>::table[hash] = new_node;
+}
+
+template <class T, class HASH_FUNC>
+void ClosedHash<T, HASH_FUNC>::_remove(const T& _key) {
+	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
+
+	if (BaseHash<T, HASH_FUNC>::table[hash] == nullptr) {
+		return;
+	}
+
+	Node* node = BaseHash<T, HASH_FUNC>::table[hash];
+
+	if (node->key == _key) {
+		BaseHash<T, HASH_FUNC>::table[hash] = node->next;
+
+		if (node->next == nullptr) {
+			--BaseHash<T, HASH_FUNC>::table_size;
+		}
+
+		delete node;
+		return;
+	}
+
+	for (Node* next_node{node->next}; next_node != nullptr; node = next_node, next_node = next_node->next) {
+
+		if (next_node->key == _key) {
+			node->next = next_node->next;
+			delete next_node;
+			return;
 		}
 	}
 }
 
-template <class K, class V, class F>
-const typename BaseHash<K, V, F>::Node* ClosedHash<K, V, F>::_search(const K& _key) {
-	auto hash = BaseHash<K, V, F>::hash_func(_key, BaseHash<K, V, F>::base_size);
+template <class T, class HASH_FUNC>
+const T& ClosedHash<T, HASH_FUNC>::_search(const T& _key) {
+	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
 
-	if (BaseHash<K, V, F>::table[hash] == nullptr) {
-		return nullptr;
-	} else {
-		Node* p_crawl = BaseHash<K, V, F>::table[hash];
+	for (Node* node{BaseHash<T, HASH_FUNC>::table[hash]}; node != nullptr; node = node->next) {
 
-		while (p_crawl != nullptr && p_crawl->key != _key) {
-			p_crawl = p_crawl->next;
+		if (node->key == _key) {
+			return node->key;
 		}
+	}
 
-		if (p_crawl == nullptr) {
-			return nullptr;
-		} else {
-			return p_crawl;
+	return 0;
+}
+
+template <class T, class HASH_FUNC>
+void ClosedHash<T, HASH_FUNC>::print(std::ostream& out) const {
+	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
+
+		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr) {
+			out << YELLOW << '[' << i << "] : ";
+
+			for (Node* p_crawl{BaseHash<T, HASH_FUNC>::table[i]}; p_crawl != nullptr; p_crawl = p_crawl->next) {
+				out << '{' << p_crawl->key << "} -> ";
+			}
+
+			out << BOLD << RED << "nullptr" << RST << std::endl;
 		}
 	}
 }

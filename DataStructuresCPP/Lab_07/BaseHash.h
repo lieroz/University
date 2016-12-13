@@ -5,17 +5,11 @@
 #ifndef LAB_07_BASEHASH_H
 #define LAB_07_BASEHASH_H
 
-#include <vector>
 #include <cstddef>
 
-template <class K>
-struct HashFunc {
-	size_t operator()(const K& key, const size_t& range) const {
-		return static_cast<size_t>(key) % range;
-	}
-};
+#include "Colors.h"
 
-template <class K, class V, class F = HashFunc<K>>
+template <class T, class HASH_FUNC>
 class BaseHash {
 	protected:
 
@@ -23,47 +17,54 @@ class BaseHash {
 		const double REHASH = 0.75;
 
 		struct Node {
-			K key{};
-			V value{};
+			T key{};
+			bool is_deleted{false};
 
 			Node* next{};
 
-			explicit Node(const K& _key, const V& _value)
-				: key{_key}, value{_value} {}
-			~Node() { delete next; }
+			explicit Node(const T& _key)
+				: key{_key} {}
 		};
 
-		F hash_func{};
-		size_t base_size{INIT_SIZE};
+		HASH_FUNC hash_func;
 		size_t table_size{};
-		std::vector<Node*> table;
+		std::vector<Node*> table{INIT_SIZE, nullptr};
 
 	public:
 
-		explicit BaseHash() : table{INIT_SIZE, nullptr} {}
+		explicit BaseHash() = default;
 		virtual ~BaseHash() = default;
 
 		// Inserts element into a hash table
-		void insert(const K& _key, const V& _value) {
-			_insert(_key, _value);
+		void insert(const T& _key) {
+			_insert(_key);
 		}
 
 		// Removes element from hash table
-		void remove(const K& _key) {
+		void remove(const T& _key) {
 			_remove(_key);
 		}
 
 		// Searches hash table for element
-		const Node* search(const K& _key) {
+		const T& search(const T& _key) {
 			return _search(_key);
 		}
 
+		template <class U, class F>
+		friend std::ostream& operator<<(std::ostream& out, const BaseHash<U, F>& hash_table) {
+			hash_table.print(out);
+			return out;
+		}
+
 	protected:
+
 		virtual void rehash() = 0;
 
-		virtual void _insert(const K&, const V&) = 0;
-		virtual void _remove(const K&) = 0;
-		virtual const Node* _search(const K&) = 0;
+		virtual void _insert(const T&) = 0;
+		virtual void _remove(const T&) = 0;
+		virtual const T& _search(const T&) = 0;
+
+		virtual void print(std::ostream&) const = 0;
 };
 
 #endif //LAB_07_BASEHASH_H

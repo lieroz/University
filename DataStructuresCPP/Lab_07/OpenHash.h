@@ -7,10 +7,10 @@
 
 #include "BaseHash.h"
 
-template <class K, class V, class F = HashFunc<K>>
-class OpenHash : public BaseHash<K, V, F> {
+template <class T, class HASH_FUNC>
+class OpenHash : public BaseHash<T, HASH_FUNC> {
 
-		typedef typename BaseHash<K, V, F>::Node Node;
+		typedef typename BaseHash<T, HASH_FUNC>::Node Node;
 
 	public:
 
@@ -21,9 +21,11 @@ class OpenHash : public BaseHash<K, V, F> {
 
 		void rehash() override;
 
-		void _insert(const K&, const V&) override;
-		void _remove(const K&) override;
-		const Node* _search(const K&) override;
+		void _insert(const T&) override;
+		void _remove(const T&) override;
+		const T& _search(const T&) override;
+
+		void print(std::ostream&) const override;
 };
 
 #endif // LAB_07_OPENHASH_H
