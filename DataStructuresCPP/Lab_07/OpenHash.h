@@ -15,11 +15,12 @@ class OpenHash : public BaseHash<T, HASH_FUNC> {
 	public:
 
 		explicit OpenHash() = default;
-		~OpenHash() = default;
+		~OpenHash();
 
 	private:
 
 		void rehash() override;
+		void clear_table();
 
 		void _insert(const T&) override;
 		void _remove(const T&) override;
@@ -27,6 +28,18 @@ class OpenHash : public BaseHash<T, HASH_FUNC> {
 
 		void print(std::ostream&) const override;
 };
+
+template <class T, class HASH_FUNC>
+OpenHash<T, HASH_FUNC>::~OpenHash() {
+	clear_table();
+}
+
+template <class T, class HASH_FUNC>
+void OpenHash<T, HASH_FUNC>::clear_table() {
+	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
+		delete BaseHash<T, HASH_FUNC>::table[i];
+	}
+}
 
 template <class T, class HASH_FUNC>
 void OpenHash<T, HASH_FUNC>::rehash() {
@@ -48,6 +61,7 @@ void OpenHash<T, HASH_FUNC>::rehash() {
 		}
 	}
 
+	clear_table();
 	BaseHash<T, HASH_FUNC>::table = new_table;
 }
 
@@ -106,7 +120,7 @@ const T& OpenHash<T, HASH_FUNC>::_search(const T& _key) {
 
 	while (BaseHash<T, HASH_FUNC>::table[hash] != nullptr && i < BaseHash<T, HASH_FUNC>::table.size()) {
 
-		if (BaseHash<T, HASH_FUNC>::table[hash]->key == _key && !BaseHash<T, HASH_FUNC>::table[hash]->is_deleted) {
+		if (*BaseHash<T, HASH_FUNC>::table[hash] == _key && !BaseHash<T, HASH_FUNC>::table[hash]->is_deleted) {
 			return BaseHash<T, HASH_FUNC>::table[hash]->key;
 		}
 

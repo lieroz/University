@@ -117,7 +117,7 @@ const T& ClosedHash<T, HASH_FUNC>::_search(const T& _key) {
 
 	for (Node* node{BaseHash<T, HASH_FUNC>::table[hash]}; node != nullptr; node = node->next) {
 
-		if (node->key == _key) {
+		if (*node == _key) {
 			return node->key;
 		}
 	}

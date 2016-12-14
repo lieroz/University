@@ -17,13 +17,32 @@ class BaseHash {
 		const double REHASH = 0.75;
 
 		struct Node {
-			T key{};
-			bool is_deleted{false};
+			private:
 
-			Node* next{};
+				static size_t cmp_count;
 
-			explicit Node(const T& _key)
-				: key{_key} {}
+			public:
+
+				T key{};
+				bool is_deleted{false};
+
+				Node* next{};
+
+				explicit Node(const T& _key)
+					: key{_key} {}
+
+				inline bool operator==(const T& rhs) {
+					++cmp_count;
+					return this->key == rhs;
+				}
+
+				static const size_t get_cmp_count() {
+					return cmp_count;
+				}
+
+				static void reset_cmp_count() {
+					cmp_count = 0;
+				}
 		};
 
 		HASH_FUNC hash_func;
@@ -52,6 +71,7 @@ class BaseHash {
 
 		// Searches hash table for element
 		const T& search(const T& _key) {
+			BaseHash<T, HASH_FUNC>::Node::reset_cmp_count();
 			return _search(_key);
 		}
 
@@ -59,6 +79,10 @@ class BaseHash {
 		friend std::ostream& operator<<(std::ostream& out, const BaseHash<U, F>& hash_table) {
 			hash_table.print(out);
 			return out;
+		}
+
+		const size_t get_cmp_count() const {
+			return BaseHash<T, HASH_FUNC>::Node::get_cmp_count();
 		}
 
 	protected:
@@ -71,5 +95,8 @@ class BaseHash {
 
 		virtual void print(std::ostream&) const = 0;
 };
+
+template <class T, class HASH_FUNC>
+size_t BaseHash<T, HASH_FUNC>::Node::cmp_count{};
 
 #endif //LAB_07_BASEHASH_H
