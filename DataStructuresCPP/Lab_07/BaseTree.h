@@ -17,13 +17,32 @@ class BaseTree {
 	protected:
 
 		struct Node {
-			T key{};
-			size_t level{1};
+			private:
 
-			Node* left{};
-			Node* right{};
+				static size_t cmp_count;
 
-			explicit Node(const T& _key) : key{_key} {}
+			public:
+
+				T key{};
+				size_t level{1};
+
+				Node* left{};
+				Node* right{};
+
+				explicit Node(const T& _key) : key{_key} {}
+
+				inline bool operator==(const T& rhs) {
+					++cmp_count;
+					return this->key == rhs;
+				}
+
+				static const size_t get_cmp_count() {
+					return cmp_count;
+				}
+
+				static void reset_cmp_count() {
+					cmp_count = 0;
+				}
 		};
 
 		Node* root{};
@@ -44,8 +63,12 @@ class BaseTree {
 		}
 
 		// Returns true if element was found
-		const Node* search(const T& _key) {
+		const T& search(T _key) {
 			return search(root, _key);
+		}
+
+		const size_t get_cmp_count() const {
+			return BaseTree<T>::Node::get_cmp_count();
 		}
 
 		template <class U>
@@ -60,7 +83,7 @@ class BaseTree {
 
 		void clear_tree(Node*);
 
-		const T& search(const Node*, const T&);
+		const T& search(Node*, const T&);
 
 		std::string to_string(const T&);
 		void print_branches(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
@@ -70,6 +93,9 @@ class BaseTree {
 		void print_pretty(std::ostream&, Node*, size_t, size_t);
 		void print(std::ostream&);
 };
+
+template <class T>
+size_t BaseTree<T>::Node::cmp_count{};
 
 template <class T>
 void BaseTree<T>::clear_tree(Node* node) {
@@ -86,14 +112,16 @@ BaseTree<T>::~BaseTree() {
 }
 
 template <class T>
-const T& BaseTree<T>::search(const Node* node, const T& value) {
+const T& BaseTree<T>::search(Node* node, const T& value) {
+	BaseTree<T>::Node::reset_cmp_count();
+
 	while (node != nullptr) {
 
-		if (node->key == value) {
+		if (*node == value) {
 			return node->key;
 		} else if (node->key < value) {
 			node = node->right;
-		} else {
+		} else if (node->key > value) {
 			node = node->left;
 		}
 	}
