@@ -20,32 +20,21 @@ int main() {
 
 	AVLTree<int> avl_tree;
 	NaiveTree<int> naive_tree;
-
-	for (size_t i{}; i < 30; ++i) {
-		avl_tree.insert(GenerateRandomInteger());
-		naive_tree.insert(GenerateRandomInteger());
-	}
-
-	std::cout << BOLD << MAGENTA << avl_tree << RST << std::endl;
-	std::cout << BOLD << CYAN << naive_tree << RST << std::endl;
-
 	ClosedHash<int, HashFunc<int>> closed_hash;
+	OpenHash<int, HashFunc<int>> open_hash;
 
 	for (size_t i{}; i < 1000; ++i) {
-		closed_hash.insert(GenerateRandomInteger());
+		int temp = GenerateRandomInteger();
+		avl_tree.insert(temp);
+		naive_tree.insert(temp);
+		closed_hash.insert(temp);
+		open_hash.insert(temp);
 	}
 
+//	std::cout << BOLD << MAGENTA << avl_tree << RST << std::endl;
+//	std::cout << BOLD << CYAN << naive_tree << RST << std::endl;
 	std::cout << closed_hash << std::endl;
-
-	closed_hash.remove(1);
-
-	std::cout << closed_hash << std::endl;
-
-	int result = closed_hash.search(5);
-
-	if (result != 0) {
-		std::cout << result << std::endl;
-	}
+	std::cout << open_hash << std::endl;
 
 	return 0;
 }
