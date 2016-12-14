@@ -31,7 +31,7 @@ typename BaseTree<T>::Node* NaiveTree<T>::_insert(Node* node, const T& value) {
 		return new Node(value);
 	} else if (value < node->key) {
 		node->left = _insert(node->left, value);
-	} else {
+	} else if (value > node->key) {
 		node->right = _insert(node->right, value);
 	}
 

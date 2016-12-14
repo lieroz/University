@@ -60,7 +60,7 @@ class BaseTree {
 
 		void clear_tree(Node*);
 
-		const Node* search(const Node*, const T&);
+		const T& search(const Node*, const T&);
 
 		std::string to_string(const T&);
 		void print_branches(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
@@ -86,11 +86,11 @@ BaseTree<T>::~BaseTree() {
 }
 
 template <class T>
-const typename BaseTree<T>::Node* BaseTree<T>::search(const Node* node, const T& value) {
+const T& BaseTree<T>::search(const Node* node, const T& value) {
 	while (node != nullptr) {
 
 		if (node->key == value) {
-			return node;
+			return node->key;
 		} else if (node->key < value) {
 			node = node->right;
 		} else {
@@ -98,7 +98,7 @@ const typename BaseTree<T>::Node* BaseTree<T>::search(const Node* node, const T&
 		}
 	}
 
-	return nullptr;
+	return 0;
 }
 
 template <typename T>

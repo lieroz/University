@@ -121,7 +121,7 @@ template <class T, class HASH_FUNC>
 void OpenHash<T, HASH_FUNC>::print(std::ostream& out) const {
 	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
 
-		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr) {
+		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr && !BaseHash<T, HASH_FUNC>::table[i]->is_deleted) {
 			out << BOLD << YELLOW << '[' << i << "] : {" << BaseHash<T, HASH_FUNC>::table[i]->key << '}' << std::endl;
 		}
 	}
