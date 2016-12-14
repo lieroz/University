@@ -24,11 +24,6 @@ class BaseTree {
 			Node* right{};
 
 			explicit Node(const T& _key) : key{_key} {}
-
-			~Node() {
-				delete left;
-				delete right;
-			}
 		};
 
 		Node* root{};
@@ -36,7 +31,7 @@ class BaseTree {
 	public:
 
 		explicit BaseTree() = default;
-		virtual ~BaseTree() = default;
+		virtual ~BaseTree();
 
 		// Adds element to tree
 		void insert(const T& _key) {
@@ -63,6 +58,8 @@ class BaseTree {
 
 	private:
 
+		void clear_tree(Node*);
+
 		const Node* search(const Node*, const T&);
 
 		std::string to_string(const T&);
@@ -73,6 +70,20 @@ class BaseTree {
 		void print_pretty(std::ostream&, Node*, size_t, size_t);
 		void print(std::ostream&);
 };
+
+template <class T>
+void BaseTree<T>::clear_tree(Node* node) {
+	if (node != nullptr) {
+		clear_tree(node->left);
+		clear_tree(node->right);
+		delete node;
+	}
+}
+
+template <class T>
+BaseTree<T>::~BaseTree() {
+	clear_tree(root);
+}
 
 template <class T>
 const typename BaseTree<T>::Node* BaseTree<T>::search(const Node* node, const T& value) {

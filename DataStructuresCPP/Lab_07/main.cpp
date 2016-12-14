@@ -18,16 +18,16 @@ int GenerateRandomInteger() {
 
 int main() {
 
-//	AVLTree<int> avl_tree;
-//	NaiveTree<int> naive_tree;
-//
-//	for (size_t i{}; i < 30; ++i) {
-//		avl_tree.insert(GenerateRandomInteger());
-//		naive_tree.insert(GenerateRandomInteger());
-//	}
-//
-//	std::cout << BOLD << MAGENTA << avl_tree << RST << std::endl;
-//	std::cout << BOLD << CYAN << naive_tree << RST << std::endl;
+	AVLTree<int> avl_tree;
+	NaiveTree<int> naive_tree;
+
+	for (size_t i{}; i < 30; ++i) {
+		avl_tree.insert(GenerateRandomInteger());
+		naive_tree.insert(GenerateRandomInteger());
+	}
+
+	std::cout << BOLD << MAGENTA << avl_tree << RST << std::endl;
+	std::cout << BOLD << CYAN << naive_tree << RST << std::endl;
 
 	ClosedHash<int, HashFunc<int>> closed_hash;
 

@@ -15,7 +15,7 @@ class NaiveTree : public BaseTree<T> {
 	public:
 
 		explicit NaiveTree() = default;
-		~NaiveTree() { delete BaseTree<T>::root; }
+		~NaiveTree() = default;
 
 	private:
 

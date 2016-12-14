@@ -15,7 +15,7 @@ class AVLTree : public BaseTree<T> {
 	public:
 
 		explicit AVLTree() = default;
-		~AVLTree() { delete BaseTree<T>::root; }
+		~AVLTree() = default;
 
 	private:
 
