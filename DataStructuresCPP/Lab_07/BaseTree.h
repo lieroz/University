@@ -173,7 +173,7 @@ const size_t BaseTree<T>::height(Node* node) {
 	size_t rightDepth{height(node->right)};
 
 	return leftDepth > rightDepth ?
-	       leftDepth + 1 : rightDepth + 1;	// eq of the length of branch for each node of each level
+	       leftDepth + 1 : rightDepth + 1;    // eq of the length of branch for each node of each level
 }
 
 template <typename T>
