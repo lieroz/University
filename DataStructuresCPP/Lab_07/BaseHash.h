@@ -37,6 +37,11 @@ class BaseHash {
 
 		// Inserts element into a hash table
 		void insert(const T& _key) {
+			if (static_cast<double>(BaseHash<T, HASH_FUNC>::table_size)
+				/ static_cast<double>(BaseHash<T, HASH_FUNC>::table.size()) >= BaseHash<T, HASH_FUNC>::REHASH) {
+				rehash();
+			}
+
 			_insert(_key);
 		}
 
