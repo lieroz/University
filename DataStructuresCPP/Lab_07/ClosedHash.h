@@ -42,13 +42,12 @@ ClosedHash<T, HASH_FUNC>::~ClosedHash() {
 
 template <class T, class HASH_FUNC>
 void ClosedHash<T, HASH_FUNC>::rehash() {
-	size_t old_table_size{BaseHash<T, HASH_FUNC>::table.size()};
 	std::vector<Node*> old_table{BaseHash<T, HASH_FUNC>::table};
-	BaseHash<T, HASH_FUNC>::table.resize(old_table_size * 2, nullptr);
+	BaseHash<T, HASH_FUNC>::table.resize(old_table.size() * 2, nullptr);
 
 	BaseHash<T, HASH_FUNC>::table_size = 0;
 
-	for (size_t hash{}; hash < old_table_size; ++hash) {
+	for (size_t hash{}; hash < old_table.size(); ++hash) {
 
 		if (old_table[hash] != nullptr) {
 			Node* p_crawl{old_table[hash]};
@@ -63,10 +62,6 @@ void ClosedHash<T, HASH_FUNC>::rehash() {
 
 template <class T, class HASH_FUNC>
 void ClosedHash<T, HASH_FUNC>::_insert(const T& _key) {
-	if (static_cast<double>(BaseHash<T, HASH_FUNC>::table_size) / static_cast<double>(BaseHash<T, HASH_FUNC>::table.size()) >= BaseHash<T, HASH_FUNC>::REHASH) {
-		rehash();
-	}
-
 	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
 
 	if (BaseHash<T, HASH_FUNC>::table[hash] == nullptr) {
@@ -135,7 +130,7 @@ void ClosedHash<T, HASH_FUNC>::print(std::ostream& out) const {
 	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
 
 		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr) {
-			out << YELLOW << '[' << i << "] : ";
+			out << BOLD << YELLOW << '[' << i << "] : ";
 
 			for (Node* p_crawl{BaseHash<T, HASH_FUNC>::table[i]}; p_crawl != nullptr; p_crawl = p_crawl->next) {
 				out << '{' << p_crawl->key << "} -> ";
