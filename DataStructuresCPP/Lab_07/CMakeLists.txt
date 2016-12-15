@@ -7,5 +7,11 @@ set(SOURCE_FILES main.cpp
         AVLTree.h
         NaiveTree.h
         ClosedHash.h
-        OpenHash.h BaseTree.h BaseHash.h Colors.h HashFunc.h)
+        OpenHash.h
+        BaseTree.h
+        BaseHash.h
+        Colors.h
+        HashFunc.h
+        Timer.cpp
+        Timer.h)
 add_executable(Lab_07 ${SOURCE_FILES})
