@@ -8,13 +8,14 @@
 #include <cstddef>
 
 #include "Colors.h"
+#include "Timer.h"
 
 template <class T, class HASH_FUNC>
 class BaseHash {
 	protected:
 
 		const size_t INIT_SIZE = 128;
-		const double REHASH = 0.75;
+		const double REHASH_FACTOR = 0.72;
 
 		struct Node {
 			private:
@@ -57,7 +58,7 @@ class BaseHash {
 		// Inserts element into a hash table
 		void insert(const T& _key) {
 			if (static_cast<double>(BaseHash<T, HASH_FUNC>::table_size)
-				/ static_cast<double>(BaseHash<T, HASH_FUNC>::table.size()) >= BaseHash<T, HASH_FUNC>::REHASH) {
+				/ static_cast<double>(BaseHash<T, HASH_FUNC>::table.size()) >= BaseHash<T, HASH_FUNC>::REHASH_FACTOR) {
 				rehash();
 			}
 
@@ -85,6 +86,10 @@ class BaseHash {
 			return BaseHash<T, HASH_FUNC>::Node::get_cmp_count();
 		}
 
+		const size_t get_memory_amount() const {
+			return _get_memory_amount();
+		}
+
 	protected:
 
 		virtual void rehash() = 0;
@@ -92,6 +97,8 @@ class BaseHash {
 		virtual void _insert(const T&) = 0;
 		virtual void _remove(const T&) = 0;
 		virtual const T& _search(const T&) = 0;
+
+		virtual const size_t _get_memory_amount() const = 0;
 
 		virtual void print(std::ostream&) const = 0;
 };

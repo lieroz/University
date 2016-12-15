@@ -26,6 +26,8 @@ class OpenHash : public BaseHash<T, HASH_FUNC> {
 		void _remove(const T&) override;
 		const T& _search(const T&) override;
 
+		const size_t _get_memory_amount() const override;
+
 		void print(std::ostream&) const override;
 };
 
@@ -49,7 +51,7 @@ void OpenHash<T, HASH_FUNC>::rehash() {
 	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
 
 		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr && !BaseHash<T, HASH_FUNC>::table[i]->is_deleted) {
-			size_t hash{BaseHash<T, HASH_FUNC>::hash_func(BaseHash<T, HASH_FUNC>::table[i]->key, BaseHash<T, HASH_FUNC>::table.size())};
+			size_t hash{BaseHash<T, HASH_FUNC>::hash_func(BaseHash<T, HASH_FUNC>::table[i]->key, new_size)};
 			size_t j{};
 
 			while (new_table[hash] != nullptr && j < new_size) {
@@ -132,11 +134,17 @@ const T& OpenHash<T, HASH_FUNC>::_search(const T& _key) {
 }
 
 template <class T, class HASH_FUNC>
+const size_t OpenHash<T, HASH_FUNC>::_get_memory_amount() const {
+	return (sizeof(Node) - sizeof(Node*)) * BaseHash<T, HASH_FUNC>::table_size;
+}
+
+template <class T, class HASH_FUNC>
 void OpenHash<T, HASH_FUNC>::print(std::ostream& out) const {
 	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
 
 		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr && !BaseHash<T, HASH_FUNC>::table[i]->is_deleted) {
-			out << BOLD << YELLOW << '[' << i << "] : {" << BaseHash<T, HASH_FUNC>::table[i]->key << '}' << std::endl;
+			out << BOLD YELLOW << '[' << i << "] : {" << BaseHash<T, HASH_FUNC>::table[i]->key << '}' << RST
+			    << std::endl;
 		}
 	}
 }

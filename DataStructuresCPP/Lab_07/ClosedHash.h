@@ -9,6 +9,7 @@
 
 template <class T, class HASH_FUNC>
 class ClosedHash : public BaseHash<T, HASH_FUNC> {
+
 		typedef typename BaseHash<T, HASH_FUNC>::Node Node;
 
 	public:
@@ -24,7 +25,9 @@ class ClosedHash : public BaseHash<T, HASH_FUNC> {
 		void _remove(const T&) override;
 		const T& _search(const T&) override;
 
-		void print(std::ostream&) const override;
+		const size_t _get_memory_amount() const override;
+
+			void print(std::ostream&) const override;
 };
 
 template <class T, class HASH_FUNC>
@@ -126,17 +129,32 @@ const T& ClosedHash<T, HASH_FUNC>::_search(const T& _key) {
 }
 
 template <class T, class HASH_FUNC>
+const size_t ClosedHash<T, HASH_FUNC>::_get_memory_amount() const {
+	size_t allocated_memory{};
+
+	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
+		Node* node{BaseHash<T, HASH_FUNC>::table[i]};
+
+		while (node != nullptr) {
+			allocated_memory += sizeof(Node) - sizeof(bool);
+			node = node->next;
+		}
+	}
+	return allocated_memory;
+}
+
+template <class T, class HASH_FUNC>
 void ClosedHash<T, HASH_FUNC>::print(std::ostream& out) const {
 	for (size_t i{}; i < BaseHash<T, HASH_FUNC>::table.size(); ++i) {
 
 		if (BaseHash<T, HASH_FUNC>::table[i] != nullptr) {
-			out << BOLD << YELLOW << '[' << i << "] : ";
+			out << BOLD YELLOW << '[' << i << "] : ";
 
 			for (Node* p_crawl{BaseHash<T, HASH_FUNC>::table[i]}; p_crawl != nullptr; p_crawl = p_crawl->next) {
 				out << '{' << p_crawl->key << "} -> ";
 			}
 
-			out << BOLD << RED << "nullptr" << RST << std::endl;
+			out << BOLD RED << "nullptr" << RST << std::endl;
 		}
 	}
 }
