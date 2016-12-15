@@ -23,6 +23,8 @@ class NaiveTree : public BaseTree<T> {
 
 		Node* find_min(Node*);
 		Node* _remove(Node*, const T&) override;
+
+		const size_t _get_memory_amount() const override;
 };
 
 template <class T>
@@ -71,6 +73,12 @@ typename BaseTree<T>::Node* NaiveTree<T>::_remove(Node* node, const T& value) {
 	}
 
 	return node;
+}
+
+template <class T>
+const size_t NaiveTree<T>::_get_memory_amount() const {
+	const size_t nodes_count = this->get_nodes_count();
+	return (sizeof(Node) - sizeof(size_t)) * nodes_count;
 }
 
 #endif // LAB_07_NAIVETREE_H

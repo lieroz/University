@@ -24,6 +24,8 @@ class AVLTree : public BaseTree<T> {
 		Node* find_min(Node*);
 		Node* _remove(Node*, const T&) override;
 
+		const size_t _get_memory_amount() const override;
+
 		const size_t node_level(const Node*);
 		const int balance_factor(const Node*);
 		void fix_height(Node*);
@@ -151,6 +153,12 @@ typename BaseTree<T>::Node* AVLTree<T>::_remove(Node* node, const T& value) {
 	}
 
 	return balance(node);
+}
+
+template <class T>
+const size_t AVLTree<T>::_get_memory_amount() const {
+	const size_t nodes_count = this->get_nodes_count();
+	return sizeof(Node) * nodes_count;
 }
 
 #endif //LAB_07_AVLTREE_H

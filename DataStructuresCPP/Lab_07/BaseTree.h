@@ -11,6 +11,7 @@
 #include <iomanip>
 
 #include "Colors.h"
+#include "Timer.h"
 
 template <class T>
 class BaseTree {
@@ -64,11 +65,20 @@ class BaseTree {
 
 		// Returns true if element was found
 		const T& search(T _key) {
+			BaseTree<T>::Node::reset_cmp_count();
 			return search(root, _key);
 		}
 
 		const size_t get_cmp_count() const {
 			return BaseTree<T>::Node::get_cmp_count();
+		}
+
+		const size_t get_nodes_count() const {
+			return _get_nodes_count(root);
+		}
+
+		const size_t get_memory_amount() const {
+			return _get_memory_amount();
 		}
 
 		template <class U>
@@ -79,11 +89,15 @@ class BaseTree {
 		virtual Node* _insert(Node*, const T&) = 0;
 		virtual Node* _remove(Node*, const T&) = 0;
 
+		virtual const size_t _get_memory_amount() const = 0;
+
 	private:
 
 		void clear_tree(Node*);
 
 		const T& search(Node*, const T&);
+
+		const size_t _get_nodes_count(const Node*) const;
 
 		std::string to_string(const T&);
 		void print_branches(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
@@ -113,8 +127,6 @@ BaseTree<T>::~BaseTree() {
 
 template <class T>
 const T& BaseTree<T>::search(Node* node, const T& value) {
-	BaseTree<T>::Node::reset_cmp_count();
-
 	while (node != nullptr) {
 
 		if (*node == value) {
@@ -127,6 +139,15 @@ const T& BaseTree<T>::search(Node* node, const T& value) {
 	}
 
 	return 0;
+}
+
+template <class T>
+const size_t BaseTree<T>::_get_nodes_count(const Node* node) const {
+	if (node == nullptr) {
+		return 0;
+	}
+
+	return _get_nodes_count(node->left) + 1 + _get_nodes_count(node->right);
 }
 
 template <typename T>
@@ -250,7 +271,9 @@ void BaseTree<T>::print(std::ostream& out) {
 
 template <typename T>
 std::ostream& operator<<(std::ostream& out, BaseTree<T>& tree) {
+	out << BOLD CYAN;
 	tree.print(out);
+	out << RST;
 	return out;
 }
 
