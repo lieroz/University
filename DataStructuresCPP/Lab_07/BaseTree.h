@@ -11,7 +11,6 @@
 #include <iomanip>
 
 #include "Colors.h"
-#include "Timer.h"
 
 template <class T>
 class BaseTree {

@@ -9,7 +9,6 @@
 #include "NaiveTree.h"
 
 #include "HashFunc.h"
-
 #include "OpenHash.h"
 #include "ClosedHash.h"
 
@@ -133,9 +132,9 @@ int main(const int argc, const char* argv[]) {
 
 		std::cout << BOLD GREEN << "Amount of comparisons in Closed Addressing Hash Table: "
 		          << BOLD BLUE << closed_hash.get_cmp_count() << RST << std::endl;
-		std::cout << BOLD GREEN << "Amount of memory allocated for Closed Hash Table data structure: "
+		std::cout << BOLD GREEN << "Amount of memory allocated for Closed Addressing Hash Table data structure: "
 		          << BOLD BLUE << closed_hash.get_memory_amount() << " (bytes)" << RST << std::endl;
-		std::cout << BOLD GREEN << "Amount of time taken to find element in Closed Hash Table: "
+		std::cout << BOLD GREEN << "Amount of time taken to find element in Closed Addressing Hash Table: "
 		          << BOLD BLUE << timer.get_elapsed_time_in_microseconds() << " (ms)" << RST << std::endl << std::endl;
 
 		timer.start();
@@ -144,9 +143,9 @@ int main(const int argc, const char* argv[]) {
 
 		std::cout << BOLD GREEN << "Amount of comparisons in Open Addressing Hash Table: "
 		          << BOLD BLUE << open_hash.get_cmp_count() << RST << std::endl;
-		std::cout << BOLD GREEN << "Amount of memory allocated for Open Hash Table data structure: "
+		std::cout << BOLD GREEN << "Amount of memory allocated for Open Addressing Hash Table data structure: "
 		          << BOLD BLUE << open_hash.get_memory_amount() << " (bytes)" << RST << std::endl;
-		std::cout << BOLD GREEN << "Amount of time taken to find element in Open Hash Table: "
+		std::cout << BOLD GREEN << "Amount of time taken to find element in Open Addressing Hash Table: "
 		          << BOLD BLUE << timer.get_elapsed_time_in_microseconds() << " (ms)" << RST << std::endl << std::endl;
 	}
 

@@ -27,7 +27,7 @@ class ClosedHash : public BaseHash<T, HASH_FUNC> {
 
 		const size_t _get_memory_amount() const override;
 
-			void print(std::ostream&) const override;
+		void print(std::ostream&) const override;
 };
 
 template <class T, class HASH_FUNC>
@@ -140,6 +140,7 @@ const size_t ClosedHash<T, HASH_FUNC>::_get_memory_amount() const {
 			node = node->next;
 		}
 	}
+
 	return allocated_memory;
 }
 

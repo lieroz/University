@@ -8,7 +8,6 @@
 #include <cstddef>
 
 #include "Colors.h"
-#include "Timer.h"
 
 template <class T, class HASH_FUNC>
 class BaseHash {
