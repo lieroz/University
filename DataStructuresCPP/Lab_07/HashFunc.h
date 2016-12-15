@@ -10,7 +10,7 @@
 template <class K>
 struct HashFunc {
 	size_t operator()(const K& key, const size_t range) const {
-		return static_cast<size_t>(key) % range;
+		return (key) % range;
 	}
 };
 
