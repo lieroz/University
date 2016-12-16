@@ -52,10 +52,17 @@ int main(const int argc, const char* argv[]) {
 
 	std::string file_name{argv[1]};
 
-	try {
-		GenerateRandomFile(file_name);
-	} catch (...) {
-		std::cerr << "ERROR! SOMETHING WENT WRONG, PLEASE CONTACT THE ADMINISTRATOR!" << std::endl;
+	std::cout << BOLD GREEN << "Do you want to generate new Random data? {1/0}: " << RST;
+	int choice{};
+	std::cin >> choice;
+
+	if (choice == 1) {
+
+		try {
+			GenerateRandomFile(file_name);
+		} catch (...) {
+			std::cerr << "ERROR! SOMETHING WENT WRONG, PLEASE CONTACT THE ADMINISTRATOR!" << std::endl;
+		}
 	}
 
 	AVLTree<int> avl_tree;
@@ -89,7 +96,6 @@ int main(const int argc, const char* argv[]) {
 	}
 
 	std::cout << BOLD GREEN << "Do you want to print all data structures? {1/0}: " << RST;
-	int choice{};
 	std::cin >> choice;
 
 	if (choice == 1) {
