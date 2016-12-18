@@ -12,6 +12,5 @@ set(SOURCE_FILES main.cpp
         BaseHash.h
         Colors.h
         HashFunc.h
-        Timer.cpp
-        Timer.h)
+        )
 add_executable(Lab_07 ${SOURCE_FILES})
