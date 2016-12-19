@@ -11,6 +11,20 @@
 #include "OpenHash.h"
 #include "ClosedHash.h"
 
+class Timer {
+	private:
+		typedef std::chrono::high_resolution_clock _clock;
+		typedef std::chrono::duration<double, std::ratio<1, 1000000000>> _second;
+		std::chrono::time_point<_clock>_beg;
+
+	public:
+		Timer() : _beg{_clock::now()} {}
+		void reset() { _beg = _clock::now(); }
+		double elapsed() const {
+			return std::chrono::duration_cast<_second>(_clock::now() - _beg).count();
+		}
+};
+
 int GenerateRandomInteger(const int& begin_x, const int& end_x) {
 	std::random_device random_dev;
 	std::mt19937 probability(random_dev());
@@ -107,51 +121,52 @@ int main(const int argc, const char* argv[]) {
 	if (!number_exists) {
 		std::cout << BOLD RED << "NUMBER NOT FOUND!" << std::endl;
 	} else {
-		std::chrono::time_point<std::chrono::system_clock> start, stop;
+		Timer timer;
+		double elapsed_time{};
 
-		start = std::chrono::system_clock::now();
-		avl_tree.search(number);
-		stop = std::chrono::system_clock::now();
-
-		std::cout << std::endl << BOLD GREEN << "Amount of comparisons in AVL Binary Tree: "
-		          << BOLD BLUE << avl_tree.get_cmp_count() << RST << std::endl;
-		std::cout << BOLD GREEN << "Amount of memory allocated for AVL Binary Tree data structure: "
-		          << BOLD BLUE << avl_tree.get_memory_amount() << " (bytes)" << RST << std::endl;
-		std::cout << BOLD GREEN << "Amount of time taken to find element in AVL Binary Tree: "
-		          << BOLD BLUE << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << " (ns)" << RST << std::endl << std::endl;
-
-		start = std::chrono::system_clock::now();
+		timer.reset();
 		naive_tree.search(number);
-		stop = std::chrono::system_clock::now();
+		elapsed_time = timer.elapsed();
 
-		std::cout << BOLD GREEN << "Amount of comparisons in Naive Binary Tree: "
+		std::cout << std::endl << BOLD GREEN << "Amount of comparisons in Naive Binary Tree: "
 		          << BOLD BLUE << naive_tree.get_cmp_count() << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of memory allocated for Naive Binary Tree data structure: "
 		          << BOLD BLUE << naive_tree.get_memory_amount() << " (bytes);" << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of time taken to find element in Naive Binary Tree: "
-		          << BOLD BLUE << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << " (ns)" << RST << std::endl << std::endl;
+		          << BOLD BLUE << elapsed_time << " (ns)" << RST << std::endl << std::endl;
 
-		start = std::chrono::system_clock::now();
+		timer.reset();
+		avl_tree.search(number);
+		elapsed_time = timer.elapsed();
+
+		std::cout << BOLD GREEN << "Amount of comparisons in AVL Binary Tree: "
+		          << BOLD BLUE << avl_tree.get_cmp_count() << RST << std::endl;
+		std::cout << BOLD GREEN << "Amount of memory allocated for AVL Binary Tree data structure: "
+		          << BOLD BLUE << avl_tree.get_memory_amount() << " (bytes)" << RST << std::endl;
+		std::cout << BOLD GREEN << "Amount of time taken to find element in AVL Binary Tree: "
+		          << BOLD BLUE << elapsed_time << " (ns)" << RST << std::endl << std::endl;
+
+		timer.reset();
 		closed_hash.search(number);
-		stop = std::chrono::system_clock::now();
+		elapsed_time = timer.elapsed();
 
 		std::cout << BOLD GREEN << "Amount of comparisons in Closed Addressing Hash Table: "
 		          << BOLD BLUE << closed_hash.get_cmp_count() << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of memory allocated for Closed Addressing Hash Table data structure: "
 		          << BOLD BLUE << closed_hash.get_memory_amount() << " (bytes)" << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of time taken to find element in Closed Addressing Hash Table: "
-		          << BOLD BLUE << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << " (ns)" << RST << std::endl << std::endl;
+		          << BOLD BLUE << elapsed_time << " (ns)" << RST << std::endl << std::endl;
 
-		start = std::chrono::system_clock::now();
+		timer.reset();
 		open_hash.search(number);
-		stop = std::chrono::system_clock::now();
+		elapsed_time = timer.elapsed();
 
 		std::cout << BOLD GREEN << "Amount of comparisons in Open Addressing Hash Table: "
 		          << BOLD BLUE << open_hash.get_cmp_count() << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of memory allocated for Open Addressing Hash Table data structure: "
 		          << BOLD BLUE << open_hash.get_memory_amount() << " (bytes)" << RST << std::endl;
 		std::cout << BOLD GREEN << "Amount of time taken to find element in Open Addressing Hash Table: "
-		          << BOLD BLUE << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << " (ns)" << RST << std::endl << std::endl;
+		          << BOLD BLUE << elapsed_time << " (ns)" << RST << std::endl << std::endl;
 	}
 
 	return 0;

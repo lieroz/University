@@ -13,4 +13,5 @@ set(SOURCE_FILES main.cpp
         Colors.h
         HashFunc.h
         )
+
 add_executable(Lab_07 ${SOURCE_FILES})

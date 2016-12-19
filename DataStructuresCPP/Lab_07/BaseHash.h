@@ -13,7 +13,7 @@ template <class T, class HASH_FUNC>
 class BaseHash {
 	protected:
 
-		const size_t INIT_SIZE = 1024;
+		const size_t INIT_SIZE = 1001;
 		const double REHASH_FACTOR = 0.72;
 
 		struct Node {
