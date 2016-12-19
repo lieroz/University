@@ -36,6 +36,16 @@ class BaseTree {
 					return this->key == rhs;
 				}
 
+				inline bool operator<(const T& rhs) {
+					++cmp_count;
+					return this->key < rhs;
+				}
+
+				inline bool operator>(const T& rhs) {
+					++cmp_count;
+					return this->key > rhs;
+				}
+
 				static const size_t get_cmp_count() {
 					return cmp_count;
 				}
@@ -130,9 +140,9 @@ const T& BaseTree<T>::search(Node* node, const T& value) {
 
 		if (*node == value) {
 			return node->key;
-		} else if (node->key < value) {
+		} else if (*node < value) {
 			node = node->right;
-		} else if (node->key > value) {
+		} else if (*node > value) {
 			node = node->left;
 		}
 	}
