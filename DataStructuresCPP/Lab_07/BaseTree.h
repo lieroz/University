@@ -31,17 +31,17 @@ class BaseTree {
 
 				explicit Node(const T& _key) : key{_key} {}
 
-				inline bool operator==(const T& rhs) {
+				const inline bool operator==(const T& rhs) {
 					++cmp_count;
 					return this->key == rhs;
 				}
 
-				inline bool operator<(const T& rhs) {
+				const inline bool operator<(const T& rhs) {
 					++cmp_count;
 					return this->key < rhs;
 				}
 
-				inline bool operator>(const T& rhs) {
+				const inline bool operator>(const T& rhs) {
 					++cmp_count;
 					return this->key > rhs;
 				}
