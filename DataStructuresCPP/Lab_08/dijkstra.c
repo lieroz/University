@@ -18,17 +18,20 @@ void PrintPath(int parent[], int j) {
 }
 
 // A utility function used to print the solution
-void PrintArr(int dist[], int n, int parent[]) {
+void PrintArr(int dist[], int n, int parent[], int longest) {
 	int src = 0;
 	fprintf(stdout, BOLD LIGHT_YELLOW "Vertex\t\tDistance\t\tPath" RST);
 
 	for (int i = 1; i < n; i++) {
-		fprintf(stdout, BOLD LIGHT_GREEN "\n%d -> %d\t\t\t%d\t\t\t%d " RST, src, i, dist[i], src);
-		PrintPath(parent, i);
+
+		if (dist[i] < longest) {
+			fprintf(stdout, BOLD LIGHT_GREEN "\n%d -> %d\t\t\t%d\t\t\t%d " RST, src, i, dist[i], src);
+			PrintPath(parent, i);
+		}
 	}
 }
 
-void DijkstraShortestDistance(Graph* graph, int src) {
+void DijkstraShortestDistance(Graph* graph, int src, int longest) {
 	int V = graph->V;// Get the number of vertices in graph
 	int dist[V];      // dist values used to pick minimum weight edge in cut
 	int parent[V];
@@ -83,6 +86,6 @@ void DijkstraShortestDistance(Graph* graph, int src) {
 	}
 
 	// print the calculated shortest distances
-	PrintArr(dist, V, parent);
+	PrintArr(dist, V, parent, longest);
 	DestroyMinHeap(min_heap);
 }

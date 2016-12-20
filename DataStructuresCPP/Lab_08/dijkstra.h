@@ -11,6 +11,6 @@
 
 // The main function that calulates distances of shortest paths from src to all
 // vertices. It is a O(ELogV) function
-void DijkstraShortestDistance(Graph*, int);
+void DijkstraShortestDistance(Graph*, int, int);
 
 #endif //LAB_10_DIJKSTRA_H

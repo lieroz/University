@@ -21,11 +21,16 @@ Graph* BuildGraph(FILE* f) {
 }
 
 int main() {
+
+	int longest_path = 0;
+	fprintf(stdout, BOLD LIGHT_MAGENTA "Enter maximum distance: ");
+	fscanf(stdin, "%d", &longest_path);
+
 	FILE* a = fopen("a.txt", "r");
 	Graph* A = BuildGraph(a);
 
 	fprintf(stdout, BOLD LIGHT_CYAN "ShortestDistance A:\n" RST);
-	DijkstraShortestDistance(A, 0);
+	DijkstraShortestDistance(A, 0, longest_path);
 	fprintf(stdout, "\n\n");
 
 	DestroyGraph(A);
@@ -35,7 +40,7 @@ int main() {
 	Graph* B = BuildGraph(b);
 
 	fprintf(stdout, BOLD LIGHT_CYAN "ShortestDistance B:\n" RST);
-	DijkstraShortestDistance(B, 0);
+	DijkstraShortestDistance(B, 0, longest_path);
 	fprintf(stdout, "\n\n");
 
 	DestroyGraph(B);
@@ -45,7 +50,7 @@ int main() {
 	Graph* C = BuildGraph(c);
 
 	fprintf(stdout, BOLD LIGHT_CYAN "ShortestDistance C:\n" RST);
-	DijkstraShortestDistance(C, 0);
+	DijkstraShortestDistance(C, 0, longest_path);
 	fprintf(stdout, "\n\n");
 
 	DestroyGraph(C);
@@ -55,7 +60,7 @@ int main() {
 	Graph* D = BuildGraph(d);
 
 	fprintf(stdout, BOLD LIGHT_CYAN "ShortestDistance D:\n" RST);
-	DijkstraShortestDistance(D, 0);
+	DijkstraShortestDistance(D, 0, longest_path);
 
 	DestroyGraph(D);
 	fclose(d);
