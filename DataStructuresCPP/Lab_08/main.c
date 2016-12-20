@@ -24,7 +24,11 @@ int main() {
 
 	int longest_path = 0;
 	fprintf(stdout, BOLD LIGHT_MAGENTA "Enter maximum distance: ");
-	fscanf(stdin, "%d", &longest_path);
+
+	if (fscanf(stdin, "%d", &longest_path) != 1 || longest_path < 0) {
+		fprintf(stderr, "ERROR: INVALID INPUT!");
+		return 0;
+	}
 
 	FILE* a = fopen("a.txt", "r");
 	Graph* A = BuildGraph(a);
