@@ -70,7 +70,7 @@ void OpenHash<T, HASH_FUNC>::rehash() {
 template <class T, class HASH_FUNC>
 void OpenHash<T, HASH_FUNC>::_insert(const T& _key) {
 	size_t hash{BaseHash<T, HASH_FUNC>::hash_func(_key, BaseHash<T, HASH_FUNC>::table.size())};
-	ssize_t deleted_node_index{-1};
+	ssize_t deleted_node_index{ -1};
 	size_t i{};
 
 	while (BaseHash<T, HASH_FUNC>::table[hash] != nullptr && i < BaseHash<T, HASH_FUNC>::table.size()) {
@@ -90,6 +90,7 @@ void OpenHash<T, HASH_FUNC>::_insert(const T& _key) {
 	if (deleted_node_index >= 0) {
 		BaseHash<T, HASH_FUNC>::table[deleted_node_index]->key = _key;
 		BaseHash<T, HASH_FUNC>::table[deleted_node_index]->is_deleted = false;
+
 	} else {
 		BaseHash<T, HASH_FUNC>::table[hash] = new Node(_key);
 	}

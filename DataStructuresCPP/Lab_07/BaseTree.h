@@ -109,9 +109,12 @@ class BaseTree {
 		const size_t _get_nodes_count(const Node*) const;
 
 		std::string to_string(const T&);
-		void print_branches(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
-		void print_nodes(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t, size_t);
-		void print_leaves(std::ostream&, const std::deque<Node*>&, size_t, size_t, size_t);
+		void print_branches(std::ostream&, const std::deque<Node*>&, size_t, size_t,
+							size_t, size_t);
+		void print_nodes(std::ostream&, const std::deque<Node*>&, size_t, size_t,
+						 size_t, size_t);
+		void print_leaves(std::ostream&, const std::deque<Node*>&, size_t, size_t,
+						  size_t);
 		const size_t height(Node*);
 		void print_pretty(std::ostream&, Node*, size_t, size_t);
 		void print(std::ostream&);
@@ -137,11 +140,12 @@ BaseTree<T>::~BaseTree() {
 template <class T>
 const T& BaseTree<T>::search(Node* node, const T& value) {
 	while (node != nullptr) {
-
 		if (*node == value) {
 			return node->key;
+
 		} else if (*node < value) {
 			node = node->right;
+
 		} else if (*node > value) {
 			node = node->left;
 		}
@@ -176,9 +180,11 @@ void BaseTree<T>::print_branches(std::ostream& out,
 	typename std::deque<Node*>::const_iterator iter = nodes_queue.begin();
 
 	for (size_t i{}; i < level_node_count / 2; ++i) {
-		out << ((i == 0) ? std::setw(static_cast<int>(start_len - 1)) : std::setw(static_cast<int>(node_space_len - 2)))
+		out << ((i == 0) ? std::setw(static_cast<int>(start_len - 1)) : std::setw(
+					static_cast<int>(node_space_len - 2)))
 		    << "" << ((*iter++) ? "/" : " ");
-		out << std::setw(static_cast<int>(2 * branch_len + 2)) << "" << ((*iter++) ? "\\" : " ");
+		out << std::setw(static_cast<int>(2 * branch_len + 2)) << "" << ((
+																			 *iter++) ? "\\" : " ");
 	}
 
 	out << std::endl;
@@ -194,7 +200,8 @@ void BaseTree<T>::print_nodes(std::ostream& out,
 	typename std::deque<Node*>::const_iterator iter = nodes_queue.begin();
 
 	for (size_t i{}; i < level_node_count; ++i, ++iter) {
-		out << ((i == 0) ? std::setw(static_cast<int>(start_len)) : std::setw(static_cast<int>(node_space_len))) << ""
+		out << ((i == 0) ? std::setw(static_cast<int>(start_len)) : std::setw(
+					static_cast<int>(node_space_len))) << ""
 		    << ((*iter && (*iter)->left) ? std::setfill('_') : std::setfill(' '));
 		out << std::setw(static_cast<int>(branch_len + 2))
 		    << ((*iter) ? to_string((*iter)->key) : "");
@@ -214,7 +221,8 @@ void BaseTree<T>::print_leaves(std::ostream& out,
 	typename std::deque<Node*>::const_iterator iter = nodes_queue.begin();
 
 	for (size_t i{}; i < level_node_count; ++i, ++iter) {
-		out << ((i == 0) ? std::setw(static_cast<int>(indent_space + 2)) : std::setw(static_cast<int>(2 * level + 2)))
+		out << ((i == 0) ? std::setw(static_cast<int>(indent_space + 2)) : std::setw(
+					static_cast<int>(2 * level + 2)))
 		    << ((*iter) ? to_string((*iter)->key) : "");
 	}
 
@@ -229,29 +237,30 @@ const size_t BaseTree<T>::height(Node* node) {
 
 	size_t leftDepth{height(node->left)};
 	size_t rightDepth{height(node->right)};
-
 	return leftDepth > rightDepth ?
-	       leftDepth + 1 : rightDepth + 1;    // eq of the length of branch for each node of each level
+		   leftDepth + 1 : rightDepth +
+		   1;    // eq of the length of branch for each node of each level
 }
 
 template <typename T>
-void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size_t indent_space) {
+void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level,
+							   size_t indent_space) {
 	size_t h{height(root) + 1};
 	size_t level_node_count{1};
-
-	size_t branch_len{2 * (static_cast<size_t>(pow(2.0, h)) - 1) - (3 - level) * static_cast<size_t>(pow(2.0, h - 1))};
-	size_t node_space_len{2 + (level + 1) * static_cast<size_t>(pow(2.0, h))};
+	size_t branch_len{2 * (static_cast<size_t>(pow(2.0, h)) - 1) - (3 - level)* static_cast<size_t>(pow(2.0, h - 1))};
+	size_t node_space_len{2 + (level + 1)* static_cast<size_t>(pow(2.0, h))};
 	size_t start_len{branch_len + (3 - level) + indent_space};
-
 	std::deque<Node*> nodes_queue;
 	nodes_queue.push_back(root);
 
 	for (size_t r{1}; r < h; r++) {
-		print_branches(out, nodes_queue, branch_len, node_space_len, start_len, level_node_count);
+		print_branches(out, nodes_queue, branch_len, node_space_len, start_len,
+					   level_node_count);
 		branch_len = branch_len / 2 - 1;
 		node_space_len = node_space_len / 2 + 1;
 		start_len = branch_len + (3 - level) + indent_space;
-		print_nodes(out, nodes_queue, branch_len, node_space_len, start_len, level_node_count);
+		print_nodes(out, nodes_queue, branch_len, node_space_len, start_len,
+					level_node_count);
 
 		for (size_t i{}; i < level_node_count; i++) {
 			Node* current_node = nodes_queue.front();
@@ -260,6 +269,7 @@ void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size
 			if (current_node) {
 				nodes_queue.push_back(current_node->left);
 				nodes_queue.push_back(current_node->right);
+
 			} else {
 				nodes_queue.push_back(nullptr);
 				nodes_queue.push_back(nullptr);
@@ -269,7 +279,8 @@ void BaseTree<T>::print_pretty(std::ostream& out, Node* root, size_t level, size
 		level_node_count *= 2;
 	}
 
-	print_branches(out, nodes_queue, branch_len, node_space_len, start_len, level_node_count);
+	print_branches(out, nodes_queue, branch_len, node_space_len, start_len,
+				   level_node_count);
 	print_leaves(out, nodes_queue, indent_space, level, level_node_count);
 }
 

@@ -31,8 +31,10 @@ template <class T>
 typename BaseTree<T>::Node* NaiveTree<T>::_insert(Node* node, const T& value) {
 	if (node == nullptr) {
 		return new Node(value);
+
 	} else if (value < node->key) {
 		node->left = _insert(node->left, value);
+
 	} else if (value > node->key) {
 		node->right = _insert(node->right, value);
 	}
@@ -53,14 +55,17 @@ typename BaseTree<T>::Node* NaiveTree<T>::_remove(Node* node, const T& value) {
 
 	if (value < node->key) {
 		node->left = _remove(node->left, value);
+
 	} else if (value > node->key) {
 		node->right = _remove(node->right, value);
+
 	} else {
 
 		if (node->left == nullptr) {
 			Node* temp{node->right};
 			delete node;
 			return temp;
+
 		} else if (node->right == nullptr) {
 			Node* temp{node->left};
 			delete node;

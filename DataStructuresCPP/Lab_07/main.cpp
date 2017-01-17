@@ -19,7 +19,9 @@ class Timer {
 
 	public:
 		Timer() : _beg{_clock::now()} {}
-		void reset() { _beg = _clock::now(); }
+		void reset() {
+			_beg = _clock::now();
+		}
 		double elapsed() const {
 			return std::chrono::duration_cast<_second>(_clock::now() - _beg).count();
 		}
@@ -73,6 +75,7 @@ int main(const int argc, const char* argv[]) {
 
 		try {
 			GenerateRandomFile(file_name);
+
 		} catch (...) {
 			std::cerr << "ERROR! SOMETHING WENT WRONG, PLEASE CONTACT THE ADMINISTRATOR!" << std::endl;
 		}
@@ -120,6 +123,7 @@ int main(const int argc, const char* argv[]) {
 
 	if (!number_exists) {
 		std::cout << BOLD RED << "NUMBER NOT FOUND!" << std::endl;
+
 	} else {
 		Timer timer;
 		double elapsed_time{};

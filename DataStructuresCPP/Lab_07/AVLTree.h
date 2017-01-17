@@ -104,8 +104,10 @@ template <class T>
 typename BaseTree<T>::Node* AVLTree<T>::_insert(Node* node, const T& value) {
 	if (!node) {
 		return new Node(value);
+
 	} else if (value < node->key) {
 		node->left = _insert(node->left, value);
+
 	} else if (value > node->key) {
 		node->right = _insert(node->right, value);
 	}
@@ -126,8 +128,10 @@ typename BaseTree<T>::Node* AVLTree<T>::_remove(Node* node, const T& value) {
 
 	if (value < node->key) {
 		node->left = _remove(node->left, value);
+
 	} else if (value > node->key) {
 		node->right = _remove(node->right, value);
+
 	} else {
 
 		if (node->left == nullptr || node->right == nullptr) {
@@ -136,11 +140,13 @@ typename BaseTree<T>::Node* AVLTree<T>::_remove(Node* node, const T& value) {
 			if (temp == nullptr) {
 				temp = node;
 				node = nullptr;
+
 			} else {
 				*node = *temp;
 			}
 
 			delete temp;
+
 		} else {
 			Node* temp{find_min(node->right)};
 			node->key = temp->key;
