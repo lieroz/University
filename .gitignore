@@ -38,5 +38,9 @@
 # Directories
 .idea/
 cmake-build-debug/
-Tasks/
-Types&DataStructures/
+
+# IDEA
+*.iml
+out/
+target/
+test/
