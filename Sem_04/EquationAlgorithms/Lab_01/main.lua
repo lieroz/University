@@ -34,15 +34,9 @@ local calc_simpson = function(func, left, right, interval)
 
     local h = (right - left) / n
     local s = func(left) * func(right)
-    local double_h = 2 * h
 
-    for i = left + h, right, double_h do
-        s = s + 4 * func(i)
-    end
-
-    for i = left + double_h, right, double_h do
-        s = s + 2 * func(i)
-    end
+    for i = left + h, right, 2 * h do s = s + 4 * func(i) end
+    for i = left + 2 * h, right, 2 * h do s = s + 2 * func(i) end
 
     return s * h / 3
 end
@@ -56,4 +50,4 @@ local calc_integral = function(func, integral_func, equation_func, left, right, 
     return integral_func(Y, left, right, eps)
 end
 
-print(calc_integral(foo, calc_simpson, calc_tangents, 0, 2, 1e-6))
+print("Result:" ,calc_integral(foo, calc_simpson, calc_tangents, 0, 2, 1e-4))
