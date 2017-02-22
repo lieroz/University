@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.LinkedHashMap;
+import java.util.Vector;
 
 /**
  * Created by lieroz on 20.02.17.
@@ -28,6 +29,9 @@ public class MainWindow extends JFrame {
 
     private LinkedHashMap<JTextField, JTextField> firstSetFieldsContainer = new LinkedHashMap<>();
     private LinkedHashMap<JTextField, JTextField> secondSetFieldsContainer = new LinkedHashMap<>();
+
+    private Vector<Point> firstSetPoints;
+    private Vector<Point> secondSetPoints;
 
     private int firstPanePointsCount = 3;
     private int secondPanePointsCount = 3;
@@ -66,18 +70,11 @@ public class MainWindow extends JFrame {
         });
 
         calculateButton.addActionListener((ActionEvent e) -> {
-            // TODO add here a call to another class constructor
-            firstSetFieldsContainer.forEach((key, value) -> {
-                String dataX = key.getText();
-                String dataY = value.getText();
-                System.out.println(dataX + " " + dataY);
-            });
+            firstSetPoints = getPointsFromFields(firstSetFieldsContainer);
+            secondSetPoints = getPointsFromFields(secondSetFieldsContainer);
 
-            secondSetFieldsContainer.forEach((key, value) -> {
-                String dataX = key.getText();
-                String dataY = value.getText();
-                System.out.println(dataX + " " + dataY);
-            });
+            DrawGraphicsWindow win = new DrawGraphicsWindow(new Vector[]{firstSetPoints, secondSetPoints});
+            win.setVisible(true);
         });
 
         removeSecondSetPointButton.addActionListener((ActionEvent e) -> {
@@ -173,5 +170,20 @@ public class MainWindow extends JFrame {
         }
 
         map.remove(lastElementKey);
+    }
+
+    private Vector<Point> getPointsFromFields(LinkedHashMap<JTextField, JTextField> map) {
+        Vector<Point> vector = new Vector<>();
+
+        map.forEach((key, value) -> {
+            String dataX = key.getText();
+            String dataY = value.getText();
+
+            if (!dataX.isEmpty() && !dataY.isEmpty()) {
+                vector.add(new Point(Integer.parseInt(dataX), Integer.parseInt(dataY)));
+            }
+        });
+
+        return vector;
     }
 }
