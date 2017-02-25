@@ -15,8 +15,8 @@ public class DrawGraphicsWindow extends JFrame {
     private void initUI() {
         setTitle("Graphics drawing window");
         setLocation(0, 0);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setMinimumSize(new Dimension(1000, 500));
+        setResizable(false);
+        setMinimumSize(new Dimension(1410, 810));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 }

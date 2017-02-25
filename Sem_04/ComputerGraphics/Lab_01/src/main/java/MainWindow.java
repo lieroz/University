@@ -73,8 +73,19 @@ public class MainWindow extends JFrame {
             firstSetPoints = getPointsFromFields(firstSetFieldsContainer);
             secondSetPoints = getPointsFromFields(secondSetFieldsContainer);
 
-            DrawGraphicsWindow win = new DrawGraphicsWindow(new Vector[]{firstSetPoints, secondSetPoints});
-            win.setVisible(true);
+            try {
+
+                if (firstSetPoints.size() < 3 || secondSetPoints.size() < 3) {
+                    throw new IndexOutOfBoundsException();
+                }
+
+                DrawGraphicsWindow win = new DrawGraphicsWindow(new Vector[]{firstSetPoints, secondSetPoints});
+                win.setVisible(true);
+
+            } catch (IndexOutOfBoundsException ex) {
+                JOptionPane.showMessageDialog(this, "Must be at least 3 points in each set!!!",
+                        "Input error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         removeSecondSetPointButton.addActionListener((ActionEvent e) -> {
