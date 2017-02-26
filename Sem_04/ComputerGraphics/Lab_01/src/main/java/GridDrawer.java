@@ -1,5 +1,3 @@
-import com.sun.javafx.geom.Vec2d;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
@@ -15,12 +13,14 @@ public class GridDrawer extends JPanel {
 
     private Dimension window = new Dimension(1400, 800);
     private double dimensionRatio = 1;
+    private Point[] points;
 
     public GridDrawer(Vector<Point>[] fieldSets) {
         firstSet = fieldSets[0];
         secondSet = fieldSets[1];
         setBackground(Color.WHITE);
         setDimension();
+        points = Solver.getMinimalAngle(new Vector[]{firstSet, secondSet});
     }
 
     private void drawGrid(Graphics graphics) {
@@ -50,13 +50,19 @@ public class GridDrawer extends JPanel {
 
     private void setDimension() {
         Vector<Point> set = new Vector<>();
-        set.addAll(firstSet);
-        set.addAll(secondSet);
+
+        for (Point point : firstSet) {
+            set.add(point);
+        }
+
+        for (Point point : secondSet) {
+            set.add(point);
+        }
 
         Point[] extremeCoordinates = seekExtremeCoordinates(set);
 
-        int windowWidth = extremeCoordinates[1].x - extremeCoordinates[0].x;
-        int windowHeight = extremeCoordinates[1].y - extremeCoordinates[0].y;
+        int windowWidth = extremeCoordinates[1].x - extremeCoordinates[0].x + 2;
+        int windowHeight = extremeCoordinates[1].y - extremeCoordinates[0].y + 2;
         dimensionRatio = Math.min(window.getHeight() / windowHeight, window.getWidth() / windowWidth);
 
         normalizePoints(firstSet, extremeCoordinates[0]);
@@ -70,7 +76,6 @@ public class GridDrawer extends JPanel {
 
             point.y += Math.abs(extremePoint.y);
             point.y *= dimensionRatio;
-            point.y = (int) window.getHeight() - point.y;
         });
     }
 
@@ -101,18 +106,34 @@ public class GridDrawer extends JPanel {
     }
 
     private void drawLine(Graphics graphics) {
-        Point[] points = Solver.getMinimalAngle(new Vector[]{firstSet, secondSet});
+        Graphics2D graphics2 = (Graphics2D) graphics;
 
-        graphics.setColor(Color.MAGENTA);
-        graphics.drawLine(points[0].x, (int) window.getHeight() - points[0].y,
-                points[1].x, (int) window.getHeight() - points[1].y);
+        graphics2.setColor(Color.MAGENTA);
+        graphics2.setStroke(new BasicStroke(2));
+        graphics2.drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
+    }
+
+    private void drawTriangles(Graphics graphics) {
+        graphics.setColor(Color.GREEN);
+
+        for (int i = 0; i < 2; ++i) {
+
+            for (int j = i + 1; j < 3; ++j) {
+                graphics.drawLine(Solver.firstSetTriangles.get(Solver.firstIndex)[i].x, Solver.firstSetTriangles.get(Solver.firstIndex)[i].y,
+                        Solver.firstSetTriangles.get(Solver.firstIndex)[j].x, Solver.firstSetTriangles.get(Solver.firstIndex)[j].y);
+
+                graphics.drawLine(Solver.secondSetTriangles.get(Solver.secondIndex)[i].x, Solver.secondSetTriangles.get(Solver.secondIndex)[i].y,
+                        Solver.secondSetTriangles.get(Solver.secondIndex)[j].x, Solver.secondSetTriangles.get(Solver.secondIndex)[j].y);
+            }
+        }
     }
 
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         drawGrid(graphics);
-        drawPoints(graphics);
         drawLine(graphics);
+        drawTriangles(graphics);
+        drawPoints(graphics);
     }
 }
