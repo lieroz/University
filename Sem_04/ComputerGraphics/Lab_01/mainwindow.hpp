@@ -8,6 +8,8 @@
 #include <QVector>
 
 #include "dimensionsetter.hpp"
+#include "drawer.hpp"
+#include "solver.hpp"
 
 namespace Ui {
     class MainWindow;
@@ -22,19 +24,17 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(QWidget* parent = 0);
+
         virtual ~MainWindow();
 
     private slots:
         void on_leftAddButton_clicked();
-
         void on_leftDeleteButton_clicked();
 
         void on_rightAddButton_clicked();
-
         void on_rightDeleteButton_clicked();
 
         void on_drawButton_clicked();
-
         void on_solveButton_clicked();
 
     private:
@@ -45,7 +45,6 @@ class MainWindow : public QMainWindow {
         QGraphicsScene* scene;
 
         void setUpTables();
-
         void setUpCanvas();
 
         static void fillVector(QVector<QPoint>&, QTableWidget*);

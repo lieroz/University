@@ -85,11 +85,18 @@ void MainWindow::fillVector(QVector<QPoint>& vector, QTableWidget* table) {
 }
 
 void MainWindow::on_drawButton_clicked() {
+    scene->clear();
     QVector<QPoint> first_set, second_set;
     MainWindow::fillVector(first_set, ui->leftTable);
     MainWindow::fillVector(second_set, ui->rightTable);
 
-    DimensionSetter(scene, first_set, second_set);
+    DimensionSetter::setUpDimension(this->scene, first_set, second_set);
+
+    for (auto& point : first_set) {
+        qDebug() << point;
+    }
+
+    Drawer::drawSetPoints(scene, first_set);
     ui->canvas->setScene(scene);
 }
 

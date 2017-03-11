@@ -26,9 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    dimensionsetter.cpp
+    dimensionsetter.cpp \
+    solver.cpp \
+    drawer.cpp
 
 HEADERS  += mainwindow.hpp \
-    dimensionsetter.hpp
+    dimensionsetter.hpp \
+    solver.hpp \
+    drawer.hpp
 
 FORMS    += mainwindow.ui
