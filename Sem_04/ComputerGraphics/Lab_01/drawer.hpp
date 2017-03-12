@@ -12,8 +12,8 @@ class Drawer {
 
         static void draw(QGraphicsScene*, const QVector<QPoint>&, const QVector<QPoint>&);
 
-        static void drawSetPoints(QGraphicsScene*, const QVector<QPoint>&);
     private:
+        static void drawSetPoints(QGraphicsScene*, const QVector<QPoint>&, const QColor&);
 };
 
 #endif // DRAWER_HPP

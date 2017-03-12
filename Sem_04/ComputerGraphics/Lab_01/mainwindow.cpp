@@ -91,12 +91,7 @@ void MainWindow::on_drawButton_clicked() {
     MainWindow::fillVector(second_set, ui->rightTable);
 
     DimensionSetter::setUpDimension(this->scene, first_set, second_set);
-
-    for (auto& point : first_set) {
-        qDebug() << point;
-    }
-
-    Drawer::drawSetPoints(scene, first_set);
+    Drawer::draw(scene, first_set, second_set);
     ui->canvas->setScene(scene);
 }
 
