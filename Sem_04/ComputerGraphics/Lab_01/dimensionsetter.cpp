@@ -19,7 +19,6 @@ void DimensionSetter::setUpDimension(QGraphicsScene* scene, QVector<QPoint>& fir
         max.setY(point.y() > max.y() ? point.y() : max.y());
     }
 
-    const int offset = 5;
     const double x_dimension_ratio = static_cast<double>(scene->width()) / ((max.x() + offset) - (min.x() - offset));
     const double y_dimension_ratio = static_cast<double>(scene->height()) / ((max.y() + offset) - (min.y() - offset));
 

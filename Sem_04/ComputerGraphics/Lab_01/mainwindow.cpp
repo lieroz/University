@@ -96,5 +96,10 @@ void MainWindow::on_drawButton_clicked() {
 }
 
 void MainWindow::on_solveButton_clicked() {
+    QVector<QPoint> first_set, second_set;
+    MainWindow::fillVector(first_set, ui->leftTable);
+    MainWindow::fillVector(second_set, ui->rightTable);
 
+    DimensionSetter::setUpDimension(this->scene, first_set, second_set);
+    Solver::solve(first_set, second_set);
 }

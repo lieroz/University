@@ -9,9 +9,12 @@
 class DimensionSetter {
     public:
         explicit DimensionSetter() = default;
-        virtual~DimensionSetter() = default;
+        virtual ~DimensionSetter() = default;
 
         static void setUpDimension(QGraphicsScene*, QVector<QPoint>&, QVector<QPoint>&);
+
+    private:
+        static const int offset = 5;
 };
 
 #endif // DIMENSIONSETTER_HPP
