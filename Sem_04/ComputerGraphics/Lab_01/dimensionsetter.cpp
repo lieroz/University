@@ -1,5 +1,4 @@
 #include "dimensionsetter.hpp"
-#include <QDebug>
 
 void DimensionSetter::setUpDimension(QGraphicsScene* scene, QVector<QPoint>& first_set, QVector<QPoint>& second_set) {
     const QVector<QPoint> set = first_set + second_set;
@@ -19,13 +18,13 @@ void DimensionSetter::setUpDimension(QGraphicsScene* scene, QVector<QPoint>& fir
         max.setY(point.y() > max.y() ? point.y() : max.y());
     }
 
-    const double x_dimension_ratio = static_cast<double>(scene->width()) / ((max.x() + offset) - (min.x() - offset));
-    const double y_dimension_ratio = static_cast<double>(scene->height()) / ((max.y() + offset) - (min.y() - offset));
+    const double x_dimension_ratio = static_cast<double>(scene->width()) / (max.x() - min.x());
+    const double y_dimension_ratio = static_cast<double>(scene->height()) / (max.y() - min.y());
 
     auto normalization = [&scene, &x_dimension_ratio, &y_dimension_ratio, &min](QVector<QPoint>& vector) {
         for (auto& point : vector) {
             point.setX((point.x() - min.x()) * x_dimension_ratio);
-            point.setY(scene->height() - (point.y() - min.y() + offset * 2) * y_dimension_ratio);
+            point.setY(scene->height() - (point.y() - min.y()) * y_dimension_ratio);
         }
     };
 

@@ -4,13 +4,16 @@
 #include <QMessageBox>
 #include <QVector>
 #include <QPoint>
+#include <QtMath>
+
+#include "drawer.hpp"
 
 class Solver {
     public:
         explicit Solver() = default;
         virtual ~Solver() = default;
 
-        static void solve(const QVector<QPoint>&, const QVector<QPoint>&);
+        static const QVector<QVector<QPoint>> solve(const QVector<QPoint>&, const QVector<QPoint>&);
 
     private:
         static const QVector<QVector<QPoint>> defineTriangles(const QVector<QPoint>&);

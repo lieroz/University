@@ -4,11 +4,11 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QTableWidget>
+#include <QTableWidgetItem>
 #include <QScrollBar>
 #include <QVector>
 
 #include "dimensionsetter.hpp"
-#include "drawer.hpp"
 #include "solver.hpp"
 
 namespace Ui {
@@ -21,6 +21,8 @@ class MainWindow : public QMainWindow {
         const int WINDOW_HEIGHT = 700;
         const int WINDOW_WIDTH = 1400;
         const int COLUMN_COUNT = 2;
+        const int ROW_COUNT = 4;
+        const double SCALE_FACTOR = 0.95;
 
     public:
         explicit MainWindow(QWidget* parent = 0);
@@ -28,6 +30,8 @@ class MainWindow : public QMainWindow {
         virtual ~MainWindow();
 
     private slots:
+        void on_action_triggered();
+
         void on_leftAddButton_clicked();
         void on_leftDeleteButton_clicked();
 
@@ -36,6 +40,7 @@ class MainWindow : public QMainWindow {
 
         void on_drawButton_clicked();
         void on_solveButton_clicked();
+        void on_drawSolutionButton_clicked();
 
     private:
         int canvas_width;
@@ -45,6 +50,7 @@ class MainWindow : public QMainWindow {
         QGraphicsScene* scene;
 
         void setUpTables();
+        void setUpAnswerTables();
         void setUpCanvas();
 
         static void fillVector(QVector<QPoint>&, QTableWidget*);
