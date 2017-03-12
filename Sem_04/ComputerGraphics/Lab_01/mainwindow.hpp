@@ -9,6 +9,7 @@
 #include <QVector>
 
 #include "dimensionsetter.hpp"
+#include "drawer.hpp"
 #include "solver.hpp"
 
 namespace Ui {

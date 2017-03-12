@@ -6,8 +6,6 @@
 #include <QPoint>
 #include <QtMath>
 
-#include "drawer.hpp"
-
 class Solver {
     public:
         explicit Solver() = default;

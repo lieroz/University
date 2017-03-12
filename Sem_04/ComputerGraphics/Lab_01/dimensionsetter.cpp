@@ -18,13 +18,13 @@ void DimensionSetter::setUpDimension(QGraphicsScene* scene, QVector<QPoint>& fir
         max.setY(point.y() > max.y() ? point.y() : max.y());
     }
 
-    const double x_dimension_ratio = static_cast<double>(scene->width()) / (max.x() - min.x());
-    const double y_dimension_ratio = static_cast<double>(scene->height()) / (max.y() - min.y());
+    const double dimension_ratio = qMin(static_cast<double>(scene->width()) / (max.x() - min.x()),
+                                        static_cast<double>(scene->height()) / (max.y() - min.y()));
 
-    auto normalization = [&scene, &x_dimension_ratio, &y_dimension_ratio, &min](QVector<QPoint>& vector) {
+    auto normalization = [&scene, &dimension_ratio, &min](QVector<QPoint>& vector) {
         for (auto& point : vector) {
-            point.setX((point.x() - min.x()) * x_dimension_ratio);
-            point.setY(scene->height() - (point.y() - min.y()) * y_dimension_ratio);
+            point.setX((point.x() - min.x()) * dimension_ratio);
+            point.setY(scene->height() - (point.y() - min.y()) * dimension_ratio);
         }
     };
 
