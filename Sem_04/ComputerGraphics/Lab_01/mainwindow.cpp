@@ -174,15 +174,6 @@ void MainWindow::on_drawSolutionButton_clicked() {
     second_set.append(vector[1].at(3));
     DimensionSetter::setUpDimension(this->scene, first_set, second_set);
 
-    auto iter = [](const QVector<QPoint>& points) {
-        for (auto& point : points) {
-            qDebug() << point;
-        }
-    };
-
-    iter(vector[0]);
-    iter(vector[1]);
-
     for (int i{}; i < ROW_COUNT; ++i) {
         ui->leftAnswerTable->item(i, 0)->setText(QString::number(vector[0].at(i).x()));
         ui->leftAnswerTable->item(i, 1)->setText(QString::number(vector[0].at(i).y()));
