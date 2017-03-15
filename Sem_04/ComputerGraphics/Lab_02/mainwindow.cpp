@@ -15,6 +15,17 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::setUpText() {
+    QGraphicsTextItem* text1 = this->scene->addText("0, 340");
+    text1->setPos(0, 340);
+    QGraphicsTextItem* text2 = this->scene->addText("340, 0");
+    text2->setPos(340, 0);
+    QGraphicsTextItem* text3 = this->scene->addText("680, 340");
+    text3->setPos(615, 340);
+    QGraphicsTextItem* text4 = this->scene->addText("340, 680");
+    text4->setPos(340, 655);
+}
+
 void MainWindow::setUpView() {
     ui->graphicsView->setFixedSize(QSize{ui->graphicsView->width(), ui->graphicsView->height()});
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -53,6 +64,7 @@ void MainWindow::setUpScene() {
     }
 
     this->setUpLines();
+    this->setUpText();
     ui->graphicsView->setScene(this->scene);
 }
 
@@ -144,6 +156,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
                                 this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
     }
 
+    this->setUpText();
     this->setUpLines();
 }
 
@@ -196,4 +209,16 @@ void MainWindow::on_resetButton_clicked() {
     this->setFocus();
     this->points.clear();
     this->setUpScene();
+}
+
+void MainWindow::on_actionHelp_triggered() {
+    QMessageBox::information(this, "Справка", QString{"\n\nУправление изображением:\n"
+                                                      "↑\tПеремещение вверх\n"
+                                                      "↓\tПеремещение вниз\n"
+                                                      "→\tПеремещение вправо\n"
+                                                      "←\tПеремещение влево\n"
+                                                      "+\tМасштабирование вперед\n"
+                                                      "-\tМасштабирование назад\n"
+                                                      "A\tПоворот влево\n"
+                                                      "D\tПоворот вправо\n"});
 }

@@ -347,10 +347,16 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action"/>
+   <addaction name="actionHelp"/>
   </widget>
   <action name="action">
    <property name="text">
     <string>Информация</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Справка</string>
    </property>
   </action>
  </widget>

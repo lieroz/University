@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}, ui{new Ui::MainWi
     this->setUpCanvas();
     this->setUpTables();
     this->setUpAnswerTables();
-    this->scene = new QGraphicsScene{0, 0, static_cast<qreal>(ui->canvas->width()), static_cast<qreal>(ui->canvas->height())};
+    this->scene = new QGraphicsScene{0, 0, static_cast<double>(ui->canvas->width()), static_cast<double>(ui->canvas->height())};
     this->scene->setParent(this);
 }
 

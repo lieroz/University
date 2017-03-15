@@ -5,8 +5,8 @@ const QVector<QVector<QPoint>> Solver::solve(const QVector<QPoint>& first_set, c
     const QVector<QVector<QPoint>> second = Solver::defineTriangles(second_set);
 
     double minimal_angle = 90;
-    QVector<QPoint> first_triangle;
-    QVector<QPoint> second_triangle;
+    QVector<QPoint> first_triangle = first[0];
+    QVector<QPoint> second_triangle = first[0];
 
     for (int i{}; i < first.size(); ++i) {
 

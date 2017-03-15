@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 #include <QMessageBox>
 #include <cmath>
 
@@ -35,6 +36,7 @@ class MainWindow : public QMainWindow {
         void setUpRotation(double);
         void setUpScaling(double, double);
         void setUpLines();
+        void setUpText();
         void draw();
 
     private slots:
@@ -48,7 +50,9 @@ class MainWindow : public QMainWindow {
 
         void on_resetButton_clicked();
 
-    private:
+        void on_actionHelp_triggered();
+
+private:
         double x_scale_point;
         double y_scale_point;
         double x_scale_coef = 1;
