@@ -7,6 +7,7 @@
 #include <QGraphicsItem>
 #include <QMessageBox>
 #include <cmath>
+#include <regex>
 
 #include "point2d.hpp"
 
@@ -41,22 +42,17 @@ class MainWindow : public QMainWindow {
 
     private slots:
         void on_action_triggered();
-
         void on_scaleButton_clicked();
-
         void on_rotateButton_clicked();
-
         void on_offsetButton_clicked();
-
         void on_resetButton_clicked();
-
         void on_actionHelp_triggered();
 
     private:
         double x_scale_point;
         double y_scale_point;
-        double x_scale_coef = 1;
-        double y_scale_coef = 1;
+        double x_scale_coef;
+        double y_scale_coef;
 
         double x_offset_point;
         double y_offset_point;
@@ -68,6 +64,7 @@ class MainWindow : public QMainWindow {
         Ui::MainWindow* ui;
         QGraphicsScene* scene;
         QVector<Point2D> points;
+        std::regex is_number{"^(([0-9]*)|(([0-9]*).([0-9]*)))$"};
 };
 
 #endif // MAINWINDOW_HPP

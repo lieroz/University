@@ -176,23 +176,87 @@ void MainWindow::on_action_triggered() {
 }
 
 void MainWindow::on_scaleButton_clicked() {
-    this->x_scale_coef = ui->xScaleCoefLineEdit->text().toDouble();
-    this->y_scale_coef = ui->yScaleCoefLineEdit->text().toDouble();
-    this->x_scale_point = ui->xScaleLineEdit->text().toDouble();
-    this->x_scale_point = ui->yScaleLineEdit->text().toDouble();
+    this->setFocus();
+
+    if (std::regex_match(ui->xScaleCoefLineEdit->text().toStdString(), this->is_number)) {
+        this->x_scale_coef = ui->xScaleCoefLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
+
+    if (std::regex_match(ui->yScaleCoefLineEdit->text().toStdString(), this->is_number)) {
+        this->y_scale_coef = ui->yScaleCoefLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
+
+    if (std::regex_match(ui->xScaleLineEdit->text().toStdString(), this->is_number)) {
+        this->x_scale_point = ui->xScaleLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
+
+    if (std::regex_match(ui->yScaleLineEdit->text().toStdString(), this->is_number)) {
+        this->x_scale_point = ui->yScaleLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
 }
 
 void MainWindow::on_rotateButton_clicked() {
     this->setFocus();
-    this->x_rotation_point = ui->xRotLineEdit->text().toDouble();
-    this->y_rotation_point = ui->yRotLineEdit->text().toDouble();
-    this->angle = ui->angleLineEdit->text().toDouble();
+
+    if (std::regex_match(ui->xRotLineEdit->text().toStdString(), this->is_number)) {
+        this->x_rotation_point = ui->xRotLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
+
+    if (std::regex_match(ui->yRotLineEdit->text().toStdString(), this->is_number)) {
+        this->y_rotation_point = ui->yRotLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
+
+    if (std::regex_match(ui->angleLineEdit->text().toStdString(), this->is_number)) {
+        this->angle = ui->angleLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
 }
 
 void MainWindow::on_offsetButton_clicked() {
     this->setFocus();
-    this->x_offset_point = ui->xMoveLineEdit->text().toDouble();
-    this->y_offset_point = ui->yMoveLineEdit->text().toDouble();
+
+    if (std::regex_match(ui->xMoveLineEdit->text().toStdString(), this->is_number)) {
+        this->x_offset_point = ui->xMoveLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
+
+    if (std::regex_match(ui->yMoveLineEdit->text().toStdString(), this->is_number)) {
+        this->y_offset_point = ui->yMoveLineEdit->text().toDouble();
+
+    } else {
+        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
+        return;
+    }
 }
 
 void MainWindow::on_resetButton_clicked() {
@@ -213,12 +277,12 @@ void MainWindow::on_resetButton_clicked() {
 
 void MainWindow::on_actionHelp_triggered() {
     QMessageBox::information(this, "Справка", QString{"\n\nУправление изображением:\n"
-                                                      "↑\tПеремещение вверх\n"
-                                                      "↓\tПеремещение вниз\n"
-                                                      "→\tПеремещение вправо\n"
-                                                      "←\tПеремещение влево\n"
-                                                      "+\tМасштабирование вперед\n"
-                                                      "-\tМасштабирование назад\n"
-                                                      "A\tПоворот влево\n"
-                                                      "D\tПоворот вправо\n"});
+                                                             "↑\tПеремещение вверх\n"
+                                                             "↓\tПеремещение вниз\n"
+                                                             "→\tПеремещение вправо\n"
+                                                             "←\tПеремещение влево\n"
+                                                             "+\tМасштабирование вперед\n"
+                                                             "-\tМасштабирование назад\n"
+                                                             "A\tПоворот влево\n"
+                                                             "D\tПоворот вправо\n"});
 }

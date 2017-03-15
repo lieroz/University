@@ -49,7 +49,6 @@ class MainWindow : public QMainWindow {
 
         Ui::MainWindow* ui;
         QGraphicsScene* scene;
-
         std::regex is_number{"^(([0-9]*)|(([0-9]*).([0-9]*)))$"};
 
         void setUpTables();
