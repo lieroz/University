@@ -7,6 +7,7 @@
 #include <QTableWidgetItem>
 #include <QScrollBar>
 #include <QVector>
+#include <regex>
 
 #include "dimensionsetter.hpp"
 #include "drawer.hpp"
@@ -27,7 +28,6 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(QWidget* parent = 0);
-
         virtual ~MainWindow();
 
     private slots:
@@ -50,11 +50,13 @@ class MainWindow : public QMainWindow {
         Ui::MainWindow* ui;
         QGraphicsScene* scene;
 
+        std::regex is_number{"^(([0-9]*)|(([0-9]*).([0-9]*)))$"};
+
         void setUpTables();
         void setUpAnswerTables();
         void setUpCanvas();
 
-        static void fillVector(QVector<QPoint>&, QTableWidget*);
+        void fillVector(QVector<Point2D>&, QTableWidget*);
 };
 
 #endif // MAINWINDOW_HPP

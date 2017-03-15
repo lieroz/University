@@ -4,18 +4,19 @@
 #include <QMessageBox>
 #include <QVector>
 #include <QPoint>
-#include <QtMath>
+
+#include "point2d.hpp"
 
 class Solver {
     public:
         explicit Solver() = default;
         virtual ~Solver() = default;
 
-        static const QVector<QVector<QPoint>> solve(const QVector<QPoint>&, const QVector<QPoint>&);
+        static const QVector<QVector<Point2D>> solve(const QVector<Point2D>&, const QVector<Point2D>&);
 
     private:
-        static const QVector<QVector<QPoint>> defineTriangles(const QVector<QPoint>&);
-        static const QPoint defineAltitudesIntersectionPoint(const QPoint&, const QPoint&, const QPoint&);
+        static const QVector<QVector<Point2D>> defineTriangles(const QVector<Point2D>&);
+        static const Point2D defineAltitudesIntersectionPoint(const Point2D&, const Point2D&, const Point2D&);
 };
 
 #endif // SOLVER_HPP

@@ -1,6 +1,5 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}, ui{new Ui::MainWindow} {
     ui->setupUi(this);
@@ -113,21 +112,42 @@ void MainWindow::on_rightDeleteButton_clicked() {
     }
 }
 
-void MainWindow::fillVector(QVector<QPoint>& vector, QTableWidget* table) {
+void MainWindow::fillVector(QVector<Point2D>& vector, QTableWidget* table) {
     for (int i{}; i < table->rowCount(); ++i) {
 
-        if (table->item(i, 0) != nullptr && table->item(i, 1) != nullptr) {
-            const int x = table->item(i, 0)->data(Qt::DisplayRole).toInt();
-            const int y = table->item(i, 1)->data(Qt::DisplayRole).toInt();
-            vector.append(QPoint{x, y});
+        if (std::regex_match(table->item(i, 0)->data(Qt::DisplayRole).toString().toStdString(), this->is_number) &&
+            std::regex_match(table->item(i, 1)->data(Qt::DisplayRole).toString().toStdString(), this->is_number)) {
+            const double x = table->item(i, 0)->data(Qt::DisplayRole).toDouble();
+            const double y = table->item(i, 1)->data(Qt::DisplayRole).toDouble();
+
+            if (!vector.contains(Point2D{x, y})) {
+                vector.append(Point2D{x, y});
+            }
+
+        } else {
+            throw std::invalid_argument("Ошибка: Неверный тип данных!");
         }
     }
 }
 
 void MainWindow::on_drawButton_clicked() {
-    QVector<QPoint> first_set, second_set;
-    MainWindow::fillVector(first_set, ui->leftTable);
-    MainWindow::fillVector(second_set, ui->rightTable);
+    for (int i{}; i < ROW_COUNT; ++i) {
+        ui->leftAnswerTable->item(i, 0)->setText("");
+        ui->leftAnswerTable->item(i, 1)->setText("");
+        ui->rightAnswerTable->item(i, 0)->setText("");
+        ui->rightAnswerTable->item(i, 1)->setText("");
+    }
+
+    QVector<Point2D> first_set, second_set;
+
+    try {
+        MainWindow::fillVector(first_set, ui->leftTable);
+        MainWindow::fillVector(second_set, ui->rightTable);
+
+    } catch (std::invalid_argument& ex) {
+        QMessageBox::warning(this, "Ошибка", ex.what());
+        return;
+    }
 
     this->scene->clear();
 
@@ -138,14 +158,29 @@ void MainWindow::on_drawButton_clicked() {
 }
 
 void MainWindow::on_solveButton_clicked() {
-    QVector<QPoint> first_set, second_set;
-    MainWindow::fillVector(first_set, ui->leftTable);
-    MainWindow::fillVector(second_set, ui->rightTable);
+    QVector<Point2D> first_set, second_set;
+
+    try {
+        MainWindow::fillVector(first_set, ui->leftTable);
+        MainWindow::fillVector(second_set, ui->rightTable);
+
+    } catch (std::invalid_argument& ex) {
+        QMessageBox::warning(this, "Ошибка", ex.what());
+        return;
+    }
 
     if (first_set.size() >= 3 && second_set.size() >= 3) {
-        const QVector<QVector<QPoint>> vector = Solver::solve(first_set, second_set);
-        const double angle = qRadiansToDegrees(qAtan(static_cast<double>(qAbs(vector[0].at(3).y() - vector[1].at(3).y()))
-                                                     / static_cast<double>(qAbs(vector[0].at(3).x() - vector[1].at(3).x()))));
+        const QVector<QVector<Point2D>> vector = Solver::solve(first_set, second_set);
+
+        for (int i{}; i < ROW_COUNT; ++i) {
+            ui->leftAnswerTable->item(i, 0)->setText(QString::number(vector[0].at(i).x));
+            ui->leftAnswerTable->item(i, 1)->setText(QString::number(vector[0].at(i).y));
+            ui->rightAnswerTable->item(i, 0)->setText(QString::number(vector[1].at(i).x));
+            ui->rightAnswerTable->item(i, 1)->setText(QString::number(vector[1].at(i).y));
+        }
+
+        const double angle = qRadiansToDegrees(qAtan(static_cast<double>(qAbs(vector[0].at(3).y - vector[1].at(3).y))
+                                                     / static_cast<double>(qAbs(vector[0].at(3).x - vector[1].at(3).x))));
         QMessageBox::information(this, "Решение",
                                  "Минимальный угол с осью абсцисс: " + QString::number(angle));
 
@@ -156,9 +191,16 @@ void MainWindow::on_solveButton_clicked() {
 }
 
 void MainWindow::on_drawSolutionButton_clicked() {
-    QVector<QPoint> first_set, second_set;
-    MainWindow::fillVector(first_set, ui->leftTable);
-    MainWindow::fillVector(second_set, ui->rightTable);
+    QVector<Point2D> first_set, second_set;
+
+    try {
+        MainWindow::fillVector(first_set, ui->leftTable);
+        MainWindow::fillVector(second_set, ui->rightTable);
+
+    } catch (std::invalid_argument& ex) {
+        QMessageBox::warning(this, "Ошибка", ex.what());
+        return;
+    }
 
     if (first_set.size() >= 3 && second_set.size() >= 3) {
         this->scene->clear();
@@ -169,16 +211,16 @@ void MainWindow::on_drawSolutionButton_clicked() {
         return;
     }
 
-    QVector<QVector<QPoint>> vector = Solver::solve(first_set, second_set);
+    QVector<QVector<Point2D>> vector = Solver::solve(first_set, second_set);
     first_set.append(vector[0].at(3));
     second_set.append(vector[1].at(3));
     DimensionSetter::setUpDimension(this->scene, first_set, second_set);
 
     for (int i{}; i < ROW_COUNT; ++i) {
-        ui->leftAnswerTable->item(i, 0)->setText(QString::number(vector[0].at(i).x()));
-        ui->leftAnswerTable->item(i, 1)->setText(QString::number(vector[0].at(i).y()));
-        ui->rightAnswerTable->item(i, 0)->setText(QString::number(vector[1].at(i).x()));
-        ui->rightAnswerTable->item(i, 1)->setText(QString::number(vector[1].at(i).y()));
+        ui->leftAnswerTable->item(i, 0)->setText(QString::number(vector[0].at(i).x));
+        ui->leftAnswerTable->item(i, 1)->setText(QString::number(vector[0].at(i).y));
+        ui->rightAnswerTable->item(i, 0)->setText(QString::number(vector[1].at(i).x));
+        ui->rightAnswerTable->item(i, 1)->setText(QString::number(vector[1].at(i).y));
     }
 
     first_set.removeLast();

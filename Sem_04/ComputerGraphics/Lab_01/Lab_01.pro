@@ -32,6 +32,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.hpp \
     dimensionsetter.hpp \
     solver.hpp \
-    drawer.hpp
+    drawer.hpp \
+    point2d.hpp
 
 FORMS    += mainwindow.ui

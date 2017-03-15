@@ -52,7 +52,7 @@ class MainWindow : public QMainWindow {
 
         void on_actionHelp_triggered();
 
-private:
+    private:
         double x_scale_point;
         double y_scale_point;
         double x_scale_coef = 1;

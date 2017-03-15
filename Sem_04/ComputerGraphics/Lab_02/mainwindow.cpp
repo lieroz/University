@@ -196,7 +196,7 @@ void MainWindow::on_offsetButton_clicked() {
 }
 
 void MainWindow::on_resetButton_clicked() {
-    this->scene->clear();;
+    this->scene->clear();
     ui->xMoveLineEdit->clear();
     ui->yMoveLineEdit->clear();
     ui->angleLineEdit->clear();
