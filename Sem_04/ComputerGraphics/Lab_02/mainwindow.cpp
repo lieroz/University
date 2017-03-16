@@ -103,6 +103,16 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
             break;
         }
 
+        case Qt::Key_W: {
+            this->setUpScaling(this->x_scale_coef, this->y_scale_coef);
+            break;
+        }
+
+        case Qt::Key_S: {
+            this->setUpScaling(1.0 / this->x_scale_coef, 1.0 / this->y_scale_coef);
+            break;
+        }
+
         case Qt::Key_Up: {
             for (auto& point : this->points) {
                 point.y -= this->y_offset_point;
@@ -132,16 +142,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
                 point.x += this->x_offset_point;
             }
 
-            break;
-        }
-
-        case Qt::Key_Plus: {
-            this->setUpScaling(this->x_scale_coef, this->y_scale_coef);
-            break;
-        }
-
-        case Qt::Key_Minus: {
-            this->setUpScaling(1.0 / this->x_scale_coef, 1.0 / this->y_scale_coef);
             break;
         }
 
@@ -178,89 +178,52 @@ void MainWindow::on_action_triggered() {
 void MainWindow::on_scaleButton_clicked() {
     this->setFocus();
 
-    if (std::regex_match(ui->xScaleCoefLineEdit->text().toStdString(), this->is_number)) {
+    if (std::regex_match(ui->xScaleCoefLineEdit->text().toStdString(), this->is_number) &&
+        std::regex_match(ui->yScaleCoefLineEdit->text().toStdString(), this->is_number) &&
+        std::regex_match(ui->xScaleLineEdit->text().toStdString(), this->is_number) &&
+        std::regex_match(ui->yScaleLineEdit->text().toStdString(), this->is_number))
+    {
         this->x_scale_coef = ui->xScaleCoefLineEdit->text().toDouble();
-
-    } else {
-        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
-    }
-
-    if (std::regex_match(ui->yScaleCoefLineEdit->text().toStdString(), this->is_number)) {
         this->y_scale_coef = ui->yScaleCoefLineEdit->text().toDouble();
-
-    } else {
-        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
-    }
-
-    if (std::regex_match(ui->xScaleLineEdit->text().toStdString(), this->is_number)) {
         this->x_scale_point = ui->xScaleLineEdit->text().toDouble();
-
-    } else {
-        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
-    }
-
-    if (std::regex_match(ui->yScaleLineEdit->text().toStdString(), this->is_number)) {
         this->x_scale_point = ui->yScaleLineEdit->text().toDouble();
 
     } else {
         QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
     }
 }
 
 void MainWindow::on_rotateButton_clicked() {
     this->setFocus();
 
-    if (std::regex_match(ui->xRotLineEdit->text().toStdString(), this->is_number)) {
+    if (std::regex_match(ui->xRotLineEdit->text().toStdString(), this->is_number) &&
+        std::regex_match(ui->yRotLineEdit->text().toStdString(), this->is_number) &&
+        std::regex_match(ui->angleLineEdit->text().toStdString(), this->is_number))
+    {
         this->x_rotation_point = ui->xRotLineEdit->text().toDouble();
-
-    } else {
-        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
-    }
-
-    if (std::regex_match(ui->yRotLineEdit->text().toStdString(), this->is_number)) {
         this->y_rotation_point = ui->yRotLineEdit->text().toDouble();
-
-    } else {
-        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
-    }
-
-    if (std::regex_match(ui->angleLineEdit->text().toStdString(), this->is_number)) {
         this->angle = ui->angleLineEdit->text().toDouble();
 
     } else {
         QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
     }
 }
 
 void MainWindow::on_offsetButton_clicked() {
     this->setFocus();
 
-    if (std::regex_match(ui->xMoveLineEdit->text().toStdString(), this->is_number)) {
+    if (std::regex_match(ui->xMoveLineEdit->text().toStdString(), this->is_number) &&
+        std::regex_match(ui->yMoveLineEdit->text().toStdString(), this->is_number))
+    {
         this->x_offset_point = ui->xMoveLineEdit->text().toDouble();
-
-    } else {
-        QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
-    }
-
-    if (std::regex_match(ui->yMoveLineEdit->text().toStdString(), this->is_number)) {
         this->y_offset_point = ui->yMoveLineEdit->text().toDouble();
 
     } else {
         QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
-        return;
     }
 }
 
 void MainWindow::on_resetButton_clicked() {
-    this->scene->clear();
     ui->xMoveLineEdit->clear();
     ui->yMoveLineEdit->clear();
     ui->angleLineEdit->clear();
@@ -270,8 +233,9 @@ void MainWindow::on_resetButton_clicked() {
     ui->yScaleCoefLineEdit->clear();
     ui->xScaleLineEdit->clear();
     ui->yScaleLineEdit->clear();
-    this->setFocus();
+    this->scene->clear();
     this->points.clear();
+    this->setFocus();
     this->setUpScene();
 }
 
