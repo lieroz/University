@@ -87,24 +87,24 @@ namespace ftl {
 			void resize(size_type, const value_type&);
 			void swap(vector&);
 			template <class T>
-			friend void swap(T&, T&);
+			friend inline void swap(T&, T&);
 			
 			// Compare operators
 			template <class T>
-			friend bool operator==(const T&, const T&);
+			friend inline bool operator==(const T&, const T&);
 			template <class T>
-			friend bool operator!=(const T&, const T&);
+			friend inline bool operator!=(const T&, const T&);
 			template <class T>
-			friend bool operator<(const T&, const T&);
+			friend inline bool operator<(const T&, const T&);
 			template <class T>
-			friend bool operator<=(const T&, const T&);
+			friend inline bool operator<=(const T&, const T&);
 			template <class T>
-			friend bool operator>(const T&, const T&);
+			friend inline bool operator>(const T&, const T&);
 			template <class T>
-			friend bool operator>=(const T&, const T&);
+			friend inline bool operator>=(const T&, const T&);
 			
 			template <class T>
-			friend std::ostream& operator<<(std::ostream&, const vector<T>&);
+			friend inline std::ostream& operator<<(std::ostream&, const vector<T>&);
 		
 		private:
 			size_type __mem_dump;

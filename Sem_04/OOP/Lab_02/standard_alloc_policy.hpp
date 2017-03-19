@@ -78,8 +78,8 @@ namespace ftl {
 			return std::numeric_limits<size_type>::max() / sizeof(__Tp);
 		}
 		
-		template <class A, class B>
-		inline bool operator==(const standard_alloc_policy<A>&, const standard_alloc_policy<B>&) {
+		template <class __Tp1, class __Tp2>
+		inline bool operator==(const standard_alloc_policy<__Tp1>&, const standard_alloc_policy<__Tp2>&) {
 			return true;
 		};
 		
