@@ -14,12 +14,12 @@ namespace ftl {
 		template <class __Tp>
 		class base_iterator {
 				typedef __Tp* pointer;
-				
+			
 			public:
 				explicit base_iterator();
 				explicit base_iterator(pointer ptr);
 				virtual ~base_iterator();
-				
+			
 			protected:
 				pointer __ptr;
 		};

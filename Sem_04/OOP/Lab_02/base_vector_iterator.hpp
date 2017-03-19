@@ -88,7 +88,8 @@ namespace ftl {
 	}
 	
 	template <class __Tp>
-	typename base_vector_iterator<__Tp>::difference_type base_vector_iterator<__Tp>::operator-(const base_vector_iterator<__Tp>& rhs) {
+	typename base_vector_iterator<__Tp>::difference_type
+	base_vector_iterator<__Tp>::operator-(const base_vector_iterator<__Tp>& rhs) {
 		return this->__ptr - rhs.__ptr;
 	}
 	
