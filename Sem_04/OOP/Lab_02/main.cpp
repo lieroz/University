@@ -32,7 +32,7 @@ int main() {
 	ftl::vector<int> v1;
 	tmr.reset();
 	
-	for (int i{ }; i < 35; ++i) {
+	for (int i = 0; i < 35; ++i) {
 		v1.push_back(i);
 	}
 	
@@ -129,7 +129,8 @@ int main() {
 	tmr.reset();
 	ftl::vector<int> v7 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	elapsed_time = tmr.elapsed();
-	std::cout << "Overloaded with initializer list assignment operator call time: " << elapsed_time << " (ns)" << std::endl;
+	std::cout << "Overloaded with initializer list assignment operator call time: " << elapsed_time << " (ns)"
+	          << std::endl;
 	std::cout << "v7 vector: " << v7 << std::endl << std::endl;
 	
 	tmr.reset();
@@ -161,12 +162,12 @@ int main() {
 	std::cout << "Testing compare operators..." << std::endl;
 	std::cout << "=======================================================================" << std::endl;
 	
-	std::cout << "v10 == v11 ? "<< (v10 == v11) << std::endl;
-	std::cout << "v10 != v11 ? "<< (v10 != v11) << std::endl;
-	std::cout << "v10 <= v11 ? "<< (v10 <= v11) << std::endl;
-	std::cout << "v10 >= v11 ? "<< (v10 >= v11) << std::endl;
-	std::cout << "v10 < v11 ? "<< (v10 < v11) << std::endl;
-	std::cout << "v10 > v11 ? "<< (v10 > v11) << std::endl << std::endl;
+	std::cout << "v10 == v11 ? " << (v10 == v11) << std::endl;
+	std::cout << "v10 != v11 ? " << (v10 != v11) << std::endl;
+	std::cout << "v10 <= v11 ? " << (v10 <= v11) << std::endl;
+	std::cout << "v10 >= v11 ? " << (v10 >= v11) << std::endl;
+	std::cout << "v10 < v11 ? " << (v10 < v11) << std::endl;
+	std::cout << "v10 > v11 ? " << (v10 > v11) << std::endl << std::endl;
 	
 	std::cout << "Testing assign functions..." << std::endl;
 	std::cout << "=======================================================================" << std::endl;
@@ -180,12 +181,12 @@ int main() {
 	std::cout << "=======================================================================" << std::endl;
 	ftl::vector<int> v13 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	
-	std::cout << "v13[0]: " << v13[0] << "   " <<  "v13.front(): " << v13.front() << std::endl;
+	std::cout << "v13[0]: " << v13[0] << "   " << "v13.front(): " << v13.front() << std::endl;
 	std::cout << "v13[4]: " << v13[4] << std::endl;
-	std::cout << "v13[9]: " << v13[9] << "   " <<  "v13.back(): " << v13.back() << std::endl;
-	std::cout << "v13.at(0): " << v13.at(0) << "   " <<  "v13.front(): " << v13.front() << std::endl;
+	std::cout << "v13[9]: " << v13[9] << "   " << "v13.back(): " << v13.back() << std::endl;
+	std::cout << "v13.at(0): " << v13.at(0) << "   " << "v13.front(): " << v13.front() << std::endl;
 	std::cout << "v13.at(4): " << v13.at(4) << std::endl;
-	std::cout << "v13.at(9): " << v13.at(9) << "   " <<  "v13.back(): " << v13.back() << std::endl << std::endl;
+	std::cout << "v13.at(9): " << v13.at(9) << "   " << "v13.back(): " << v13.back() << std::endl << std::endl;
 	
 	std::cout << "Testing capacity and size functions..." << std::endl;
 	std::cout << "=======================================================================" << std::endl;
@@ -217,14 +218,14 @@ int main() {
 	ftl::vector<int> v14;
 	std::cout << "push_back:" << std::endl;
 	
-	for (int i{}; i < 14; ++i) {
+	for (int i = 0; i < 14; ++i) {
 		v14.push_back(i);
 		std::cout << v14 << std::endl;
 	}
 	
 	std::cout << std::endl << "pop_back:" << std::endl;
 	
-	for (int i{}; i < 14; ++i) {
+	for (int i = 0; i < 14; ++i) {
 		std::cout << v14 << std::endl;
 		v14.pop_back();
 	}

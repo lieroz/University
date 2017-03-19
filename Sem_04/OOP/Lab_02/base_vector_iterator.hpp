@@ -33,13 +33,13 @@ namespace ftl {
 	
 	template <class __Tp>
 	base_vector_iterator<__Tp>::base_vector_iterator(pointer ptr)
-			: ftl_core::base_iterator<__Tp>{ptr} {
+			: ftl_core::base_iterator<__Tp>(ptr) {
 		
 	}
 	
 	template <class __Tp>
 	base_vector_iterator<__Tp>::base_vector_iterator(const base_vector_iterator& other)
-			: ftl_core::base_iterator<__Tp>{other.__ptr} {
+			: ftl_core::base_iterator<__Tp>(other.__ptr) {
 		
 	}
 	

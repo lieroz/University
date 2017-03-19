@@ -115,20 +115,20 @@ namespace ftl {
 	
 	template <class __Tp, class __Al>
 	vector<__Tp, __Al>::vector()
-			: __mem_dump{__BASE_SIZE} {
+			: __mem_dump(__BASE_SIZE) {
 		this->__buffer = __Al::allocate(this->capacity());
 	}
 	
 	template <class __Tp, class __Al>
 	vector<__Tp, __Al>::vector(size_type count)
-			: ftl_core::base_container<__Tp>{count}, __mem_dump{count} {
+			: ftl_core::base_container<__Tp>(count), __mem_dump(count) {
 		this->__buffer = __Al::allocate(this->capacity());
 	}
 	
 	template <class __Tp, class __Al>
 	vector<__Tp, __Al>::vector(size_type count, const value_type& value)
 			: vector(count) {
-		for (size_type i{ }; i < this->size(); ++i) {
+		for (size_type i = 0; i < this->size(); ++i) {
 			(*this)[i] = value;
 		}
 	}
@@ -136,7 +136,7 @@ namespace ftl {
 	template <class __Tp, class __Al>
 	vector<__Tp, __Al>::vector(iterator first, iterator last)
 			: vector(last - first) {
-		for (size_type i{ }; i < this->size(); ++i, ++first) {
+		for (size_type i = 0; i < this->size(); ++i, ++first) {
 			(*this)[i] = *first;
 		};
 	}
@@ -144,7 +144,7 @@ namespace ftl {
 	template <class __Tp, class __Al>
 	vector<__Tp, __Al>::vector(const_iterator first, const_iterator last)
 			: vector(last - first) {
-		for (size_type i{ }; i < this->size(); ++i, ++first) {
+		for (size_type i = 0; i < this->size(); ++i, ++first) {
 			(*this)[i] = *first;
 		};
 	}
@@ -163,7 +163,7 @@ namespace ftl {
 	
 	template <class __Tp, class __Al>
 	vector<__Tp, __Al>::vector(vector<__Tp, __Al>&& other)
-			:  ftl_core::base_container<__Tp>{other.size()}, __mem_dump{other.capacity()}, __buffer{other.data()} {
+			:  ftl_core::base_container<__Tp>(other.size()), __mem_dump(other.capacity()), __buffer(other.data()) {
 		other.__el_count = 0;
 		other.__mem_dump = 0;
 		other.__buffer = nullptr;
@@ -216,7 +216,7 @@ namespace ftl {
 			this->reallocate();
 		}
 		
-		for (size_type i{ }; i < count; ++i) {
+		for (size_type i = 0; i < count; ++i) {
 			(*this)[i] = value;
 		}
 		
@@ -232,7 +232,7 @@ namespace ftl {
 			this->reallocate();
 		}
 		
-		for (size_type i{ }; i < count; ++i, ++first) {
+		for (size_type i = 0; i < count; ++i, ++first) {
 			(*this)[i] = *first;
 		}
 		
@@ -248,7 +248,7 @@ namespace ftl {
 			this->reallocate();
 		}
 		
-		for (size_type i{ }; i < count; ++i, ++first) {
+		for (size_type i = 0; i < count; ++i, ++first) {
 			(*this)[i] = *first;
 		}
 		
@@ -391,7 +391,7 @@ namespace ftl {
 	
 	template <class __Tp, class __Al>
 	void vector<__Tp, __Al>::clear() {
-		for (size_type i{ }; i < this->size(); ++i) {
+		for (size_type i = 0; i < this->size(); ++i) {
 			(*this)[i].~__Tp();
 		}
 		
@@ -470,7 +470,7 @@ namespace ftl {
 			
 		} else {
 			
-			for (size_type i{this->size()}; i < size; ++i) {
+			for (size_type i = this->size(); i < size; ++i) {
 				(*this)[i].~__Tp();
 			}
 		}
@@ -487,13 +487,13 @@ namespace ftl {
 				this->reallocate();
 			}
 			
-			for (size_type i{this->size()}; i < size; ++i) {
+			for (size_type i = this->size(); i < size; ++i) {
 				(*this)[i] = value;
 			}
 			
 		} else {
 			
-			for (size_type i{this->size()}; i < size; ++i) {
+			for (size_type i = this->size(); i < size; ++i) {
 				(*this)[i].~__Tp();
 			}
 		}
@@ -519,7 +519,7 @@ namespace ftl {
 		
 		if (are_equal) {
 			
-			for (size_t i{ }; i < lhs.size() && are_equal; ++i) {
+			for (size_t i = 0; i < lhs.size() && are_equal; ++i) {
 				
 				if (lhs[i] != rhs[i]) {
 					are_equal = false;
@@ -541,7 +541,7 @@ namespace ftl {
 		
 		if (!is_less && lhs.size() == rhs.size()) {
 			
-			for (size_t i{ }; i < lhs.size() && !is_less; ++i) {
+			for (size_t i = 0; i < lhs.size() && !is_less; ++i) {
 				
 				if (lhs[i] < rhs[i]) {
 					is_less = true;

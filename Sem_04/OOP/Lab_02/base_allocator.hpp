@@ -47,7 +47,7 @@ namespace ftl {
 		
 		template <class __Tp, class __Pl, class __Tr>
 		base_allocator<__Tp, __Pl, __Tr>::base_allocator(const base_allocator& rhs)
-				: __Pl{rhs}, __Tr{rhs} {
+				: __Pl(rhs), __Tr(rhs) {
 			
 		}
 		
@@ -60,7 +60,7 @@ namespace ftl {
 		template <class __Tp, class __Pl, class __Tr>
 		template <class T, class U, class V>
 		base_allocator<__Tp, __Pl, __Tr>::base_allocator(const base_allocator<T, U, V>& rhs)
-				: __Pl{rhs}, __Tr{rhs} {
+				: __Pl(rhs), __Tr(rhs) {
 			
 		}
 		

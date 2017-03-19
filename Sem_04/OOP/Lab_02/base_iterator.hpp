@@ -26,13 +26,13 @@ namespace ftl {
 		
 		template <class __Tp>
 		base_iterator<__Tp>::base_iterator()
-				: __ptr{nullptr} {
+				: __ptr(nullptr) {
 			
 		}
 		
 		template <class __Tp>
 		base_iterator<__Tp>::base_iterator(pointer ptr)
-				: __ptr{ptr} {
+				: __ptr(ptr) {
 			
 		}
 		

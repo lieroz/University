@@ -27,13 +27,13 @@ namespace ftl {
 	
 	template <class __Tp>
 	const_vector_iterator<__Tp>::const_vector_iterator(pointer ptr)
-			: base_vector_iterator<__Tp>{ptr} {
+			: base_vector_iterator<__Tp>(ptr) {
 		
 	}
 	
 	template <class __Tp>
 	const_vector_iterator<__Tp>::const_vector_iterator(const const_vector_iterator& other)
-			: base_vector_iterator<__Tp>{other.__ptr} {
+			: base_vector_iterator<__Tp>(other.__ptr) {
 		
 	}
 	

@@ -26,13 +26,13 @@ namespace ftl {
 		
 		template <class __Tp>
 		base_container<__Tp>::base_container()
-				: __el_count{0} {
+				: __el_count(0) {
 			
 		}
 		
 		template <class __Tp>
 		base_container<__Tp>::base_container(size_type count)
-				: __el_count{count} {
+				: __el_count(count) {
 			
 		}
 		
