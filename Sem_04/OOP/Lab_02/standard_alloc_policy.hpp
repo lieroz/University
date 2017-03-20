@@ -65,12 +65,12 @@ namespace ftl {
 		template <class __Tp>
 		typename standard_alloc_policy<__Tp>::pointer
 		standard_alloc_policy<__Tp>::allocate(size_type count, typename std::allocator<void>::const_pointer) {
-			return reinterpret_cast<pointer>(::operator new(count * sizeof(__Tp)));
+			return reinterpret_cast<pointer>(::operator new[](count * sizeof(__Tp)));
 		}
 		
 		template <class __Tp>
 		void standard_alloc_policy<__Tp>::deallocate(pointer ptr, size_type) {
-			::operator delete(ptr);
+			::operator delete[](ptr);
 		}
 		
 		template <class __Tp>
