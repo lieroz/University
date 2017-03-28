@@ -23,24 +23,9 @@ namespace ftl {
 			protected:
 				pointer __ptr;
 		};
-		
-		template <class __Tp>
-		base_iterator<__Tp>::base_iterator()
-				: __ptr(nullptr) {
-			
-		}
-		
-		template <class __Tp>
-		base_iterator<__Tp>::base_iterator(pointer ptr)
-				: __ptr(ptr) {
-			
-		}
-		
-		template <class __Tp>
-		base_iterator<__Tp>::~base_iterator() {
-			this->__ptr = nullptr;
-		}
 	}
 }
+
+#include "../implementation/base_iterator_impl.hpp"
 
 #endif //LAB_02_BASE_ITERATOR_HPP
