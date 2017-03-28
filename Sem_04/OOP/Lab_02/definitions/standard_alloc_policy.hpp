@@ -44,6 +44,6 @@ namespace ftl {
 	}
 }
 
-#include "../implementation/standard_alloc_policy_impl.hpp"
+#include "../implementations/standard_alloc_policy_impl.hpp"
 
 #endif //LAB_02_STANDARD_ALLOC_POLICY_HPP

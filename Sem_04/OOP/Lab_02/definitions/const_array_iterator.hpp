@@ -24,6 +24,6 @@ namespace ftl {
 	};
 }
 
-#include "../implementation/const_array_iterator_impl.hpp"
+#include "../implementations/const_array_iterator_impl.hpp"
 
 #endif //LAB_02_CONST_VECTOR_ITERATOR_HPP

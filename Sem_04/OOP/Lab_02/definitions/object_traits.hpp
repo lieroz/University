@@ -38,6 +38,6 @@ namespace ftl {
 	}
 }
 
-#include "../implementation/object_traits_impl.hpp"
+#include "../implementations/object_traits_impl.hpp"
 
 #endif //LAB_02_OBJECT_TRAITS_HPP

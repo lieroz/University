@@ -100,6 +100,6 @@ namespace ftl {
 	}
 }
 
-#include "../implementation/expanding_container_impl.hpp"
+#include "../implementations/expanding_container_impl.hpp"
 
 #endif //LAB_02_EXPANDING_CONTAINER_HPP

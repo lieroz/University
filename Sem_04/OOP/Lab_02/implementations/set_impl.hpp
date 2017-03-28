@@ -148,7 +148,7 @@ namespace ftl {
 	}
 	
 	template <class T>
-	friend set<T> operator-(const set<T>& first, const set<T>& second) {
+	set<T> operator-(const set<T>& first, const set<T>& second) {
 		set<T> result_set = first;
 		
 		for (const auto& item : second) {
@@ -163,17 +163,17 @@ namespace ftl {
 	
 	template <class T>
 	set<T> Intersection(const set<T>& first, const set<T>& second) {
-		return set<T>::operator^(first, second);
+		return operator^(first, second);
 	}
 	
 	template <class T>
 	set<T> Union(const set<T>& first, const set<T>& second) {
-		return set<T>::operator+(first, second);
+		return operator+(first, second);
 	}
 	
 	template <class T>
 	set<T> Subtraction(const set<T>& first, const set<T>& second) {
-		return set<T>::operator-(first, second);
+		return operator-(first, second);
 	}
 	
 	template <class __Tp, class __Al>

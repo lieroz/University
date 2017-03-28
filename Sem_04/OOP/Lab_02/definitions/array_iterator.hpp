@@ -23,6 +23,6 @@ namespace ftl {
 	};
 }
 
-#include "../implementation/array_iterator_impl.hpp"
+#include "../implementations/array_iterator_impl.hpp"
 
 #endif //LAB_02_ARRAY_ITERATOR_HPP
