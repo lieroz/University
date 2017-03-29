@@ -1,5 +1,6 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}, ui{new Ui::MainWindow} {
     ui->setupUi(this);
@@ -120,9 +121,12 @@ void MainWindow::fillVector(QVector<Point2D>& vector, QTableWidget* table) {
             const double x = table->item(i, 0)->data(Qt::DisplayRole).toDouble();
             const double y = table->item(i, 1)->data(Qt::DisplayRole).toDouble();
 
-            if (!vector.contains(Point2D{x, y})) {
-                vector.append(Point2D{x, y});
-            }
+            if (!table->item(i, 0)->data(Qt::DisplayRole).toString().isEmpty() &&
+                !table->item(i, 1)->data(Qt::DisplayRole).toString().isEmpty())
+
+                if (!vector.contains(Point2D(x, y))) {
+                    vector.append(Point2D(x, y));
+                }
 
         } else {
             throw std::invalid_argument("Ошибка: Неверный тип данных!");
@@ -151,7 +155,8 @@ void MainWindow::on_drawButton_clicked() {
 
     this->scene->clear();
 
-    DimensionSetter::setUpDimension(this->scene, first_set, second_set);
+    DimensionSetter dimensionSetter;
+    dimensionSetter.setUpDimension(this->scene, first_set, second_set);
     Drawer::drawPoints(this->scene, first_set, second_set);
 
     ui->canvas->setScene(this->scene);
@@ -214,7 +219,8 @@ void MainWindow::on_drawSolutionButton_clicked() {
     QVector<QVector<Point2D>> vector = Solver::solve(first_set, second_set);
     first_set.append(vector[0].at(3));
     second_set.append(vector[1].at(3));
-    DimensionSetter::setUpDimension(this->scene, first_set, second_set);
+    DimensionSetter dimensionSetter;
+    dimensionSetter.setUpDimension(this->scene, first_set, second_set);
 
     for (int i{}; i < ROW_COUNT; ++i) {
         ui->leftAnswerTable->item(i, 0)->setText(QString::number(vector[0].at(i).x));
@@ -223,13 +229,9 @@ void MainWindow::on_drawSolutionButton_clicked() {
         ui->rightAnswerTable->item(i, 1)->setText(QString::number(vector[1].at(i).y));
     }
 
-    first_set.removeLast();
-    second_set.removeLast();
-    vector = Solver::solve(first_set, second_set);
-
+    dimensionSetter.normalize(this->scene, vector[0]);
+    dimensionSetter.normalize(this->scene, vector[1]);
     Drawer::drawAnswer(this->scene, vector[0], vector[1]);
-    first_set.append(vector[0].at(3));
-    second_set.append(vector[1].at(3));
     Drawer::drawPoints(this->scene, first_set, second_set);
 
     ui->canvas->setScene(this->scene);

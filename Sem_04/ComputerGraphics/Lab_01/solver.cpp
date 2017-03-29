@@ -1,4 +1,5 @@
 #include "solver.hpp"
+#include <QDebug>
 
 const QVector<QVector<Point2D>> Solver::solve(const QVector<Point2D>& first_set, const QVector<Point2D>& second_set) {
     const QVector<QVector<Point2D>> first = Solver::defineTriangles(first_set);
@@ -8,9 +9,9 @@ const QVector<QVector<Point2D>> Solver::solve(const QVector<Point2D>& first_set,
     QVector<Point2D> first_triangle = first[0];
     QVector<Point2D> second_triangle = first[0];
 
-    for (int i{}; i < first.size(); ++i) {
+    for (int i = 0; i < first.size(); ++i) {
 
-        for (int j{}; j < second.size(); ++j) {
+        for (int j = 0; j < second.size(); ++j) {
             const double angle = qRadiansToDegrees(qAtan(static_cast<double>(qAbs(first[i].at(3).y - second[j].at(3).y))
                                                          / static_cast<double>(qAbs(first[i].at(3).x - second[j].at(3).x))));
 
@@ -21,6 +22,15 @@ const QVector<QVector<Point2D>> Solver::solve(const QVector<Point2D>& first_set,
             }
         }
     }
+
+    auto print = [](const QVector<Point2D>& points) {
+        for (const auto& point : points) {
+            qDebug() << point.x << " " << point.y;
+        }
+    };
+
+    print(first_triangle);
+    print(second_triangle);
 
     return {first_triangle, second_triangle};
 }
@@ -58,5 +68,5 @@ const Point2D Solver::defineAltitudesIntersectionPoint(const Point2D& A, const P
     const double y = static_cast<int>(b1 != 0 ? qRound(-(a1 * x + c1) / b1) :
                                    qRound(-(a2 * x + c2) / b2));
 
-    return Point2D{ -x, y};
+    return Point2D{-x, y};
 }
