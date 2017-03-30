@@ -2,8 +2,8 @@
 // Created by lieroz on 19.03.17.
 //
 
-#ifndef LAB_02_BASE_ITERATOR_HPP
-#define LAB_02_BASE_ITERATOR_HPP
+#ifndef LAB_02_BASE_ARRAY_ITERATOR_HPP
+#define LAB_02_BASE_ARRAY_ITERATOR_HPP
 
 #include "ftlspace.hpp"
 
@@ -13,19 +13,29 @@ namespace ftl {
 		
 		template <class __Tp>
 		class base_iterator {
-				typedef __Tp* pointer;
-			
 			public:
-				explicit base_iterator();
-				explicit base_iterator(pointer ptr);
+				base_iterator(const base_iterator&);
 				virtual ~base_iterator();
-			
+				base_iterator& operator=(const base_iterator&);
+				
+				base_iterator& operator++();
+				base_iterator operator++(int);
+				base_iterator& operator--();
+				base_iterator operator--(int);
+				
+				ptrdiff_t operator-(const base_iterator&);
+				
+				bool operator==(const base_iterator&);
+				bool operator!=(const base_iterator&);
+				
 			protected:
-				pointer __ptr;
+				base_iterator(__Tp*);
+				
+				__Tp* __ptr;
 		};
 	}
 }
 
 #include "../implementations/base_iterator_impl.hpp"
 
-#endif //LAB_02_BASE_ITERATOR_HPP
+#endif //LAB_02_BASE_VECTOR_ITERATOR_HPP

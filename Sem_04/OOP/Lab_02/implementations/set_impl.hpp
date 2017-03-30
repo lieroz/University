@@ -6,71 +6,63 @@
 #define LAB_02_SET_IMPL_HPP
 
 #include "set.hpp"
+#include "exceptions.hpp"
 
 namespace ftl {
-	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set()
-			: ftl_core::expanding_container<__Tp, __Al>() {
-		
+	template <class __Tp>
+	set<__Tp>::set()
+			: ftl_core::expanding_container<__Tp>() {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(size_type count)
-			: ftl_core::expanding_container<__Tp, __Al>(count) {
-		
+	template <class __Tp>
+	set<__Tp>::set(size_t count)
+			: ftl_core::expanding_container<__Tp>(count) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(size_type count, const value_type& value)
-			: ftl_core::expanding_container<__Tp, __Al>(count, value) {
-		
+	template <class __Tp>
+	set<__Tp>::set(size_t count, const __Tp& value)
+			: ftl_core::expanding_container<__Tp>(count, value) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(iterator first, iterator last)
-			: ftl_core::expanding_container<__Tp, __Al>(first, last) {
-		
+	template <class __Tp>
+	set<__Tp>::set(iterator first, iterator last)
+			: ftl_core::expanding_container<__Tp>(first, last) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(const_iterator first, const_iterator last)
-			: ftl_core::expanding_container<__Tp, __Al>(first, last) {
-		
+	template <class __Tp>
+	set<__Tp>::set(const_iterator first, const_iterator last)
+			: ftl_core::expanding_container<__Tp>(first, last) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(std::initializer_list<__Tp> lst)
-			: ftl_core::expanding_container<__Tp, __Al>(lst) {
-		
+	template <class __Tp>
+	set<__Tp>::set(std::initializer_list<__Tp> lst)
+			: ftl_core::expanding_container<__Tp>(lst) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(const set<__Tp, __Al>& other)
-			: ftl_core::expanding_container<__Tp, __Al>(other) {
-		
+	template <class __Tp>
+	set<__Tp>::set(const set<__Tp>& other)
+			: ftl_core::expanding_container<__Tp>(other) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>::set(set<__Tp, __Al>&& other)
-			: ftl_core::expanding_container<__Tp, __Al>(std::move(other)) {
-		
+	template <class __Tp>
+	set<__Tp>::set(set<__Tp>&& other)
+			: ftl_core::expanding_container<__Tp>(std::move(other)) {
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>& set<__Tp, __Al>::operator=(const set<__Tp, __Al>& rhs) {
-		ftl_core::expanding_container<__Tp, __Al>::operator=(rhs);
+	template <class __Tp>
+	set<__Tp>& set<__Tp>::operator=(const set<__Tp>& rhs) {
+		ftl_core::expanding_container<__Tp>::operator=(rhs);
 		return *this;
 	}
 	
-	template <class __Tp, class __Al>
-	set<__Tp, __Al>& set<__Tp, __Al>::operator=(set<__Tp, __Al>&& rhs) {
-		ftl_core::expanding_container<__Tp, __Al>::operator=(std::move(rhs));
+	template <class __Tp>
+	set<__Tp>& set<__Tp>::operator=(set<__Tp>&& rhs) {
+		ftl_core::expanding_container<__Tp>::operator=(std::move(rhs));
 		return *this;
 	}
 	
-	template <class __Tp, class __Al>
-	void set<__Tp, __Al>::add(const value_type& value) {
+	template <class __Tp>
+	void set<__Tp>::add(const __Tp& value) {
 		if (!this->contains(value)) {
 			
 			if (this->size() == this->capacity()) {
@@ -82,32 +74,32 @@ namespace ftl {
 		}
 	}
 	
-	template <class __Tp, class __Al>
-	void set<__Tp, __Al>::remove(const value_type& value) {
+	template <class __Tp>
+	void set<__Tp>::remove(const __Tp& value) {
 		int pos = find_item_index(value);
 		
 		if (pos < 0) {
-			throw std::out_of_range("Removed item doesn't exist in set!");
+			throw item_not_found_exception();
 		}
 		
-		value_type* mem_flag = this->__buffer + pos;
+		__Tp* mem_flag = this->__buffer + pos;
 		(*this)[pos].~__Tp();
 		std::memmove(mem_flag, mem_flag + 1, (this->size() - (mem_flag - this->__buffer) - 1) * sizeof(__Tp));
 		--this->__el_count;
 	}
 	
-	template <class __Tp, class __Al>
-	bool set<__Tp, __Al>::contains(const value_type& value) {
+	template <class __Tp>
+	bool set<__Tp>::contains(const __Tp& value) {
 		return this->find_item_index(value) >= 0;
 	}
 	
-	template <class __Tp, class __Al>
-	bool set<__Tp, __Al>::contains(const value_type& value) const {
+	template <class __Tp>
+	bool set<__Tp>::contains(const __Tp& value) const {
 		return this->find_item_index(value) >= 0;
 	}
 	
-	template <class __Tp, class __Al>
-	int set<__Tp, __Al>::count(const value_type& value) {
+	template <class __Tp>
+	int set<__Tp>::count(const __Tp& value) {
 		return static_cast<int>([this, &value]() -> int {
 			int amount = 0;
 			
@@ -119,16 +111,22 @@ namespace ftl {
 		});
 	}
 	
+	template <class __Tp>
+	size_t set<__Tp>::power() const {
+		return this->size();
+	};
+	
+	
 	template <class T>
 	set<T> operator^(const set<T>& first, const set<T>& second) {
 		set<T> result_set;
 		
-		for (const auto& i : first) {
+		for (typename set<T>::const_iterator i = first.cbegin(); i != first.cend(); ++i) {
 			
-			for (const auto& j : second) {
+			for (typename set<T>::const_iterator j = second.cbegin(); j != second.cend(); ++j) {
 				
-				if (i == j) {
-					result_set.add(i);
+				if (*i == *j) {
+					result_set.add(*i);
 				}
 			}
 		}
@@ -140,8 +138,8 @@ namespace ftl {
 	set<T> operator+(const set<T>& first, const set<T>& second) {
 		set<T> result_set = first;
 		
-		for (const auto& item : second) {
-			result_set.add(item);
+		for (typename set<T>::const_iterator iter = second.cbegin(); iter != second.cend(); ++iter) {
+			result_set.add(*iter);
 		}
 		
 		return result_set;
@@ -151,10 +149,10 @@ namespace ftl {
 	set<T> operator-(const set<T>& first, const set<T>& second) {
 		set<T> result_set = first;
 		
-		for (const auto& item : second) {
+		for (typename set<T>::const_iterator iter = second.cbegin(); iter != second.cend(); ++iter) {
 			
-			if (result_set.contains(item)) {
-				result_set.remove(item);
+			if (result_set.contains(*iter)) {
+				result_set.remove(*iter);
 			}
 		}
 		
@@ -176,8 +174,8 @@ namespace ftl {
 		return operator-(first, second);
 	}
 	
-	template <class __Tp, class __Al>
-	int set<__Tp, __Al>::find_item_index(const value_type& value) const {
+	template <class __Tp>
+	int set<__Tp>::find_item_index(const __Tp& value) const {
 		int item_index = -1;
 		
 		for (int i = 0; i < this->size() && item_index == -1; ++i) {

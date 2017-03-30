@@ -5,89 +5,107 @@
 #ifndef LAB_02_EXPANDING_CONTAINER_IMPL_HPP
 #define LAB_02_EXPANDING_CONTAINER_IMPL_HPP
 
+#include <exceptions.hpp>
 #include "expanding_container.hpp"
 
 namespace ftl {
 	
 	namespace ftl_core {
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container()
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container()
 				: __mem_dump(__BASE_SIZE) {
-			this->__buffer = __Al::allocate(this->capacity());
+			try {
+				this->__buffer = new __Tp[this->capacity()];
+			
+			} catch (std::bad_alloc& ex) {
+				throw bad_memory_allocation_exception();
+			}
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(size_type count)
-				: base_container<__Tp>(count), __mem_dump(count) {
-			this->__buffer = __Al::allocate(this->capacity());
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(size_t count)
+				: base_container(count), __mem_dump(count) {
+			try {
+				this->__buffer = new __Tp[this->capacity()];
+				
+			} catch (std::bad_alloc& ex) {
+				throw bad_memory_allocation_exception();
+			}
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(size_type count, const value_type& value)
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(size_t count, const __Tp& value)
 				: expanding_container(count) {
-			for (size_type i = 0; i < this->size(); ++i) {
+			for (size_t i = 0; i < this->size(); ++i) {
 				(*this)[i] = value;
 			}
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(iterator first, iterator last)
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(iterator first, iterator last)
 				: expanding_container(last - first) {
-			for (size_type i = 0; i < this->size(); ++i, ++first) {
+			for (size_t i = 0; i < this->size(); ++i, ++first) {
 				(*this)[i] = *first;
 			};
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(const_iterator first, const_iterator last)
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(const_iterator first, const_iterator last)
 				: expanding_container(last - first) {
-			for (size_type i = 0; i < this->size(); ++i, ++first) {
+			for (size_t i = 0; i < this->size(); ++i, ++first) {
 				(*this)[i] = *first;
 			};
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(std::initializer_list<__Tp> lst)
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(std::initializer_list<__Tp> lst)
 				: expanding_container(lst.size()) {
-			std::copy(lst.begin(), lst.end(), this->begin());
+			std::copy(lst.begin(), lst.end(), this->data());
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(const expanding_container<__Tp, __Al>& other)
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(const expanding_container<__Tp>& other)
 				: expanding_container(other.size()) {
-			std::copy(other.begin(), other.end(), this->begin());
+			std::copy(other.data(), other.data() + other.size(), this->data());
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::expanding_container(expanding_container<__Tp, __Al>&& other)
-				:  ftl_core::base_container<__Tp>(other.size()), __mem_dump(other.capacity()), __buffer(other.data()) {
+		template <class __Tp>
+		expanding_container<__Tp>::expanding_container(expanding_container<__Tp>&& other)
+				:  ftl_core::base_container(other.size()), __mem_dump(other.capacity()), __buffer(other.data()) {
 			other.__el_count = 0;
 			other.__mem_dump = 0;
 			other.__buffer = nullptr;
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>::~expanding_container() {
-			__Al::deallocate(this->__buffer, this->capacity());
+		template <class __Tp>
+		expanding_container<__Tp>::~expanding_container() {
+			delete[] this->__buffer;
 			this->__mem_dump = 0;
 			this->__buffer = nullptr;
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>& expanding_container<__Tp, __Al>::operator=(const expanding_container<__Tp, __Al>& rhs) {
+		template <class __Tp>
+		expanding_container<__Tp>& expanding_container<__Tp>::operator=(const expanding_container<__Tp>& rhs) {
 			if (this != &rhs) {
 				this->__el_count = rhs.size();
 				this->__mem_dump = rhs.capacity();
-				this->__buffer = __Al::allocate(this->capacity());
-				std::copy(rhs.begin(), rhs.end(), this->begin());
+				
+				try {
+					this->__buffer = new __Tp[this->capacity()];
+					
+				} catch (std::bad_alloc& ex) {
+					throw bad_memory_allocation_exception();
+				}
+				
+				std::copy(this->data(), this->data() + this->size(), this->begin());
 			}
 			
 			return *this;
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>& expanding_container<__Tp, __Al>::operator=(expanding_container<__Tp, __Al>&& rhs) {
+		template <class __Tp>
+		expanding_container<__Tp>& expanding_container<__Tp>::operator=(expanding_container<__Tp>&& rhs) {
 			if (this != &rhs) {
 				this->__el_count = rhs.size();
 				this->__mem_dump = rhs.capacity();
@@ -101,34 +119,44 @@ namespace ftl {
 			return *this;
 		}
 		
-		template <class __Tp, class __Al>
-		expanding_container<__Tp, __Al>& expanding_container<__Tp, __Al>::operator=(std::initializer_list<__Tp> lst) {
+		template <class __Tp>
+		expanding_container<__Tp>& expanding_container<__Tp>::operator=(std::initializer_list<__Tp> lst) {
 			this->expanding_container(lst);
 			return *this;
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::reference expanding_container<__Tp, __Al>::at(size_type pos) {
+		template <class __Tp>
+		__Tp& expanding_container<__Tp>::at(size_t pos) {
 			if (pos < this->size()) {
 				return (*this)[pos];
 				
 			} else {
-				throw std::out_of_range("Accessed position is out of range!");
+				throw out_of_range_exception();
 			}
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_reference expanding_container<__Tp, __Al>::at(size_type pos) const {
+		template <class __Tp>
+		const __Tp& expanding_container<__Tp>::at(size_t pos) const {
 			if (pos < this->size()) {
 				return (*this)[pos];
 				
 			} else {
-				throw std::out_of_range("Accessed position is out of range!");
+				throw out_of_range_exception();
 			}
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::reference expanding_container<__Tp, __Al>::operator[](size_type pos) {
+		template <class __Tp>
+		__Tp& expanding_container<__Tp>::operator[](size_t pos) {
+			if (pos < this->size()) {
+				return this->__buffer[pos];
+				
+			} else {
+				throw out_of_range_exception();
+			}
+		}
+		
+		template <class __Tp>
+		const __Tp& expanding_container<__Tp>::operator[](size_t pos) const {
 			if (pos < this->size()) {
 				return this->__buffer[pos];
 				
@@ -137,112 +165,117 @@ namespace ftl {
 			}
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_reference expanding_container<__Tp, __Al>::operator[](size_type pos) const {
-			if (pos < this->size()) {
-				return this->__buffer[pos];
-				
-			} else {
-				throw std::out_of_range("Accessed position is out of range!");
-			}
-		}
-		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::reference expanding_container<__Tp, __Al>::front() {
+		template <class __Tp>
+		__Tp& expanding_container<__Tp>::front() {
 			return (*this)[0];
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_reference expanding_container<__Tp, __Al>::front() const {
+		template <class __Tp>
+		const __Tp& expanding_container<__Tp>::front() const {
 			return (*this)[0];
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::reference expanding_container<__Tp, __Al>::back() {
+		template <class __Tp>
+		__Tp& expanding_container<__Tp>::back() {
 			return (*this)[this->size() - 1];
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_reference expanding_container<__Tp, __Al>::back() const {
+		template <class __Tp>
+		const __Tp& expanding_container<__Tp>::back() const {
 			return (*this)[this->size() - 1];
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::pointer expanding_container<__Tp, __Al>::data() {
+		template <class __Tp>
+		__Tp* expanding_container<__Tp>::data() {
 			return this->__buffer;
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_pointer expanding_container<__Tp, __Al>::data() const {
+		template <class __Tp>
+		const __Tp* expanding_container<__Tp>::data() const {
 			return this->__buffer;
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::pointer expanding_container<__Tp, __Al>::begin() {
-			return this->__buffer;
+		template <class __Tp>
+		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::begin() {
+			return iterator(this->data());
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_pointer expanding_container<__Tp, __Al>::begin() const {
-			return this->__buffer;
+		template <class __Tp>
+		typename expanding_container<__Tp>::const_iterator expanding_container<__Tp>::cbegin() const {
+			return const_iterator(this->__buffer);
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_pointer expanding_container<__Tp, __Al>::cbegin() const {
-			return this->__buffer;
+		template <class __Tp>
+		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::end() {
+			return iterator(this->data() + this->size());
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::pointer expanding_container<__Tp, __Al>::end() {
-			return this->__buffer + this->size();
+		template <class __Tp>
+		typename expanding_container<__Tp>::const_iterator expanding_container<__Tp>::cend() const {
+			return const_iterator(this->__buffer + this->size());
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_pointer expanding_container<__Tp, __Al>::end() const {
-			return this->__buffer + this->size();
+		template <class __Tp>
+		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::rbegin() {
+			return iterator(this->data() + this->size() - 1);
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::const_pointer expanding_container<__Tp, __Al>::cend() const {
-			return this->__buffer + this->size();
+		template <class __Tp>
+		typename expanding_container<__Tp>::const_iterator expanding_container<__Tp>::rcbegin() const {
+			return const_iterator(this->__buffer + this->size() - 1);
 		}
 		
-		template <class __Tp, class __Al>
-		typename expanding_container<__Tp, __Al>::size_type expanding_container<__Tp, __Al>::capacity() const {
+		template <class __Tp>
+		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::rend() {
+			return iterator(this->data() - 1);
+		}
+		
+		template <class __Tp>
+		typename expanding_container<__Tp>::const_iterator expanding_container<__Tp>::rcend() const {
+			return const_iterator(this->__buffer - 1);
+		}
+		
+		template <class __Tp>
+		size_t expanding_container<__Tp>::capacity() const {
 			return this->__mem_dump;
 		}
 		
-		template <class __Tp, class __Al>
-		void expanding_container<__Tp, __Al>::clear() {
-			for (size_type i = 0; i < this->size(); ++i) {
+		template <class __Tp>
+		void expanding_container<__Tp>::clear() {
+			for (size_t i = 0; i < this->size(); ++i) {
 				(*this)[i].~__Tp();
 			}
 			
 			this->__el_count = 0;
 		}
 		
-		template <class __Tp, class __Al>
-		inline void expanding_container<__Tp, __Al>::reallocate() {
-			value_type* __temp_buffer = __Al::allocate(this->capacity());
-			std::copy(this->begin(), this->end(), __temp_buffer);
-			__Al::deallocate(this->__buffer, this->capacity());
-			this->__buffer = __temp_buffer;
+		template <class __Tp>
+		inline void expanding_container<__Tp>::reallocate() {
+			try {
+				__Tp* __temp_buffer = new __Tp[this->capacity()];
+				std::copy(this->data(), this->data() + this->size(), __temp_buffer);
+				delete[] this->__buffer;
+				this->__buffer = __temp_buffer;
+				
+			} catch (std::bad_alloc& ex) {
+				throw bad_memory_allocation_exception();
+			}
 		}
 		
-		template <class __Tp, class __Al>
-		void expanding_container<__Tp, __Al>::swap(expanding_container<__Tp, __Al>& other) {
+		template <class __Tp>
+		void expanding_container<__Tp>::swap(expanding_container<__Tp>& other) {
 			std::swap(this->__el_count, other.__el_count);
 			std::swap(this->__mem_dump, other.__mem_dump);
 			std::swap(this->__buffer, other.__buffer);
 		}
 		
 		template <class __Tp>
-		void swap(__Tp& lhs, __Tp& rhs) {
+		void swap(expanding_container<__Tp>& lhs, expanding_container<__Tp>& rhs) {
 			lhs.swap(rhs);
 		}
 		
 		template <class __Tp>
-		bool operator==(const __Tp& lhs, const __Tp& rhs) {
+		bool operator==(const expanding_container<__Tp>& lhs, const expanding_container<__Tp>& rhs) {
 			bool are_equal = lhs.size() == rhs.size();
 			
 			if (are_equal) {
@@ -259,12 +292,12 @@ namespace ftl {
 		}
 		
 		template <class __Tp>
-		bool operator!=(const __Tp& lhs, const __Tp& rhs) {
+		bool operator!=(const expanding_container<__Tp>& lhs, const expanding_container<__Tp>& rhs) {
 			return !(rhs == lhs);
 		}
 		
 		template <class __Tp>
-		bool operator<(const __Tp& lhs, const __Tp& rhs) {
+		bool operator<(const expanding_container<__Tp>& lhs, const expanding_container<__Tp>& rhs) {
 			bool is_less = lhs.size() < rhs.size();
 			
 			if (!is_less && lhs.size() == rhs.size()) {
@@ -281,24 +314,24 @@ namespace ftl {
 		}
 		
 		template <class __Tp>
-		bool operator<=(const __Tp& lhs, const __Tp& rhs) {
+		bool operator<=(const expanding_container<__Tp>& lhs, const expanding_container<__Tp>& rhs) {
 			return lhs < rhs || lhs == rhs;
 		}
 		
 		template <class __Tp>
-		bool operator>(const __Tp& lhs, const __Tp& rhs) {
+		bool operator>(const expanding_container<__Tp>& lhs, const expanding_container<__Tp>& rhs) {
 			return !(lhs < rhs) && !(lhs == rhs);
 		}
 		
 		template <class __Tp>
-		bool operator>=(const __Tp& lhs, const __Tp& rhs) {
+		bool operator>=(const expanding_container<__Tp>& lhs, const expanding_container<__Tp>& rhs) {
 			return lhs > rhs || lhs == rhs;
 		}
 		
-		template <class __Tp, class __Al>
-		std::ostream& operator<<(std::ostream& stream, const expanding_container<__Tp, __Al>& vec) {
-			for (const auto& iter : vec) {
-				stream << iter << " ";
+		template <class __Tp>
+		std::ostream& operator<<(std::ostream& stream, const expanding_container<__Tp>& vec) {
+			for (typename expanding_container<__Tp>::const_iterator iter = vec.cbegin(); iter != vec.cend(); ++iter) {
+				std::cout << *iter << " ";
 			}
 			
 			return stream;

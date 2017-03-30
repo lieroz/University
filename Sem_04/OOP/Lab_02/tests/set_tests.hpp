@@ -5,8 +5,6 @@
 #ifndef LAB_02_SET_TESTS_HPP
 #define LAB_02_SET_TESTS_HPP
 
-#include <iostream>
-
 #include "timer.hpp"
 #include "set.hpp"
 
@@ -34,9 +32,9 @@ namespace tests {
 		elapsed_time = tmr.elapsed();
 		std::cout << "Printing elements time: " << elapsed_time << " (ns)" << std::endl << std::endl;
 		
-		std::cout << "Testing forward iterator and const_iterator and range-based for loop..." << std::endl;
+		std::cout << "Testing forward set_iterator and const_set_iterator and range-based for loop..." << std::endl;
 		std::cout << "=======================================================================" << std::endl;
-		std::cout << "forward iterator: ";
+		std::cout << "forward set_iterator: ";
 		tmr.reset();
 		
 		for (ftl::set<int>::iterator iter = v1.begin(); iter != v1.end(); ++iter) {
@@ -44,16 +42,16 @@ namespace tests {
 		}
 		
 		elapsed_time = tmr.elapsed();
-		std::cout << std::endl << "forward iterator time: " << elapsed_time << " (ns)" << std::endl;
-		std::cout << "forward const_iterator: ";
+		std::cout << std::endl << "forward set_iterator time: " << elapsed_time << " (ns)" << std::endl;
+		std::cout << "forward const_set_iterator: ";
 		tmr.reset();
 		
-		for (ftl::set<int>::const_iterator iter = v1.begin(); iter != v1.end(); ++iter) {
+		for (ftl::set<int>::const_iterator iter = v1.cbegin(); iter != v1.cend(); ++iter) {
 			std::cout << *iter << " ";
 		}
 		
 		elapsed_time = tmr.elapsed();
-		std::cout << std::endl << "forward const_iterator time: " << elapsed_time << " (ns)" << std::endl;
+		std::cout << std::endl << "forward const_set_iterator time: " << elapsed_time << " (ns)" << std::endl;
 		std::cout << "range-based for loop: ";
 		tmr.reset();
 		
@@ -64,26 +62,26 @@ namespace tests {
 		elapsed_time = tmr.elapsed();
 		std::cout << std::endl << "range-based for loop time: " << elapsed_time << " (ns)" << std::endl << std::endl;
 		
-		std::cout << "Testing reversed iterator and const_iterator..." << std::endl;
+		std::cout << "Testing reversed set_iterator and const_set_iterator..." << std::endl;
 		std::cout << "=======================================================================" << std::endl;
-		std::cout << "reversed iterator: ";
+		std::cout << "reversed set_iterator: ";
 		tmr.reset();
 		
-		for (ftl::set<int>::iterator iter = v1.end() - 1; iter != v1.begin() - 1; --iter) {
+		for (ftl::set<int>::iterator iter = v1.rbegin(); iter != v1.rend(); --iter) {
 			std::cout << *iter << " ";
 		}
 		
 		elapsed_time = tmr.elapsed();
-		std::cout << std::endl << "reversed iterator time: " << elapsed_time << " (ns)" << std::endl;
-		std::cout << "reversed const_iterator: ";
+		std::cout << std::endl << "reversed set_iterator time: " << elapsed_time << " (ns)" << std::endl;
+		std::cout << "reversed const_set_iterator: ";
 		tmr.reset();
 		
-		for (ftl::set<int>::const_iterator iter = v1.end() - 1; iter != v1.begin() - 1; --iter) {
+		for (ftl::set<int>::const_iterator iter = v1.rcbegin(); iter != v1.rcend(); --iter) {
 			std::cout << *iter << " ";
 		}
 		
 		elapsed_time = tmr.elapsed();
-		std::cout << std::endl << "reversed const_iterator time: " << elapsed_time << " (ns)" << std::endl << std::endl;
+		std::cout << std::endl << "reversed const_set_iterator time: " << elapsed_time << " (ns)" << std::endl << std::endl;
 		std::cout << "Testing constructors and assignment operators calling time..." << std::endl;
 		std::cout << "=======================================================================" << std::endl;
 		
@@ -105,9 +103,9 @@ namespace tests {
 		std::cout << "v4 set: " << v4 << std::endl << std::endl;
 		
 		tmr.reset();
-		ftl::set<int> v5(ftl::set<int>::const_iterator(v4.begin()), ftl::set<int>::const_iterator(v4.end()));
+		ftl::set<int> v5(ftl::set<int>::const_iterator(v4.cbegin()), ftl::set<int>::const_iterator(v4.cend()));
 		elapsed_time = tmr.elapsed();
-		std::cout << "Overloaded with iterator constructor call time: " << elapsed_time << " (ns)" << std::endl;
+		std::cout << "Overloaded with set_iterator constructor call time: " << elapsed_time << " (ns)" << std::endl;
 		std::cout << "v5 set: " << v5 << std::endl << std::endl;
 		
 		tmr.reset();
@@ -173,7 +171,7 @@ namespace tests {
 		v1.clear();
 		
 		std::cout << "After clearing and shrinking: " << std::endl;
-		std::cout << "v1 size: " << v1.size() << std::endl;
+		std::cout << "v1 size: " << v1.power() << std::endl;
 		std::cout << "v1 capacity: " << v1.capacity() << std::endl;
 		std::cout << "v1 is empty ? " << v1.empty() << std::endl << std::endl;
 		
