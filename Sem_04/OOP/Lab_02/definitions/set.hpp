@@ -46,6 +46,10 @@ namespace ftl {
 			template <class T>
 			friend set<T> operator-(const set<T>&, const set<T>&);
 			
+			set& operator^=(const set&);
+			set& operator+=(const set&);
+			set& operator-=(const set&);
+			
 			// Set operations with wrappers
 			template <class T>
 			friend set<T> Intersection(const set<T>&, const set<T>&);

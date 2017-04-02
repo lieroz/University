@@ -159,6 +159,21 @@ namespace ftl {
 		return result_set;
 	}
 	
+	template <class __Tp>
+	set<__Tp>& set<__Tp>::operator^=(const set<__Tp>& other) {
+		return *this = operator^(*this, other);
+	}
+	
+	template <class __Tp>
+	set<__Tp>& set<__Tp>::operator+=(const set<__Tp>& other) {
+		return *this = operator+(*this, other);
+	}
+	
+	template <class __Tp>
+	set<__Tp>& set<__Tp>::operator-=(const set<__Tp>& other) {
+		return *this = operator-(*this, other);
+	}
+	
 	template <class T>
 	set<T> Intersection(const set<T>& first, const set<T>& second) {
 		return operator^(first, second);

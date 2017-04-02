@@ -8,6 +8,9 @@
 #include <chrono>
 
 class timer {
+		typedef std::chrono::high_resolution_clock __clock;
+		typedef std::chrono::duration<double, std::ratio<1, 1000000000>> _second;
+		
 	public:
 		timer() : __beg(__clock::now()) {
 			
@@ -22,8 +25,6 @@ class timer {
 		}
 	
 	private:
-		typedef std::chrono::high_resolution_clock __clock;
-		typedef std::chrono::duration<double, std::ratio<1, 1000000000>> _second;
 		std::chrono::time_point<__clock> __beg;
 };
 
