@@ -8,8 +8,8 @@ void DimensionSetter::setUpDimension(QGraphicsScene* scene, QVector<Point2D>& fi
         return;
     }
 
-    Point2D min = set.at(0);
-    Point2D max = set.at(0);
+    min = set.at(0);
+    max = set.at(0);
 
     for (auto& point : set) {
         min.x = point.x < min.x ? point.x : min.x;
@@ -18,16 +18,16 @@ void DimensionSetter::setUpDimension(QGraphicsScene* scene, QVector<Point2D>& fi
         max.y = point.y > max.y ? point.y : max.y;
     }
 
-    const double dimension_ratio = qMin(static_cast<double>(scene->width()) / (max.x - min.x),
+    dimension_ratio = qMin(static_cast<double>(scene->width()) / (max.x - min.x),
                                         static_cast<double>(scene->height()) / (max.y - min.y));
 
-    auto normalization = [&scene, &dimension_ratio, &min](QVector<Point2D>& vector) {
-        for (auto& point : vector) {
-            point.x = (point.x - min.x) * dimension_ratio;
-            point.y = scene->height() - (point.y - min.y) * dimension_ratio;
-        }
-    };
+    this->normalize(scene, first_set);
+    this->normalize(scene, second_set);
+}
 
-    normalization(first_set);
-    normalization(second_set);
+void DimensionSetter::normalize(QGraphicsScene* scene, QVector<Point2D>& set) {
+    for (auto& point : set) {
+        point.x = (point.x - min.x) * dimension_ratio;
+        point.y = scene->height() - (point.y - min.y) * dimension_ratio;
+    }
 }

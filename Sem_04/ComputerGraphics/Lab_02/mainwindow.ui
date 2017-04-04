@@ -148,7 +148,7 @@
      <widget class="QPushButton" name="scaleButton">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>20</x>
         <y>160</y>
         <width>89</width>
         <height>25</height>
@@ -156,6 +156,19 @@
       </property>
       <property name="text">
        <string>Применить</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="undoScaleButton">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>160</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Отменить</string>
       </property>
      </widget>
     </widget>
@@ -174,8 +187,8 @@
      <widget class="QPushButton" name="offsetButton">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>90</y>
+        <x>20</x>
+        <y>80</y>
         <width>89</width>
         <height>25</height>
        </rect>
@@ -228,6 +241,19 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="undoOffsetButton">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>80</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Отменить</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
@@ -266,7 +292,7 @@
      <widget class="QPushButton" name="rotateButton">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>20</x>
         <y>140</y>
         <width>89</width>
         <height>25</height>
@@ -320,6 +346,19 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="undoRotateButton">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>140</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Отменить</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QPushButton" name="resetButton">
      <property name="geometry">
@@ -347,16 +386,10 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action"/>
-   <addaction name="actionHelp"/>
   </widget>
   <action name="action">
    <property name="text">
     <string>Информация</string>
-   </property>
-  </action>
-  <action name="actionHelp">
-   <property name="text">
-    <string>Справка</string>
    </property>
   </action>
  </widget>

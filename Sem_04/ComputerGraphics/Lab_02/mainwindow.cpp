@@ -88,78 +88,6 @@ void MainWindow::setUpScaling(double x_coef, double y_coef) {
     }
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event) {
-    this->setFocus();
-
-    switch (event->key()) {
-
-        case Qt::Key_A: {
-            setUpRotation(this->angle);
-            break;
-        }
-
-        case Qt::Key_D: {
-            setUpRotation(-(this->angle));
-            break;
-        }
-
-        case Qt::Key_W: {
-            this->setUpScaling(this->x_scale_coef, this->y_scale_coef);
-            break;
-        }
-
-        case Qt::Key_S: {
-            this->setUpScaling(1.0 / this->x_scale_coef, 1.0 / this->y_scale_coef);
-            break;
-        }
-
-        case Qt::Key_Up: {
-            for (auto& point : this->points) {
-                point.y -= this->y_offset_point;
-            }
-
-            break;
-        }
-
-        case Qt::Key_Down: {
-            for (auto& point : this->points) {
-                point.y += this->y_offset_point;
-            }
-
-            break;
-        }
-
-        case Qt::Key_Left: {
-            for (auto& point : this->points) {
-                point.x -= this->x_offset_point;
-            }
-
-            break;
-        }
-
-        case Qt::Key_Right: {
-            for (auto& point : this->points) {
-                point.x += this->x_offset_point;
-            }
-
-            break;
-        }
-
-        default:
-            return;
-    }
-
-    this->scene->clear();
-
-    for (auto& point : this->points) {
-        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
-                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
-    }
-
-    this->setUpText();
-    this->setUpLines();
-}
-
 void MainWindow::on_action_triggered() {
     QMessageBox::information(this, "Условие задачи",
                              QString{"Нарисовать исходную фигуру , затем ее \n"
@@ -176,13 +104,10 @@ void MainWindow::on_action_triggered() {
 }
 
 void MainWindow::on_scaleButton_clicked() {
-    this->setFocus();
-
     if (std::regex_match(ui->xScaleCoefLineEdit->text().toStdString(), this->is_number) &&
         std::regex_match(ui->yScaleCoefLineEdit->text().toStdString(), this->is_number) &&
         std::regex_match(ui->xScaleLineEdit->text().toStdString(), this->is_number) &&
-        std::regex_match(ui->yScaleLineEdit->text().toStdString(), this->is_number))
-    {
+        std::regex_match(ui->yScaleLineEdit->text().toStdString(), this->is_number)) {
         this->x_scale_coef = ui->xScaleCoefLineEdit->text().toDouble();
         this->y_scale_coef = ui->yScaleCoefLineEdit->text().toDouble();
         this->x_scale_point = ui->xScaleLineEdit->text().toDouble();
@@ -191,15 +116,23 @@ void MainWindow::on_scaleButton_clicked() {
     } else {
         QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
     }
+
+    this->setUpScaling(this->x_scale_coef, this->y_scale_coef);
+    this->scene->clear();
+
+    for (auto& point : this->points) {
+        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
+                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
+    }
+
+    this->setUpText();
+    this->setUpLines();
 }
 
 void MainWindow::on_rotateButton_clicked() {
-    this->setFocus();
-
     if (std::regex_match(ui->xRotLineEdit->text().toStdString(), this->is_number) &&
         std::regex_match(ui->yRotLineEdit->text().toStdString(), this->is_number) &&
-        std::regex_match(ui->angleLineEdit->text().toStdString(), this->is_number))
-    {
+        std::regex_match(ui->angleLineEdit->text().toStdString(), this->is_number)) {
         this->x_rotation_point = ui->xRotLineEdit->text().toDouble();
         this->y_rotation_point = ui->yRotLineEdit->text().toDouble();
         this->angle = ui->angleLineEdit->text().toDouble();
@@ -207,20 +140,43 @@ void MainWindow::on_rotateButton_clicked() {
     } else {
         QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
     }
+
+    this->setUpRotation(this->angle);
+    this->scene->clear();
+
+    for (auto& point : this->points) {
+        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
+                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
+    }
+
+    this->setUpText();
+    this->setUpLines();
 }
 
 void MainWindow::on_offsetButton_clicked() {
-    this->setFocus();
-
     if (std::regex_match(ui->xMoveLineEdit->text().toStdString(), this->is_number) &&
-        std::regex_match(ui->yMoveLineEdit->text().toStdString(), this->is_number))
-    {
+        std::regex_match(ui->yMoveLineEdit->text().toStdString(), this->is_number)) {
         this->x_offset_point = ui->xMoveLineEdit->text().toDouble();
         this->y_offset_point = ui->yMoveLineEdit->text().toDouble();
 
     } else {
         QMessageBox::warning(this, "Ошибка", "Неверный тип данных!");
     }
+
+    for (auto& point : this->points) {
+        point.x += this->x_offset_point;
+        point.y += this->y_offset_point;
+    }
+
+    this->scene->clear();
+
+    for (auto& point : this->points) {
+        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
+                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
+    }
+
+    this->setUpText();
+    this->setUpLines();
 }
 
 void MainWindow::on_resetButton_clicked() {
@@ -239,14 +195,45 @@ void MainWindow::on_resetButton_clicked() {
     this->setUpScene();
 }
 
-void MainWindow::on_actionHelp_triggered() {
-    QMessageBox::information(this, "Справка", QString{"\n\nУправление изображением:\n"
-                                                             "↑\tПеремещение вверх\n"
-                                                             "↓\tПеремещение вниз\n"
-                                                             "→\tПеремещение вправо\n"
-                                                             "←\tПеремещение влево\n"
-                                                             "+\tМасштабирование вперед\n"
-                                                             "-\tМасштабирование назад\n"
-                                                             "A\tПоворот влево\n"
-                                                             "D\tПоворот вправо\n"});
+void MainWindow::on_undoScaleButton_clicked() {
+    this->setUpScaling(1.0 / this->x_scale_coef, 1.0 / this->y_scale_coef);
+    this->scene->clear();
+
+    for (auto& point : this->points) {
+        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
+                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
+    }
+
+    this->setUpText();
+    this->setUpLines();
+}
+
+void MainWindow::on_undoOffsetButton_clicked() {
+    for (auto& point : this->points) {
+        point.x -= this->x_offset_point;
+        point.y -= this->y_offset_point;
+    }
+
+    this->scene->clear();
+
+    for (auto& point : this->points) {
+        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
+                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
+    }
+
+    this->setUpText();
+    this->setUpLines();
+}
+
+void MainWindow::on_undoRotateButton_clicked() {
+    this->setUpRotation(-(this->angle));
+    this->scene->clear();
+
+    for (auto& point : this->points) {
+        this->scene->addEllipse(point.x - this->RADIUS, point.y - this->RADIUS,
+                                this->RADIUS * 2, this->RADIUS * 2, QPen{Qt::black}, QBrush{Qt::black});
+    }
+
+    this->setUpText();
+    this->setUpLines();
 }

@@ -13,6 +13,9 @@
 #include "drawer.hpp"
 #include "solver.hpp"
 
+// TODO solver is good
+// Somewhere else trouble
+
 namespace Ui {
     class MainWindow;
 }
@@ -49,7 +52,7 @@ class MainWindow : public QMainWindow {
 
         Ui::MainWindow* ui;
         QGraphicsScene* scene;
-        std::regex is_number{"^(([0-9]*)|(([0-9]*).([0-9]*)))$"};
+        std::regex is_number{"^[-+]?[0-9]*.?[0-9]*.$"};
 
         void setUpTables();
         void setUpAnswerTables();

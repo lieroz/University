@@ -29,8 +29,6 @@ class MainWindow : public QMainWindow {
         ~MainWindow();
 
     protected:
-        virtual void keyPressEvent(QKeyEvent*) override;
-
         void setUpView();
         void setUpScene();
 
@@ -46,9 +44,14 @@ class MainWindow : public QMainWindow {
         void on_rotateButton_clicked();
         void on_offsetButton_clicked();
         void on_resetButton_clicked();
-        void on_actionHelp_triggered();
 
-    private:
+        void on_undoScaleButton_clicked();
+
+        void on_undoOffsetButton_clicked();
+
+        void on_undoRotateButton_clicked();
+
+private:
         double x_scale_point;
         double y_scale_point;
         double x_scale_coef;
