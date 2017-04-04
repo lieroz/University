@@ -61,18 +61,18 @@ namespace ftl {
 		template <class __Tp>
 		expanding_container<__Tp>::expanding_container(std::initializer_list<__Tp> lst)
 				: expanding_container(lst.size()) {
-			std::copy(lst.begin(), lst.end(), this->data());
+			std::copy(lst.begin(), lst.end(), this->__buffer);
 		}
 		
 		template <class __Tp>
 		expanding_container<__Tp>::expanding_container(const expanding_container<__Tp>& other)
 				: expanding_container(other.size()) {
-			std::copy(other.data(), other.data() + other.size(), this->data());
+			std::copy(other.__buffer, other.__buffer + other.size(), this->__buffer);
 		}
 		
 		template <class __Tp>
 		expanding_container<__Tp>::expanding_container(expanding_container<__Tp>&& other)
-				:  ftl_core::base_container(other.size()), __mem_dump(other.capacity()), __buffer(other.data()) {
+				:  ftl_core::base_container(other.size()), __mem_dump(other.capacity()), __buffer(other.__buffer) {
 			other.__el_count = 0;
 			other.__mem_dump = 0;
 			other.__buffer = nullptr;
@@ -98,7 +98,7 @@ namespace ftl {
 					throw bad_memory_allocation_exception();
 				}
 				
-				std::copy(this->data(), this->data() + this->size(), this->begin());
+				std::copy(this->__buffer, this->__buffer + this->size(), this->begin());
 			}
 			
 			return *this;
@@ -166,38 +166,8 @@ namespace ftl {
 		}
 		
 		template <class __Tp>
-		__Tp& expanding_container<__Tp>::front() {
-			return (*this)[0];
-		}
-		
-		template <class __Tp>
-		const __Tp& expanding_container<__Tp>::front() const {
-			return (*this)[0];
-		}
-		
-		template <class __Tp>
-		__Tp& expanding_container<__Tp>::back() {
-			return (*this)[this->size() - 1];
-		}
-		
-		template <class __Tp>
-		const __Tp& expanding_container<__Tp>::back() const {
-			return (*this)[this->size() - 1];
-		}
-		
-		template <class __Tp>
-		__Tp* expanding_container<__Tp>::data() {
-			return this->__buffer;
-		}
-		
-		template <class __Tp>
-		const __Tp* expanding_container<__Tp>::data() const {
-			return this->__buffer;
-		}
-		
-		template <class __Tp>
 		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::begin() {
-			return iterator(this->data());
+			return iterator(this->__buffer);
 		}
 		
 		template <class __Tp>
@@ -207,7 +177,7 @@ namespace ftl {
 		
 		template <class __Tp>
 		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::end() {
-			return iterator(this->data() + this->size());
+			return iterator(this->__buffer + this->size());
 		}
 		
 		template <class __Tp>
@@ -217,7 +187,7 @@ namespace ftl {
 		
 		template <class __Tp>
 		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::rbegin() {
-			return iterator(this->data() + this->size() - 1);
+			return iterator(this->__buffer + this->size() - 1);
 		}
 		
 		template <class __Tp>
@@ -227,7 +197,7 @@ namespace ftl {
 		
 		template <class __Tp>
 		typename expanding_container<__Tp>::iterator expanding_container<__Tp>::rend() {
-			return iterator(this->data() - 1);
+			return iterator(this->__buffer - 1);
 		}
 		
 		template <class __Tp>
@@ -253,7 +223,7 @@ namespace ftl {
 		inline void expanding_container<__Tp>::reallocate() {
 			try {
 				__Tp* __temp_buffer = new __Tp[this->capacity()];
-				std::copy(this->data(), this->data() + this->size(), __temp_buffer);
+				std::copy(this->__buffer, this->__buffer + this->size(), __temp_buffer);
 				delete[] this->__buffer;
 				this->__buffer = __temp_buffer;
 				

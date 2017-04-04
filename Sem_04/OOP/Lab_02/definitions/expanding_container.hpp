@@ -42,12 +42,6 @@ namespace ftl {
 				const __Tp& at(size_t) const;
 				__Tp& operator[](size_t);
 				const __Tp& operator[](size_t) const;
-				__Tp& front();
-				const __Tp& front() const;
-				__Tp& back();
-				const __Tp& back() const;
-				__Tp* data();
-				const __Tp* data() const;
 				
 				// Iterators
 				iterator begin();

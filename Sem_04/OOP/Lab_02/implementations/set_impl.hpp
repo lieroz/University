@@ -15,23 +15,19 @@ namespace ftl {
 	}
 	
 	template <class __Tp>
-	set<__Tp>::set(size_t count)
-			: ftl_core::expanding_container<__Tp>(count) {
-	}
-	
-	template <class __Tp>
-	set<__Tp>::set(size_t count, const __Tp& value)
-			: ftl_core::expanding_container<__Tp>(count, value) {
-	}
-	
-	template <class __Tp>
 	set<__Tp>::set(iterator first, iterator last)
-			: ftl_core::expanding_container<__Tp>(first, last) {
+			: ftl_core::expanding_container<__Tp>(static_cast<size_t>(first - last)) {
+		for (size_t i = 0; i < this->size(); ++i, ++first) {
+			this->add(*first);
+		}
 	}
 	
 	template <class __Tp>
 	set<__Tp>::set(const_iterator first, const_iterator last)
-			: ftl_core::expanding_container<__Tp>(first, last) {
+			: ftl_core::expanding_container<__Tp>(static_cast<size_t>(first - last)) {
+		for (size_t i = 0; i < this->size(); ++i, ++first) {
+			this->add(*first);
+		}
 	}
 	
 	template <class __Tp>
@@ -62,7 +58,9 @@ namespace ftl {
 	}
 	
 	template <class __Tp>
-	void set<__Tp>::add(const __Tp& value) {
+	bool set<__Tp>::add(const __Tp& value) {
+		bool added = false;
+		
 		if (!this->contains(value)) {
 			
 			if (this->size() == this->capacity()) {
@@ -71,21 +69,36 @@ namespace ftl {
 			}
 			
 			(*this)[this->__el_count++] = value;
+			added = true;
 		}
+		
+		return added;
 	}
 	
 	template <class __Tp>
-	void set<__Tp>::remove(const __Tp& value) {
+	bool set<__Tp>::operator+(const __Tp& value) {
+		return this->add(value);
+	}
+	
+	template <class __Tp>
+	bool set<__Tp>::remove(const __Tp& value) {
 		int pos = find_item_index(value);
-		
-		if (pos < 0) {
-			throw item_not_found_exception();
+		bool removed = false;
+
+		if (pos > 0) {
+			__Tp* mem_flag = this->__buffer + pos;
+			(*this)[pos].~__Tp();
+			std::memmove(mem_flag, mem_flag + 1, (this->size() - (mem_flag - this->__buffer) - 1) * sizeof(__Tp));
+			--this->__el_count;
+			removed = true;
 		}
 		
-		__Tp* mem_flag = this->__buffer + pos;
-		(*this)[pos].~__Tp();
-		std::memmove(mem_flag, mem_flag + 1, (this->size() - (mem_flag - this->__buffer) - 1) * sizeof(__Tp));
-		--this->__el_count;
+		return removed;
+	}
+	
+	template <class __Tp>
+	bool set<__Tp>::operator-(const __Tp& value) {
+		return this->remove(value);
 	}
 	
 	template <class __Tp>
@@ -96,19 +109,6 @@ namespace ftl {
 	template <class __Tp>
 	bool set<__Tp>::contains(const __Tp& value) const {
 		return this->find_item_index(value) >= 0;
-	}
-	
-	template <class __Tp>
-	int set<__Tp>::count(const __Tp& value) {
-		return static_cast<int>([this, &value]() -> int {
-			int amount = 0;
-			
-			for (const_iterator iter = this->cbegin(); iter != this->cend(); ++iter) {
-				amount += *iter == value;
-			}
-			
-			return amount;
-		});
 	}
 	
 	template <class __Tp>
@@ -187,6 +187,76 @@ namespace ftl {
 	template <class T>
 	set<T> Subtraction(const set<T>& first, const set<T>& second) {
 		return operator-(first, second);
+	}
+	
+	template <class __Tp>
+	bool operator==(const set<__Tp>& lhs, const set<__Tp>& rhs) {
+		bool are_equal = lhs.size() == rhs.size();
+		
+		if (are_equal) {
+			size_t equal_elements = 0;
+			
+			for (typename set<__Tp>::const_iterator iter1 = lhs.cbegin(); iter1 != lhs.cend(); ++iter1) {
+				bool is_equal = false;
+				
+				for (typename set<__Tp>::const_iterator iter2 = rhs.cbegin(); iter2 != rhs.cend() && !is_equal; ++iter2) {
+					
+					if (*iter1 == *iter2) {
+						++equal_elements;
+						is_equal = true;
+					}
+				}
+			}
+
+			are_equal = equal_elements == lhs.size();
+		}
+		
+		return are_equal;
+	}
+	
+	template <class __Tp>
+	bool operator!=(const set<__Tp>& lhs, const set<__Tp>& rhs) {
+		return !(lhs == rhs);
+	}
+	
+	template <class __Tp>
+	bool operator<(const set<__Tp>& lhs, const set<__Tp>& rhs) {
+		bool includes = lhs.size() > rhs.size();
+		
+		if (includes) {
+			size_t present_elements = 0;
+			
+			for (typename set<__Tp>::const_iterator iter1 = lhs.cbegin(); iter1 != lhs.cend(); ++iter1) {
+				bool is_equal = false;
+				
+				for (typename set<__Tp>::const_iterator iter2 = rhs.cbegin(); iter2 != rhs.cend() && !is_equal; ++iter2) {
+					
+					if (*iter1 == *iter2) {
+						++present_elements;
+						is_equal = true;
+					}
+				}
+			}
+			
+			includes = rhs.size() == present_elements;
+		}
+		
+		return includes;
+	}
+	
+	template <class __Tp>
+	bool operator<=(const set<__Tp>& lhs, const set<__Tp>& rhs) {
+		return lhs < rhs || lhs == rhs;
+	}
+	
+	template <class __Tp>
+	bool operator>(const set<__Tp>& lhs, const set<__Tp>& rhs) {
+		return !(lhs < rhs) && !(lhs == rhs);
+	}
+	
+	template <class __Tp>
+	bool operator>=(const set<__Tp>& lhs, const set<__Tp>& rhs) {
+		return lhs > rhs || lhs == rhs;
 	}
 	
 	template <class __Tp>

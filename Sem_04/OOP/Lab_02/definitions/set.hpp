@@ -19,8 +19,6 @@ namespace ftl {
 			
 			// Functions-members
 			explicit set();
-			explicit set(size_t);
-			explicit set(size_t, const __Tp&);
 			set(iterator, iterator);
 			set(const_iterator, const_iterator);
 			set(std::initializer_list<__Tp>);
@@ -31,11 +29,12 @@ namespace ftl {
 			set& operator=(set&&);
 			
 			// Public members
-			void add(const __Tp&);
-			void remove(const __Tp&);
+			bool add(const __Tp&);
+			bool operator+(const __Tp&);
+			bool remove(const __Tp&);
+			bool operator-(const __Tp&);
 			bool contains(const __Tp&);
 			bool contains(const __Tp&) const;
-			int count(const __Tp&);
 			size_t power() const;
 			
 			// Set operations with operators
@@ -57,6 +56,20 @@ namespace ftl {
 			friend set<T> Union(const set<T>&, const set<T>&);
 			template <class T>
 			friend set<T> Subtraction(const set<T>&, const set<T>&);
+			
+			// Relational operators
+			template <class T>
+			friend inline bool operator==(const set<T>&, const set<T>&);
+			template <class T>
+			friend inline bool operator!=(const set<T>&, const set<T>&);
+			template <class T>
+			friend inline bool operator<(const set<T>&, const set<T>&);
+			template <class T>
+			friend inline bool operator<=(const set<T>&, const set<T>&);
+			template <class T>
+			friend inline bool operator>(const set<T>&, const set<T>&);
+			template <class T>
+			friend inline bool operator>=(const set<T>&, const set<T>&);
 		
 		private:
 			int find_item_index(const __Tp&) const;

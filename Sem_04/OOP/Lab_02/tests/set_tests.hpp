@@ -91,13 +91,13 @@ namespace tests {
 		std::cout << "Default constructor call time: " << elapsed_time << " (ns)" << std::endl << std::endl;
 		
 		tmr.reset();
-		ftl::set<int> v3(10);
+		ftl::set<int> v3(v2);
 		elapsed_time = tmr.elapsed();
 		std::cout << "Overloaded constructor call time: " << elapsed_time << " (ns)" << std::endl;
 		std::cout << "v3 set: " << v3 << std::endl << std::endl;
 		
 		tmr.reset();
-		ftl::set<int> v4(10, 666);
+		ftl::set<int> v4(v3);
 		elapsed_time = tmr.elapsed();
 		std::cout << "Overloaded constructor with param call time: " << elapsed_time << " (ns)" << std::endl;
 		std::cout << "v4 set: " << v4 << std::endl << std::endl;
@@ -149,24 +149,15 @@ namespace tests {
 		
 		std::cout << "Testing compare operators..." << std::endl;
 		std::cout << "=======================================================================" << std::endl;
+		ftl::set<int> v12 = {1, 2, 3, 4, 5, 6, 7};
+		ftl::set<int> v22 = {3, 4, 5, 6, 7, 1};
 		
-		std::cout << "v10 == v11 ? " << (v10 == v11) << std::endl;
-		std::cout << "v10 != v11 ? " << (v10 != v11) << std::endl;
-		std::cout << "v10 <= v11 ? " << (v10 <= v11) << std::endl;
-		std::cout << "v10 >= v11 ? " << (v10 >= v11) << std::endl;
-		std::cout << "v10 < v11 ? " << (v10 < v11) << std::endl;
-		std::cout << "v10 > v11 ? " << (v10 > v11) << std::endl << std::endl;
-		
-		std::cout << "Testing access operators and functions..." << std::endl;
-		std::cout << "=======================================================================" << std::endl;
-		ftl::set<int> v12 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-		
-		std::cout << "v12[0]: " << v12[0] << "   " << "v13.front(): " << v12.front() << std::endl;
-		std::cout << "v12[4]: " << v12[4] << std::endl;
-		std::cout << "v12[9]: " << v12[9] << "   " << "v13.back(): " << v12.back() << std::endl;
-		std::cout << "v12.at(0): " << v12.at(0) << "   " << "v13.front(): " << v12.front() << std::endl;
-		std::cout << "v12.at(4): " << v12.at(4) << std::endl;
-		std::cout << "v12.at(9): " << v12.at(9) << "   " << "v13.back(): " << v12.back() << std::endl << std::endl;
+		std::cout << "v12 == v22 ? " << (v12 == v22) << std::endl;
+		std::cout << "v12 != v22 ? " << (v12 != v22) << std::endl;
+		std::cout << "v12 <= v22? " << (v12 <= v22) << std::endl;
+		std::cout << "v12 >= v22 ? " << (v12 >= v22) << std::endl;
+		std::cout << "v12 < v22 ? " << (v12 < v22) << std::endl;
+		std::cout << "v12 > v22 ? " << (v12 > v22) << std::endl << std::endl;
 		
 		v1.clear();
 		

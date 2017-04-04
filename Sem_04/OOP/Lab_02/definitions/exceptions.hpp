@@ -57,21 +57,4 @@ class out_of_range_exception : public base_exception {
 		}
 };
 
-class item_not_found_exception : public base_exception {
-	public:
-		explicit item_not_found_exception() = default;
-		
-		explicit item_not_found_exception(const char* message)
-				: base_exception(message) {
-		}
-		
-		explicit item_not_found_exception(std::string& message)
-				: base_exception(message) {
-		}
-		
-		virtual const char* what() const noexcept {
-			return message.empty() ? "Item not found!" : message.c_str();
-		}
-};
-
 #endif //LAB_02_EXCEPTIONS_HPP
