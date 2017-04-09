@@ -35,6 +35,10 @@ class MainWindow : public QMainWindow {
         void on_timeButton_clicked();
         void on_cleanButton_clicked();
 
+        void mousePosition();
+        void mousePressed();
+        void mouseLeft();
+
     private:
         void setUpSpinBorders();
         void drawLine(Algorithms::algorithm, QLineF, QColor);

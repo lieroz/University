@@ -20,7 +20,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QGraphicsView" name="graphicsView">
+      <widget class="MyCanvas" name="graphicsView">
        <property name="mouseTracking">
         <bool>true</bool>
        </property>
@@ -60,7 +60,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tabLine">
          <attribute name="title">
@@ -283,7 +283,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>291</width>
+          <width>317</width>
           <height>50</height>
          </rect>
         </property>
@@ -360,7 +360,15 @@
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyCanvas</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">mycanvas.hpp</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>graphicsView</tabstop>
   <tabstop>algorithmsComboBox</tabstop>

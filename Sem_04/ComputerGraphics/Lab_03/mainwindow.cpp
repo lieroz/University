@@ -1,4 +1,5 @@
 #include "mainwindow.hpp"
+#include "mycanvas.hpp"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -12,6 +13,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->pixmap->fill(Qt::white);
     this->setUpSpinBorders();
     this->setMinimumSize(QSize(1110, 680));
+    connect(ui->graphicsView, SIGNAL(mousePosition()), this, SLOT(mousePosition()));
+    connect(ui->graphicsView, SIGNAL(mousePressed()), this, SLOT(mousePressed()));
+    connect(ui->graphicsView, SIGNAL(mouseLeft()), this, SLOT(mouseLeft()));
 }
 
 MainWindow::~MainWindow() {
@@ -21,7 +25,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event) {
-    ui->graphicsView->resize(event->size().width() - this->FRAME_SIZE - 22, event->size().height() - 18);
+    ui->graphicsView->resize(event->size().width() - this->FRAME_SIZE - 22, event->size().height() - 40);
     delete this->scene;
     this->scene = new QGraphicsScene(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
     delete this->pixmap;
@@ -175,4 +179,16 @@ void MainWindow::on_cleanButton_clicked() {
     this->scene_stars.clear();
     this->scene->clear();
     this->pixmap->fill(Qt::white);
+}
+
+void MainWindow::mousePosition() {
+    ui->statusBar->showMessage(QString("X = %1, Y = %2").arg(ui->graphicsView->x).arg(ui->graphicsView->y));
+}
+
+void MainWindow::mousePressed() {
+
+}
+
+void MainWindow::mouseLeft() {
+
 }

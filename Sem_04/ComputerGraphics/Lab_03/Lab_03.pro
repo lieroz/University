@@ -25,13 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
     mainwindow.cpp \
-    algoritms.cpp
+    algoritms.cpp \
+    mycanvas.cpp
 
 HEADERS  += \
     mainwindow.hpp \
     algoritms.hpp \
     objectwrapper.hpp \
-    timer.hpp
+    timer.hpp \
+    mycanvas.hpp
 
 FORMS    += \
     mainwindow.ui
