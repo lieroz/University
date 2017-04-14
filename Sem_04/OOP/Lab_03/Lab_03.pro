@@ -26,6 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         gui/mainwindow.cpp
 
-HEADERS  += gui/mainwindow.hpp
+HEADERS  += gui/mainwindow.hpp \
+    container/vector/vector_base.hpp \
+    container/vector/vector.hpp \
+    container/iterator/iterator_base.hpp \
+    container/matrix/matrix_base.hpp \
+    container/matrix/matrix.hpp \
+    container/exceptions.hpp \
+    container/iterator/const_iterator.hpp \
+    container/iterator/iterator.hpp
 
 FORMS    += gui/mainwindow.ui
