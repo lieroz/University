@@ -219,7 +219,7 @@ matrix<T> operator*(const matrix<T>& lhs, const matrix<T>& rhs) {
         return result;
 
     } else {
-        throw out_of_range_exception("Matrixes can't be multiplied!");
+        throw out_of_range_exception("matrix::(error multiplicating matrixes)!");
     }
 }
 
@@ -251,7 +251,7 @@ matrix<T>& matrix<T>::operator*=(const matrix<T>& rhs) {
         return *this;
 
     } else {
-        throw out_of_range_exception("Matrixes can't be multiplied!");
+        throw out_of_range_exception("matrix::(error multiplicating matrixes)!");
     }
 }
 

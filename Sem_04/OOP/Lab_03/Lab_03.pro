@@ -32,8 +32,10 @@ HEADERS  += gui/mainwindow.hpp \
     container/iterator/iterator_base.hpp \
     container/matrix/matrix_base.hpp \
     container/matrix/matrix.hpp \
-    container/exceptions.hpp \
     container/iterator/const_iterator.hpp \
-    container/iterator/iterator.hpp
+    container/iterator/iterator.hpp \
+    upload/uploader.hpp \
+    upload/upload_exceptions.hpp \
+    container/container_exceptions.hpp
 
 FORMS    += gui/mainwindow.ui

@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <iostream>
 
-#include "../exceptions.hpp"
+#include "../container_exceptions.hpp"
 #include "../iterator/iterator.hpp"
 #include "../iterator/const_iterator.hpp"
 
@@ -83,7 +83,7 @@ vector_base<T>::vector_base() : element_count(0), memory_dump(BASE_SIZE) {
         this->buffer = new T[this->memory_dump];
 
     } catch (std::bad_alloc& ex) {
-        throw bad_memory_allocation_exception();
+        throw bad_memory_allocation_exception("vector_base::(bad memory allocation)!");
     }
 }
 
@@ -93,7 +93,7 @@ vector_base<T>::vector_base(size_t count) : element_count(count), memory_dump(co
         this->buffer = new T[this->memory_dump];
 
     } catch (std::bad_alloc& ex) {
-        throw bad_memory_allocation_exception();
+        throw bad_memory_allocation_exception("vector_base::(bad memory allocation)!");
     }
 }
 
@@ -154,7 +154,7 @@ vector_base<T>& vector_base<T>::operator=(const vector_base<T>& rhs) {
             this->buffer = new T[this->memory_dump];
 
         } catch (std::bad_alloc& ex) {
-            throw bad_memory_allocation_exception();
+            throw bad_memory_allocation_exception("vector_base::(bad memory allocation)!");
         }
 
         std::copy(rhs.buffer, rhs.buffer + rhs.element_count, this->buffer);
@@ -185,8 +185,14 @@ vector_base<T>& vector_base<T>::operator=(std::initializer_list<T> lst) {
     this->element_count = lst.size();
     this->memory_dump = lst.size();
 
-    delete[] this->buffer;
-    this->buffer = new T[this->memory_dump];
+    try {
+        delete[] this->buffer;
+        this->buffer = new T[this->memory_dump];
+
+    } catch (std::bad_alloc& ex) {
+        throw bad_memory_allocation_exception("vector_base::(bad memory allocation)!");
+    }
+
     std::copy(lst.begin(), lst.end(), this->buffer);
 
     return *this;
@@ -198,7 +204,7 @@ T& vector_base<T>::at(size_t pos) {
         return (*this)[pos];
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("vector_base::(out of range index)!");
     }
 }
 
@@ -208,7 +214,7 @@ const T& vector_base<T>::at(size_t pos) const {
         return (*this)[pos];
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("vector_base::(out of range index)!");
     }
 }
 
@@ -218,7 +224,7 @@ T& vector_base<T>::operator[](size_t pos) {
         return this->buffer[pos];
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("vector_base::(out of range index)!");
     }
 }
 
@@ -228,7 +234,7 @@ const T& vector_base<T>::operator[](size_t pos) const {
         return this->buffer[pos];
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("vector_base::(out of range index)!");
     }
 }
 
@@ -305,7 +311,7 @@ inline void vector_base<T>::reallocate() {
         this->buffer = temp_buffer;
 
     } catch (std::bad_alloc& ex) {
-        throw bad_memory_allocation_exception();
+        throw bad_memory_allocation_exception("vector_base::(bad memory allocation)!");
     }
 }
 

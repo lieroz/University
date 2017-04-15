@@ -1,5 +1,5 @@
-#ifndef EXCEPTIONS_HPP
-#define EXCEPTIONS_HPP
+#ifndef CONTAINER_EXCEPTIONS_HPP
+#define CONTAINER_EXCEPTIONS_HPP
 
 #include <exception>
 #include <string>
@@ -54,4 +54,4 @@ class out_of_range_exception : public base_exception {
         }
 };
 
-#endif // EXCEPTIONS_HPP
+#endif // CONTAINER_EXCEPTIONS_HPP

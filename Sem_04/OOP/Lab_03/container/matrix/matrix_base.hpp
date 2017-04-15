@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <iostream>
 
-#include "../exceptions.hpp"
+#include "../container_exceptions.hpp"
 #include "../iterator/iterator.hpp"
 #include "../iterator/const_iterator.hpp"
 
@@ -100,7 +100,7 @@ T& matrix_base<T>::proxy::at(size_t index) {
         return *(this->data + index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::proxy::(out of range index)!");
     }
 }
 
@@ -110,7 +110,7 @@ const T& matrix_base<T>::proxy::at(size_t index) const {
         return *(this->data + index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::proxy::(out of range index)!");
     }
 }
 
@@ -120,7 +120,7 @@ T& matrix_base<T>::proxy::operator[](size_t index) {
         return *(this->data + index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::proxy::(out of range index)!");
     }
 }
 
@@ -130,7 +130,7 @@ const T& matrix_base<T>::proxy::operator[](size_t index) const {
         return *(this->data + index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::proxy::(out of range index)!");
     }
 }
 
@@ -141,7 +141,7 @@ matrix_base<T>::matrix_base(size_t row_count, size_t col_count)
         this->buffer = new T[this->memory_dump];
 
     } catch (std::bad_alloc& ex) {
-        throw bad_memory_allocation_exception();
+        throw bad_memory_allocation_exception("matrix_base::(bad memory allocation)!");
     }
 }
 
@@ -234,7 +234,7 @@ matrix_base<T>& matrix_base<T>::operator=(const matrix_base<T>& other) {
             this->buffer = new T[this->memory_dump];
 
         } catch (std::bad_alloc& ex) {
-            throw bad_memory_allocation_exception();
+            throw bad_memory_allocation_exception("matrix_base::(bad memory allocation)!");
         }
 
         std::copy(other.buffer, other.buffer + other.memory_dump, this->buffer);
@@ -283,7 +283,7 @@ typename matrix_base<T>::proxy matrix_base<T>::at(size_t index) {
         return proxy(this->col_count, this->buffer + this->col_count * index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::(out of range index)!");
     }
 }
 
@@ -293,7 +293,7 @@ const typename matrix_base<T>::proxy matrix_base<T>::at(size_t index) const {
         return proxy(this->col_count, this->buffer + this->col_count * index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::(out of range index)!");
     }
 }
 
@@ -303,7 +303,7 @@ typename matrix_base<T>::proxy matrix_base<T>::operator[](size_t index) {
         return proxy(this->col_count, this->buffer + this->col_count * index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::(out of range index)!");
     }
 }
 
@@ -313,7 +313,7 @@ const typename matrix_base<T>::proxy matrix_base<T>::operator[](size_t index) co
         return proxy(this->col_count, this->buffer + this->col_count * index);
 
     } else {
-        throw out_of_range_exception();
+        throw out_of_range_exception("matrix_base::(out of range index)!");
     }
 }
 
