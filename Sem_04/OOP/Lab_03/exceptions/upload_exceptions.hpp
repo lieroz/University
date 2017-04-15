@@ -1,10 +1,9 @@
 #ifndef UPLOAD_EXCEPTIONS_HPP
 #define UPLOAD_EXCEPTIONS_HPP
 
-#include <exception>
-#include <string>
+#include "base_exception.hpp"
 
-class base_stream_exception : public std::exception {
+class base_stream_exception : base_exception {
     public:
         virtual const char* what() const noexcept {
             return "uploader::(base stream exception)!";

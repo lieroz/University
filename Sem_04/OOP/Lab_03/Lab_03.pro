@@ -35,7 +35,8 @@ HEADERS  += gui/mainwindow.hpp \
     container/iterator/const_iterator.hpp \
     container/iterator/iterator.hpp \
     upload/uploader.hpp \
-    upload/upload_exceptions.hpp \
-    container/container_exceptions.hpp
+    exceptions/base_exception.hpp \
+    exceptions/container_exceptions.hpp \
+    exceptions/upload_exceptions.hpp
 
 FORMS    += gui/mainwindow.ui
