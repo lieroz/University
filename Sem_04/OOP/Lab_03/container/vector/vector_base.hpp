@@ -2,7 +2,6 @@
 #define VECTOR_BASE_HPP
 
 #include <cstddef>
-#include <initializer_list>
 #include <iostream>
 
 #include "../exceptions.hpp"
@@ -52,23 +51,23 @@ class vector_base {
         void swap(vector_base&);
 
         template <class U>
-        friend inline void swap(vector_base<T>&, vector_base<T>&);
+        friend inline void swap(vector_base<U>&, vector_base<U>&);
 
         template <class U>
-        friend inline bool operator==(const vector_base<T>&, const vector_base<T>&);
+        friend inline bool operator==(const vector_base<U>&, const vector_base<U>&);
         template <class U>
-        friend inline bool operator!=(const vector_base<T>&, const vector_base<T>&);
+        friend inline bool operator!=(const vector_base<U>&, const vector_base<U>&);
         template <class U>
-        friend inline bool operator<(const vector_base<T>&, const vector_base<T>&);
+        friend inline bool operator<(const vector_base<U>&, const vector_base<U>&);
         template <class U>
-        friend inline bool operator<=(const vector_base<T>&, const vector_base<T>&);
+        friend inline bool operator<=(const vector_base<U>&, const vector_base<U>&);
         template <class U>
-        friend inline bool operator>(const vector_base<T>&, const vector_base<T>&);
+        friend inline bool operator>(const vector_base<U>&, const vector_base<U>&);
         template <class U>
-        friend inline bool operator>=(const vector_base<T>&, const vector_base<T>&);
+        friend inline bool operator>=(const vector_base<U>&, const vector_base<U>&);
 
         template <class U>
-        friend inline std::ostream& operator<<(std::ostream&, const vector_base<T>&);
+        friend inline std::ostream& operator<<(std::ostream&, const vector_base<U>&);
 
     protected:
         size_t element_count;
@@ -81,7 +80,7 @@ class vector_base {
 template <class T>
 vector_base<T>::vector_base() : element_count(0), memory_dump(BASE_SIZE) {
     try {
-        this->buffer = new T[this->capacity()];
+        this->buffer = new T[this->memory_dump];
 
     } catch (std::bad_alloc& ex) {
         throw bad_memory_allocation_exception();
@@ -91,7 +90,7 @@ vector_base<T>::vector_base() : element_count(0), memory_dump(BASE_SIZE) {
 template <class T>
 vector_base<T>::vector_base(size_t count) : element_count(count), memory_dump(count) {
     try {
-        this->buffer = new T[this->capacity()];
+        this->buffer = new T[this->memory_dump];
 
     } catch (std::bad_alloc& ex) {
         throw bad_memory_allocation_exception();
@@ -100,21 +99,21 @@ vector_base<T>::vector_base(size_t count) : element_count(count), memory_dump(co
 
 template <class T>
 vector_base<T>::vector_base(size_t count, const T& value) : vector_base(count) {
-    for (size_t i = 0; i < this->size(); ++i) {
+    for (size_t i = 0; i < this->element_count; ++i) {
         (*this)[i] = value;
     }
 }
 
 template <class T>
 vector_base<T>::vector_base(iterator first, iterator last) : vector_base(last - first) {
-    for (size_t i = 0; i < this->size(); ++i, ++first) {
+    for (size_t i = 0; i < this->element_count; ++i, ++first) {
         (*this)[i] = *first;
     };
 }
 
 template <class T>
 vector_base<T>::vector_base(const_iterator first, const_iterator last) : vector_base(last - first) {
-    for (size_t i = 0; i < this->size(); ++i, ++first) {
+    for (size_t i = 0; i < this->element_count; ++i, ++first) {
         (*this)[i] = *first;
     };
 }
@@ -126,7 +125,7 @@ vector_base<T>::vector_base(std::initializer_list<T> lst) : vector_base(lst.size
 
 template <class T>
 vector_base<T>::vector_base(const vector_base<T>& other) : vector_base(other.size()) {
-    std::copy(other.buffer, other.buffer + other.size(), this->buffer);
+    std::copy(other.buffer, other.buffer + other.element_count, this->buffer);
 }
 
 template <class T>
@@ -147,17 +146,18 @@ vector_base<T>::~vector_base() {
 template <class T>
 vector_base<T>& vector_base<T>::operator=(const vector_base<T>& rhs) {
     if (this != &rhs) {
-        this->element_count = rhs.size();
-        this->memory_dump = rhs.capacity();
+        this->element_count = rhs.element_count;
+        this->memory_dump = rhs.memory_dump;
 
         try {
-            this->buffer = new T[this->capacity()];
+            delete[] this->buffer;
+            this->buffer = new T[this->memory_dump];
 
         } catch (std::bad_alloc& ex) {
             throw bad_memory_allocation_exception();
         }
 
-        std::copy(this->buffer, this->buffer + this->size(), this->begin());
+        std::copy(rhs.buffer, rhs.buffer + rhs.element_count, this->buffer);
     }
 
     return *this;
@@ -166,8 +166,10 @@ vector_base<T>& vector_base<T>::operator=(const vector_base<T>& rhs) {
 template <class T>
 vector_base<T>& vector_base<T>::operator=(vector_base<T>&& rhs) {
     if (this != &rhs) {
-        this->element_count = rhs.size();
-        this->memory_dump = rhs.capacity();
+        this->element_count = rhs.element_count;
+        this->memory_dump = rhs.memory_dump;
+
+        delete[] this->buffer;
         this->buffer = (std::move(rhs.buffer));
 
         rhs.element_count = 0;
@@ -180,13 +182,19 @@ vector_base<T>& vector_base<T>::operator=(vector_base<T>&& rhs) {
 
 template <class T>
 vector_base<T>& vector_base<T>::operator=(std::initializer_list<T> lst) {
-    this->vector_base(lst);
+    this->element_count = lst.size();
+    this->memory_dump = lst.size();
+
+    delete[] this->buffer;
+    this->buffer = new T[this->memory_dump];
+    std::copy(lst.begin(), lst.end(), this->buffer);
+
     return *this;
 }
 
 template <class T>
 T& vector_base<T>::at(size_t pos) {
-    if (pos < this->size()) {
+    if (pos < this->element_count) {
         return (*this)[pos];
 
     } else {
@@ -196,7 +204,7 @@ T& vector_base<T>::at(size_t pos) {
 
 template <class T>
 const T& vector_base<T>::at(size_t pos) const {
-    if (pos < this->size()) {
+    if (pos < this->element_count) {
         return (*this)[pos];
 
     } else {
@@ -206,7 +214,7 @@ const T& vector_base<T>::at(size_t pos) const {
 
 template <class T>
 T& vector_base<T>::operator[](size_t pos) {
-    if (pos < this->size()) {
+    if (pos < this->element_count) {
         return this->buffer[pos];
 
     } else {
@@ -216,7 +224,7 @@ T& vector_base<T>::operator[](size_t pos) {
 
 template <class T>
 const T& vector_base<T>::operator[](size_t pos) const {
-    if (pos < this->size()) {
+    if (pos < this->element_count) {
         return this->buffer[pos];
 
     } else {
@@ -236,22 +244,22 @@ typename vector_base<T>::const_iterator vector_base<T>::cbegin() const {
 
 template <class T>
 typename vector_base<T>::iterator vector_base<T>::end() {
-    return iterator(this->buffer + this->size());
+    return iterator(this->buffer + this->element_count);
 }
 
 template <class T>
 typename vector_base<T>::const_iterator vector_base<T>::cend() const {
-    return const_iterator(this->buffer + this->size());
+    return const_iterator(this->buffer + this->element_count);
 }
 
 template <class T>
 typename vector_base<T>::iterator vector_base<T>::rbegin() {
-    return iterator(this->buffer + this->size() - 1);
+    return iterator(this->buffer + this->element_count - 1);
 }
 
 template <class T>
 typename vector_base<T>::const_iterator vector_base<T>::rcbegin() const {
-    return const_iterator(this->buffer + this->size() - 1);
+    return const_iterator(this->buffer + this->element_count - 1);
 }
 
 template <class T>
@@ -291,8 +299,8 @@ void vector_base<T>::clear() {
 template <class T>
 inline void vector_base<T>::reallocate() {
     try {
-        T* temp_buffer = new T[this->capacity()];
-        std::copy(this->buffer, this->buffer + this->size(), temp_buffer);
+        T* temp_buffer = new T[this->memory_dump];
+        std::copy(this->buffer, this->buffer + this->element_count, temp_buffer);
         delete[] this->buffer;
         this->buffer = temp_buffer;
 
@@ -370,7 +378,7 @@ bool operator>=(const vector_base<T>& lhs, const vector_base<T>& rhs) {
 template <class T>
 std::ostream& operator<<(std::ostream& stream, const vector_base<T>& vec) {
     for (typename vector_base<T>::const_iterator iter = vec.cbegin(); iter != vec.cend(); ++iter) {
-        std::cout << *iter << " ";
+        stream << *iter << " ";
     }
 
     return stream;

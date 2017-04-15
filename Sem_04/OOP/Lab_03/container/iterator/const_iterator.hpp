@@ -1,7 +1,8 @@
-#ifndef _const_iterator_HPP
-#define _const_iterator_HPP
+#ifndef CONST_ITERATOR_HPP
+#define CONST_ITERATOR_HPP
 
 template <class T> class vector_base;
+template <class T> class matrix_base;
 
 #include "iterator_base.hpp"
 #include "../vector/vector_base.hpp"
@@ -15,6 +16,7 @@ class _const_iterator : public iterator_base<T> {
         const T* operator->();
 
         friend class vector_base<T>;
+        friend class matrix_base<T>;
 
     private:
         _const_iterator(T*);
@@ -40,4 +42,4 @@ const T* _const_iterator<T>::operator->() {
     return this->pointer;
 }
 
-#endif // _const_iterator_HPP
+#endif // CONST_ITERATOR_HPP

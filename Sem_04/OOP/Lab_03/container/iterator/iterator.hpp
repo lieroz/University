@@ -1,7 +1,8 @@
-#ifndef _iterator_HPP
-#define _iterator_HPP
+#ifndef ITERATOR_HPP
+#define ITERATOR_HPP
 
 template <class T> class vector_base;
+template <class T> class matrix_base;
 
 #include "iterator_base.hpp"
 #include "../vector/vector_base.hpp"
@@ -15,6 +16,7 @@ class _iterator : public iterator_base<T> {
         T* operator->();
 
         friend class vector_base<T>;
+        friend class matrix_base<T>;
 
     private:
         _iterator(T*);
@@ -40,4 +42,4 @@ T* _iterator<T>::operator->() {
     return this->pointer;
 }
 
-#endif // _iterator_HPP
+#endif // ITERATOR_HPP
