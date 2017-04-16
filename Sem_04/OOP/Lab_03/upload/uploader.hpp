@@ -48,6 +48,7 @@ vector<T> uploader::read() {
             }
 
         } catch (std::ifstream::failure& e) {
+            input_stream.close();
             throw read_stream_exception();
         }
     }

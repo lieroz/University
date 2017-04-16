@@ -32,7 +32,11 @@ SOURCES += main.cpp\
     scene/scene.cpp \
     manipulator/base_manipulator.cpp \
     manipulator/scene_manipulator.cpp \
-    manipulator/model_manipulator.cpp
+    manipulator/model_manipulator.cpp \
+    command/command.cpp \
+    command/rotate_command.cpp \
+    command/scale_command.cpp \
+    command/move_command.cpp
 
 HEADERS  += gui/mainwindow.hpp \
     container/vector/vector_base.hpp \
@@ -54,6 +58,11 @@ HEADERS  += gui/mainwindow.hpp \
     scene/scene.hpp \
     manipulator/base_manipulator.hpp \
     manipulator/scene_manipulator.hpp \
-    manipulator/model_manipulator.hpp
+    manipulator/model_manipulator.hpp \
+    command/command.hpp \
+    container/pair/pair.hpp \
+    command/rotate_command.hpp \
+    command/scale_command.hpp \
+    command/move_command.hpp
 
 FORMS    += gui/mainwindow.ui
