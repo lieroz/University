@@ -11,5 +11,7 @@ int main(int argc, char* argv[]) {
     MainWindow window;
     window.show();
 
+    point3d<int> pt;
+
     return application.exec();
 }

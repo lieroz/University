@@ -24,7 +24,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        gui/mainwindow.cpp
+        gui/mainwindow.cpp \
+    camera/base_camera.cpp \
+    camera/scene_camera.cpp \
+    camera/model_camera.cpp \
+    model/model.cpp \
+    scene/scene.cpp \
+    manipulator/base_manipulator.cpp \
+    manipulator/scene_manipulator.cpp \
+    manipulator/model_manipulator.cpp
 
 HEADERS  += gui/mainwindow.hpp \
     container/vector/vector_base.hpp \
@@ -38,6 +46,14 @@ HEADERS  += gui/mainwindow.hpp \
     exceptions/base_exception.hpp \
     exceptions/container_exceptions.hpp \
     exceptions/upload_exceptions.hpp \
-    primitives/point3d.hpp
+    primitives/point3d.hpp \
+    camera/base_camera.hpp \
+    camera/scene_camera.hpp \
+    camera/model_camera.hpp \
+    model/model.hpp \
+    scene/scene.hpp \
+    manipulator/base_manipulator.hpp \
+    manipulator/scene_manipulator.hpp \
+    manipulator/model_manipulator.hpp
 
 FORMS    += gui/mainwindow.ui

@@ -85,8 +85,6 @@ class matrix_base {
         size_t col_count;
         size_t memory_dump;
         T* buffer;
-
-        inline void reallocate();
 };
 
 template <class T>
