@@ -37,6 +37,7 @@ HEADERS  += gui/mainwindow.hpp \
     upload/uploader.hpp \
     exceptions/base_exception.hpp \
     exceptions/container_exceptions.hpp \
-    exceptions/upload_exceptions.hpp
+    exceptions/upload_exceptions.hpp \
+    primitives/point3d.hpp
 
 FORMS    += gui/mainwindow.ui
