@@ -16,7 +16,7 @@ class base_container_exception : public base_exception {
             this->message = message;
         }
 
-        explicit base_container_exception(std::string& message) {
+        explicit base_container_exception(std::string message) {
             this->message = message;
         }
 
@@ -33,7 +33,7 @@ class bad_memory_allocation_exception : public base_container_exception {
                 : base_container_exception(message) {
         }
 
-        explicit bad_memory_allocation_exception(std::string& message)
+        explicit bad_memory_allocation_exception(std::string message)
                 : base_container_exception(message) {
         }
 
@@ -50,7 +50,7 @@ class out_of_range_exception : public base_container_exception {
                 : base_container_exception(message) {
         }
 
-        explicit out_of_range_exception(std::string& message)
+        explicit out_of_range_exception(std::string message)
                 : base_container_exception(message) {
         }
 

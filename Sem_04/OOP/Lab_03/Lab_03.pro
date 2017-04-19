@@ -24,45 +24,67 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        gui/mainwindow.cpp \
-    camera/base_camera.cpp \
-    camera/scene_camera.cpp \
-    camera/model_camera.cpp \
-    model/model.cpp \
+	gui/mainwindow.cpp \
+    3dparty/jsmn.c \
+    upload/uploader.cpp \
+    objects/model.cpp \
+    objects/camera.cpp \
+    managers/upload_manager.cpp \
+    managers/camera_manager.cpp \
+    managers/model_manager.cpp \
+    managers/draw_manager.cpp \
+    controller/controller.cpp \
+    facade/facade.cpp \
     scene/scene.cpp \
-    manipulator/base_manipulator.cpp \
-    manipulator/scene_manipulator.cpp \
-    manipulator/model_manipulator.cpp \
-    command/command.cpp \
-    command/rotate_command.cpp \
-    command/scale_command.cpp \
-    command/move_command.cpp
+    transformations/model_transformations.cpp \
+    transformations/camera_transformations.cpp \
+    commands/move_model.cpp \
+    commands/rotate_model.cpp \
+    commands/scale_model.cpp \
+    commands/manage_camera.cpp \
+    commands/move_scene.cpp \
+    commands/rotate_scene.cpp \
+    commands/manage_scene_camera.cpp
 
 HEADERS  += gui/mainwindow.hpp \
-    container/vector/vector_base.hpp \
-    container/vector/vector.hpp \
-    container/iterator/iterator_base.hpp \
-    container/matrix/matrix_base.hpp \
-    container/matrix/matrix.hpp \
-    container/iterator/const_iterator.hpp \
-    container/iterator/iterator.hpp \
+    containers/vector/vector_base.hpp \
+    containers/vector/vector.hpp \
+    containers/iterator/iterator_base.hpp \
+    containers/matrix/matrix_base.hpp \
+    containers/matrix/matrix.hpp \
+    containers/iterator/const_iterator.hpp \
+    containers/iterator/iterator.hpp \
     upload/uploader.hpp \
     exceptions/base_exception.hpp \
     exceptions/container_exceptions.hpp \
     exceptions/upload_exceptions.hpp \
     primitives/point3d.hpp \
-    camera/base_camera.hpp \
-    camera/scene_camera.hpp \
-    camera/model_camera.hpp \
-    model/model.hpp \
-    scene/scene.hpp \
     manipulator/base_manipulator.hpp \
-    manipulator/scene_manipulator.hpp \
-    manipulator/model_manipulator.hpp \
-    command/command.hpp \
-    container/pair/pair.hpp \
-    command/rotate_command.hpp \
-    command/scale_command.hpp \
-    command/move_command.hpp
+    containers/pair/pair.hpp \
+    3dparty/jsmn.h \
+    objects/visible_object.hpp \
+    objects/invisible_object.hpp \
+    objects/scene_object.hpp \
+    objects/model.hpp \
+    objects/camera.hpp \
+    transformations/abstract_transformations.hpp \
+    managers/abstract_manager.hpp \
+    managers/upload_manager.hpp \
+    managers/camera_manager.hpp \
+    managers/model_manager.hpp \
+    managers/draw_manager.hpp \
+    controller/controller.hpp \
+    facade/facade.hpp \
+    scene/scene.hpp \
+    transformations/model_transformations.hpp \
+    transformations/camera_transformations.hpp \
+    commands/command.hpp \
+    commands/move_model.hpp \
+    commands/rotate_model.hpp \
+    commands/scale_model.hpp \
+    commands/move_scene.hpp \
+    commands/rotate_scene.hpp \
+    commands/manage_scene_camera.hpp \
+    commands/manage_model_camera.hpp
 
 FORMS    += gui/mainwindow.ui

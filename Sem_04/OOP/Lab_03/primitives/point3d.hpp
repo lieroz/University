@@ -10,7 +10,7 @@ class point3d {
 
     public:
         explicit point3d();
-        explicit point3d(T&, T&, T&);
+        explicit point3d(const T&,const  T&, const T&);
         point3d(const point3d&);
         point3d(point3d&&);
         ~point3d() = default;
@@ -77,7 +77,7 @@ point3d<T>::point3d() : x(0), y(0), z(0) {
 }
 
 template <class T>
-point3d<T>::point3d(T& x, T& y, T& z) : x(x), y(y), z(z) {
+point3d<T>::point3d(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {
 
 }
 
@@ -96,6 +96,8 @@ point3d<T>& point3d<T>::operator=(const point3d<T>& rhs) {
     this->x = rhs.x;
     this->y = rhs.y;
     this->z = rhs.z;
+
+    return *this;
 }
 
 template <class T>
@@ -104,6 +106,8 @@ point3d<T>& point3d<T>::operator=(point3d<T>&& rhs) {
     this->y = rhs.y;
     this->z = rhs.z;
     rhs.~point3d();
+
+    return *this;
 }
 
 template <class T>

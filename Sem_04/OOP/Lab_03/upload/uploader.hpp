@@ -2,66 +2,54 @@
 #define UPLOADER_HPP
 
 #include <fstream>
+#include <cstring>
+#include <functional>
 
 #include "../exceptions/upload_exceptions.hpp"
-#include "../container/vector/vector.hpp"
+#include "../containers/vector/vector.hpp"
+#include "../containers/pair/pair.hpp"
+#include "../objects/model.hpp"
+#include "../3dparty/jsmn.h"
 
 class uploader {
     public:
-        uploader(std::string&);
-        ~uploader() = delete;
+        explicit uploader(std::string);
+        virtual ~uploader() = default;
 
         void open();
-        template <class T>
-        vector<T> read();
+        void serialize_json();
+        model deserialize_json();
         void close();
+
+    protected:
+        static int json_equal(const char*, jsmntok_t*, const char*);
+
+        pair<int, point3d<double>> get_point(int, jsmntok_t*, int);
+        pair<int, vector<int>> get_link(int, jsmntok_t*, int);
+
+        template <class T>
+        void import_data(vector<T>&, int, jsmntok_t*, std::function<T(int, jsmntok_t*, int)>&, const char*, const char*);
 
     private:
         std::string file_name;
         std::ifstream input_stream;
+        std::string json_string;
+        jsmn_parser json_parser;
 };
 
-uploader::uploader(std::string& file_name) : file_name(file_name) {
-    input_stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-}
+template<class T>
+void uploader::import_data(vector<T>& data, int i, jsmntok_t* buffer,
+                           std::function<T (int, jsmntok_t*, int)>& func, const char* str1, const char* str2) {
+    if (json_equal(this->json_string.c_str(), &buffer[i], str1) == 0 &&
+        json_equal(this->json_string.c_str(), &buffer[i + 2], str2) == 0) {
+        data.push_back(func(i, buffer, 0));
 
-void uploader::open() {
-    try {
-        this->input_stream.open(this->file_name);
+    } else if (json_equal(this->json_string.c_str(), &buffer[i], str2) == 0 &&
+               json_equal(this->json_string.c_str(), &buffer[i + 2], str1) == 0) {
+        data.push_back(func(i, buffer, 2));
 
-    } catch (std::ifstream::failure& e) {
-        throw open_stream_exception();
-    }
-}
-
-template <class T>
-vector<T> uploader::read() {
-    vector<T> result;
-
-    if (this->input_stream.is_open()) {
-        T buffer = T();
-
-        try {
-
-            while (this->input_stream >> buffer) {
-                result.push_back(buffer);
-            }
-
-        } catch (std::ifstream::failure& e) {
-            input_stream.close();
-            throw read_stream_exception();
-        }
-    }
-
-    return result;
-}
-
-void uploader::close() {
-    try {
-        this->input_stream.close();
-
-    } catch (std::ifstream::failure& e) {
-        throw close_stream_exception();
+    } else {
+        throw json_parser_error();
     }
 }
 

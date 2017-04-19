@@ -31,4 +31,18 @@ class close_stream_exception : public base_stream_exception {
         }
 };
 
+class json_parser_error : public base_stream_exception {
+    public:
+        virtual const char* what() const noexcept {
+            return "uploader::jsmn::(error parsing json)!";
+        }
+};
+
+class json_object_error : public base_stream_exception {
+    public:
+        virtual const char* what() const noexcept {
+            return "uploader::jsmn::(not an object)!";
+        }
+};
+
 #endif // UPLOAD_EXCEPTIONS_HPP
