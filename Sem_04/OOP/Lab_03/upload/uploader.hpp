@@ -49,7 +49,7 @@ void uploader::import_data(vector<T>& data, int i, jsmntok_t* buffer,
         data.push_back(func(i, buffer, 2));
 
     } else {
-        throw json_parser_error();
+        throw json_exception("uploader::jsmn(corrupted data)!");
     }
 }
 

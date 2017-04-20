@@ -138,7 +138,10 @@ vector_base<T>::vector_base(vector_base<T>&& other)
 
 template <class T>
 vector_base<T>::~vector_base() {
-    delete[] this->buffer;
+    if (this->element_count > 0) {
+        delete[] this->buffer;
+    }
+
     this->memory_dump = 0;
     this->buffer = nullptr;
 }

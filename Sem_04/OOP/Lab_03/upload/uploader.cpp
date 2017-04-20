@@ -18,7 +18,7 @@ pair<int, point3d<double>> uploader::get_point(int i, jsmntok_t* buffer, int off
                                    this->json_string.c_str() + buffer[i + 1 + offset].end));
 
     if (buffer[i + 3 - offset].type != JSMN_ARRAY) {
-        throw json_parser_error();
+        throw json_exception("uploader::jsmn(object is not of type ARRAY)!");
     }
 
     vector<double> vec;
@@ -37,7 +37,7 @@ pair<int, vector<int>> uploader::get_link(int i, jsmntok_t* buffer, int offset) 
                                    this->json_string.c_str() + buffer[i + 1 + offset].end));
 
     if (buffer[i + 3 - offset].type != JSMN_ARRAY) {
-        throw json_parser_error();
+        throw json_exception("uploader::jsmn(object is not of type ARRAY)!");
     }
 
     vector<int> vec;
@@ -87,11 +87,11 @@ model uploader::deserialize_json() {
     vector<pair<int, vector<int>>> links;
 
     if (root_keys_count < 0) {
-        throw json_parser_error();
+        throw json_exception("uploader::jsmn(empty document)!");
     }
 
     if (root_keys_count < 1 || (*buffer).type != JSMN_OBJECT) {
-        throw json_object_error();
+        throw json_exception("uploader::jsmn(object is not of type OBJECT)!");
     }
 
     for (int i = 1; i < root_keys_count; ++i) {
@@ -118,7 +118,7 @@ model uploader::deserialize_json() {
             i += 6;
 
         } else {
-            throw json_parser_error();
+            throw json_exception("uploader::jsmn(corrupted document)!");
         }
     }
 

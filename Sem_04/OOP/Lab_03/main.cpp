@@ -10,8 +10,14 @@ int main(int argc, char* argv[]) {
     window.show();
 
     facade f;
-    load_model comm(std::string("/home/lieroz/University/Sem_04/OOP/Lab_03/gui/cube.json"));
-    f.execute_command(comm);
+    upload_view c1("/home/lieroz/University/Sem_04/OOP/Lab_03/DATA/cube.json");
+    f.execute_command(c1);
+    delete_view c2(0);
+    f.execute_command(c2);
+    add_model c3(0);
+    f.execute_command(c3);
+    remove_model c4(0);
+    f.execute_command(c4);
 
     return application.exec();
 }

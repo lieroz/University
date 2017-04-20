@@ -17,11 +17,20 @@ class model_view {
         }
 
         void delete_view(size_t index) {
-            if (index > 0 && index < this->models_collection.size()) {
+            if (index < this->models_collection.size()) {
                 this->models_collection.erase(index);
 
             } else {
-                throw model_out_of_range_exception();
+                throw model_view_out_of_range_exception();
+            }
+        }
+
+        const model& get_model(size_t index) const {
+            if (index < this->models_collection.size()) {
+                return this->models_collection[index];
+
+            } else {
+                throw model_view_out_of_range_exception();
             }
         }
 

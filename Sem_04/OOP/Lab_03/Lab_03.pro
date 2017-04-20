@@ -45,7 +45,6 @@ HEADERS  += gui/mainwindow.hpp \
     exceptions/container_exceptions.hpp \
     exceptions/upload_exceptions.hpp \
     primitives/point3d.hpp \
-    manipulator/base_manipulator.hpp \
     containers/pair/pair.hpp \
     3dparty/jsmn.h \
     objects/visible_object.hpp \
@@ -66,6 +65,7 @@ HEADERS  += gui/mainwindow.hpp \
     transformations/camera_transformations.hpp \
     commands/command.hpp \
     model_view/model_view.hpp \
-    exceptions/model_view_exceptions.hpp
+    exceptions/model_view_exceptions.hpp \
+    exceptions/scene_exceptions.hpp
 
 FORMS    += gui/mainwindow.ui

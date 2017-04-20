@@ -9,7 +9,7 @@ model::model(const model& other) : visible_object(), name(other.name), points(ot
 
 }
 
-void model::transform(abstract_transformations*& transformation) {
+void model::transform(abstract_transformations*&) {
 
 }
 

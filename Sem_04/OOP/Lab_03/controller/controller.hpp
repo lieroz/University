@@ -16,8 +16,28 @@ class controller {
 
         ~controller() = default;
 
-        void upload_model(const std::string& file_name) {
+        void upload_view(const std::string& file_name) {
             this->__model_view.add_view(this->__upload_manager.upload_model(file_name));
+        }
+
+        void delete_view(size_t index) {
+            this->__model_view.delete_view(index);
+        }
+
+        void add_model(size_t index) {
+            this->__scene.add_model(const_cast<model*>(&this->__model_view.get_model(index)));
+        }
+
+        void remove_model(size_t index) {
+            this->__scene.remove_model(index);
+        }
+
+        void add_camera() {
+            this->__scene.add_camera(new camera());
+        }
+
+        void remove_camera(size_t index) {
+            this->__scene.remove_camera(index);
         }
 
     protected:

@@ -1,6 +1,5 @@
 #include "camera.hpp"
 
-camera::camera()
-{
+void camera::transform(abstract_transformations*&) {
 
 }
