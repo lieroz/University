@@ -3,7 +3,10 @@
 
 class abstract_transformations {
     public:
-        abstract_transformations();
+        abstract_transformations() = default;
+        abstract_transformations(const abstract_transformations&) = delete;
+        abstract_transformations(abstract_transformations&) = delete;
+        ~abstract_transformations() = default;
 };
 
 #endif // ABSTRACT_TRANSFORMATIONS_HPP

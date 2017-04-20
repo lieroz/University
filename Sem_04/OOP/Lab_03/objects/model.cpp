@@ -5,11 +5,11 @@ model::model(const std::string& name, const vector<pair<int, point3d<double>>>& 
     this->set_up_center();
 }
 
-model::model(const model& other) : name(other.name), points(other.points), links(other.links), center(other.center) {
+model::model(const model& other) : visible_object(), name(other.name), points(other.points), links(other.links), center(other.center) {
 
 }
 
-void model::transform() {
+void model::transform(abstract_transformations*& transformation) {
 
 }
 

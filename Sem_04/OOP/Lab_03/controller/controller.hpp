@@ -2,6 +2,7 @@
 #define CONTROLLER_HPP
 
 #include "scene/scene.hpp"
+#include "model_view/model_view.hpp"
 #include "managers/camera_manager.hpp"
 #include "managers/model_manager.hpp"
 #include "managers/draw_manager.hpp"
@@ -9,20 +10,28 @@
 
 class controller {
     public:
-        static controller* instance();
+        static controller* instance() {
+            return new controller();
+        }
+
+        ~controller() = default;
+
+        void upload_model(const std::string& file_name) {
+            this->__model_view.add_view(this->__upload_manager.upload_model(file_name));
+        }
 
     protected:
         controller() = default;
         controller(controller&) = delete;
         controller(const controller&) = delete;
-        ~controller() = default;
 
     private:
-        scene sc;
-        camera_manager cam_mngr;
-        model_manager mdl_mngr;
-        draw_manager drw_mngr;
-        upload_manager upl_mngr;
+        scene __scene;
+        model_view __model_view;
+        camera_manager __camera_manager;
+        model_manager __model_manager;
+        draw_manager __draw_manager;
+        upload_manager __upload_manager;
 };
 
 #endif // CONTROLLER_HPP

@@ -10,7 +10,7 @@ class visible_object : public scene_object {
         visible_object(const visible_object&) = delete;
         virtual ~visible_object() = default;
 
-        virtual void transform() = 0;
+        virtual void transform(abstract_transformations*&) = 0;
 
         bool visible() {
             return true;

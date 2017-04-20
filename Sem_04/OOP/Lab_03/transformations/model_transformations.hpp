@@ -3,7 +3,7 @@
 
 #include "abstract_transformations.hpp"
 
-class model_transformations {
+class model_transformations : public abstract_transformations {
     public:
         model_transformations();
 };

@@ -6,6 +6,8 @@
 class camera_manager : public abstract_manager {
     public:
         camera_manager() = default;
+        camera_manager(camera_manager&) = delete;
+        camera_manager(const camera_manager&) = delete;
         ~camera_manager() = default;
 };
 

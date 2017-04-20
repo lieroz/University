@@ -1,18 +1,17 @@
 #include <QApplication>
 
 #include "gui/mainwindow.hpp"
-#include "upload/uploader.hpp"
+#include "facade/facade.hpp"
+#include "commands/command.hpp"
 
 int main(int argc, char* argv[]) {
     QApplication application(argc, argv);
     MainWindow window;
     window.show();
 
-    uploader load(std::string("/home/lieroz/University/Sem_04/OOP/Lab_03/gui/cube.json"));
-    load.open();
-    load.serialize_json();
-    load.close();
-    model m = load.deserialize_json();
+    facade f;
+    load_model comm(std::string("/home/lieroz/University/Sem_04/OOP/Lab_03/gui/cube.json"));
+    f.execute_command(comm);
 
     return application.exec();
 }
