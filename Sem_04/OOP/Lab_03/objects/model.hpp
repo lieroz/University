@@ -15,10 +15,10 @@ class model : public visible_object {
         model(const model&);
         virtual ~model() = default;
 
-        void transform(abstract_transformations*&);
-
         const point3d<double>& get_center() const;
         void set_center(const point3d<double>&);
+
+        friend class model_transformations;
 
     protected:
         void set_up_center();

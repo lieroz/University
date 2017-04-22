@@ -5,11 +5,8 @@ model::model(const std::string& name, const vector<pair<int, point3d<double>>>& 
     this->set_up_center();
 }
 
-model::model(const model& other) : visible_object(), name(other.name), points(other.points), links(other.links), center(other.center) {
-
-}
-
-void model::transform(abstract_transformations*&) {
+model::model(const model& other)
+    : visible_object(), name(other.name), points(other.points), links(other.links), center(other.center) {
 
 }
 
@@ -31,7 +28,6 @@ void model::set_up_center() {
 
         if ((*iter).get_second().get_x() < min_x) {
             min_x = (*iter).get_second().get_x();
-
         }
 
         if ((*iter).get_second().get_x() > max_x) {
@@ -40,7 +36,6 @@ void model::set_up_center() {
 
         if ((*iter).get_second().get_y() < min_y) {
             min_y = (*iter).get_second().get_y();
-
         }
 
         if ((*iter).get_second().get_y() > max_y) {
@@ -49,7 +44,6 @@ void model::set_up_center() {
 
         if ((*iter).get_second().get_z() < min_z) {
             min_z = (*iter).get_second().get_z();
-
         }
 
         if ((*iter).get_second().get_z() > max_z) {

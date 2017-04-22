@@ -4,9 +4,9 @@
 #include <cstddef>
 #include <iostream>
 
-#include "../../exceptions/container_exceptions.hpp"
-#include "../iterator/iterator.hpp"
-#include "../iterator/const_iterator.hpp"
+#include "exceptions/container_exceptions.hpp"
+#include "containers/iterator/iterator.hpp"
+#include "containers/iterator/const_iterator.hpp"
 
 template <class T>
 class matrix_base {
@@ -263,9 +263,10 @@ matrix_base<T>& matrix_base<T>::operator=(matrix_base&& other) {
 template <class T>
 matrix_base<T>& matrix_base<T>::operator=(std::initializer_list<T> lst) {
     size_t size = this->memory_dump <= lst.size() ? this->memory_dump : lst.size();
+    typename std::initializer_list<T>::const_iterator iter = lst.begin();
 
-    for (size_t i = 0; i < size; ++i) {
-        this->buffer[i] = lst[i];
+    for (size_t i = 0; i < size; ++i, ++iter) {
+        this->buffer[i] = *iter;
     }
 
     for (size_t i = size; i < this->memory_dump; ++i) {

@@ -10,9 +10,7 @@ class invisible_object : public scene_object {
         invisible_object(const invisible_object&) = delete;
         virtual ~invisible_object() = default;
 
-        virtual void transform(abstract_transformations*&) = 0;
-
-        bool visible() {
+        bool visible() override {
             return false;
         }
 };

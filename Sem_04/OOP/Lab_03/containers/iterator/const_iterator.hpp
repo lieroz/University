@@ -5,7 +5,6 @@ template <class T> class vector_base;
 template <class T> class matrix_base;
 
 #include "iterator_base.hpp"
-#include "containers/vector/vector_base.hpp"
 
 template <class T>
 class _const_iterator : public iterator_base<T> {

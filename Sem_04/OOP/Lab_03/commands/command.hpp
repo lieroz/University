@@ -2,6 +2,8 @@
 #define COMMAND_HPP
 
 #include "controller/controller.hpp"
+#include "transformations/dimensional_transformations.hpp"
+#include "transformations/model_transformations.hpp"
 
 class command {
     public:
@@ -13,91 +15,111 @@ class command {
         virtual void execute(controller*&) = 0;
 };
 
-class upload_view : public command {
-    public:
-        upload_view(const std::string& file_name) : file_name(file_name) {}
-        upload_view(upload_view&) = delete;
-        upload_view(const upload_view&) = delete;
-        ~upload_view() = default;
+namespace commands {
 
-        virtual void execute(controller*& c) {
-            c->upload_view(file_name);
-        }
+    class upload_view : public command {
+        public:
+            upload_view(const std::string& file_name) : file_name(file_name) {}
+            upload_view(upload_view&) = delete;
+            upload_view(const upload_view&) = delete;
+            ~upload_view() = default;
 
-    private:
-        std::string file_name;
-};
+            virtual void execute(controller*& c) {
+                c->upload_view(file_name);
+            }
 
-class delete_view : public command {
-    public:
-        delete_view(size_t view_index) : view_index(view_index) {}
-        delete_view(delete_view&) = delete;
-        delete_view(const delete_view&) = delete;
-        ~delete_view() = default;
+        private:
+            std::string file_name;
+    };
 
-        virtual void execute(controller*& c) {
-            c->delete_view(this->view_index);
-        }
+    class delete_view : public command {
+        public:
+            delete_view(size_t view_index) : view_index(view_index) {}
+            delete_view(delete_view&) = delete;
+            delete_view(const delete_view&) = delete;
+            ~delete_view() = default;
 
-    private:
-        size_t view_index;
-};
+            virtual void execute(controller*& c) {
+                c->delete_view(this->view_index);
+            }
 
-class add_model : public command {
-    public:
-        add_model(size_t view_index) : view_index(view_index) {}
-        add_model(add_model&) = delete;
-        add_model(const add_model&) = delete;
-        ~add_model() = default;
+        private:
+            size_t view_index;
+    };
 
-        virtual void execute(controller*& c) {
-            c->add_model(this->view_index);
-        }
+    class add_model : public command {
+        public:
+            add_model(size_t view_index) : view_index(view_index) {}
+            add_model(add_model&) = delete;
+            add_model(const add_model&) = delete;
+            ~add_model() = default;
 
-    private:
-        size_t view_index;
-};
+            virtual void execute(controller*& c) {
+                c->add_model(this->view_index);
+            }
 
-class remove_model : public command {
-    public:
-        remove_model(size_t model_index) : model_index(model_index) {}
-        remove_model(remove_model&) = delete;
-        remove_model(const remove_model&) = delete;
-        ~remove_model() = default;
+        private:
+            size_t view_index;
+    };
 
-        virtual void execute(controller*& c) {
-            c->remove_model(this->model_index);
-        }
+    class remove_model : public command {
+        public:
+            remove_model(size_t model_index) : model_index(model_index) {}
+            remove_model(remove_model&) = delete;
+            remove_model(const remove_model&) = delete;
+            ~remove_model() = default;
 
-    private:
-        size_t model_index;
-};
+            virtual void execute(controller*& c) {
+                c->remove_model(this->model_index);
+            }
 
-class add_camera : public command {
-    public:
-        add_camera() = default;
-        add_camera(add_camera&) = delete;
-        add_camera(const add_camera&) = delete;
-        ~add_camera() = default;
+        private:
+            size_t model_index;
+    };
 
-        virtual void execute(controller*& c) {
-            c->add_camera();
-        }
-};
+    class add_camera : public command {
+        public:
+            add_camera() = default;
+            add_camera(add_camera&) = delete;
+            add_camera(const add_camera&) = delete;
+            ~add_camera() = default;
 
-class remove_camera : public command {
-    public:
-        remove_camera(size_t camera_index) : camera_index(camera_index) {}
-        remove_camera(remove_camera&) = delete;
-        remove_camera(const remove_camera&) = delete;
-        ~remove_camera() = default;
+            virtual void execute(controller*& c) {
+                c->add_camera();
+            }
+    };
 
-        virtual void execute(controller*& c) {
-            c->remove_camera(this->camera_index);
-        }
+    class remove_camera : public command {
+        public:
+            remove_camera(size_t camera_index) : camera_index(camera_index) {}
+            remove_camera(remove_camera&) = delete;
+            remove_camera(const remove_camera&) = delete;
+            ~remove_camera() = default;
 
-    private:
-        size_t camera_index;
-};
+            virtual void execute(controller*& c) {
+                c->remove_camera(this->camera_index);
+            }
+
+        private:
+            size_t camera_index;
+    };
+
+    class move_model_OX : public command {
+        public:
+            move_model_OX(double offset) : offset(offset) {}
+            move_model_OX(move_model_OX&) = delete;
+            move_model_OX(const move_model_OX&) = delete;
+            ~move_model_OX() = default;
+
+            virtual void execute(controller*& c) {
+                point3d<double> pt(this->offset, 0, 0);
+                dimensional_transformations::move mv(pt);
+                c->transform_model(new model_transformations(mv), 10);
+            }
+
+        private:
+            double offset;
+    };
+}
 
 #endif // COMMAND_HPP

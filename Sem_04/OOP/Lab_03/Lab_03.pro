@@ -29,8 +29,10 @@ SOURCES += main.cpp\
     upload/uploader.cpp \
     objects/model.cpp \
     objects/camera.cpp \
-    transformations/model_transformations.cpp \
-    transformations/camera_transformations.cpp
+    transformations/dimensional_transformations.cpp \
+    controller/controller.cpp \
+    scene/scene.cpp \
+    transformations/transformation_interface.cpp
 
 HEADERS  += gui/mainwindow.hpp \
     containers/vector/vector_base.hpp \
@@ -52,8 +54,6 @@ HEADERS  += gui/mainwindow.hpp \
     objects/scene_object.hpp \
     objects/model.hpp \
     objects/camera.hpp \
-    transformations/abstract_transformations.hpp \
-    managers/abstract_manager.hpp \
     managers/upload_manager.hpp \
     managers/camera_manager.hpp \
     managers/model_manager.hpp \
@@ -61,11 +61,13 @@ HEADERS  += gui/mainwindow.hpp \
     controller/controller.hpp \
     facade/facade.hpp \
     scene/scene.hpp \
-    transformations/model_transformations.hpp \
-    transformations/camera_transformations.hpp \
     commands/command.hpp \
     model_view/model_view.hpp \
     exceptions/model_view_exceptions.hpp \
-    exceptions/scene_exceptions.hpp
+    exceptions/scene_exceptions.hpp \
+    transformations/dimensional_transformations.hpp \
+    transformations/transformation_interface.hpp \
+    transformations/base_transformations.hpp \
+    transformations/model_transformations.hpp
 
 FORMS    += gui/mainwindow.ui

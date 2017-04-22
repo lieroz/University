@@ -1,10 +1,9 @@
 #ifndef UPLOAD_MANAGER_HPP
 #define UPLOAD_MANAGER_HPP
 
-#include "abstract_manager.hpp"
 #include "upload/uploader.hpp"
 
-class upload_manager : public abstract_manager {
+class upload_manager {
     public:
         upload_manager() = default;
         upload_manager(upload_manager&) = delete;

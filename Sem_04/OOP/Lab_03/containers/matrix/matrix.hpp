@@ -19,6 +19,7 @@ class matrix : public matrix_base<T> {
         ~matrix() = default;
         matrix& operator=(const matrix&);
         matrix& operator=(matrix&&);
+        matrix& operator=(std::initializer_list<T>);
 
         template <class U>
         friend matrix<U> operator+(const matrix<U>&, const matrix<U>&);
@@ -95,6 +96,13 @@ matrix<T>& matrix<T>::operator=(const matrix<T>& rhs) {
 template <class T>
 matrix<T>& matrix<T>::operator=(matrix<T>&& rhs) {
     matrix_base<T>::operator=(std::move(rhs));
+
+    return *this;
+}
+
+template <class T>
+matrix<T>& matrix<T>::operator=(std::initializer_list<T> lst) {
+    matrix_base<T>::operator=(lst);
 
     return *this;
 }

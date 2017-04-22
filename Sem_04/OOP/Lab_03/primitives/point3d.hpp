@@ -4,13 +4,15 @@
 #include <type_traits>
 #include <ostream>
 
+#include "containers/vector/vector.hpp"
+
 template <class T>
 class point3d {
         static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic!");
 
     public:
         explicit point3d();
-        explicit point3d(const T&,const  T&, const T&);
+        explicit point3d(const T&, const T&, const T&);
         point3d(const point3d&);
         point3d(point3d&&);
         ~point3d() = default;
@@ -28,6 +30,8 @@ class point3d {
         void set_x(const T&);
         void set_y(const T&);
         void set_z(const T&);
+
+        vector<T> to_vector4d() const;
 
         void swap(point3d&);
         template <class U>
@@ -153,6 +157,11 @@ void point3d<T>::set_y(const T& y) {
 template <class T>
 void point3d<T>::set_z(const T& z) {
     this->z = z;
+}
+
+template <class T>
+vector<T> point3d<T>::to_vector4d() const {
+    return vector<T>({this->x, this->y, this->z, 1});
 }
 
 template <class T>
