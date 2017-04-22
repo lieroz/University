@@ -13,7 +13,7 @@ void controller::delete_view(size_t index) {
 }
 
 void controller::add_model(size_t index) {
-    this->__scene.add_model(const_cast<model*>(&this->__model_view.get_model(index)));
+    this->__scene.add_model(new model(this->__model_view.get_model(index)));
 }
 
 void controller::remove_model(size_t index) {
@@ -28,6 +28,6 @@ void controller::remove_camera(size_t index) {
     this->__scene.remove_camera(index);
 }
 
-void controller::transform_model(base_transformations* transformation, size_t index) {
+void controller::transform_model(base_transformations* transformation, ssize_t index) {
     this->__model_manager.transform(this->__scene, transformation, index);
 }

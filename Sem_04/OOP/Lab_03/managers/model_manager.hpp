@@ -11,8 +11,8 @@ class model_manager {
         model_manager(const model_manager&) = delete;
         ~model_manager() = default;
 
-        void transform(scene& sc, base_transformations* tr, int ind) {
-            if (ind != -1) {
+        void transform(scene& sc, base_transformations* tr, ssize_t ind) {
+            if (ind == -1) {
                 sc.transform(tr);
 
             } else {

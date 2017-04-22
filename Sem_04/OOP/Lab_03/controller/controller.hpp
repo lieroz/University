@@ -22,7 +22,7 @@ class controller {
         void add_camera();
         void remove_camera(size_t);
 
-        void transform_model(base_transformations*, size_t);
+        void transform_model(base_transformations*, ssize_t);
 
     protected:
         controller() = default;

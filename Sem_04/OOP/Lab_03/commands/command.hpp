@@ -104,21 +104,94 @@ namespace commands {
             size_t camera_index;
     };
 
-    class move_model_OX : public command {
+    class move : public command {
         public:
-            move_model_OX(double offset) : offset(offset) {}
-            move_model_OX(move_model_OX&) = delete;
-            move_model_OX(const move_model_OX&) = delete;
-            ~move_model_OX() = default;
+            move(const point3d<double>& point, ssize_t model_index)
+                : point(point), model_index(model_index) {}
+            move(move&) = delete;
+            move(const move&) = delete;
+            ~move() = default;
 
             virtual void execute(controller*& c) {
-                point3d<double> pt(this->offset, 0, 0);
-                dimensional_transformations::move mv(pt);
-                c->transform_model(new model_transformations(mv), 10);
+                dimensional_transformations::move mv(this->point);
+                c->transform_model(new model_transformations(mv), this->model_index);
             }
 
         private:
-            double offset;
+            point3d<double> point;
+            ssize_t model_index;
+    };
+
+    class rotate_model_OX : public command {
+        public:
+            rotate_model_OX(double angle, ssize_t model_index)
+                : angle(angle), model_index(model_index) {}
+            rotate_model_OX(rotate_model_OX&) = delete;
+            rotate_model_OX(const rotate_model_OX&) = delete;
+            ~rotate_model_OX() = default;
+
+            virtual void execute(controller*& c) {
+                dimensional_transformations::rotation_OX rot(this->angle);
+                c->transform_model(new model_transformations(rot), this->model_index);
+            }
+
+        private:
+            double angle;
+            ssize_t model_index;
+    };
+
+    class rotate_model_OY : public command {
+        public:
+            rotate_model_OY(double angle, ssize_t model_index)
+                : angle(angle), model_index(model_index) {}
+            rotate_model_OY(rotate_model_OY&) = delete;
+            rotate_model_OY(const rotate_model_OY&) = delete;
+            ~rotate_model_OY() = default;
+
+            virtual void execute(controller*& c) {
+                dimensional_transformations::rotation_OY rot(this->angle);
+                c->transform_model(new model_transformations(rot), this->model_index);
+            }
+
+        private:
+            double angle;
+            ssize_t model_index;
+    };
+
+    class rotate_model_OZ : public command {
+        public:
+            rotate_model_OZ(double angle, ssize_t model_index)
+                : angle(angle), model_index(model_index) {}
+            rotate_model_OZ(rotate_model_OZ&) = delete;
+            rotate_model_OZ(const rotate_model_OZ&) = delete;
+            ~rotate_model_OZ() = default;
+
+            virtual void execute(controller*& c) {
+                dimensional_transformations::rotation_OZ rot(this->angle);
+                c->transform_model(new model_transformations(rot), this->model_index);
+            }
+
+        private:
+            double angle;
+            ssize_t model_index;
+    };
+
+    class scale : public command {
+        public:
+            scale(double scale_factor, ssize_t model_index)
+                : scale_factor(scale_factor), model_index(model_index) {}
+            scale(scale&) = delete;
+            scale(const scale&) = delete;
+            ~scale() = default;
+
+            virtual void execute(controller*& c) {
+                dimensional_transformations::scale scl(this->scale_factor);
+                c->transform_model(new model_transformations(scl), this->model_index);
+            }
+
+        private:
+            double scale_factor;
+            ssize_t model_index;
     };
 }
 
