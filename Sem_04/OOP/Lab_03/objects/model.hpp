@@ -19,6 +19,7 @@ class model : public visible_object {
         void set_center(const point3d<double>&);
 
         friend class model_transformations;
+        friend class draw_manager;
 
     protected:
         void set_up_center();

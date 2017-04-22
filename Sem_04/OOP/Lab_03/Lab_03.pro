@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     transformations/dimensional_transformations.cpp \
     controller/controller.cpp \
     scene/scene.cpp \
-    transformations/transformation_interface.cpp
+    transformations/transformation_interface.cpp \
+    gui/canvasgl.cpp
 
 HEADERS  += gui/mainwindow.hpp \
     containers/vector/vector_base.hpp \
@@ -68,6 +69,7 @@ HEADERS  += gui/mainwindow.hpp \
     transformations/dimensional_transformations.hpp \
     transformations/transformation_interface.hpp \
     transformations/base_transformations.hpp \
-    transformations/model_transformations.hpp
+    transformations/model_transformations.hpp \
+    gui/canvasgl.hpp
 
 FORMS    += gui/mainwindow.ui

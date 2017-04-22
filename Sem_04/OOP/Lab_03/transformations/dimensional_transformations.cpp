@@ -14,7 +14,7 @@ dimensional_transformations::rotation_OY::rotation_OY(double y_angle)
     this->reset_matrix();
     (*this)[0][0] = cos(y_angle);
     (*this)[0][2] = -sin(y_angle);
-    (*this)[2][1] = sin(y_angle);
+    (*this)[2][0] = sin(y_angle);
     (*this)[2][2] = cos(y_angle);
 }
 

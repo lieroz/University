@@ -193,6 +193,18 @@ namespace commands {
             double scale_factor;
             ssize_t model_index;
     };
+
+    class draw : public command {
+        public:
+            draw() = default;
+            draw(draw&) = delete;
+            draw(const draw&) = delete;
+            ~draw() = default;
+
+            virtual void execute(controller*& c) {
+                c->draw_scene();
+            }
+    };
 }
 
 #endif // COMMAND_HPP

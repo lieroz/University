@@ -24,6 +24,8 @@ class controller {
 
         void transform_model(base_transformations*, ssize_t);
 
+        void draw_scene();
+
     protected:
         controller() = default;
         controller(controller&) = delete;

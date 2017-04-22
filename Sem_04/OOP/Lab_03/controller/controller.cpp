@@ -31,3 +31,7 @@ void controller::remove_camera(size_t index) {
 void controller::transform_model(base_transformations* transformation, ssize_t index) {
     this->__model_manager.transform(this->__scene, transformation, index);
 }
+
+void controller::draw_scene() {
+    this->__draw_manager.draw(this->__scene);
+}

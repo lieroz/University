@@ -2,6 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include <QMainWindow>
+#include <QKeyEvent>
 
 namespace Ui {
     class MainWindow;
@@ -13,6 +14,9 @@ class MainWindow : public QMainWindow {
     public:
         explicit MainWindow(QWidget* parent = 0);
         virtual ~MainWindow();
+
+    protected:
+        virtual void keyPressEvent(QKeyEvent*) override;
 
     private:
         Ui::MainWindow* ui;
