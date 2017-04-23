@@ -1,6 +1,8 @@
 #ifndef COMMAND_HPP
 #define COMMAND_HPP
 
+#include <QGraphicsScene>
+
 #include "controller/controller.hpp"
 #include "transformations/dimensional_transformations.hpp"
 #include "transformations/model_transformations.hpp"
@@ -196,14 +198,17 @@ namespace commands {
 
     class draw : public command {
         public:
-            draw() = default;
+            draw(QGraphicsScene*& g_sc) : g_sc(g_sc) {}
             draw(draw&) = delete;
             draw(const draw&) = delete;
             ~draw() = default;
 
             virtual void execute(controller*& c) {
-                c->draw_scene();
+                c->draw_scene(g_sc);
             }
+
+        private:
+            QGraphicsScene* g_sc;
     };
 }
 

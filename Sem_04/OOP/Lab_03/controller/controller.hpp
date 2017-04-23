@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
 
+#include <QGraphicsScene>
+
 #include "scene/scene.hpp"
 #include "model_view/model_view.hpp"
 #include "managers/camera_manager.hpp"
@@ -24,7 +26,7 @@ class controller {
 
         void transform_model(base_transformations*, ssize_t);
 
-        void draw_scene();
+        void draw_scene(QGraphicsScene*&);
 
     protected:
         controller() = default;

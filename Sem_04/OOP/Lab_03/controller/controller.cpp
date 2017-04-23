@@ -32,6 +32,6 @@ void controller::transform_model(base_transformations* transformation, ssize_t i
     this->__model_manager.transform(this->__scene, transformation, index);
 }
 
-void controller::draw_scene() {
-    this->__draw_manager.draw(this->__scene);
+void controller::draw_scene(QGraphicsScene*& g_sc) {
+    this->__draw_manager.draw(this->__scene, g_sc);
 }
