@@ -7,14 +7,11 @@
 
 #include "commands/command.hpp"
 
-size_t MainWindow::model_count = 0;
-size_t MainWindow::camera_count = 0;
-
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    ui->frame->setFixedWidth(250);
     this->set_up_scene_view();
-    this->set_up_model_view();
     this->update_scene_view();
 }
 
@@ -89,14 +86,6 @@ void MainWindow::set_up_scene_view() {
     ui->sceneView->installEventFilter(this);
 }
 
-void MainWindow::set_up_model_view() {
-    this->model_view_scene = new QGraphicsScene(ui->modelView);
-    ui->modelView->setMinimumSize(300, 300);
-    ui->modelView->setMaximumSize(500, 500);
-    ui->modelView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->modelView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-}
-
 void MainWindow::update_scene_view() {
     this->scene_view_scene->clear();
     commands::draw comm(this->scene_view_scene);
@@ -113,19 +102,30 @@ void MainWindow::on_actionupload_model_triggered() {
 }
 
 void MainWindow::on_addSceneObjectButton_clicked() {
-    if (ui->modelButton->isChecked()) {
-        commands::add_model c3(ui->listWidget->currentIndex().column());
-        this->command_controller.execute_command(c3);
-        ui->modelChoiceButton->addItem(QString::number(MainWindow::model_count++) + " : model");
+    if (ui->modelButton->isChecked() && ui->listWidget->count() > 0) {
+        commands::add_model comm(ui->listWidget->currentIndex().column());
+        this->command_controller.execute_command(comm);
+        ui->modelChoiceButton->addItem(QString::number(ui->modelChoiceButton->count() - 1) + " : model");
     }
 
     this->update_scene_view();
 }
 
 void MainWindow::on_removeSceneObjectButton_clicked() {
+    if (ui->modelButton->isChecked() && ui->modelChoiceButton->currentIndex() > 0) {
+        commands::remove_model comm(ui->modelChoiceButton->currentIndex() - 1);
+        this->command_controller.execute_command(comm);
+        size_t i = static_cast<size_t>(ui->modelChoiceButton->currentIndex());
+        ui->modelChoiceButton->removeItem(ui->modelChoiceButton->currentIndex());
 
+        for (; i < static_cast<size_t>(ui->modelChoiceButton->count()); ++i) {
+            ui->modelChoiceButton->setItemText(i, QString::number(i - 1) + " : model");
+        }
+    }
+
+    this->update_scene_view();
 }
 
 void MainWindow::on_deleteViewButton_clicked() {
-
+    delete ui->listWidget->item(ui->listWidget->currentIndex().column());
 }
