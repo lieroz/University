@@ -1,12 +1,11 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
-#include "canvasgl.hpp"
+#include "commands/command.hpp"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    ui->sceneView->show();
-    setFocusPolicy( Qt::StrongFocus );
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 MainWindow::~MainWindow() {
@@ -14,5 +13,5 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e) {
-    ui->sceneView->keyPressEvent(e);
+
 }

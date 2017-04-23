@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 
+#include "facade/facade.hpp"
+
 namespace Ui {
     class MainWindow;
 }

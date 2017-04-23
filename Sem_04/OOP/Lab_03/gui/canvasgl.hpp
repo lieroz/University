@@ -19,7 +19,6 @@ class CanvasGL : public QGLWidget {
         virtual void paintGL();
 
     private:
-        float m_aspectRatio;
         facade f;
 };
 

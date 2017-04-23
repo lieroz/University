@@ -1,17 +1,17 @@
 #include <QApplication>
 
 #include "gui/mainwindow.hpp"
-#include "gui/canvasgl.hpp"
 #include "facade/facade.hpp"
 #include "commands/command.hpp"
+#include "gui/canvasgl.hpp"
 
 int main(int argc, char* argv[]) {
     QApplication application(argc, argv);
-    MainWindow window;
-    window.show();
+//    MainWindow window;
+//    window.show();
 
-//    CanvasGL canvas;
-//    canvas.show();
+    CanvasGL canvas;
+    canvas.show();
 
 //    facade f;
 //    commands::upload_view c1("/home/lieroz/University/Sem_04/OOP/Lab_03/DATA/cube.json");

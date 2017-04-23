@@ -30,6 +30,13 @@ class uploader {
         template <class T>
         void import_data(vector<T>&, int, jsmntok_t*, std::function<T(int, jsmntok_t*, int)>&, const char*, const char*);
 
+        void retrieve_lines(vector<pair<point3d<double>, point3d<double>>>&,
+                            vector<pair<int, point3d<double>>>&,
+                            vector<pair<int, vector<int>>>&);
+
+        void normalize_points(vector<pair<int, point3d<double>>>&,
+                                        vector<point3d<double>>&);
+
     private:
         std::string file_name;
         std::ifstream input_stream;

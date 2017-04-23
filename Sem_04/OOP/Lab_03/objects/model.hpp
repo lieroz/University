@@ -11,7 +11,8 @@
 class model : public visible_object {
     public:
         explicit model() = default;
-        explicit model(const std::string&, const vector<pair<int, point3d<double>>>&, const vector<pair<int, vector<int>>>&);
+        explicit model(const std::string&, const vector<pair<point3d<double>, point3d<double>>>&,
+                       const vector<point3d<double>>&);
         model(const model&);
         virtual ~model() = default;
 
@@ -26,8 +27,8 @@ class model : public visible_object {
 
     private:
         std::string name;
-        vector<pair<int, point3d<double>>> points;
-        vector<pair<int, vector<int>>> links;
+        vector<point3d<double>> points;
+        vector<pair<point3d<double>, point3d<double>>> lines;
         point3d<double> center;
 };
 

@@ -122,7 +122,43 @@ model uploader::deserialize_json() {
         }
     }
 
-    return model(model_name, points, links);
+    vector<pair<point3d<double>, point3d<double>>> lines;
+    vector<point3d<double>> normalized_points;
+
+    retrieve_lines(lines, points, links);
+    normalize_points(points, normalized_points);
+
+    return model(model_name, lines, normalized_points);
+}
+
+void uploader::retrieve_lines(vector<pair<point3d<double>, point3d<double>>>& lines, vector<pair<int, point3d<double>>>& points,
+                    vector<pair<int, vector<int>>>& links) {
+    for (size_t i = 0; i < links.size(); ++i) {
+
+        for (size_t k = 0; k < points.size(); ++k) {
+
+            if (links.at(i).get_first() == points.at(k).get_first()) {
+
+                for (size_t j = 0; j < links.at(i).get_second().size(); ++j) {
+
+                    for (size_t w = 0; w < points.size(); ++w) {
+
+                        if (links.at(i).get_second()[j] == points.at(w).get_first()) {
+                            point3d<double> p1 = points.at(k).get_second();
+                            point3d<double> p2 = points.at(w).get_second();
+                            lines.push_back(pair<point3d<double>, point3d<double>>(p1, p2));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void uploader::normalize_points(vector<pair<int, point3d<double>>>& pair_points, vector<point3d<double>>& points) {
+    for (size_t i = 0; i < pair_points.size(); ++i) {
+        points.push_back(pair_points.at(i).get_second());
+    }
 }
 
 void uploader::close() {
