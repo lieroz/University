@@ -18,6 +18,9 @@ class MainWindow : public QMainWindow {
         const double OFFSET = 5;
         const double SCALE_FACTOR = 2;
 
+        static size_t model_count;
+        static size_t camera_count;
+
     public:
         explicit MainWindow(QWidget* parent = 0);
         virtual ~MainWindow();
@@ -31,7 +34,16 @@ class MainWindow : public QMainWindow {
         void update_scene_view();
         void update_model_view();
 
-    private:
+private slots:
+        void on_actionupload_model_triggered();
+
+        void on_addSceneObjectButton_clicked();
+
+        void on_removeSceneObjectButton_clicked();
+
+        void on_deleteViewButton_clicked();
+
+private:
         Ui::MainWindow* ui;
         QGraphicsScene* scene_view_scene;
         QGraphicsScene* model_view_scene;

@@ -45,10 +45,16 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <widget class="QComboBox" name="cameraChoiceButton"/>
+              <widget class="QComboBox" name="modelChoiceButton">
+               <item>
+                <property name="text">
+                 <string>-1 : Scene</string>
+                </property>
+               </item>
+              </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="modelChoiceButton"/>
+              <widget class="QComboBox" name="cameraChoiceButton"/>
              </item>
              <item>
               <widget class="QRadioButton" name="cameraButton">
@@ -77,6 +83,27 @@
                </property>
               </spacer>
              </item>
+             <item>
+              <widget class="QPushButton" name="addSceneObjectButton">
+               <property name="text">
+                <string>Add Object</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="removeSceneObjectButton">
+               <property name="text">
+                <string>Remove Object</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="deleteViewButton">
+               <property name="text">
+                <string>Delete View</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
@@ -100,7 +127,19 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionupload_model"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
+  <action name="actionupload_model">
+   <property name="text">
+    <string>upload model</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
