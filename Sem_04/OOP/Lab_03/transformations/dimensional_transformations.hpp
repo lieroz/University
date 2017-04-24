@@ -40,7 +40,7 @@ namespace dimensional_transformations {
             ~rotation() = default;
     };
 
-    class move: public transformation_interface {
+    class move : public transformation_interface {
         public:
             move(const point3d<double>&);
             move(move&) = delete;
@@ -48,7 +48,7 @@ namespace dimensional_transformations {
             ~move() = default;
     };
 
-    class scale: public transformation_interface {
+    class scale : public transformation_interface {
         public:
             scale(double);
             scale(scale&) = delete;

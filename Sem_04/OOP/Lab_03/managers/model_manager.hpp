@@ -16,7 +16,7 @@ class model_manager {
                 sc.transform(tr);
 
             } else {
-                tr->transform(sc.get_object(ind));
+                tr->transform(sc.get_model(ind));
             }
         }
 };

@@ -3,6 +3,7 @@
 
 #include "containers/matrix/matrix.hpp"
 #include "vector4d.hpp"
+#include "point3d.hpp"
 
 template <class T>
 class matrix4x4 : public matrix<T> {
@@ -19,15 +20,17 @@ class matrix4x4 : public matrix<T> {
         matrix4x4& operator=(matrix4x4&&);
         matrix4x4& operator=(std::initializer_list<T>);
 
+        vector4d<T> operator*(const vector4d<T>&);
+        matrix4x4 operator*(const T&);
+        point3d<T> operator*(const point3d<T>&);
+
         template <class U>
         friend vector4d<U> operator*(const vector4d<U>&, const matrix4x4<U>&);
-        template <class U>
-        friend matrix4x4<U> operator*(const matrix4x4<U>&, const U&);
 };
 
 template <class T>
 matrix4x4<T>::matrix4x4()
-    : matrix<double>(4, 4) {
+    : matrix<T>(4, 4) {
 
 }
 
@@ -68,13 +71,13 @@ matrix4x4<T>& matrix4x4<T>::operator=(std::initializer_list<T> lst) {
 }
 
 template <class T>
-vector4d<T> operator*(const vector4d<T>& vec, const matrix4x4<T>& mtx) {
-    vector4d<double> result = {0, 0, 0, 0};
+vector4d<T> matrix4x4<T>::operator*(const vector4d<T>& vec) {
+    vector4d<T> result = {0, 0, 0, 0};
 
     for (size_t i = 0; i < 4; ++i) {
 
         for (size_t j = 0; j < 4; ++j) {
-            result[i] += mtx[i][j] * vec[j];
+            result[i] += (*this)[i][j] * vec[j];
         }
     }
 
@@ -82,11 +85,40 @@ vector4d<T> operator*(const vector4d<T>& vec, const matrix4x4<T>& mtx) {
 }
 
 template <class T>
-matrix4x4<T> operator*(const matrix4x4<T>& mtx, const T& value) {
-    matrix4x4<T> result = mtx;
+matrix4x4<T> matrix4x4<T>::operator*(const T& value) {
+    matrix4x4<T> result = *this;
 
-    for (size_t i = 0; i < mtx.capacity(); ++i) {
+    for (size_t i = 0; i < this->capacity(); ++i) {
         result.buffer[i] *= value;
+    }
+
+    return result;
+}
+
+template <class T>
+point3d<T> matrix4x4<T>::operator*(const point3d<T>& point) {
+    vector<T> vec = point.to_vector4d();
+    vector<T> result = {0, 0, 0, 0};
+
+    for (size_t i = 0; i < 4; ++i) {
+
+        for (size_t j = 0; j < 4; ++j) {
+            result[i] += (*this)[i][j] * vec[j];
+        }
+    }
+
+    return point3d<T>(result[0], result[1], result[2]);
+}
+
+template <class T>
+vector4d<T> operator*(const vector4d<T>& vec, const matrix4x4<T>& mtx) {
+    vector4d<T> result = {0, 0, 0, 0};
+
+    for (size_t i = 0; i < 4; ++i) {
+
+        for (size_t j = 0; j < 4; ++j) {
+            result[i] += mtx[i][j] * vec[j];
+        }
     }
 
     return result;

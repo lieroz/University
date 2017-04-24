@@ -70,6 +70,7 @@ HEADERS  += gui/mainwindow.hpp \
     transformations/base_transformations.hpp \
     transformations/model_transformations.hpp \
     primitives/matrix4x4.hpp \
-    primitives/vector4d.hpp
+    primitives/vector4d.hpp \
+    transformations/command_interface.hpp
 
 FORMS    += gui/mainwindow.ui

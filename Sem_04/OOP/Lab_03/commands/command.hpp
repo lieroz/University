@@ -26,7 +26,7 @@ namespace commands {
             upload_view(const upload_view&) = delete;
             ~upload_view() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 c->upload_view(file_name);
             }
 
@@ -41,7 +41,7 @@ namespace commands {
             delete_view(const delete_view&) = delete;
             ~delete_view() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 c->delete_view(this->view_index);
             }
 
@@ -56,7 +56,7 @@ namespace commands {
             add_model(const add_model&) = delete;
             ~add_model() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 c->add_model(this->view_index);
             }
 
@@ -71,7 +71,7 @@ namespace commands {
             remove_model(const remove_model&) = delete;
             ~remove_model() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 c->remove_model(this->model_index);
             }
 
@@ -86,7 +86,7 @@ namespace commands {
             add_camera(const add_camera&) = delete;
             ~add_camera() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 c->add_camera();
             }
     };
@@ -98,7 +98,7 @@ namespace commands {
             remove_camera(const remove_camera&) = delete;
             ~remove_camera() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 c->remove_camera(this->camera_index);
             }
 
@@ -114,7 +114,7 @@ namespace commands {
             move(const move&) = delete;
             ~move() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 dimensional_transformations::move mv(this->point);
                 c->transform_model(new model_transformations(mv), this->model_index);
             }
@@ -132,7 +132,7 @@ namespace commands {
             rotate_model_OX(const rotate_model_OX&) = delete;
             ~rotate_model_OX() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 dimensional_transformations::rotation_OX rot(this->angle);
                 c->transform_model(new model_transformations(rot), this->model_index);
             }
@@ -150,7 +150,7 @@ namespace commands {
             rotate_model_OY(const rotate_model_OY&) = delete;
             ~rotate_model_OY() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 dimensional_transformations::rotation_OY rot(this->angle);
                 c->transform_model(new model_transformations(rot), this->model_index);
             }
@@ -168,7 +168,7 @@ namespace commands {
             rotate_model_OZ(const rotate_model_OZ&) = delete;
             ~rotate_model_OZ() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 dimensional_transformations::rotation_OZ rot(this->angle);
                 c->transform_model(new model_transformations(rot), this->model_index);
             }
@@ -186,7 +186,7 @@ namespace commands {
             scale(const scale&) = delete;
             ~scale() = default;
 
-            virtual void execute(controller*& c) {
+            virtual void execute(controller*& c) override {
                 dimensional_transformations::scale scl(this->scale_factor);
                 c->transform_model(new model_transformations(scl), this->model_index);
             }
@@ -198,17 +198,70 @@ namespace commands {
 
     class draw : public command {
         public:
-            draw(QGraphicsScene*& g_sc) : g_sc(g_sc) {}
+            draw(QGraphicsScene*& g_sc, ssize_t camera_index)
+                : g_sc(g_sc), camera_index(camera_index) {}
             draw(draw&) = delete;
             draw(const draw&) = delete;
             ~draw() = default;
 
-            virtual void execute(controller*& c) {
-                c->draw_scene(g_sc);
+            virtual void execute(controller*& c) override {
+                c->draw_scene(g_sc, camera_index);
             }
 
         private:
             QGraphicsScene* g_sc;
+            ssize_t camera_index;
+    };
+
+    class yaw : public command {
+        public:
+            yaw(double angle, size_t index) : angle(angle), index(index) {}
+            yaw(yaw&) = delete;
+            yaw(const yaw&) = delete;
+            ~yaw() = default;
+
+            virtual void execute(controller*& c) {
+                camera_dimensional_transformations::yaw comm(this->angle);
+                c->transform_camera(comm, this->index);
+            }
+
+        private:
+            double angle;
+            size_t index;
+    };
+
+    class pitch : public command {
+        public:
+            pitch(double angle, size_t index) : angle(angle), index(index) {}
+            pitch(pitch&) = delete;
+            pitch(const pitch&) = delete;
+            ~pitch() = default;
+
+            virtual void execute(controller*& c) {
+                camera_dimensional_transformations::pitch comm(this->angle);
+                c->transform_camera(comm, this->index);
+            }
+
+        private:
+            double angle;
+            size_t index;
+    };
+
+    class roll : public command {
+        public:
+            roll(double angle, size_t index) : angle(angle), index(index) {}
+            roll(roll&) = delete;
+            roll(const roll&) = delete;
+            ~roll() = default;
+
+            virtual void execute(controller*& c) {
+                camera_dimensional_transformations::roll comm(this->angle);
+                c->transform_camera(comm, this->index);
+            }
+
+        private:
+            double angle;
+            size_t index;
     };
 }
 

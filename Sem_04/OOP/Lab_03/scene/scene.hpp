@@ -9,7 +9,9 @@
 
 class scene : public scene_object {
     public:
-        scene() = default;
+        scene() {
+            this->add_camera(new camera());
+        }
 
         void transform(base_transformations*);
         bool visible() override;
@@ -20,7 +22,8 @@ class scene : public scene_object {
         void add_camera(scene_object*);
         void remove_camera(size_t);
 
-        scene_object*& get_object(size_t);
+        scene_object*& get_model(size_t);
+        scene_object*& get_camera(size_t);
 
         friend class model_manager;
         friend class draw_manager;

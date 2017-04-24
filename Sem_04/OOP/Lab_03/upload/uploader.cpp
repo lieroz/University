@@ -107,7 +107,6 @@ model uploader::deserialize_json() {
                                                       std::bind(&uploader::get_point, this, std::placeholders::_1,
                                                                 std::placeholders::_2, std::placeholders::_3);
             this->import_data<pair<int, point3d<double>>>(points, i, buffer, func, "id", "coordinates");
-            i += 6;
 
         } else if (json_equal(this->json_string.c_str(), &buffer[i], "link") == 0) {
             i += 2;
@@ -115,10 +114,6 @@ model uploader::deserialize_json() {
                                                   std::bind(&uploader::get_link, this, std::placeholders::_1,
                                                             std::placeholders::_2, std::placeholders::_3);
             this->import_data<pair<int, vector<int>>>(links, i, buffer, func, "id", "connections");
-            i += 6;
-
-        } else {
-            throw json_exception("uploader::jsmn(corrupted document)!");
         }
     }
 

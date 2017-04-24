@@ -20,24 +20,11 @@ class facade {
             delete this->__controller;
         }
 
-        bool execute_command(command& c) {
-            try {
-                c.execute(this->__controller);
-
-            } catch (base_exception& ex) {
-                this->exception_message = ex.what();
-                return false;
-            }
-
-            return true;
-        }
-
-        const std::string& recieve_exception_message() const {
-            return this->exception_message;
+        void execute_command(command& c) {
+            c.execute(this->__controller);
         }
 
     private:
-        std::string exception_message;
         controller* __controller;
 };
 

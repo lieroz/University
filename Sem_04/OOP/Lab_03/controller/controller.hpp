@@ -25,8 +25,9 @@ class controller {
         void remove_camera(size_t);
 
         void transform_model(base_transformations*, ssize_t);
+        void transform_camera(command_interface&, size_t);
 
-        void draw_scene(QGraphicsScene*&);
+        void draw_scene(QGraphicsScene*&, ssize_t);
 
     protected:
         controller() = default;

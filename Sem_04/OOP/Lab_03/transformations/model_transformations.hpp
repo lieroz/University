@@ -6,7 +6,8 @@
 
 class model_transformations : public base_transformations {
     public:
-        model_transformations(transformation_interface& interface) : base_transformations(interface) {}
+        model_transformations(transformation_interface& interface)
+            : transformation_matrix(interface) {}
         model_transformations(model_transformations&);
         model_transformations(const model_transformations&);
         ~model_transformations() = default;
@@ -16,11 +17,14 @@ class model_transformations : public base_transformations {
                 model* m = reinterpret_cast<model*>(object);
 
                 for (size_t i = 0; i < m->lines.size(); ++i) {
-                    m->lines.at(i).set_first(multiply(transformation_matrix, m->lines.at(i).get_first()));
-                    m->lines.at(i).set_second(multiply(transformation_matrix, m->lines.at(i).get_second()));
+                    m->lines.at(i).set_first(transformation_matrix * m->lines.at(i).get_first());
+                    m->lines.at(i).set_second(transformation_matrix * m->lines.at(i).get_second());
                 }
             }
         }
+
+    private:
+        matrix4x4<double> transformation_matrix = matrix4x4<double>();
 };
 
 #endif // MODEL_TRANSFORMATIONS_HPP

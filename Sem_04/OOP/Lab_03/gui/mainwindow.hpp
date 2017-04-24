@@ -14,7 +14,7 @@ namespace Ui {
 class MainWindow : public QMainWindow {
         Q_OBJECT
 
-        const double ANGLE = 3 * M_PI / 180;
+        const double ANGLE = 2 * M_PI / 180;
         const double OFFSET = 5;
         const double SCALE_FACTOR = 2;
 
@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow {
         virtual void keyPressEvent(QKeyEvent*) override;
 
         void set_up_scene_view();
-        void update_scene_view();
+        void update_scene_view(ssize_t camera_index);
 
 private slots:
         void on_actionupload_model_triggered();
