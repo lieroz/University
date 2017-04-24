@@ -7,6 +7,7 @@
 
 struct drawer {
         drawer(QGraphicsScene*& graphics_scene) : graphics_scene(graphics_scene) {}
+        ~drawer() { this->graphics_scene = nullptr; }
 
         void operator()(const point3d<double>& p1, const point3d<double>& p2) {
             this->graphics_scene->addLine(p1.get_x(), p1.get_y(), p2.get_x(), p2.get_y());
