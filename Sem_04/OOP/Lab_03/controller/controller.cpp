@@ -28,7 +28,7 @@ void controller::remove_camera(size_t index) {
     this->__scene.remove_camera(index);
 }
 
-void controller::transform_model(base_transformations* transformation, ssize_t index) {
+void controller::transform_model(base_transformations& transformation, ssize_t index) {
     this->__model_manager.transform(this->__scene, transformation, index);
 }
 
@@ -36,6 +36,6 @@ void controller::transform_camera(command_interface& comm, size_t index) {
     this->__camera_manager.transform(this->__scene, comm, index);
 }
 
-void controller::draw_scene(QGraphicsScene*& g_sc, ssize_t camera_index) {
-    this->__draw_manager.draw(this->__scene, g_sc, reinterpret_cast<camera*>(this->__scene.get_camera(camera_index)));
+void controller::draw_scene(drawer& dr, ssize_t camera_index) {
+    this->__draw_manager.draw(this->__scene, dr, reinterpret_cast<camera*>(this->__scene.get_camera(camera_index)));
 }

@@ -11,12 +11,12 @@ class model_manager {
         model_manager(const model_manager&) = delete;
         ~model_manager() = default;
 
-        void transform(scene& sc, base_transformations* tr, ssize_t ind) {
+        void transform(scene& sc, base_transformations& tr, ssize_t ind) {
             if (ind == -1) {
                 sc.transform(tr);
 
             } else {
-                tr->transform(sc.get_model(ind));
+                tr.transform(sc.get_model(ind));
             }
         }
 };

@@ -9,6 +9,7 @@
 #include "managers/model_manager.hpp"
 #include "managers/draw_manager.hpp"
 #include "managers/upload_manager.hpp"
+#include "gui/drawer.hpp"
 
 class controller {
     public:
@@ -24,10 +25,10 @@ class controller {
         void add_camera();
         void remove_camera(size_t);
 
-        void transform_model(base_transformations*, ssize_t);
+        void transform_model(base_transformations&, ssize_t);
         void transform_camera(command_interface&, size_t);
 
-        void draw_scene(QGraphicsScene*&, ssize_t);
+        void draw_scene(drawer&, ssize_t);
 
     protected:
         controller() = default;

@@ -5,6 +5,7 @@
 
 #include "scene/scene.hpp"
 #include "primitives/matrix4x4.hpp"
+#include "gui/drawer.hpp"
 
 class draw_manager {
     public:
@@ -13,7 +14,7 @@ class draw_manager {
         draw_manager(const draw_manager&) = delete;
         ~draw_manager() = default;
 
-        void draw(scene& sc, QGraphicsScene*& g_sc, camera* obj) {
+        void draw(scene& sc, drawer& dr, camera* obj) {
             for (vector<scene_object*>::iterator iter = sc.scene_objects.begin(); iter != sc.scene_objects.end(); ++iter) {
 
                 if ((*iter)->visible()) {
@@ -23,7 +24,7 @@ class draw_manager {
                     for (size_t i = 0; i < m->lines.size(); ++i) {
                         point3d<double> p1 = mtx * m->lines.at(i).get_first();
                         point3d<double> p2 = mtx * m->lines.at(i).get_second();
-                        g_sc->addLine(p1.get_x(), p1.get_y(), p2.get_x(), p2.get_y());
+                        dr(p1, p2);
                     }
                 }
             }

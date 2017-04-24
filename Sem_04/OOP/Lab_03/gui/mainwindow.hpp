@@ -28,7 +28,7 @@ class MainWindow : public QMainWindow {
         void set_up_scene_view();
         void update_scene_view(ssize_t camera_index);
 
-private slots:
+    private slots:
         void on_actionupload_model_triggered();
 
         void on_addSceneObjectButton_clicked();
@@ -37,10 +37,9 @@ private slots:
 
         void on_deleteViewButton_clicked();
 
-private:
+    private:
         Ui::MainWindow* ui;
         QGraphicsScene* scene_view_scene;
-        QGraphicsScene* model_view_scene;
 
         facade command_controller;
 };

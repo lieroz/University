@@ -13,7 +13,7 @@ class scene : public scene_object {
             this->add_camera(new camera());
         }
 
-        void transform(base_transformations*);
+        void transform(base_transformations&);
         bool visible() override;
 
         void add_model(scene_object*);

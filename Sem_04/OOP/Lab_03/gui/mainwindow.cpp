@@ -6,6 +6,7 @@
 #include <QMessageBox>
 
 #include "commands/command.hpp"
+#include "drawer.hpp"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -129,7 +130,8 @@ void MainWindow::set_up_scene_view() {
 
 void MainWindow::update_scene_view(ssize_t camera_index) {
     this->scene_view_scene->clear();
-    commands::draw comm(this->scene_view_scene, camera_index);
+    drawer dr(this->scene_view_scene);
+    commands::draw comm(dr, camera_index);
     this->command_controller.execute_command(comm);
     ui->sceneView->setScene(this->scene_view_scene);
 }

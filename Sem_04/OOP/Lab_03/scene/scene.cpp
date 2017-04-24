@@ -1,8 +1,8 @@
 #include "scene.hpp"
 
-void scene::transform(base_transformations* transformation) {
+void scene::transform(base_transformations& transformation) {
     for (vector<scene_object*>::iterator iter = scene_objects.begin(); iter != scene_objects.end(); ++iter) {
-        transformation->transform(*iter);
+        transformation.transform(*iter);
     }
 }
 

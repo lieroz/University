@@ -1,11 +1,10 @@
 #ifndef COMMAND_HPP
 #define COMMAND_HPP
 
-#include <QGraphicsScene>
-
 #include "controller/controller.hpp"
 #include "transformations/dimensional_transformations.hpp"
 #include "transformations/model_transformations.hpp"
+#include "gui/drawer.hpp"
 
 class command {
     public:
@@ -116,7 +115,8 @@ namespace commands {
 
             virtual void execute(controller*& c) override {
                 dimensional_transformations::move mv(this->point);
-                c->transform_model(new model_transformations(mv), this->model_index);
+                model_transformations transformation(mv);
+                c->transform_model(transformation, this->model_index);
             }
 
         private:
@@ -134,7 +134,8 @@ namespace commands {
 
             virtual void execute(controller*& c) override {
                 dimensional_transformations::rotation_OX rot(this->angle);
-                c->transform_model(new model_transformations(rot), this->model_index);
+                model_transformations transformation(rot);
+                c->transform_model(transformation, this->model_index);
             }
 
         private:
@@ -152,7 +153,8 @@ namespace commands {
 
             virtual void execute(controller*& c) override {
                 dimensional_transformations::rotation_OY rot(this->angle);
-                c->transform_model(new model_transformations(rot), this->model_index);
+                model_transformations transformation(rot);
+                c->transform_model(transformation, this->model_index);
             }
 
         private:
@@ -170,7 +172,8 @@ namespace commands {
 
             virtual void execute(controller*& c) override {
                 dimensional_transformations::rotation_OZ rot(this->angle);
-                c->transform_model(new model_transformations(rot), this->model_index);
+                model_transformations transformation(rot);
+                c->transform_model(transformation, this->model_index);
             }
 
         private:
@@ -188,7 +191,8 @@ namespace commands {
 
             virtual void execute(controller*& c) override {
                 dimensional_transformations::scale scl(this->scale_factor);
-                c->transform_model(new model_transformations(scl), this->model_index);
+                model_transformations transformation(scl);
+                c->transform_model(transformation, this->model_index);
             }
 
         private:
@@ -198,18 +202,18 @@ namespace commands {
 
     class draw : public command {
         public:
-            draw(QGraphicsScene*& g_sc, ssize_t camera_index)
-                : g_sc(g_sc), camera_index(camera_index) {}
+            draw(drawer& dr, ssize_t camera_index)
+                : dr(dr), camera_index(camera_index) {}
             draw(draw&) = delete;
             draw(const draw&) = delete;
             ~draw() = default;
 
             virtual void execute(controller*& c) override {
-                c->draw_scene(g_sc, camera_index);
+                c->draw_scene(this->dr, this->camera_index);
             }
 
         private:
-            QGraphicsScene* g_sc;
+            drawer dr;
             ssize_t camera_index;
     };
 
