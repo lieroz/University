@@ -68,6 +68,8 @@ HEADERS  += gui/mainwindow.hpp \
     transformations/dimensional_transformations.hpp \
     transformations/transformation_interface.hpp \
     transformations/base_transformations.hpp \
-    transformations/model_transformations.hpp
+    transformations/model_transformations.hpp \
+    primitives/matrix4x4.hpp \
+    primitives/vector4d.hpp
 
 FORMS    += gui/mainwindow.ui

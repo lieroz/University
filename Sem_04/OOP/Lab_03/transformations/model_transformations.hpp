@@ -16,7 +16,6 @@ class model_transformations : public base_transformations {
                 model* m = reinterpret_cast<model*>(object);
 
                 for (size_t i = 0; i < m->lines.size(); ++i) {
-//                    m->points[i] = (multiply(transformation_matrix, m->points[i]));
                     m->lines.at(i).set_first(multiply(transformation_matrix, m->lines.at(i).get_first()));
                     m->lines.at(i).set_second(multiply(transformation_matrix, m->lines.at(i).get_second()));
                 }

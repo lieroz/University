@@ -16,7 +16,7 @@ class matrix : public matrix_base<T> {
         matrix(size_t, size_t, std::initializer_list<T>);
         matrix(const matrix&);
         matrix(matrix&&);
-        ~matrix() = default;
+        virtual ~matrix() = default;
         matrix& operator=(const matrix&);
         matrix& operator=(matrix&&);
         matrix& operator=(std::initializer_list<T>);

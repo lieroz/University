@@ -1,9 +1,9 @@
 #ifndef TRANSFORMATION_INTERFACE_HPP
 #define TRANSFORMATION_INTERFACE_HPP
 
-#include "containers/matrix/matrix.hpp"
+#include "primitives/matrix4x4.hpp"
 
-class transformation_interface : public matrix<double> {
+class transformation_interface : public matrix4x4<double> {
     public:
         transformation_interface();
         transformation_interface(transformation_interface&) = delete;

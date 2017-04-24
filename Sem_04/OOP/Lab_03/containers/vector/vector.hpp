@@ -21,7 +21,7 @@ class vector : public vector_base<T> {
         vector(std::initializer_list<T>);
         vector(const vector&);
         vector(vector&&);
-        ~vector() = default;
+        virtual ~vector() = default;
         vector& operator=(const vector&);
         vector& operator=(vector&&);
         void assign(size_t, const T&);
