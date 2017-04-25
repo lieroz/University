@@ -121,9 +121,8 @@ model uploader::deserialize_json() {
     vector<point3d<double>> normalized_points;
 
     retrieve_lines(lines, points, links);
-    normalize_points(points, normalized_points);
 
-    return model(model_name, lines, normalized_points);
+    return model(model_name, lines);
 }
 
 void uploader::retrieve_lines(vector<pair<point3d<double>, point3d<double>>>& lines, vector<pair<int, point3d<double>>>& points,

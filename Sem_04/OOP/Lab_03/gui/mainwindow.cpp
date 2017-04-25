@@ -201,5 +201,7 @@ void MainWindow::on_removeSceneObjectButton_clicked() {
 }
 
 void MainWindow::on_deleteViewButton_clicked() {
+    commands::delete_view comm(ui->listWidget->currentIndex().row());
+    this->command_controller.execute_command(comm);
     delete ui->listWidget->item(ui->listWidget->currentIndex().row());
 }

@@ -188,7 +188,6 @@ void vector<T>::insert(size_t pos, T&& value) {
 template <class T>
 void vector<T>::erase(size_t pos) {
     T* mem_flag = this->buffer + pos;
-    (*this)[pos].~T();
     std::memmove(mem_flag, mem_flag + 1, (this->size() - (mem_flag - this->buffer) - 1) * sizeof(T));
     --this->element_count;
 }
@@ -215,8 +214,6 @@ void vector<T>::push_back(T&& value) {
 
 template <class T>
 void vector<T>::pop_back() {
-    size_t temp = this->element_count;
-    (*this)[--temp].~T();
     --this->element_count;
 }
 
