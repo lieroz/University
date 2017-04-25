@@ -10,13 +10,12 @@ class upload_manager {
         upload_manager(const upload_manager&) = delete;
         ~upload_manager() = default;
 
-        model upload_model(const std::string& file_name) {
-            uploader upldr(file_name);
+        model upload_model(base_uploader& upldr) {
             upldr.open();
-            upldr.serialize_json();
+            model m = upldr.get_model();
             upldr.close();
 
-            return upldr.deserialize_json();
+            return m;
         }
 };
 

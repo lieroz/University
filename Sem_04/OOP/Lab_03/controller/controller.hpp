@@ -16,7 +16,7 @@ class controller {
         static controller* instance();
         ~controller() = default;
 
-        void upload_view(const std::string&);
+        void upload_view(base_uploader&);
         void delete_view(size_t);
 
         void add_model(size_t);
@@ -28,7 +28,7 @@ class controller {
         void transform_model(base_transformations&, ssize_t);
         void transform_camera(command_interface&, size_t);
 
-        void draw_scene(drawer&, ssize_t);
+        void draw_scene(base_drawer&, ssize_t);
 
     protected:
         controller() = default;

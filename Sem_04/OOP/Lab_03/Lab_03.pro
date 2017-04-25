@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     transformations/dimensional_transformations.cpp \
     controller/controller.cpp \
     scene/scene.cpp \
-    transformations/transformation_interface.cpp
+    transformations/transformation_interface.cpp \
+    objects/composite_object.cpp
 
 HEADERS  += gui/mainwindow.hpp \
     containers/vector/vector_base.hpp \
@@ -72,6 +73,8 @@ HEADERS  += gui/mainwindow.hpp \
     primitives/matrix4x4.hpp \
     primitives/vector4d.hpp \
     transformations/command_interface.hpp \
-    gui/drawer.hpp
+    gui/drawer.hpp \
+    objects/composite_object.hpp \
+    upload/base_uploader.hpp
 
 FORMS    += gui/mainwindow.ui

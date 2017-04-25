@@ -1,6 +1,6 @@
 #include "uploader.hpp"
 
-uploader::uploader(std::string file_name) : file_name(file_name) {
+uploader::uploader(std::string file_name) : base_uploader(), file_name(file_name) {
     input_stream.exceptions(std::ifstream::badbit);
 }
 
@@ -49,15 +49,6 @@ pair<int, vector<int>> uploader::get_link(int i, jsmntok_t* buffer, int offset) 
     }
 
     return pair<int, vector<int>>(id, vec);
-}
-
-void uploader::open() {
-    try {
-        this->input_stream.open(this->file_name);
-
-    } catch (std::ifstream::failure& e) {
-        throw open_stream_exception();
-    }
 }
 
 void uploader::serialize_json() {
@@ -125,8 +116,9 @@ model uploader::deserialize_json() {
     return model(model_name, lines);
 }
 
-void uploader::retrieve_lines(vector<pair<point3d<double>, point3d<double>>>& lines, vector<pair<int, point3d<double>>>& points,
-                    vector<pair<int, vector<int>>>& links) {
+void uploader::retrieve_lines(vector<pair<point3d<double>, point3d<double>>>& lines,
+                              vector<pair<int, point3d<double>>>& points,
+                              vector<pair<int, vector<int>>>& links) {
     for (size_t i = 0; i < links.size(); ++i) {
 
         for (size_t k = 0; k < points.size(); ++k) {
@@ -153,6 +145,20 @@ void uploader::normalize_points(vector<pair<int, point3d<double>>>& pair_points,
     for (size_t i = 0; i < pair_points.size(); ++i) {
         points.push_back(pair_points.at(i).get_second());
     }
+}
+
+void uploader::open() {
+    try {
+        this->input_stream.open(this->file_name);
+
+    } catch (std::ifstream::failure& e) {
+        throw open_stream_exception();
+    }
+}
+
+model uploader::get_model() {
+    this->serialize_json();
+    return this->deserialize_json();
 }
 
 void uploader::close() {

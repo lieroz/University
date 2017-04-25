@@ -4,8 +4,8 @@ controller* controller::instance() {
     return new controller();
 }
 
-void controller::upload_view(const std::string& file_name) {
-    this->__model_view.add_view(this->__upload_manager.upload_model(file_name));
+void controller::upload_view(base_uploader& upldr) {
+    this->__model_view.add_view(this->__upload_manager.upload_model(upldr));
 }
 
 void controller::delete_view(size_t index) {
@@ -36,6 +36,6 @@ void controller::transform_camera(command_interface& comm, size_t index) {
     this->__camera_manager.transform(this->__scene, comm, index);
 }
 
-void controller::draw_scene(drawer& dr, ssize_t camera_index) {
+void controller::draw_scene(base_drawer& dr, ssize_t camera_index) {
     this->__draw_manager.draw(this->__scene, dr, reinterpret_cast<camera*>(this->__scene.get_camera(camera_index)));
 }

@@ -5,23 +5,26 @@
 #include <cstring>
 #include <functional>
 
-#include "../exceptions/upload_exceptions.hpp"
-#include "../containers/vector/vector.hpp"
-#include "../containers/pair/pair.hpp"
-#include "../objects/model.hpp"
-#include "../3dparty/jsmn.h"
+#include "exceptions/upload_exceptions.hpp"
+#include "containers/vector/vector.hpp"
+#include "containers/pair/pair.hpp"
+#include "objects/model.hpp"
+#include "3dparty/jsmn.h"
+#include "base_uploader.hpp"
 
-class uploader {
+class uploader : public base_uploader {
     public:
         explicit uploader(std::string);
         virtual ~uploader() = default;
 
-        void open();
-        void serialize_json();
-        model deserialize_json();
-        void close();
+        void open() override;
+        model get_model() override;
+        void close() override;
 
     protected:
+        void serialize_json();
+        model deserialize_json();
+
         static int json_equal(const char*, jsmntok_t*, const char*);
 
         pair<int, point3d<double>> get_point(int, jsmntok_t*, int);

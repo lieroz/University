@@ -1,20 +1,14 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "transformations/base_transformations.hpp"
-#include "exceptions/scene_exceptions.hpp"
-#include "containers/vector/vector.hpp"
-#include "objects/model.hpp"
-#include "objects/camera.hpp"
+#include "objects/composite_object.hpp"
 
-class scene : public scene_object {
+class scene {
     public:
-        scene() {
-            this->add_camera(new camera());
-        }
+        scene() = default;
+        ~scene() = default;
 
         void transform(base_transformations&);
-        bool visible() override;
 
         void add_model(scene_object*);
         void remove_model(size_t);
@@ -30,9 +24,7 @@ class scene : public scene_object {
         friend class camera_manager;
 
     private:
-        size_t camera_count;
-        size_t model_count;
-        vector<scene_object*> scene_objects;
+        composite_object object;
 };
 
 #endif // SCENE_HPP

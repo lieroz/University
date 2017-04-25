@@ -14,8 +14,9 @@ class draw_manager {
         draw_manager(const draw_manager&) = delete;
         ~draw_manager() = default;
 
-        void draw(scene& sc, drawer& dr, camera* obj) {
-            for (vector<scene_object*>::iterator iter = sc.scene_objects.begin(); iter != sc.scene_objects.end(); ++iter) {
+        void draw(scene& sc, base_drawer& dr, camera* obj) {
+            for (vector<scene_object*>::iterator iter = sc.object.scene_objects.begin();
+                 iter != sc.object.scene_objects.end(); ++iter) {
 
                 if ((*iter)->visible()) {
                     model* m = reinterpret_cast<model*>(*iter);

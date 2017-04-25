@@ -26,7 +26,8 @@ namespace commands {
             ~upload_view() = default;
 
             virtual void execute(controller*& c) override {
-                c->upload_view(file_name);
+                uploader upldr(this->file_name);
+                c->upload_view(upldr);
             }
 
         private:
