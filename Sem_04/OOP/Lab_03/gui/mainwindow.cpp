@@ -172,6 +172,7 @@ void MainWindow::on_addSceneObjectButton_clicked() {
 
 void MainWindow::on_removeSceneObjectButton_clicked() {
     try {
+
         if (ui->modelButton->isChecked() && ui->modelChoiceButton->currentIndex() > 0) {
             commands::remove_model comm(ui->modelChoiceButton->currentIndex() - 1);
             this->command_controller.execute_command(comm);
@@ -201,7 +202,13 @@ void MainWindow::on_removeSceneObjectButton_clicked() {
 }
 
 void MainWindow::on_deleteViewButton_clicked() {
-    commands::delete_view comm(ui->listWidget->currentIndex().row());
-    this->command_controller.execute_command(comm);
+    try {
+        commands::delete_view comm(ui->listWidget->currentIndex().row());
+        this->command_controller.execute_command(comm);
+
+    } catch (base_exception& ex) {
+        QMessageBox::warning(this, "Error message", QString(ex.what()));
+    }
+
     delete ui->listWidget->item(ui->listWidget->currentIndex().row());
 }
