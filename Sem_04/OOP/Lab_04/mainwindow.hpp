@@ -32,7 +32,8 @@ class MainWindow : public QMainWindow {
 
     signals:
         void queue_empty();
-        void queue_filled();
+        void queue_filled_different_floor();
+        void queue_filled_same_floor();
 
         void arrived();
         void moving();

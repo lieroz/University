@@ -96,7 +96,8 @@ void MainWindow::set_up_transitions() {
     this->closing->addTransition(this->closing, SIGNAL(finished()), this->closed);
     connect(this->closed, SIGNAL(finished()), this, SLOT(check_queue_slot()));
     this->closed->addTransition(this, SIGNAL(queue_empty()), this->interim_state);
-    this->closed->addTransition(this, SIGNAL(queue_filled()), this->s1);
+    this->closed->addTransition(this, SIGNAL(queue_filled_different_floor()), this->s1);
+    this->closed->addTransition(this, SIGNAL(queue_filled_same_floor()), this->s2);
 
     this->s1->addTransition(ui->stopButton, SIGNAL(clicked()), this->sudden_stop);
     this->s2->addTransition(ui->stopButton, SIGNAL(clicked()), this->sudden_stop);
@@ -148,7 +149,13 @@ void MainWindow::check_queue_slot() {
     } else {
         this->destination_floor = queue.front();
         queue.pop_front();
-        emit queue_filled();
+
+        if (this->destination_floor == this->current_floor) {
+            emit queue_filled_same_floor();
+
+        } else {
+            emit queue_filled_different_floor();
+        }
     }
 }
 
