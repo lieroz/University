@@ -23,6 +23,7 @@ class MainWindow : public QMainWindow {
 
     protected:
         void create_state(QState*&, QString, int, QState* parent = 0);
+
         void set_up_call_button_signals();
         void set_up_manage_button_signals();
         void declare_states();
@@ -30,25 +31,27 @@ class MainWindow : public QMainWindow {
         void set_up_machine();
 
     signals:
-        void call_button_clicked(int);
-        void manage_button_clicked(int);
-
         void queue_empty();
         void queue_filled();
 
+        void arrived();
+        void moving();
+
     private slots:
-        void call_lift_button_clicked();
-        void manage_lift_button_clicked();
-        void check_slot();
+        void call_lift_button_pressed();
+        void manage_lift_button_pressed();
+
+        void check_queue_slot();
+        void check_floor_slot();
 
     private:
         Ui::MainWindow* ui;
         QVector<QPushButton*> call_buttons;
         QVector<QPushButton*> manage_buttons;
-        QQueue<const char*> queued_signals;
+        QQueue<int> queue; // TODO
 
         QState* move;
-        QState* floor_change;
+        QState* floor_change; // TODO
         QState* stop;
         QState* open;
         QState* opening;
@@ -68,6 +71,7 @@ class MainWindow : public QMainWindow {
 
         const size_t FLOOR_COUNT = 9;
         int current_floor = 1;
+        int destination_floor;
 };
 
 #endif // MAINWINDOW_HPP
