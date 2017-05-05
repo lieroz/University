@@ -39,14 +39,13 @@ class MainWindow : public QMainWindow {
     private slots:
         void call_lift_button_clicked();
         void manage_lift_button_clicked();
-        void stop_lift_button_clicked();
         void check_slot();
 
     private:
         Ui::MainWindow* ui;
         QVector<QPushButton*> call_buttons;
         QVector<QPushButton*> manage_buttons;
-        QQueue<int> queued_signals;
+        QQueue<const char*> queued_signals;
 
         QState* move;
         QState* floor_change;
@@ -59,6 +58,7 @@ class MainWindow : public QMainWindow {
         QState* closing;
         QState* closed;
         QState* sudden_stop;
+        QState* interim_state;
         QFinalState* undefined_wait;
 
         QState* s1; // When elevator has to move to the floor
