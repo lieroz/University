@@ -1,7 +1,7 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef ELEVATOR_HPP
+#define ELEVATOR_HPP
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QQueue>
 #include <QVector>
 #include <QPushButton>
@@ -9,13 +9,12 @@
 #include <QState>
 #include <QFinalState>
 #include <QTimer>
-#include <QSignalTransition>
 
 namespace Ui {
-    class MainWindow;
+    class Elevator;
 }
 
-class MainWindow : public QMainWindow {
+class Elevator : public QWidget {
         Q_OBJECT
 
         const int FLOOR_COUNT = 9;
@@ -24,8 +23,8 @@ class MainWindow : public QMainWindow {
         const int SMALL_TIMER_COUNT = 1000;
 
     public:
-        explicit MainWindow(QWidget* parent = 0);
-        ~MainWindow();
+        explicit Elevator(QWidget* parent = 0);
+        ~Elevator();
 
     protected:
         void create_state(QState*&, QString, int, QState* parent = 0);
@@ -53,10 +52,11 @@ class MainWindow : public QMainWindow {
         void check_floor_slot();
 
     private:
-        Ui::MainWindow* ui;
+        Ui::Elevator* ui;
         QVector<QPushButton*> call_buttons;
         QVector<QPushButton*> manage_buttons;
-        QQueue<int> queue;
+        QQueue<int> call_states;
+        QQueue<int> manage_states;
 
         QState* move;
         QState* floor_change;
@@ -81,4 +81,4 @@ class MainWindow : public QMainWindow {
         int destination_floor = 1;
 };
 
-#endif // MAINWINDOW_HPP
+#endif // ELEVATOR_HPP

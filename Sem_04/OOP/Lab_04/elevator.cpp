@@ -1,10 +1,8 @@
-#include "mainwindow.hpp"
-#include "ui_mainwindow.h"
-#include <QDebug>
-#include <QThread>
+#include "elevator.hpp"
+#include "ui_elevator.h"
 
-MainWindow::MainWindow(QWidget* parent) :
-    QMainWindow(parent), ui(new Ui::MainWindow) {
+Elevator::Elevator(QWidget* parent) :
+    QWidget(parent), ui(new Ui::Elevator) {
     ui->setupUi(this);
     ui->currentFloorLCD->setStyleSheet("background : black;");
     ui->currentFloorLCD->setPalette(Qt::green);
@@ -21,11 +19,11 @@ MainWindow::MainWindow(QWidget* parent) :
     this->set_up_machine();
 }
 
-MainWindow::~MainWindow() {
+Elevator::~Elevator() {
     delete ui;
 }
 
-void MainWindow::create_state(QState*& state, QString property, int duration, QState* parent) {
+void Elevator::create_state(QState*& state, QString property, int duration, QState* parent) {
     state = new QState(parent);
     QTimer* timer = new QTimer(state);
     timer->setInterval(duration);
@@ -38,7 +36,7 @@ void MainWindow::create_state(QState*& state, QString property, int duration, QS
     state->assignProperty(ui->stateViewer, "text", property);
 }
 
-void MainWindow::set_up_call_button_signals() {
+void Elevator::set_up_call_button_signals() {
     for (int i = 0; i < FLOOR_COUNT; ++i) {
         QString text = QString::number(i + 1);
         QPushButton* button = new QPushButton(text, this);
@@ -48,7 +46,7 @@ void MainWindow::set_up_call_button_signals() {
     }
 }
 
-void MainWindow::set_up_manage_button_signals() {
+void Elevator::set_up_manage_button_signals() {
     for (int i = 0; i < FLOOR_COUNT; ++i) {
         QString text = QString::number(i + 1);
         QPushButton* button = new QPushButton(text, this);
@@ -58,7 +56,7 @@ void MainWindow::set_up_manage_button_signals() {
     }
 }
 
-void MainWindow::declare_states() {
+void Elevator::declare_states() {
     this->s1 = new QState();
     this->create_state(this->move, "move", BIG_TIMER_COUNT, this->s1);
     this->create_state(this->floor_change, "floor change", SMALL_TIMER_COUNT, this->s1);
@@ -73,13 +71,13 @@ void MainWindow::declare_states() {
     this->create_state(this->closing, "closing doors", MID_TIMER_COUNT, this->s2);
     this->create_state(this->closed, "doors closed", SMALL_TIMER_COUNT, this->s2);
 
-    this->create_state(this->sudden_stop, "sudden stop", 1000);
-    this->create_state(this->interim_state, "undefined wait", 1000);
+    this->create_state(this->sudden_stop, "sudden stop", SMALL_TIMER_COUNT);
+    this->create_state(this->interim_state, "undefined wait", SMALL_TIMER_COUNT);
 
     this->undefined_wait = new QFinalState();
 }
 
-void MainWindow::set_up_transitions() {
+void Elevator::set_up_transitions() {
     this->s1->setInitialState(this->move);
     this->move->addTransition(this->move, SIGNAL(finished()), this->floor_change);
     connect(this->floor_change, SIGNAL(finished()), this, SLOT(check_floor_slot()));
@@ -107,7 +105,7 @@ void MainWindow::set_up_transitions() {
     this->interim_state->addTransition(this->interim_state, SIGNAL(finished()), this->undefined_wait);
 }
 
-void MainWindow::set_up_machine() {
+void Elevator::set_up_machine() {
     this->machine.addState(this->s1);
     this->machine.addState(this->s2);
     this->machine.addState(this->sudden_stop);
@@ -115,7 +113,7 @@ void MainWindow::set_up_machine() {
     this->machine.addState(this->undefined_wait);
 }
 
-void MainWindow::call_lift_button_pressed() {
+void Elevator::call_lift_button_pressed() {
     QPushButton* button = static_cast<QPushButton*>(sender());
     const int button_number = button->text()[0].digitValue();
 
@@ -125,11 +123,11 @@ void MainWindow::call_lift_button_pressed() {
         this->destination_floor = button_number;
 
     } else {
-        this->queue.push_back(button_number);
+        this->call_states.push_back(button_number);
     }
 }
 
-void MainWindow::manage_lift_button_pressed() {
+void Elevator::manage_lift_button_pressed() {
     QPushButton* button = static_cast<QPushButton*>(sender());
     const int button_number = button->text()[0].digitValue();
 
@@ -139,21 +137,40 @@ void MainWindow::manage_lift_button_pressed() {
         this->destination_floor = button_number;
 
     } else {
-        this->queue.push_back(button_number);
+        this->manage_states.push_back(button_number);
     }
 }
 
-void MainWindow::stop_button_pressed() {
-    this->queue.clear();
+void Elevator::stop_button_pressed() {
+    this->manage_states.clear();
+    this->call_states.clear();
 }
 
-void MainWindow::check_queue_slot() {
-    if (this->queue.empty()) {
+void Elevator::check_queue_slot() {
+    if (this->manage_states.empty() && this->call_states.empty()) {
         emit queue_empty();
 
     } else {
-        this->destination_floor = this->queue.front();
-        this->queue.pop_front();
+
+        if (this->manage_states.empty()) {
+            this->destination_floor = this->call_states.front();
+            this->call_states.pop_front();
+
+        } else if (this-> call_states.empty()) {
+            this->destination_floor = this->manage_states.front();
+            this->manage_states.pop_front();
+
+        } else {
+
+            if ((this->current_floor - this->manage_states.front()) < (this->current_floor - this->call_states.front())) {
+                this->destination_floor = this->manage_states.front();
+                this->manage_states.pop_front();
+
+            } else {
+                this->destination_floor = this->call_states.front();
+                this->call_states.pop_front();
+            }
+        }
 
         if (this->destination_floor == this->current_floor) {
             emit queue_filled_same_floor();
@@ -164,7 +181,7 @@ void MainWindow::check_queue_slot() {
     }
 }
 
-void MainWindow::check_floor_slot() {
+void Elevator::check_floor_slot() {
     this->current_floor > this->destination_floor ? --this->current_floor : ++this->current_floor;
     ui->currentFloorLCD->display(this->current_floor);
 
