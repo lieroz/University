@@ -39,7 +39,7 @@ void MainWindow::create_state(QState*& state, QString property, int duration, QS
 }
 
 void MainWindow::set_up_call_button_signals() {
-    for (size_t i = 0; i < FLOOR_COUNT; ++i) {
+    for (int i = 0; i < FLOOR_COUNT; ++i) {
         QString text = QString::number(i + 1);
         QPushButton* button = new QPushButton(text, this);
         this->call_buttons.push_back(button);
@@ -49,7 +49,7 @@ void MainWindow::set_up_call_button_signals() {
 }
 
 void MainWindow::set_up_manage_button_signals() {
-    for (size_t i = 0; i < FLOOR_COUNT; ++i) {
+    for (int i = 0; i < FLOOR_COUNT; ++i) {
         QString text = QString::number(i + 1);
         QPushButton* button = new QPushButton(text, this);
         this->manage_buttons.push_back(button);
@@ -60,18 +60,18 @@ void MainWindow::set_up_manage_button_signals() {
 
 void MainWindow::declare_states() {
     this->s1 = new QState();
-    this->create_state(this->move, "move", 1000, this->s1);
-    this->create_state(this->floor_change, "floor change", 1000, this->s1);
-    this->create_state(this->stop, "stop", 1000, this->s1);
+    this->create_state(this->move, "move", BIG_TIMER_COUNT, this->s1);
+    this->create_state(this->floor_change, "floor change", SMALL_TIMER_COUNT, this->s1);
+    this->create_state(this->stop, "stop", SMALL_TIMER_COUNT, this->s1);
 
     this->s2 = new QState();
-    this->create_state(this->open, "open doors", 1000, this->s2);
-    this->create_state(this->opening, "opening doors", 1000, this->s2);
-    this->create_state(this->opened, "doors opened", 1000, this->s2);
-    this->create_state(this->wait, "wait", 1000, this->s2);
-    this->create_state(this->close, "close doors", 1000, this->s2);
-    this->create_state(this->closing, "closing doors", 1000, this->s2);
-    this->create_state(this->closed, "doors closed", 1000, this->s2);
+    this->create_state(this->open, "open doors", SMALL_TIMER_COUNT, this->s2);
+    this->create_state(this->opening, "opening doors", MID_TIMER_COUNT, this->s2);
+    this->create_state(this->opened, "doors opened", SMALL_TIMER_COUNT, this->s2);
+    this->create_state(this->wait, "wait", BIG_TIMER_COUNT, this->s2);
+    this->create_state(this->close, "close doors", SMALL_TIMER_COUNT, this->s2);
+    this->create_state(this->closing, "closing doors", MID_TIMER_COUNT, this->s2);
+    this->create_state(this->closed, "doors closed", SMALL_TIMER_COUNT, this->s2);
 
     this->create_state(this->sudden_stop, "sudden stop", 1000);
     this->create_state(this->interim_state, "undefined wait", 1000);
@@ -99,6 +99,7 @@ void MainWindow::set_up_transitions() {
     this->closed->addTransition(this, SIGNAL(queue_filled_different_floor()), this->s1);
     this->closed->addTransition(this, SIGNAL(queue_filled_same_floor()), this->s2);
 
+    connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stop_button_pressed()));
     this->s1->addTransition(ui->stopButton, SIGNAL(clicked()), this->sudden_stop);
     this->s2->addTransition(ui->stopButton, SIGNAL(clicked()), this->sudden_stop);
     this->sudden_stop->addTransition(this->sudden_stop, SIGNAL(finished()), this->interim_state);
@@ -142,13 +143,17 @@ void MainWindow::manage_lift_button_pressed() {
     }
 }
 
+void MainWindow::stop_button_pressed() {
+    this->queue.clear();
+}
+
 void MainWindow::check_queue_slot() {
-    if (queue.empty()) {
+    if (this->queue.empty()) {
         emit queue_empty();
 
     } else {
-        this->destination_floor = queue.front();
-        queue.pop_front();
+        this->destination_floor = this->queue.front();
+        this->queue.pop_front();
 
         if (this->destination_floor == this->current_floor) {
             emit queue_filled_same_floor();
