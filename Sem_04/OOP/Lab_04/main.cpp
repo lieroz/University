@@ -1,4 +1,3 @@
-#include "mainwindow.hpp"
 #include "elevator.hpp"
 #include <QApplication>
 
