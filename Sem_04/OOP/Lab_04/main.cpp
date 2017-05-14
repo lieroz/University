@@ -1,11 +1,10 @@
-#include "mainwindow.hpp"
+#include "elevator.hpp"
 #include <QApplication>
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
 
-    MainWindow window;
-    window.resize(110, 300);
+    Elevator window;
     window.show();
 
     return app.exec();
