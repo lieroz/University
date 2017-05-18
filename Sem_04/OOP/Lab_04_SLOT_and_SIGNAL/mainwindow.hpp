@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include <QVector>
 #include <QPushButton>
+#include <QPaintEvent>
+#include <QPainter>
+#include <QPropertyAnimation>
+#include <QPointer>
 
 #include "ui_mainwindow.h"
 #include "controller.hpp"
@@ -15,8 +19,6 @@ namespace Ui {
 class MainWindow : public QMainWindow {
         Q_OBJECT
 
-        const int FLOOR_COUNT = 9;
-
     public:
         explicit MainWindow(QWidget* parent = 0);
         ~MainWindow();
@@ -25,6 +27,12 @@ class MainWindow : public QMainWindow {
         void setUpCallButtons();
         void setUpControlButtons();
         void setUpConnections();
+
+        void paintEvent(QPaintEvent*) override;
+
+        void updateElevator(bool);
+        void updateDoorsOpening();
+        void updateDoorsClosing();
 
     signals:
         void callButtonPressedSignal(int);
@@ -35,7 +43,7 @@ class MainWindow : public QMainWindow {
         void controlButtonPressedSlot();
 
         void setFloor(int);
-        void elevatorStateAcceptor(Elevator::State);
+        void elevatorStateAcceptor(Elevator::State, bool);
         void doorsStateAcceptor(Doors::State);
 
     private:
@@ -43,7 +51,14 @@ class MainWindow : public QMainWindow {
         QVector<QPushButton*> controlButtons;
 
         Controller controller;
+        QPointer<QPropertyAnimation> elevatorAnimation;
+        QPointer<QPropertyAnimation> leftDoorAnimation;
+        QPointer<QPropertyAnimation> rightDoorAnimation;
         Ui::MainWindow* ui;
+
+        int increment;
+        int leftDoorWidth;
+        int rightDoorWidth;
 };
 
 #endif // MAINWINDOW_HPP

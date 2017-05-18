@@ -31,7 +31,7 @@ void Elevator::setState(Elevator::State state) {
 
 void Elevator::enteredMoving() {
     this->setState(State::MOVING);
-    this->movingTimer.start(3000);
+    this->movingTimer.start(TIMER_LARGE);
 }
 
 void Elevator::exitedMoving() {
@@ -40,7 +40,7 @@ void Elevator::exitedMoving() {
 
 void Elevator::enteredFloorChanged() {
     this->setState(State::FLOOR_CHANGED);
-    this->floorChangedTimer.start(1000);
+    this->floorChangedTimer.start(TIMER_SMALL);
 }
 
 void Elevator::exitedFloorChanged() {
@@ -49,7 +49,7 @@ void Elevator::exitedFloorChanged() {
 
 void Elevator::enteredStopped() {
     this->setState(State::STOPPED);
-    this->stoppedTimer.start(1000);
+    this->stoppedTimer.start(TIMER_SMALL);
 }
 
 void Elevator::exitedStopped() {
@@ -58,7 +58,7 @@ void Elevator::exitedStopped() {
 
 void Elevator::enteredWaiting() {
     this->setState(State::WAITING);
-    this->waitingTimer.start(3000);
+    this->waitingTimer.start(TIMER_LARGE);
 }
 
 void Elevator::exitedWaiting() {

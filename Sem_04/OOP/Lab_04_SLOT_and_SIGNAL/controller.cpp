@@ -60,21 +60,11 @@ void Controller::controlButtonPressed(int value) {
     }
 }
 
-void Controller::stopButtonPressed() {
-    this->callSignals.clear();
-    this->controlSignals.clear();
-    emit shutDown();
-    this->blockSignals(true);
-}
-
 void Controller::finishedMoving() {
     emit changeFloor();
 }
 
 void Controller::finishedFloorChanged() {
-    this->currentFloor > this->destinationFloor ? --this->currentFloor : ++this->currentFloor;
-    emit setFloor(this->currentFloor);
-
     if (this->currentFloor == this->destinationFloor) {
         emit stop();
 
@@ -119,7 +109,12 @@ void Controller::finishedClosed() {
 }
 
 void Controller::elevatorStateChangedAcceptor(Elevator::State state) {
-    emit elevatorStateChanged(state);
+    if (state == Elevator::State::FLOOR_CHANGED) {
+        this->currentFloor > this->destinationFloor ? --this->currentFloor : ++this->currentFloor;
+        emit setFloor(this->currentFloor);
+    }
+
+    emit elevatorStateChanged(state, this->currentFloor < this->destinationFloor ? true : false);
 }
 
 void Controller::doorsStateChangedAcceptor(Doors::State state) {

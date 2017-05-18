@@ -32,6 +32,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.hpp \
     elevator.hpp \
     doors.hpp \
-    controller.hpp
+    controller.hpp \
+    config.hpp
 
 FORMS    += mainwindow.ui

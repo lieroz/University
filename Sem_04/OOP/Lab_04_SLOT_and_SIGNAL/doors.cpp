@@ -32,7 +32,7 @@ void Doors::setState(Doors::State state) {
 
 void Doors::enteredOpening() {
     this->setState(State::OPENING);
-    this->openingTimer.start(2000);
+    this->openingTimer.start(TIMER_MID);
 }
 
 void Doors::exitedOpening() {
@@ -41,7 +41,7 @@ void Doors::exitedOpening() {
 
 void Doors::enteredOpened() {
     this->setState(State::OPENED);
-    this->openedTimer.start(1000);
+    this->openedTimer.start(TIMER_SMALL);
 }
 
 void Doors::exitedOpened() {
@@ -50,7 +50,7 @@ void Doors::exitedOpened() {
 
 void Doors::enteredClosing() {
     this->setState(State::CLOSING);
-    this->closingTimer.start(2000);
+    this->closingTimer.start(TIMER_MID);
 }
 
 void Doors::exitedClosing() {
@@ -59,7 +59,7 @@ void Doors::exitedClosing() {
 
 void Doors::enteredClosed() {
     this->setState(State::CLOSED);
-    this->closedTimer.start(1000);
+    this->closedTimer.start(TIMER_SMALL);
 }
 
 void Doors::exitedClosed() {

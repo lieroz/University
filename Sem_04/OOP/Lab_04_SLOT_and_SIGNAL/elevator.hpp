@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QTimer>
 
+#include "config.hpp"
+
 class Elevator : public QObject  {
         Q_OBJECT
 

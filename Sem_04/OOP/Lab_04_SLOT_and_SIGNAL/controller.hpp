@@ -24,13 +24,12 @@ class Controller : public QObject {
         void shutDown();
 
         void setFloor(int);
-        void elevatorStateChanged(Elevator::State);
+        void elevatorStateChanged(Elevator::State, bool);
         void doorsStateChanged(Doors::State);
 
     public slots:
         void callButtonPressed(int);
         void controlButtonPressed(int);
-        void stopButtonPressed();
 
         void finishedMoving();
         void finishedFloorChanged();
