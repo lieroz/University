@@ -7,6 +7,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->lcdNumber->setPalette(Qt::green);
     ui->lcdNumber->display(1);
     ui->elevator->setStyleSheet("background-color:gray;");
+    ui->innerElevator->setStyleSheet("background-color:yellow;");
+    ui->leftDoor->setStyleSheet("background-color:gray");
+    ui->rightDoor->setStyleSheet("background-color:gray");
+    ui->leftDoor->setEnabled(false);
+    ui->rightDoor->setEnabled(false);
     this->setUpCallButtons();
     this->setUpControlButtons();
     this->setUpConnections();
@@ -65,11 +70,11 @@ void MainWindow::paintEvent(QPaintEvent*) {
 }
 
 void MainWindow::updateElevator(bool movingUp) {
-    this->elevatorAnimation->setDuration(TIMER_LARGE);
+    this->elevatorAnimation->setDuration(TIMER_LARGE + OFFSET);
     this->elevatorAnimation->setEasingCurve(QEasingCurve::Linear);
-    this->elevatorAnimation->setEndValue(QRect(ui->elevator->pos().x(),
-                                               movingUp ? ui->elevator->pos().y() - this->increment : ui->elevator->pos().y() + this->increment,
-                                               ui->elevator->width(), ui->elevator->height()));
+    this->elevatorAnimation->setEndValue(
+        QRect(ui->elevator->pos().x(), movingUp ? ui->elevator->pos().y() - this->increment : ui->elevator->pos().y() + this->increment,
+              ui->elevator->width(), ui->elevator->height()));
     this->elevatorAnimation->start();
 }
 
@@ -78,10 +83,10 @@ void MainWindow::updateDoorsOpening() {
     this->rightDoorAnimation->setDuration(TIMER_MID);
     this->leftDoorAnimation->setEasingCurve(QEasingCurve::Linear);
     this->rightDoorAnimation->setEasingCurve(QEasingCurve::Linear);
-    this->leftDoorAnimation->setEndValue(QRect(ui->leftDoor->pos().x(), ui->leftDoor->pos().y(),
-                                               0, ui->leftDoor->height()));
-    this->rightDoorAnimation->setEndValue(QRect(ui->rightDoor->pos().x() + ui->rightDoor->width(),
-                                                ui->rightDoor->pos().y(), 0, ui->rightDoor->height()));
+    this->leftDoorAnimation->setEndValue(
+        QRect(ui->leftDoor->pos().x(), ui->leftDoor->pos().y(), 0, ui->leftDoor->height()));
+    this->rightDoorAnimation->setEndValue(
+        QRect(ui->rightDoor->pos().x() + ui->rightDoor->width(), ui->rightDoor->pos().y(), 0, ui->rightDoor->height()));
     this->leftDoorAnimation->start();
     this->rightDoorAnimation->start();
 }
@@ -91,10 +96,10 @@ void MainWindow::updateDoorsClosing() {
     this->rightDoorAnimation->setDuration(TIMER_MID);
     this->leftDoorAnimation->setEasingCurve(QEasingCurve::Linear);
     this->rightDoorAnimation->setEasingCurve(QEasingCurve::Linear);
-    this->leftDoorAnimation->setEndValue(QRect(ui->leftDoor->pos().x(), ui->leftDoor->pos().y(),
-                                               this->leftDoorWidth, ui->leftDoor->height()));
-    this->rightDoorAnimation->setEndValue(QRect(ui->rightDoor->pos().x() - this->rightDoorWidth, ui->rightDoor->pos().y(),
-                                                this->rightDoorWidth, ui->rightDoor->height()));
+    this->leftDoorAnimation->setEndValue(
+        QRect(ui->leftDoor->pos().x(), ui->leftDoor->pos().y(), this->leftDoorWidth, ui->leftDoor->height()));
+    this->rightDoorAnimation->setEndValue(
+        QRect(ui->rightDoor->pos().x() - this->rightDoorWidth, ui->rightDoor->pos().y(), this->rightDoorWidth, ui->rightDoor->height()));
     this->leftDoorAnimation->start();
     this->rightDoorAnimation->start();
 }

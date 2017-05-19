@@ -30,41 +30,63 @@ void Elevator::setState(Elevator::State state) {
 }
 
 void Elevator::enteredMoving() {
-    this->setState(State::MOVING);
-    this->movingTimer.start(TIMER_LARGE);
+    if (this->currentState == State::UNDEFINED_WAITING
+        || this->currentState == State::FLOOR_CHANGED
+        || this->currentState == State::WAITING) {
+        this->setState(State::MOVING);
+        this->movingTimer.start(TIMER_LARGE);
+    }
 }
 
 void Elevator::exitedMoving() {
-    emit finishedMoving();
+    if (this->currentState == State::MOVING) {
+        emit finishedMoving();
+    }
 }
 
 void Elevator::enteredFloorChanged() {
-    this->setState(State::FLOOR_CHANGED);
-    this->floorChangedTimer.start(TIMER_SMALL);
+    if (this->currentState == State::MOVING) {
+        this->setState(State::FLOOR_CHANGED);
+        this->floorChangedTimer.start(TIMER_SMALL);
+    }
 }
 
 void Elevator::exitedFloorChanged() {
-    emit finishedFloorChanged();
+    if (this->currentState == State::FLOOR_CHANGED) {
+        emit finishedFloorChanged();
+    }
 }
 
 void Elevator::enteredStopped() {
-    this->setState(State::STOPPED);
-    this->stoppedTimer.start(TIMER_SMALL);
+    if (this->currentState == State::FLOOR_CHANGED) {
+        this->setState(State::STOPPED);
+        this->stoppedTimer.start(TIMER_SMALL);
+    }
 }
 
 void Elevator::exitedStopped() {
-    emit finishedStopped();
+    if (this->currentState == State::STOPPED) {
+        emit finishedStopped();
+    }
 }
 
 void Elevator::enteredWaiting() {
-    this->setState(State::WAITING);
-    this->waitingTimer.start(TIMER_LARGE);
+    if (this->currentState == State::STOPPED
+        || this->currentState == State::UNDEFINED_WAITING
+        || this->currentState == State::WAITING) {
+        this->setState(State::WAITING);
+        this->waitingTimer.start(TIMER_LARGE);
+    }
 }
 
 void Elevator::exitedWaiting() {
-    emit finishedWaiting();
+    if (this->currentState == State::WAITING) {
+        emit finishedWaiting();
+    }
 }
 
 void Elevator::shuttedDown() {
-    this->setState(State::UNDEFINED_WAITING);
+    if (this->currentState == State::WAITING) {
+        this->setState(State::UNDEFINED_WAITING);
+    }
 }

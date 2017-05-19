@@ -61,49 +61,61 @@ void Controller::controlButtonPressed(int value) {
 }
 
 void Controller::finishedMoving() {
-    emit changeFloor();
+    if (this->elevator.getState() == Elevator::State::MOVING
+        && this->doors.getState() == Doors::State::CLOSED) {
+        emit changeFloor();
+    }
 }
 
 void Controller::finishedFloorChanged() {
-    if (this->currentFloor == this->destinationFloor) {
-        emit stop();
+    if (this->elevator.getState() == Elevator::State::FLOOR_CHANGED
+        && this->doors.getState() == Doors::State::CLOSED) {
+        if (this->currentFloor == this->destinationFloor) {
+            emit stop();
 
-    } else {
-        emit move();
+        } else {
+            emit move();
+        }
     }
 }
 
 void Controller::finishedStopped() {
-    emit open();
+    if (this->elevator.getState() == Elevator::State::STOPPED
+        && this->doors.getState() == Doors::State::CLOSED) {
+        emit open();
+    }
 }
 
 void Controller::finishedClosed() {
-    if (callSignals.isEmpty() && controlSignals.isEmpty()) {
-        emit shutDown();
-
-    } else {
-
-        if (this->callSignals.isEmpty() && !this->controlSignals.isEmpty()) {
-            this->destinationFloor = this->controlSignals.dequeue();
-
-        } else if (!this->callSignals.isEmpty() && this->controlSignals.isEmpty()) {
-            this->destinationFloor = this->callSignals.dequeue();
+    if (this->elevator.getState() == Elevator::State::WAITING
+            && this->doors.getState() == Doors::State::CLOSED) {
+        if (callSignals.isEmpty() && controlSignals.isEmpty()) {
+            emit shutDown();
 
         } else {
 
-            if (this->callSignals.first() < this->controlSignals.first()) {
+            if (this->callSignals.isEmpty() && !this->controlSignals.isEmpty()) {
+                this->destinationFloor = this->controlSignals.dequeue();
+
+            } else if (!this->callSignals.isEmpty() && this->controlSignals.isEmpty()) {
                 this->destinationFloor = this->callSignals.dequeue();
 
             } else {
-                this->destinationFloor = this->controlSignals.dequeue();
+
+                if (this->callSignals.first() < this->controlSignals.first()) {
+                    this->destinationFloor = this->callSignals.dequeue();
+
+                } else {
+                    this->destinationFloor = this->controlSignals.dequeue();
+                }
             }
-        }
 
-        if (this->currentFloor == this->destinationFloor) {
-            emit open();
+            if (this->currentFloor == this->destinationFloor) {
+                emit open();
 
-        } else {
-            emit move();
+            } else {
+                emit move();
+            }
         }
     }
 }

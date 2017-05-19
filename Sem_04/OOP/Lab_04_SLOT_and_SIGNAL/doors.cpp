@@ -31,37 +31,53 @@ void Doors::setState(Doors::State state) {
 }
 
 void Doors::enteredOpening() {
-    this->setState(State::OPENING);
-    this->openingTimer.start(TIMER_MID);
+    if (this->currentState == State::CLOSED) {
+        this->setState(State::OPENING);
+        this->openingTimer.start(TIMER_MID);
+    }
 }
 
 void Doors::exitedOpening() {
-    emit finishedOpening();
+    if (this->currentState == State::OPENING) {
+        emit finishedOpening();
+    }
 }
 
 void Doors::enteredOpened() {
-    this->setState(State::OPENED);
-    this->openedTimer.start(TIMER_SMALL);
+    if (this->currentState == State::OPENING) {
+        this->setState(State::OPENED);
+        this->openedTimer.start(TIMER_SMALL);
+    }
 }
 
 void Doors::exitedOpened() {
-    emit finishedOpened();
+    if (this->currentState == State::OPENED) {
+        emit finishedOpened();
+    }
 }
 
 void Doors::enteredClosing() {
-    this->setState(State::CLOSING);
-    this->closingTimer.start(TIMER_MID);
+    if (this->currentState == State::OPENED) {
+        this->setState(State::CLOSING);
+        this->closingTimer.start(TIMER_MID);
+    }
 }
 
 void Doors::exitedClosing() {
-    emit finishedClosing();
+    if (this->currentState == State::CLOSING) {
+        emit finishedClosing();
+    }
 }
 
 void Doors::enteredClosed() {
-    this->setState(State::CLOSED);
-    this->closedTimer.start(TIMER_SMALL);
+    if (this->currentState == State::CLOSING) {
+        this->setState(State::CLOSED);
+        this->closedTimer.start(TIMER_SMALL);
+    }
 }
 
 void Doors::exitedClosed() {
-    emit finishedClosed();
+    if (this->currentState == State::CLOSED) {
+        emit finishedClosed();
+    }
 }
