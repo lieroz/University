@@ -1,1000 +1,1000 @@
-1	Comoros	Andjouân (Anjwān)	Comoro Franc
-2	Maldives	Kaafu	Rufiyaa
-3	El Salvador	Usulután	El Salvador Colon
-4	Iran, Islamic Republic of	Khorāsān-e Shemālī	Iranian Rial
-5	Papua New Guinea	Morobe	Kina
-6	Kyrgyzstan	Naryn	Som
-7	Indonesia	Aceh	Rupiah
-8	Morocco	Tanger-Assilah	Moroccan Dirham
-9	Mexico	Puebla	Mexican Peso
-10	Kyrgyzstan	Chü	Som
-11	Iraq	Babil	Iraqi Dinar
-12	Kyrgyzstan	Ysyk-Köl	Som
-13	Lesotho	Berea	Loti
-14	United Arab Emirates	Dubayy	UAE Dirham
-15	Seychelles	Baie Sainte Anne	Seychelles Rupee
-16	Barbados	Christ Church	Barbados Dollar
-17	Liberia	Grand Cape Mount	Liberian Dollar
-18	Sierra Leone	Eastern	Leone
-19	Sao Tome and Principe	Príncipe	Dobra
-20	Libya	Ghāt	Libyan Dinar
-21	Cabo Verde	Ribeira Grande de Santiago	Cabo Verde Escudo
-22	Singapore	North West	Singapore Dollar
-23	Tonga	Vava'u	Pa’anga
-24	Iran, Islamic Republic of	Hormozgān	Iranian Rial
-25	Bangladesh	Barguna	Taka
-26	Malawi	Blantyre	Malawi Kwacha
-27	Kenya	Western Magharibi	Kenyan Shilling
-28	Uruguay	Salto	Peso Uruguayo
-29	Macedonia, Republic of	Kavadarci	Denar
-30	Armenia	Kotayk'	Armenian Dram
-31	Iran, Islamic Republic of	Īlām	Iranian Rial
-32	South Africa	Mpumalanga	Rand
-33	Egypt	Ḩulwān	Egyptian Pound
-34	Albania	Shkodër	Lek
-35	Cuba	Pinar del Rio	Cuban Peso
-36	Japan	Chiba	Yen
-37	Bolivia, Plurinational State of	La Paz	Boliviano
-38	Paraguay	Caazapá	Guarani
-39	Canada	Quebec	Canadian Dollar
-40	Bangladesh	Sylhet	Taka
-41	Burundi	Makamba	Burundi Franc
-42	Dominican Republic	Espaillat	Dominican Peso
-43	Mauritania	Tiris Zemmour	Ouguiya
-44	Trinidad and Tobago	Port of Spain	Trinidad and Tobago Dollar
-45	Sierra Leone	Northern	Leone
-46	United Arab Emirates	'Ajmān	UAE Dirham
-47	Morocco	Rabat-Salé-Zemmour-Zaer	Moroccan Dirham
-48	Mongolia	Töv	Tugrik
-49	El Salvador	La Libertad	El Salvador Colon
-50	Uzbekistan	Farg'ona	Uzbekistan Sum
-51	Belize	Stann Creek	Belize Dollar
-52	United Kingdom	Armagh, Banbridge and Craigavon	Pound Sterling
-53	Cambodia	Taakaev	Riel
-54	Vanuatu	Shéfa	Vatu
-55	Qatar	Ad Dawhah	Qatari Rial
-56	Canada	British Columbia	Canadian Dollar
-57	Philippines	Apayao	Philippine Peso
-58	Myanmar	Kachin	Kyat
-59	Israel	Hefa	New Israeli Sheqel
-60	Syrian Arab Republic	Hamah	Syrian Pound
-61	Namibia	Oshikoto	Namibia Dollar
-62	Seychelles	Bel Air	Seychelles Rupee
-63	Japan	Fukui	Yen
-64	Peru	Lima	Sol
-65	Bahamas	Black Point	Bahamian Dollar
-66	Switzerland	Valais	Swiss Franc
-67	Eritrea	Shimālī al Baḩrī al Aḩmar	Nakfa
-68	South Africa	Eastern Cape	Rand
-69	Uzbekistan	Toshkent	Uzbekistan Sum
-70	Bolivia, Plurinational State of	Pando	Boliviano
-71	Bangladesh	Narail	Taka
-72	Algeria	Chlef	Algerian Dinar
-73	Morocco	Ben Slimane	Moroccan Dirham
-74	Nepal	Seti	Nepalese Rupee
-75	Albania	Vlorë	Lek
-76	Fiji	Western	Fiji Dollar
-77	Israel	Yerushalayim Al Quds	New Israeli Sheqel
-78	Bahrain	Al Janūbīyah	Bahraini Dinar
-79	Haiti	Artibonite	Gourde
-80	Kuwait	Mubārak al Kabīr	Kuwaiti Dinar
-81	Kazakhstan	Aqmola oblysy	Tenge
-82	Mauritania	Hodh el Charbi	Ouguiya
-83	Lebanon	Liban-Nord	Lebanese Pound
-84	Namibia	Khomas	Namibia Dollar
-85	Bolivia, Plurinational State of	Tarija	Boliviano
-86	South Sudan	Western Equatoria	South Sudanese Pound
-87	Korea, Republic of	Gang'weondo	Won
-88	Fiji	Central	Fiji Dollar
-89	Bahamas	Ragged Island	Bahamian Dollar
-90	Lesotho	Mohale's Hoek	Loti
-91	Maldives	Haa Dhaalu	Rufiyaa
-92	Brunei Darussalam	Brunei-Muara	Brunei Dollar
-93	Rwanda	Nord	Rwanda Franc
-94	Somalia	Jubbada Dhexe	Somali Shilling
-95	Jordan	‘Ajlūn	Jordanian Dinar
-96	Uzbekistan	Sirdaryo	Uzbekistan Sum
-97	Peru	Lambayeque	Sol
-98	Australia	Queensland	Australian Dollar
-99	Swaziland	Hhohho	Lilangeni
-100	Bangladesh	Rajshahi	Taka
-101	Colombia	Cauca	Colombian Peso
-102	Nicaragua	Carazo	Cordoba Oro
-103	Burundi	Bubanza	Burundi Franc
-104	El Salvador	La Paz	El Salvador Colon
-105	Brunei Darussalam	Temburong	Brunei Dollar
-106	United Arab Emirates	Umm al Qaywayn	UAE Dirham
-107	China	Shaanxi	Yuan Renminbi
-108	Solomon Islands	Western	Solomon Islands Dollar
-109	Bangladesh	Gaibandha	Taka
-110	Moldova, Republic of	Drochia	Moldovan Leu
-111	Colombia	Bolívar	Colombian Peso
-112	Israel	HaMerkaz	New Israeli Sheqel
-113	Bolivia, Plurinational State of	Santa Cruz	Boliviano
-114	India	Haryana	Indian Rupee
-115	Seychelles	Port Glaud	Seychelles Rupee
-116	Sierra Leone	Western Area (Freetown)	Leone
-117	Denmark	Syddanmark	Danish Krone
-118	Cambodia	Pousaat	Riel
-119	Malaysia	Kedah	Malaysian Ringgit
-120	Bahamas	Central Abaco	Bahamian Dollar
-121	Nigeria	Plateau	Naira
-122	Mauritius	Beau Bassin-Rose Hill	Mauritius Rupee
-123	Syrian Arab Republic	Tartus	Syrian Pound
-124	Macedonia, Republic of	Valandovo	Denar
-125	United Arab Emirates	Ash Shāriqah	UAE Dirham
-126	South Africa	Western Cape	Rand
-127	Saudi Arabia	Ḥā'il	Saudi Riyal
-128	India	Rajasthan	Indian Rupee
-129	Tanzania, United Republic of	Kusini Unguja	Tanzanian Shilling
-130	Japan	Saitama	Yen
-131	Guinea	Kissidougou	Guinea Franc
-132	Japan	Ibaraki	Yen
-133	Botswana	Kweneng	Pula
-134	Bhutan	Paro	Ngultrum
-135	Algeria	Ghardaïa	Algerian Dinar
-136	Cambodia	Krachoh	Riel
-137	Kazakhstan	Pavlodar oblysy	Tenge
-138	Viet Nam	An Giang	Dong
-139	Syrian Arab Republic	Dayr az Zawr	Syrian Pound
-140	Switzerland	Graubünden	Swiss Franc
-141	Haiti	Nord-Est	Gourde
-142	Djibouti	Ali Sabieh	Djibouti Franc
-143	Hungary	Dunaújváros	Forint
-144	Seychelles	Mont Buxton	Seychelles Rupee
-145	Singapore	Central Singapore	Singapore Dollar
-146	Gambia	Upper River	Dalasi
-147	Israel	HaZafon	New Israeli Sheqel
-148	China	Taiwan	Yuan Renminbi
-149	Norway	Hordaland	Norwegian Krone
-150	Norway	Oslo	Norwegian Krone
-151	Haiti	Sud-Est	Gourde
-152	Jordan	Jarash	Jordanian Dinar
-153	Namibia	Caprivi	Namibia Dollar
-154	Russian Federation	Karachayevo-Cherkesskaya Respublika	Russian Ruble
-155	Albania	Mallakastër	Lek
-156	Nicaragua	Estelí	Cordoba Oro
-157	Algeria	Blida	Algerian Dinar
-158	Lebanon	Liban-Sud	Lebanese Pound
-159	Croatia	Istarska županija	Kuna
-160	Fiji	Eastern	Fiji Dollar
-161	Syrian Arab Republic	Halab	Syrian Pound
-162	Saudi Arabia	Ash Sharqīyah	Saudi Riyal
-163	Syrian Arab Republic	Al Hasakah	Syrian Pound
-164	Bhutan	Thimphu	Ngultrum
-165	Costa Rica	Limón	Costa Rican Colon
-166	Nigeria	Zamfara	Naira
-167	Costa Rica	San José	Costa Rican Colon
-168	Malaysia	Perak	Malaysian Ringgit
-169	Czechia	Tábor	Czech Koruna
-170	Colombia	La Guajira	Colombian Peso
-171	Pakistan	Sindh	Pakistan Rupee
-172	Papua New Guinea	Enga	Kina
-173	Lao People's Democratic Republic	Xaignabouli	Kip
-174	Oman	Al Bāţinah	Rial Omani
-175	Haiti	Centre	Gourde
-176	Lao People's Democratic Republic	Salavan	Kip
-177	India	Jharkhand	Indian Rupee
-178	Nigeria	Ogun	Naira
-179	Syrian Arab Republic	Al Ladhiqiyah	Syrian Pound
-180	Papua New Guinea	Western Highlands	Kina
-181	Mauritania	Dakhlet Nouadhibou	Ouguiya
-182	Brunei Darussalam	Belait	Brunei Dollar
-183	Uzbekistan	Navoiy	Uzbekistan Sum
-184	Armenia	Aragacotn	Armenian Dram
-185	Nicaragua	Madriz	Cordoba Oro
-186	Macedonia, Republic of	Makedonski Brod	Denar
-187	Malaysia	Pahang	Malaysian Ringgit
-188	Korea, Republic of	Chungcheongbukdo	Won
-189	Jamaica	Hanover	Jamaican Dollar
-190	Djibouti	Djibouti	Djibouti Franc
-191	Israel	HaDarom	New Israeli Sheqel
-192	Russian Federation	Vologodskaya oblast'	Russian Ruble
-193	Nicaragua	Chinandega	Cordoba Oro
-194	United States	Northern Mariana Islands	US Dollar
-195	Lao People's Democratic Republic	Louang Namtha	Kip
-196	Saudi Arabia	Al Qaşīm	Saudi Riyal
-197	Seychelles	Anse Royale	Seychelles Rupee
-198	Saint Helena, Ascension and Tristan da Cunha	Tristan da Cunha	Saint Helena Pound
-199	Nigeria	Osun	Naira
-200	Moldova, Republic of	Ocnița	Moldovan Leu
-201	Rwanda	Sud	Rwanda Franc
-202	Malaysia	Kelantan	Malaysian Ringgit
-203	Dominican Republic	Valverde	Dominican Peso
-204	Denmark	Midtjylland	Danish Krone
-205	Argentina	Mendoza	Argentine Peso
-206	Viet Nam	Sơn La	Dong
-207	Nigeria	Kano	Naira
-208	Australia	Western Australia	Australian Dollar
-209	Canada	Northwest Territories	Canadian Dollar
-210	Kazakhstan	Almaty oblysy	Tenge
-211	Argentina	La Pampa	Argentine Peso
-212	Russian Federation	Kostromskaya oblast'	Russian Ruble
-213	Sweden	Norrbottens län	Swedish Krona
-214	Seychelles	La Digue	Seychelles Rupee
-215	Sri Lanka	Maḍakalapuva	Sri Lanka Rupee
-216	Jordan	Al Karak	Jordanian Dinar
-217	Philippines	Marinduque	Philippine Peso
-218	Bahrain	Al Muḩarraq	Bahraini Dinar
-219	Paraguay	Misiones	Guarani
-220	Saudi Arabia	Makkah	Saudi Riyal
-221	Botswana	North-East	Pula
-222	Nicaragua	Jinotega	Cordoba Oro
-223	Eritrea	Qāsh-Barkah	Nakfa
-224	Burundi	Bujumbura Mairie	Burundi Franc
-225	Nepal	Madhya Pashchimanchal	Nepalese Rupee
-226	Fiji	Rotuma	Fiji Dollar
-227	Uruguay	Artigas	Peso Uruguayo
-228	Macedonia, Republic of	Dojran	Denar
-229	Uzbekistan	Xorazm	Uzbekistan Sum
-230	Jamaica	Saint Catherine	Jamaican Dollar
-231	Honduras	Lempira	Lempira
-232	Malaysia	Perlis	Malaysian Ringgit
-233	Oman	Al Wusţá	Rial Omani
-234	Maldives	Central	Rufiyaa
-235	Liberia	Nimba	Liberian Dollar
-236	Trinidad and Tobago	Rio Claro-Mayaro	Trinidad and Tobago Dollar
-237	Mauritius	Pamplemousses	Mauritius Rupee
-238	Paraguay	Cordillera	Guarani
-239	Guatemala	San Marcos	Quetzal
-240	Bahrain	Al Manāmah (Al ‘Āşimah)	Bahraini Dinar
-241	Pakistan	Gilgit-Baltistan	Pakistan Rupee
-242	Paraguay	Amambay	Guarani
-243	Pakistan	Islamabad	Pakistan Rupee
-244	Dominican Republic	Bahoruco	Dominican Peso
-245	Peru	Amazonas	Sol
-246	Mongolia	Ulanbaatar	Tugrik
-247	Haiti	Nord	Gourde
-248	Canada	Nova Scotia	Canadian Dollar
-249	Burundi	Cibitoke	Burundi Franc
-250	Australia	New South Wales	Australian Dollar
-251	Thailand	Prachuap Khiri Khan	Baht
-252	United Arab Emirates	Abū Ȥaby [Abu Dhabi]	UAE Dirham
-253	Kuwait	Hawallī	Kuwaiti Dinar
-254	Bangladesh	Satkhira	Taka
-255	Costa Rica	Puntarenas	Costa Rican Colon
-256	Hungary	Érd	Forint
-257	El Salvador	San Salvador	El Salvador Colon
-258	South Africa	Limpopo	Rand
-259	Honduras	Francisco Morazán	Lempira
-260	Libya	Al Marj	Libyan Dinar
-261	New Zealand	Gisborne District	New Zealand Dollar
-262	Botswana	Kgalagadi	Pula
-263	Eritrea	Ansabā	Nakfa
-264	Indonesia	Kalimantan Tengah	Rupiah
-265	Myanmar	Kayah	Kyat
-266	Libya	Al Jabal al Akhḑar	Libyan Dinar
-267	Jamaica	Clarendon	Jamaican Dollar
-268	Iraq	Diyala	Iraqi Dinar
-269	Philippines	Bicol (Region V)	Philippine Peso
-270	Peru	Moquegua	Sol
-271	Viet Nam	Quảng Ngãi	Dong
-272	Solomon Islands	Capital Territory (Honiara)	Solomon Islands Dollar
-273	Papua New Guinea	West New Britain	Kina
-274	Malawi	Machinga	Malawi Kwacha
-275	Rwanda	Ville de Kigali	Rwanda Franc
-276	Mauritania	Adrar	Ouguiya
-277	New Zealand	West Coast	New Zealand Dollar
-278	Egypt	Al Buhayrah	Egyptian Pound
-279	Trinidad and Tobago	Diego Martin	Trinidad and Tobago Dollar
-280	Mauritania	Hodh ech Chargui	Ouguiya
-281	Russian Federation	Khanty-Mansiysky avtonomnyy okrug-Yugra	Russian Ruble
-282	Switzerland	Schaffhausen	Swiss Franc
-283	Cabo Verde	Tarrafal	Cabo Verde Escudo
-284	Australia	Northern Territory	Australian Dollar
-285	Guinea	Koundara	Guinea Franc
-286	Mauritius	Savanne	Mauritius Rupee
-287	Guyana	East Berbice-Corentyne	Guyana Dollar
-288	Uruguay	Rivera	Peso Uruguayo
-289	Liberia	Grand Gedeh	Liberian Dollar
-290	Russian Federation	Tul'skaya oblast'	Russian Ruble
-291	Tanzania, United Republic of	Iringa	Tanzanian Shilling
-292	Myanmar	Shan	Kyat
-293	Egypt	As Sādis min Uktūbar	Egyptian Pound
-294	Czechia	Jeseník	Czech Koruna
-295	Somalia	Mudug	Somali Shilling
-296	Jordan	Irbid	Jordanian Dinar
-297	South Sudan	Unity	South Sudanese Pound
-298	Uruguay	Canelones	Peso Uruguayo
-299	Armenia	Lory	Armenian Dram
-300	United Arab Emirates	Al Fujayrah	UAE Dirham
-301	Somalia	Nugaal	Somali Shilling
-302	Comoros	Andjazîdja (Anjazījah)	Comoro Franc
-303	Swaziland	Manzini	Lilangeni
-304	Sao Tome and Principe	São Tomé	Dobra
-305	Uganda	Kampala	Uganda Shilling
-306	Kyrgyzstan	Bishkek	Som
-307	Mauritius	Curepipe	Mauritius Rupee
-308	Botswana	Southern	Pula
-309	Japan	Yamagata	Yen
-310	Barbados	Saint John	Barbados Dollar
-311	Mexico	Hidalgo	Mexican Peso
-312	Eritrea	Janūbī al Baḩrī al Aḩmar	Nakfa
-313	Norway	Telemark	Norwegian Krone
-314	Iran, Islamic Republic of	Āzarbāyjān-e Sharqī	Iranian Rial
-315	Chile	Valparaíso	Chilean Peso
-316	Moldova, Republic of	Orhei	Moldovan Leu
-317	United States	Nebraska	US Dollar
-318	Malaysia	Terengganu	Malaysian Ringgit
-319	Iraq	Al Anbar	Iraqi Dinar
-320	Czechia	Vyškov	Czech Koruna
-321	Argentina	San Luis	Argentine Peso
-322	Argentina	San Juan	Argentine Peso
-323	Iceland	Höfuðborgarsvæðið	Iceland Krona
-324	Qatar	Umm Salal	Qatari Rial
-325	Nepal	Sudur Pashchimanchal	Nepalese Rupee
-326	Nigeria	Anambra	Naira
-327	Seychelles	Anse Etoile	Seychelles Rupee
-328	Croatia	Sisačko-moslavačka županija	Kuna
-329	Singapore	South West	Singapore Dollar
-330	Cambodia	Kampot	Riel
-331	Korea, Democratic People's Republic of	Hamgyŏng-bukto	North Korean Won
-332	Moldova, Republic of	Soroca	Moldovan Leu
-333	Armenia	Erevan	Armenian Dram
-334	Kenya	Rift Valley	Kenyan Shilling
-335	Argentina	Misiones	Argentine Peso
-336	Cabo Verde	Ribeira Brava	Cabo Verde Escudo
-337	Philippines	Catanduanes	Philippine Peso
-338	Indonesia	Papua Barat	Rupiah
-339	Maldives	Lhaviyani	Rufiyaa
-340	Australia	South Australia	Australian Dollar
-341	Colombia	San Andrés, Providencia y Santa Catalina	Colombian Peso
-342	Denmark	Nordjylland	Danish Krone
-343	Kyrgyzstan	Osh	Som
-344	Denmark	Sjælland	Danish Krone
-345	Algeria	Msila	Algerian Dinar
-346	Trinidad and Tobago	Tunapuna-Piarco	Trinidad and Tobago Dollar
-347	Peru	Huancavelica	Sol
-348	Comoros	Moûhîlî (Mūhīlī)	Comoro Franc
-349	Bangladesh	Rangpur	Taka
-350	Mongolia	Sühbaatar	Tugrik
-351	Solomon Islands	Central	Solomon Islands Dollar
-352	Japan	Yamanashi	Yen
-353	Bahamas	Cat Island	Bahamian Dollar
-354	Russian Federation	Astrakhanskaya oblast'	Russian Ruble
-355	Lao People's Democratic Republic	Xiangkhouang	Kip
-356	Solomon Islands	Malaita	Solomon Islands Dollar
-357	India	Chandigarh	Indian Rupee
-358	Maldives	Haa Alifu	Rufiyaa
-359	Uganda	Tororo	Uganda Shilling
-360	Kenya	Central	Kenyan Shilling
-361	Tonga	Niuas	Pa’anga
-362	Indonesia	Lampung	Rupiah
-363	Moldova, Republic of	Briceni	Moldovan Leu
-364	Uganda	Manafwa	Uganda Shilling
-365	Namibia	Hardap	Namibia Dollar
-366	United States	Georgia	US Dollar
-367	Bolivia, Plurinational State of	Oruro	Boliviano
-368	Albania	Tepelenë	Lek
-369	Russian Federation	Kurskaya oblast'	Russian Ruble
-370	Somalia	Sool	Somali Shilling
-371	Lao People's Democratic Republic	Bokèo	Kip
-372	Malawi	Mangochi	Malawi Kwacha
-373	Belize	Corozal	Belize Dollar
-374	Lesotho	Quthing	Loti
-375	Oman	Ad Dākhilīya	Rial Omani
-376	Czechia	Chomutov	Czech Koruna
-377	Haiti	Sud	Gourde
-378	Tonga	Tongatapu	Pa’anga
-379	Hungary	Szeged	Forint
-380	Armenia	Vayoc Jor	Armenian Dram
-381	Barbados	Saint Michael	Barbados Dollar
-382	Canada	Yukon Territory	Canadian Dollar
-383	Guinea	Mamou	Guinea Franc
-384	Morocco	Khemisaet	Moroccan Dirham
-385	Korea, Democratic People's Republic of	Kangwŏn-do	North Korean Won
-386	Croatia	Bjelovarsko-bilogorska županija	Kuna
-387	Libya	Darnah	Libyan Dinar
-388	Uganda	Wakiso	Uganda Shilling
-389	Mongolia	Darhan uul	Tugrik
-390	Philippines	Batanes	Philippine Peso
-391	Kuwait	Al Jahrrā’	Kuwaiti Dinar
-392	Tanzania, United Republic of	Kagera	Tanzanian Shilling
-393	Uganda	Kabale	Uganda Shilling
-394	Korea, Democratic People's Republic of	Hamgyŏng-namdo	North Korean Won
-395	Haiti	Grande-Anse	Gourde
-396	Bahrain	Al Wusţá	Bahraini Dinar
-397	Norway	Vest-Agder	Norwegian Krone
-398	Mauritius	Vacoas-Phoenix	Mauritius Rupee
-399	Malawi	Ntchisi	Malawi Kwacha
-400	Paraguay	Alto Paraguay	Guarani
-401	Korea, Democratic People's Republic of	Nasŏn (Najin-Sŏnbong)	North Korean Won
-402	Uruguay	San José	Peso Uruguayo
-403	New Zealand	Manawatu-Wanganui	New Zealand Dollar
-404	Malaysia	Wilayah Persekutuan Kuala Lumpur	Malaysian Ringgit
-405	Cuba	Ciego de Ávila	Cuban Peso
-406	Singapore	North East	Singapore Dollar
-407	Nicaragua	Matagalpa	Cordoba Oro
-408	Thailand	Surat Thani	Baht
-409	China	Guangdong	Yuan Renminbi
-410	Cuba	Guantánamo	Cuban Peso
-411	Namibia	Okavango	Namibia Dollar
-412	Norway	Troms	Norwegian Krone
-413	Russian Federation	Irkutiskaya oblast'	Russian Ruble
-414	Macedonia, Republic of	Centar Župa	Denar
-415	Bhutan	Punakha	Ngultrum
-416	Nepal	Gandaki	Nepalese Rupee
-417	Papua New Guinea	New Ireland	Kina
-418	Russian Federation	Saratovskaya oblast'	Russian Ruble
-419	Viet Nam	Đà Nẵng	Dong
-420	Moldova, Republic of	Dondușeni	Moldovan Leu
-421	Oman	Az̧ Z̧āhirah	Rial Omani
-422	United Kingdom	Ceredigion; Sir Ceredigion	Pound Sterling
-423	Honduras	Valle	Lempira
-424	Rwanda	Est	Rwanda Franc
-425	Macedonia, Republic of	Plasnica	Denar
-426	Swaziland	Shiselweni	Lilangeni
-427	Iraq	Wasit	Iraqi Dinar
-428	Guyana	Mahaica-Berbice	Guyana Dollar
-429	Samoa	Atua	Tala
-430	Moldova, Republic of	Cantemir	Moldovan Leu
-431	Macedonia, Republic of	Kumanovo	Denar
-432	Algeria	Illizi	Algerian Dinar
-433	Sri Lanka	Kilinŏchchi	Sri Lanka Rupee
-434	Tanzania, United Republic of	Mwanza	Tanzanian Shilling
-435	Iran, Islamic Republic of	Kohgīlūyeh va Būyer Ahmad	Iranian Rial
-436	Algeria	El Tarf	Algerian Dinar
-437	Kazakhstan	Aqtöbe oblysy	Tenge
-438	Algeria	Tizi Ouzou	Algerian Dinar
-439	New Zealand	Northland	New Zealand Dollar
-440	Thailand	Chai Nat	Baht
-441	Saudi Arabia	Najrān	Saudi Riyal
-442	Viet Nam	Kiên Giang	Dong
-443	Burundi	Kirundo	Burundi Franc
-444	United Kingdom	East Renfrewshire	Pound Sterling
-445	Myanmar	Mandalay	Kyat
-446	Mongolia	Govi-Altay	Tugrik
-447	Mexico	San Luis Potosí	Mexican Peso
-448	Albania	Sarandë	Lek
-449	Mexico	México	Mexican Peso
-450	Kenya	Nairobi Municipality	Kenyan Shilling
-451	Cuba	Isla de la Juventud	Cuban Peso
-452	Croatia	Grad Zagreb	Kuna
-453	Swaziland	Lubombo	Lilangeni
-454	El Salvador	Santa Ana	El Salvador Colon
-455	Jordan	Az Zarqā'	Jordanian Dinar
-456	Peru	San Martín	Sol
-457	Mauritius	Agalega Islands	Mauritius Rupee
-458	Dominican Republic	La Vega	Dominican Peso
-459	Croatia	Primorsko-goranska županija	Kuna
-460	Somalia	Gedo	Somali Shilling
-461	Saint Helena, Ascension and Tristan da Cunha	Saint Helena	Saint Helena Pound
-462	China	Beijing	Yuan Renminbi
-463	Dominican Republic	Puerto Plata	Dominican Peso
-464	Belize	Cayo	Belize Dollar
-465	Norway	Svalbard (Arctic Region)	Norwegian Krone
-466	Cuba	Ciudad de La Habana	Cuban Peso
-467	Mauritius	Plaines Wilhems	Mauritius Rupee
-468	Philippines	Aklan	Philippine Peso
-469	Tonga	Ha'apai	Pa’anga
-470	Burundi	Bururi	Burundi Franc
-471	Mongolia	Dornogovi	Tugrik
-472	Bahamas	South Abaco	Bahamian Dollar
-473	Korea, Republic of	Gyeonggido	Won
-474	Cuba	Sancti Spíritus	Cuban Peso
-475	Sierra Leone	Southern (Sierra Leone)	Leone
-476	Korea, Republic of	Gwangju Gwang'yeogsi	Won
-477	Korea, Republic of	Chungcheongnamdo	Won
-478	Kazakhstan	Shyghys Qazaqstan oblysy	Tenge
-479	New Zealand	Nelson City	New Zealand Dollar
-480	Albania	Tropojë	Lek
-481	Hungary	Nyíregyháza	Forint
-482	Tanzania, United Republic of	Kigoma	Tanzanian Shilling
-483	Tanzania, United Republic of	Morogoro	Tanzanian Shilling
-484	Peru	El Callao	Sol
-485	Nigeria	Abuja Capital Territory	Naira
-486	Canada	Saskatchewan	Canadian Dollar
-487	Guatemala	Huehuetenango	Quetzal
-488	Saint Helena, Ascension and Tristan da Cunha	Ascension	Saint Helena Pound
-489	Bhutan	Ha	Ngultrum
-490	Burundi	Mwaro	Burundi Franc
-491	Indonesia	Bali	Rupiah
-492	Saudi Arabia	Tabūk	Saudi Riyal
-493	Solomon Islands	Guadalcanal	Solomon Islands Dollar
-494	Colombia	Meta	Colombian Peso
-495	India	Madhya Pradesh	Indian Rupee
-496	Algeria	Constantine	Algerian Dinar
-497	Korea, Republic of	Jeonranamdo	Won
-498	Uzbekistan	Qoraqalpog'iston Respublikasi	Uzbekistan Sum
-499	Algeria	Mascara	Algerian Dinar
-500	Tunisia	Sfax	Tunisian Dinar
-501	Israel	Tel-Aviv	New Israeli Sheqel
-502	Honduras	Atlántida	Lempira
-503	South Sudan	Northern Bahr el-Ghazal	South Sudanese Pound
-504	Algeria	Tlemcen	Algerian Dinar
-505	Philippines	Davao (Region XI)	Philippine Peso
-506	Dominican Republic	Salcedo	Dominican Peso
-507	Korea, Democratic People's Republic of	Yanggang-do	North Korean Won
-508	Iraq	Al Muthanna	Iraqi Dinar
-509	Costa Rica	Alajuela	Costa Rican Colon
-510	South Sudan	Central Equatoria	South Sudanese Pound
-511	Papua New Guinea	East Sepik	Kina
-512	Guyana	Pomeroon-Supenaam	Guyana Dollar
-513	Vanuatu	Torba	Vatu
-514	Kenya	Eastern	Kenyan Shilling
-515	Malawi	Ntcheu	Malawi Kwacha
-516	El Salvador	San Vicente	El Salvador Colon
-517	Mauritius	Port Louis	Mauritius Rupee
-518	Morocco	Taza	Moroccan Dirham
-519	Samoa	Gaga'emauga	Tala
-520	Iceland	Suðurland	Iceland Krona
-521	Czechia	Trutnov	Czech Koruna
-522	Switzerland	Luzern	Swiss Franc
-523	India	Bihar	Indian Rupee
-524	Myanmar	Bago	Kyat
-525	Oman	Ash Sharqīyah	Rial Omani
-526	Japan	Ehime	Yen
-527	Bahamas	North Andros	Bahamian Dollar
-528	China	Qinghai	Yuan Renminbi
-529	Saudi Arabia	Jīzan	Saudi Riyal
-530	Vanuatu	Sanma	Vatu
-531	New Zealand	North Island	New Zealand Dollar
-532	United Kingdom	Clackmannanshire	Pound Sterling
-533	Cambodia	Mondol Kiri	Riel
-534	Dominican Republic	La Altagracia	Dominican Peso
-535	Guinea	Dubréka	Guinea Franc
-536	Czechia	Praha 4	Czech Koruna
-537	Viet Nam	Nghệ An	Dong
-538	Lebanon	Mont-Liban	Lebanese Pound
-539	United Kingdom	Bromley	Pound Sterling
-540	Oman	Z̧ufār	Rial Omani
-541	Tunisia	Ariana	Tunisian Dinar
-542	Rwanda	Ouest	Rwanda Franc
-543	Czechia	Benešov	Czech Koruna
-544	Korea, Democratic People's Republic of	Hwanghae-bukto	North Korean Won
-545	Uruguay	Florida	Peso Uruguayo
-546	Barbados	Saint Thomas	Barbados Dollar
-547	Malaysia	Sarawak	Malaysian Ringgit
-548	El Salvador	Cuscatlán	El Salvador Colon
-549	Mongolia	Dzavhan	Tugrik
-550	Macedonia, Republic of	Petrovec	Denar
-551	Eritrea	Al Awsaţ	Nakfa
-552	Gambia	Central River	Dalasi
-553	Hungary	Szombathely	Forint
-554	Argentina	Tierra del Fuego	Argentine Peso
-555	Lesotho	Leribe	Loti
-556	Lao People's Democratic Republic	Louangphabang	Kip
-557	Guatemala	Jutiapa	Quetzal
-558	Myanmar	Kayin	Kyat
-559	Japan	Yamaguchi	Yen
-560	Canada	New Brunswick	Canadian Dollar
-561	Papua New Guinea	Central	Kina
-562	Papua New Guinea	Chimbu	Kina
-563	Armenia	Syunik'	Armenian Dram
-564	Tanzania, United Republic of	Arusha	Tanzanian Shilling
-565	Algeria	Boumerdès	Algerian Dinar
-566	Norway	Rogaland	Norwegian Krone
-567	Barbados	Saint Joseph	Barbados Dollar
-568	Mexico	Campeche	Mexican Peso
-569	Morocco	Ouarzazate	Moroccan Dirham
-570	Bangladesh	Dhaka	Taka
-571	Trinidad and Tobago	Siparia	Trinidad and Tobago Dollar
-572	Uruguay	Montevideo	Peso Uruguayo
-573	Guyana	Upper Demerara-Berbice	Guyana Dollar
-574	Croatia	Šibensko-kninska županija	Kuna
-575	Chile	Libertador General Bernardo O'Higgins	Chilean Peso
-576	Pakistan	Azad Kashmir	Pakistan Rupee
-577	Solomon Islands	Temotu	Solomon Islands Dollar
-578	Switzerland	Nidwalden	Swiss Franc
-579	Bhutan	Tsirang	Ngultrum
-580	Mauritania	Gorgol	Ouguiya
-581	Czechia	Liberecký kraj	Czech Koruna
-582	Kazakhstan	Almaty	Tenge
-583	Tunisia	Kebili	Tunisian Dinar
-584	Iran, Islamic Republic of	Hamadān	Iranian Rial
-585	Moldova, Republic of	Strășeni	Moldovan Leu
-586	Indonesia	Riau	Rupiah
-587	Burundi	Ngozi	Burundi Franc
-588	Korea, Democratic People's Republic of	Hwanghae-namdo	North Korean Won
-589	Cabo Verde	Santa Catarina de Fogo	Cabo Verde Escudo
-590	Morocco	Chtouka-Ait Baha	Moroccan Dirham
-591	South Sudan	Warrap	South Sudanese Pound
-592	Morocco	Beni Mellal	Moroccan Dirham
-593	Lao People's Democratic Republic	Khammouan	Kip
-594	Peru	Junín	Sol
-595	Lebanon	Nabatîyé	Lebanese Pound
-596	Argentina	Entre Rios	Argentine Peso
-597	Japan	Shiga	Yen
-598	United States	Idaho	US Dollar
-599	Peru	Madre de Dios	Sol
-600	Gambia	Western	Dalasi
-601	Viet Nam	Quảng Nam	Dong
-602	Colombia	Guainía	Colombian Peso
-603	Dominican Republic	Monte Cristi	Dominican Peso
-604	Argentina	Rio Negro	Argentine Peso
-605	Samoa	Fa'asaleleaga	Tala
-606	Colombia	Casanare	Colombian Peso
-607	Czechia	Pardubice	Czech Koruna
-608	Brunei Darussalam	Tutong	Brunei Dollar
-609	Bahrain	Ash Shamālīyah	Bahraini Dinar
-610	Albania	Krujë	Lek
-611	Vanuatu	Malampa	Vatu
-612	Namibia	Oshana	Namibia Dollar
-613	Mexico	Distrito Federal	Mexican Peso
-614	Kazakhstan	Soltüstik Quzaqstan oblysy	Tenge
-615	Botswana	Central	Pula
-616	Algeria	Oran	Algerian Dinar
-617	Czechia	Uherské Hradiště	Czech Koruna
-618	Kuwait	Al Farwānīyah	Kuwaiti Dinar
-619	Canada	Alberta	Canadian Dollar
-620	Nepal	Dhawalagiri	Nepalese Rupee
-621	Jamaica	Kingston	Jamaican Dollar
-622	Argentina	Jujuy	Argentine Peso
-623	Armenia	Ararat	Armenian Dram
-624	Lao People's Democratic Republic	Vientiane	Kip
-625	Bhutan	Trongsa	Ngultrum
-626	Lao People's Democratic Republic	Savannakhét	Kip
-627	Trinidad and Tobago	Chaguanas	Trinidad and Tobago Dollar
-628	Japan	Fukushima	Yen
-629	Lao People's Democratic Republic	Xékong	Kip
-630	Syrian Arab Republic	Dar'a	Syrian Pound
-631	El Salvador	Sonsonate	El Salvador Colon
-632	United Kingdom	Torbay	Pound Sterling
-633	United Arab Emirates	Ra’s al Khaymah	UAE Dirham
-634	Thailand	Mae Hong Son	Baht
-635	Somalia	Togdheer	Somali Shilling
-636	Bolivia, Plurinational State of	Potosí	Boliviano
-637	Japan	Hokkaido	Yen
-638	Mexico	Tlaxcala	Mexican Peso
-639	Tanzania, United Republic of	Dar-es-Salaam	Tanzanian Shilling
-640	Uganda	Mukono	Uganda Shilling
-641	Gambia	North Bank	Dalasi
-642	Syrian Arab Republic	Idlib	Syrian Pound
-643	Moldova, Republic of	Taraclia	Moldovan Leu
-644	Guyana	Barima-Waini	Guyana Dollar
-645	New Zealand	South Island	New Zealand Dollar
-646	India	Uttar Pradesh	Indian Rupee
-647	Trinidad and Tobago	Arima	Trinidad and Tobago Dollar
-648	Peru	Piura	Sol
-649	Liberia	Maryland	Liberian Dollar
-650	Honduras	El Paraíso	Lempira
-651	Egypt	Aswān	Egyptian Pound
-652	Somalia	Awdal	Somali Shilling
-653	Denmark	Hovedstaden	Danish Krone
-654	Malaysia	Selangor	Malaysian Ringgit
-655	Iceland	Suðurnes	Iceland Krona
-656	Thailand	Kanchanaburi	Baht
-657	Bahamas	South Eleuthera	Bahamian Dollar
-658	Macedonia, Republic of	Kratovo	Denar
-659	United Kingdom	East Sussex	Pound Sterling
-660	Bangladesh	Sirajganj	Taka
-661	Australia	Australian Capital Territory	Australian Dollar
-662	Tonga	'Eua	Pa’anga
-663	New Zealand	Tasman District	New Zealand Dollar
-664	Colombia	Guaviare	Colombian Peso
-665	Hungary	Pécs	Forint
-666	Iran, Islamic Republic of	Māzandarān	Iranian Rial
-667	Croatia	Splitsko-dalmatinska županija	Kuna
-668	Paraguay	Paraguarí	Guarani
-669	Barbados	Saint Lucy	Barbados Dollar
-670	Russian Federation	Tomskaya oblast'	Russian Ruble
-671	Pakistan	Balochistan	Pakistan Rupee
-672	Croatia	Varaždinska županija	Kuna
-673	Philippines	Zamboanga Peninsula (Region IX)	Philippine Peso
-674	Hungary	Vas	Forint
-675	Macedonia, Republic of	Drugovo	Denar
-676	Djibouti	Arta	Djibouti Franc
-677	Hungary	Veszprém	Forint
-678	India	Chhattisgarh	Indian Rupee
-679	Philippines	Ilocos (Region I)	Philippine Peso
-680	Syrian Arab Republic	Dimashq	Syrian Pound
-681	Guyana	Demerara-Mahaica	Guyana Dollar
-682	Bangladesh	Netrakona	Taka
-683	Kyrgyzstan	Jalal-Abad	Som
-684	Algeria	Tipaza	Algerian Dinar
-685	Iran, Islamic Republic of	Fārs	Iranian Rial
-686	Macedonia, Republic of	Kruševo	Denar
-687	Seychelles	Anse Boileau	Seychelles Rupee
-688	Oman	Masqaţ	Rial Omani
-689	Pakistan	Punjab	Pakistan Rupee
-690	Tanzania, United Republic of	Tabora	Tanzanian Shilling
-691	Guatemala	Retalhuleu	Quetzal
-692	Kazakhstan	Qyzylorda oblysy	Tenge
-693	Paraguay	Central	Guarani
-694	Egypt	Shamal Sīnā'	Egyptian Pound
-695	Japan	Toyama	Yen
-696	Iran, Islamic Republic of	Markazī	Iranian Rial
-697	Guatemala	Totonicapán	Quetzal
-698	Switzerland	Uri	Swiss Franc
-699	Oman	Musandam	Rial Omani
-700	Cambodia	Kampong Speu	Riel
-701	Tunisia	Sousse	Tunisian Dinar
-702	Morocco	Errachidia	Moroccan Dirham
-703	Nigeria	Imo	Naira
-704	Mongolia	Uvs	Tugrik
-705	Colombia	Caldas	Colombian Peso
-706	Czechia	Hodonín	Czech Koruna
-707	Malaysia	Pulau Pinang	Malaysian Ringgit
-708	Somalia	Shabeellaha Hoose	Somali Shilling
-709	Kazakhstan	Ongtüstik Qazaqstan oblysy	Tenge
-710	Cambodia	Battambang	Riel
-711	Sweden	Dalarnas län	Swedish Krona
-712	Bhutan	Pemagatshel	Ngultrum
-713	Guatemala	Santa Rosa	Quetzal
-714	Croatia	Virovitičko-podravska županija	Kuna
-715	Bangladesh	Kushtia	Taka
-716	Singapore	South East	Singapore Dollar
-717	Bangladesh	Sunamganj	Taka
-718	Guinea	Télimélé	Guinea Franc
-719	Jordan	‘Ammān (Al ‘Aşimah)	Jordanian Dinar
-720	Nigeria	Adamawa	Naira
-721	Uzbekistan	Surxondaryo	Uzbekistan Sum
-722	Viet Nam	Quảng Ninh	Dong
-723	Moldova, Republic of	Glodeni	Moldovan Leu
-724	Myanmar	Rakhine	Kyat
-725	Syrian Arab Republic	As Suwayda'	Syrian Pound
-726	India	Assam	Indian Rupee
-727	Botswana	Ghanzi	Pula
-728	Czechia	Plzeňský kraj	Czech Koruna
-729	Nigeria	Abia	Naira
-730	Philippines	Abra	Philippine Peso
-731	Peru	Ucayali	Sol
-732	Guinea	Boké	Guinea Franc
-733	Hungary	Borsod-Abaúj-Zemplén	Forint
-734	Australia	Victoria	Australian Dollar
-735	Samoa	Vaisigano	Tala
-736	Cambodia	Otdar Mean Chey	Riel
-737	Liberia	Bomi	Liberian Dollar
-738	Norway	Nord-Trøndelag	Norwegian Krone
-739	Mauritania	Tagant	Ouguiya
-740	Libya	Al Jabal al Gharbī	Libyan Dinar
-741	Trinidad and Tobago	Princes Town	Trinidad and Tobago Dollar
-742	Indonesia	Kalimantan Barat	Rupiah
-743	Tanzania, United Republic of	Kaskazini Unguja	Tanzanian Shilling
-744	Thailand	Chon Buri	Baht
-745	Libya	Mişrātah	Libyan Dinar
-746	South Sudan	Eastern Equatoria	South Sudanese Pound
-747	Malaysia	Sabah	Malaysian Ringgit
-748	Jamaica	Westmoreland	Jamaican Dollar
-749	Libya	Surt	Libyan Dinar
-750	Malawi	Karonga	Malawi Kwacha
-751	Indonesia	Jawa Timur	Rupiah
-752	Mexico	Oaxaca	Mexican Peso
-753	Kenya	Coast	Kenyan Shilling
-754	Mexico	Guerrero	Mexican Peso
-755	Albania	Gramsh	Lek
-756	Iceland	Vesturland	Iceland Krona
-757	Viet Nam	Hậu Giang	Dong
-758	Costa Rica	Heredia	Costa Rican Colon
-759	Bolivia, Plurinational State of	Chuquisaca	Boliviano
-760	Malawi	Southern Region	Malawi Kwacha
-761	Korea, Republic of	Daegu Gwang'yeogsi	Won
-762	Gambia	Banjul	Dalasi
-763	Croatia	Zadarska županija	Kuna
-764	Bolivia, Plurinational State of	El Beni	Boliviano
-765	Switzerland	Zug	Swiss Franc
-766	Macedonia, Republic of	Vraneštica	Denar
-767	Croatia	Zagrebačka županija	Kuna
-768	Tanzania, United Republic of	Kaskazini Pemba	Tanzanian Shilling
-769	Norway	Jan Mayen (Arctic Region)	Norwegian Krone
-770	Bahamas	City of Freeport	Bahamian Dollar
-771	Czechia	Prostějov	Czech Koruna
-772	Myanmar	Yangon	Kyat
-773	Macedonia, Republic of	Zajas	Denar
-774	Iceland	Vestfirðir	Iceland Krona
-775	Pakistan	Federally Administered Tribal Areas	Pakistan Rupee
-776	Hungary	Tolna	Forint
-777	Seychelles	Baie Lazare	Seychelles Rupee
-778	Honduras	Islas de la Bahía	Lempira
-779	Costa Rica	Guanacaste	Costa Rican Colon
-780	Jordan	Al Balqā'	Jordanian Dinar
-781	Paraguay	Asunción	Guarani
-782	Barbados	Saint Peter	Barbados Dollar
-783	Cabo Verde	São Lourenço dos Órgãos	Cabo Verde Escudo
-784	Korea, Republic of	Jejudo	Won
-785	Cambodia	Kandal	Riel
-786	Egypt	Al Wādī al Jadīd	Egyptian Pound
-787	Russian Federation	Kirovskaya oblast'	Russian Ruble
-788	Tunisia	La Manouba	Tunisian Dinar
-789	Lesotho	Thaba-Tseka	Loti
-790	Indonesia	Sulawesi Tengah	Rupiah
-791	Nigeria	Kebbi	Naira
-792	Viet Nam	Thái Bình	Dong
-793	Maldives	Upper North	Rufiyaa
-794	Tanzania, United Republic of	Dodoma	Tanzanian Shilling
-795	Dominican Republic	Azua	Dominican Peso
-796	Russian Federation	Kurganskaya oblast'	Russian Ruble
-797	Paraguay	Guairá	Guarani
-798	Solomon Islands	Rennell and Bellona	Solomon Islands Dollar
-799	Seychelles	Roche Caiman	Seychelles Rupee
-800	Algeria	Ouargla	Algerian Dinar
-801	Canada	Ontario	Canadian Dollar
-802	Honduras	Copán	Lempira
-803	Cabo Verde	Ribeira Grande	Cabo Verde Escudo
-804	Cabo Verde	Maio	Cabo Verde Escudo
-805	Chile	Aisén del General Carlos Ibáñez del Campo	Chilean Peso
-806	Samoa	Palauli	Tala
-807	Sri Lanka	Mātara	Sri Lanka Rupee
-808	Qatar	Al Wakrah	Qatari Rial
-809	Cambodia	Kampong Cham	Riel
-810	United States	New Hampshire	US Dollar
-811	Guinea	Fria	Guinea Franc
-812	Colombia	Vichada	Colombian Peso
-813	Seychelles	Plaisance	Seychelles Rupee
-814	China	Chongqing	Yuan Renminbi
-815	Honduras	Comayagua	Lempira
-816	Dominican Republic	La Romana	Dominican Peso
-817	Japan	Aomori	Yen
-818	Samoa	Va'a-o-Fonoti	Tala
-819	Lebanon	Aakkâr	Lebanese Pound
-820	Maldives	Alifu Dhaalu	Rufiyaa
-821	Lao People's Democratic Republic	Bolikhamxai	Kip
-822	Bangladesh	Dinajpur	Taka
-823	Nicaragua	Rivas	Cordoba Oro
-824	Guyana	Cuyuni-Mazaruni	Guyana Dollar
-825	Philippines	Leyte	Philippine Peso
-826	Papua New Guinea	Northern	Kina
-827	India	Delhi	Indian Rupee
-828	Guatemala	Guatemala	Quetzal
-829	Norway	Østfold	Norwegian Krone
-830	Cuba	Holguín	Cuban Peso
-831	Korea, Democratic People's Republic of	P’yŏngyang	North Korean Won
-832	Malawi	Chitipa	Malawi Kwacha
-833	Djibouti	Tadjourah	Djibouti Franc
-834	Cambodia	Kampong Thom	Riel
-835	Lesotho	Mokhotlong	Loti
-836	Solomon Islands	Makira	Solomon Islands Dollar
-837	Egypt	Janūb Sīnā'	Egyptian Pound
-838	Cuba	Matanzas	Cuban Peso
-839	Russian Federation	Buryatiya, Respublika	Russian Ruble
-840	Morocco	Chaouia-Ouardigha	Moroccan Dirham
-841	New Zealand	Bay of Plenty	New Zealand Dollar
-842	United Kingdom	Coventry	Pound Sterling
-843	Qatar	Al Khawr wa adh Dhakhīrah	Qatari Rial
-844	Bahamas	Central Eleuthera	Bahamian Dollar
-845	Costa Rica	Cartago	Costa Rican Colon
-846	Mexico	Baja California	Mexican Peso
-847	Guyana	Potaro-Siparuni	Guyana Dollar
-848	Uganda	Isingiro	Uganda Shilling
-849	Czechia	Chrudim	Czech Koruna
-850	Colombia	Cundinamarca	Colombian Peso
-851	New Zealand	Canterbury	New Zealand Dollar
-852	Uganda	Kaabong	Uganda Shilling
-853	Gambia	Lower River	Dalasi
-854	Samoa	Aiga-i-le-Tai	Tala
-855	Indonesia	Nusa Tenggara	Rupiah
-856	Egypt	Al Gharbīyah	Egyptian Pound
-857	Switzerland	Vaud	Swiss Franc
-858	Papua New Guinea	Manus	Kina
-859	Mauritania	Inchiri	Ouguiya
-860	Cabo Verde	São Vicente	Cabo Verde Escudo
-861	Lao People's Democratic Republic	Xaisômboun	Kip
-862	Saudi Arabia	Al Ḥudūd ash Shamāliyah	Saudi Riyal
-863	Uruguay	Paysandú	Peso Uruguayo
-864	Bangladesh	Rangamati	Taka
-865	Kazakhstan	Mangghystaū oblysy	Tenge
-866	Macedonia, Republic of	Bitola	Denar
-867	Seychelles	Pointe Larue	Seychelles Rupee
-868	Cabo Verde	Porto Novo	Cabo Verde Escudo
-869	Thailand	Tak	Baht
-870	South Africa	Northern Cape	Rand
-871	Albania	Kukës	Lek
-872	Bahamas	Grand Cay	Bahamian Dollar
-873	Sri Lanka	Vavuniyāva	Sri Lanka Rupee
-874	Botswana	North-West	Pula
-875	Lesotho	Qacha's Nek	Loti
-876	Bangladesh	Narayanganj	Taka
-877	Mexico	Chiapas	Mexican Peso
-878	El Salvador	Cabañas	El Salvador Colon
-879	Maldives	Raa	Rufiyaa
-880	Bhutan	Monggar	Ngultrum
-881	Peru	Tacna	Sol
-882	Guatemala	Sacatepéquez	Quetzal
-883	Mongolia	Dornod	Tugrik
-884	Liberia	Grand Bassa	Liberian Dollar
-885	Cuba	Santiago de Cuba	Cuban Peso
-886	Iceland	Norðurland eystra	Iceland Krona
-887	Philippines	Negros Occidental	Philippine Peso
-888	Malaysia	Johor	Malaysian Ringgit
-889	Libya	Al Jufrah	Libyan Dinar
-890	Cabo Verde	Paul	Cabo Verde Escudo
-891	Norway	Nordland	Norwegian Krone
-892	Namibia	Erongo	Namibia Dollar
-893	Somalia	Hiirsan	Somali Shilling
-894	New Zealand	Hawke's Bay	New Zealand Dollar
-895	Solomon Islands	Choiseul	Solomon Islands Dollar
-896	Tunisia	Jendouba	Tunisian Dinar
-897	Mauritius	Rivière du Rempart	Mauritius Rupee
-898	Guinea	Koubia	Guinea Franc
-899	Hungary	Nógrád	Forint
-900	Saudi Arabia	Al Jawf	Saudi Riyal
-901	Egypt	Būr Sa`īd	Egyptian Pound
-902	Colombia	Risaralda	Colombian Peso
-903	Algeria	Laghouat	Algerian Dinar
-904	United Kingdom	Camden	Pound Sterling
-905	Viet Nam	Tây Ninh	Dong
-906	Dominican Republic	San Juan	Dominican Peso
-907	Kazakhstan	Zhambyl oblysy	Tenge
-908	Maldives	Baa	Rufiyaa
-909	Colombia	Santander	Colombian Peso
-910	Russian Federation	Mariy El, Respublika	Russian Ruble
-911	Myanmar	Magway	Kyat
-912	Indonesia	Sumatra Selatan	Rupiah
-913	United Kingdom	Enfield	Pound Sterling
-914	Vanuatu	Taféa	Vatu
-915	Uganda	Jinja	Uganda Shilling
-916	Sweden	Skåne län	Swedish Krona
-917	China	Heilongjiang	Yuan Renminbi
-918	Dominican Republic	Duarte	Dominican Peso
-919	Uruguay	Rocha	Peso Uruguayo
-920	China	Sichuan	Yuan Renminbi
-921	Sri Lanka	Mŏṇarāgala	Sri Lanka Rupee
-922	Macedonia, Republic of	Delčevo	Denar
-923	Jamaica	Saint Andrew	Jamaican Dollar
-924	New Zealand	Marlborough District	New Zealand Dollar
-925	Mongolia	Arhangay	Tugrik
-926	Tanzania, United Republic of	Shinyanga	Tanzanian Shilling
-927	Myanmar	Ayeyarwady	Kyat
-928	Kazakhstan	Qaraghandy oblysy	Tenge
-929	Libya	Wādī ash Shāţiʾ	Libyan Dinar
-930	Mexico	Nayarit	Mexican Peso
-931	Egypt	Qinā	Egyptian Pound
-932	Egypt	Al Iskandarīyah	Egyptian Pound
-933	Thailand	Ubon Ratchathani	Baht
-934	Guinea	Gaoual	Guinea Franc
-935	Papua New Guinea	Milne Bay	Kina
-936	Nepal	Karnali	Nepalese Rupee
-937	Uzbekistan	Andijon	Uzbekistan Sum
-938	Philippines	Isabela	Philippine Peso
-939	Korea, Republic of	Gyeongsangbukdo	Won
-940	Iran, Islamic Republic of	Kermānshāh	Iranian Rial
-941	Tunisia	Kairouan	Tunisian Dinar
-942	Papua New Guinea	Bougainville	Kina
-943	Saudi Arabia	`Asīr	Saudi Riyal
-944	Tanzania, United Republic of	Mbeya	Tanzanian Shilling
-945	United States	New Jersey	US Dollar
-946	United States	Tennessee	US Dollar
-947	Haiti	Ouest	Gourde
-948	Mongolia	Hovd	Tugrik
-949	Uganda	Kyenjojo	Uganda Shilling
-950	Kazakhstan	Atyraū oblysy	Tenge
-951	Russian Federation	Kamchatskiy kray	Russian Ruble
-952	Guatemala	Chiquimula	Quetzal
-953	Sweden	Södermanlands län	Swedish Krona
-954	Sri Lanka	Yāpanaya	Sri Lanka Rupee
-955	Algeria	Tissemsilt	Algerian Dinar
-956	Czechia	Praha-západ	Czech Koruna
-957	Chile	Maule	Chilean Peso
-958	South Africa	Gauteng	Rand
-959	Bahamas	West Grand Bahama	Bahamian Dollar
-960	Argentina	Santa Cruz	Argentine Peso
-961	Bahamas	Mayaguana	Bahamian Dollar
-962	Thailand	Phetchaburi	Baht
-963	Macedonia, Republic of	Mavrovo-i-Rostuša	Denar
-964	El Salvador	San Miguel	El Salvador Colon
-965	Colombia	Arauca	Colombian Peso
-966	Morocco	Kénitra	Moroccan Dirham
-967	Iraq	At Ta'mim	Iraqi Dinar
-968	South Africa	Free State	Rand
-969	Iran, Islamic Republic of	Kermān	Iranian Rial
-970	Armenia	Armavir	Armenian Dram
-971	South Africa	North-West (South Africa)	Rand
-972	Cambodia	Kampong Chhnang	Riel
-973	Malawi	Nsanje	Malawi Kwacha
-974	Somalia	Bakool	Somali Shilling
-975	Liberia	Lofa	Liberian Dollar
-976	Lesotho	Mafeteng	Loti
-977	Croatia	Karlovačka županija	Kuna
-978	Bhutan	Gasa	Ngultrum
-979	Nigeria	Akwa Ibom	Naira
-980	Paraguay	Ñeembucú	Guarani
-981	Mexico	Nuevo León	Mexican Peso
-982	Uzbekistan	Qashqadaryo	Uzbekistan Sum
-983	Belize	Orange Walk	Belize Dollar
-984	Eritrea	Al Janūbī	Nakfa
-985	Morocco	Inezgane-Ait Melloul	Moroccan Dirham
-986	China	Guangxi	Yuan Renminbi
-987	Nicaragua	Boaco	Cordoba Oro
-988	Hungary	Somogy	Forint
-989	Norway	Aust-Agder	Norwegian Krone
-990	Trinidad and Tobago	Penal-Debe	Trinidad and Tobago Dollar
-991	China	Shanghai	Yuan Renminbi
-992	Cabo Verde	Ilhas de Sotavento	Cabo Verde Escudo
-993	Morocco	Aousserd	Moroccan Dirham
-994	Nicaragua	Chontales	Cordoba Oro
-995	Russian Federation	Khabarovskiy kray	Russian Ruble
-996	Tanzania, United Republic of	Tanga	Tanzanian Shilling
-997	United Kingdom	Great Britain	Pound Sterling
-998	Russian Federation	Smolenskaya oblast'	Russian Ruble
-999	Chile	Bío-Bío	Chilean Peso
-1000	Nepal	Janakpur	Nepalese Rupee
+1	Mauritius	Cargados Carajos Shoals	Mauritius Rupee
+2	Uzbekistan	Toshkent	Uzbekistan Sum
+3	Chile	Valparaíso	Chilean Peso
+4	Maldives	Haa Alifu	Rufiyaa
+5	Egypt	Ash Sharqīyah	Egyptian Pound
+6	Dominican Republic	Monte Plata	Dominican Peso
+7	Barbados	Saint George	Barbados Dollar
+8	Oman	Ad Dākhilīya	Rial Omani
+9	Argentina	Rio Negro	Argentine Peso
+10	United Arab Emirates	Dubayy	UAE Dirham
+11	Chile	Maule	Chilean Peso
+12	Cambodia	Pousaat	Riel
+13	Guinea	Boké	Guinea Franc
+14	Bahamas	Central Andros	Bahamian Dollar
+15	Korea, Democratic People's Republic of	Nasŏn (Najin-Sŏnbong)	North Korean Won
+16	Nicaragua	Estelí	Cordoba Oro
+17	Botswana	Kgalagadi	Pula
+18	Jordan	Mādabā	Jordanian Dinar
+19	Japan	Ibaraki	Yen
+20	Cabo Verde	São Filipe	Cabo Verde Escudo
+21	Cambodia	Otdar Mean Chey	Riel
+22	Tonga	Tongatapu	Pa’anga
+23	Sierra Leone	Northern	Leone
+24	Haiti	Nord-Est	Gourde
+25	Fiji	Central	Fiji Dollar
+26	Honduras	Colón	Lempira
+27	Vanuatu	Pénama	Vatu
+28	United States	New Mexico	US Dollar
+29	Swaziland	Manzini	Lilangeni
+30	Lesotho	Quthing	Loti
+31	Burundi	Karuzi	Burundi Franc
+32	Kenya	Eastern	Kenyan Shilling
+33	Oman	Z̧ufār	Rial Omani
+34	Djibouti	Dikhil	Djibouti Franc
+35	United States	Kansas	US Dollar
+36	Peru	Municipalidad Metropolitana de Lima	Sol
+37	Cabo Verde	Brava	Cabo Verde Escudo
+38	Sao Tome and Principe	São Tomé	Dobra
+39	Kyrgyzstan	Jalal-Abad	Som
+40	Gambia	Central River	Dalasi
+41	Czechia	Havlíčkův Brod	Czech Koruna
+42	Japan	Hyogo	Yen
+43	Bahamas	North Abaco	Bahamian Dollar
+44	South Sudan	Warrap	South Sudanese Pound
+45	Qatar	Al Khawr wa adh Dhakhīrah	Qatari Rial
+46	Belize	Cayo	Belize Dollar
+47	Guyana	Cuyuni-Mazaruni	Guyana Dollar
+48	Saint Helena, Ascension and Tristan da Cunha	Saint Helena	Saint Helena Pound
+49	Canada	Saskatchewan	Canadian Dollar
+50	Mexico	Sonora	Mexican Peso
+51	Iceland	Reykjavík	Iceland Krona
+52	Dominican Republic	La Vega	Dominican Peso
+53	Honduras	Gracias a Dios	Lempira
+54	Uzbekistan	Qashqadaryo	Uzbekistan Sum
+55	Gambia	North Bank	Dalasi
+56	Malaysia	Melaka	Malaysian Ringgit
+57	Albania	Skrapar	Lek
+58	Mauritius	Curepipe	Mauritius Rupee
+59	Russian Federation	Zabajkal'skij kraj	Russian Ruble
+60	Argentina	Chubut	Argentine Peso
+61	Jordan	Al Balqā'	Jordanian Dinar
+62	Norway	Sør-Trøndelag	Norwegian Krone
+63	Malaysia	Perlis	Malaysian Ringgit
+64	Dominican Republic	Salcedo	Dominican Peso
+65	Mauritius	Vacoas-Phoenix	Mauritius Rupee
+66	Singapore	South East	Singapore Dollar
+67	Jamaica	Clarendon	Jamaican Dollar
+68	Sweden	Norrbottens län	Swedish Krona
+69	Samoa	Tuamasaga	Tala
+70	Guatemala	Totonicapán	Quetzal
+71	Albania	Vlorë	Lek
+72	Kazakhstan	Almaty oblysy	Tenge
+73	Colombia	Valle del Cauca	Colombian Peso
+74	New Zealand	Tasman District	New Zealand Dollar
+75	Tonga	'Eua	Pa’anga
+76	Nicaragua	Nueva Segovia	Cordoba Oro
+77	Oman	Masqaţ	Rial Omani
+78	Nepal	Gandaki	Nepalese Rupee
+79	Saudi Arabia	Ar Riyāḍ	Saudi Riyal
+80	Switzerland	Valais	Swiss Franc
+81	Saudi Arabia	`Asīr	Saudi Riyal
+82	Myanmar	Kayah	Kyat
+83	Denmark	Sjælland	Danish Krone
+84	Bangladesh	Rangpur	Taka
+85	Israel	Tel-Aviv	New Israeli Sheqel
+86	Egypt	Qinā	Egyptian Pound
+87	Syrian Arab Republic	Al Hasakah	Syrian Pound
+88	Sri Lanka	Mātale	Sri Lanka Rupee
+89	Moldova, Republic of	Orhei	Moldovan Leu
+90	Kyrgyzstan	Ysyk-Köl	Som
+91	Saudi Arabia	Tabūk	Saudi Riyal
+92	Tunisia	Ben Arous	Tunisian Dinar
+93	Hungary	Szolnok	Forint
+94	United Arab Emirates	Ash Shāriqah	UAE Dirham
+95	El Salvador	Morazán	El Salvador Colon
+96	Djibouti	Tadjourah	Djibouti Franc
+97	Mauritania	Guidimaka	Ouguiya
+98	United Kingdom	Slough	Pound Sterling
+99	Liberia	Montserrado	Liberian Dollar
+100	Israel	Yerushalayim Al Quds	New Israeli Sheqel
+101	United States	Minnesota	US Dollar
+102	Philippines	Ilocos Norte	Philippine Peso
+103	Kazakhstan	Soltüstik Quzaqstan oblysy	Tenge
+104	El Salvador	Usulután	El Salvador Colon
+105	Jordan	Az Zarqā'	Jordanian Dinar
+106	Cambodia	Krachoh	Riel
+107	Syrian Arab Republic	Dar'a	Syrian Pound
+108	Papua New Guinea	Southern Highlands	Kina
+109	Armenia	Erevan	Armenian Dram
+110	Cuba	Ciego de Ávila	Cuban Peso
+111	Cambodia	Kampot	Riel
+112	United Kingdom	Trafford	Pound Sterling
+113	Canada	Alberta	Canadian Dollar
+114	Syrian Arab Republic	As Suwayda'	Syrian Pound
+115	Cabo Verde	Sal	Cabo Verde Escudo
+116	Costa Rica	San José	Costa Rican Colon
+117	China	Sichuan	Yuan Renminbi
+118	Viet Nam	Đồng Tháp	Dong
+119	Brunei Darussalam	Tutong	Brunei Dollar
+120	Haiti	Sud	Gourde
+121	Morocco	Tiznit	Moroccan Dirham
+122	Switzerland	Solothurn	Swiss Franc
+123	Colombia	Atlántico	Colombian Peso
+124	Canada	Quebec	Canadian Dollar
+125	Philippines	Romblon	Philippine Peso
+126	Seychelles	La Digue	Seychelles Rupee
+127	Kenya	Coast	Kenyan Shilling
+128	Switzerland	Sankt Gallen	Swiss Franc
+129	Oman	Ash Sharqīyah	Rial Omani
+130	Norway	Svalbard (Arctic Region)	Norwegian Krone
+131	Paraguay	Presidente Hayes	Guarani
+132	Sierra Leone	Southern (Sierra Leone)	Leone
+133	Botswana	Ghanzi	Pula
+134	El Salvador	Ahuachapán	El Salvador Colon
+135	Trinidad and Tobago	Princes Town	Trinidad and Tobago Dollar
+136	Rwanda	Nord	Rwanda Franc
+137	Haiti	Nord-Ouest	Gourde
+138	Australia	New South Wales	Australian Dollar
+139	Canada	Ontario	Canadian Dollar
+140	Solomon Islands	Malaita	Solomon Islands Dollar
+141	Maldives	Gaafu Dhaalu	Rufiyaa
+142	Czechia	Praha 3	Czech Koruna
+143	Iraq	Al Muthanna	Iraqi Dinar
+144	Japan	Kochi	Yen
+145	Cabo Verde	Tarrafal de São Nicolau	Cabo Verde Escudo
+146	Jamaica	Saint Thomas	Jamaican Dollar
+147	Colombia	Nariño	Colombian Peso
+148	Eritrea	Janūbī al Baḩrī al Aḩmar	Nakfa
+149	Bahamas	Mangrove Cay	Bahamian Dollar
+150	Bolivia, Plurinational State of	Tarija	Boliviano
+151	Pakistan	Khyber Pakhtunkhwa	Pakistan Rupee
+152	Colombia	Cesar	Colombian Peso
+153	Lebanon	Liban-Sud	Lebanese Pound
+154	Tanzania, United Republic of	Pwani	Tanzanian Shilling
+155	South Sudan	Upper Nile	South Sudanese Pound
+156	Somalia	Awdal	Somali Shilling
+157	Tonga	Niuas	Pa’anga
+158	Tanzania, United Republic of	Mjini Magharibi	Tanzanian Shilling
+159	Burundi	Gitega	Burundi Franc
+160	Syrian Arab Republic	Dayr az Zawr	Syrian Pound
+161	Swaziland	Lubombo	Lilangeni
+162	Cambodia	Svaay Rieng	Riel
+163	Russian Federation	Ul'yanovskaya oblast'	Russian Ruble
+164	Kuwait	Al Kuwayt (Al ‘Āşimah)	Kuwaiti Dinar
+165	Canada	Nova Scotia	Canadian Dollar
+166	Thailand	Maha Sarakham	Baht
+167	Syrian Arab Republic	Al Ladhiqiyah	Syrian Pound
+168	Myanmar	Rakhine	Kyat
+169	Macedonia, Republic of	Čair	Denar
+170	Eritrea	Shimālī al Baḩrī al Aḩmar	Nakfa
+171	Cambodia	Kampong Speu	Riel
+172	Colombia	Vichada	Colombian Peso
+173	Kyrgyzstan	Naryn	Som
+174	Indonesia	Sulawesi Selatan	Rupiah
+175	Sweden	Jönköpings län	Swedish Krona
+176	Djibouti	Ali Sabieh	Djibouti Franc
+177	Japan	Ishikawa	Yen
+178	Tonga	Ha'apai	Pa’anga
+179	Egypt	Matrūh	Egyptian Pound
+180	Djibouti	Djibouti	Djibouti Franc
+181	Papua New Guinea	Madang	Kina
+182	Kazakhstan	Pavlodar oblysy	Tenge
+183	Peru	Loreto	Sol
+184	Libya	Wādī ash Shāţiʾ	Libyan Dinar
+185	Egypt	As Suways	Egyptian Pound
+186	Korea, Democratic People's Republic of	P’yŏngan-namdo	North Korean Won
+187	Mongolia	Hövsgöl	Tugrik
+188	Namibia	Khomas	Namibia Dollar
+189	Comoros	Andjazîdja (Anjazījah)	Comoro Franc
+190	Armenia	Aragacotn	Armenian Dram
+191	Samoa	Aiga-i-le-Tai	Tala
+192	Japan	Nagano	Yen
+193	Uruguay	Durazno	Peso Uruguayo
+194	Algeria	Tiaret	Algerian Dinar
+195	Botswana	South-East	Pula
+196	Egypt	Ad Daqahlīyah	Egyptian Pound
+197	Russian Federation	Kalmykiya, Respublika	Russian Ruble
+198	Croatia	Osječko-baranjska županija	Kuna
+199	Armenia	Tavus	Armenian Dram
+200	Mauritius	Rivière du Rempart	Mauritius Rupee
+201	Philippines	Ilocos Sur	Philippine Peso
+202	Solomon Islands	Choiseul	Solomon Islands Dollar
+203	Macedonia, Republic of	Delčevo	Denar
+204	Guatemala	Guatemala	Quetzal
+205	Colombia	Boyacá	Colombian Peso
+206	Malawi	Ntchisi	Malawi Kwacha
+207	Thailand	Kamphaeng Phet	Baht
+208	Chile	Araucanía	Chilean Peso
+209	Rwanda	Sud	Rwanda Franc
+210	Japan	Tokushima	Yen
+211	Pakistan	Islamabad	Pakistan Rupee
+212	Denmark	Nordjylland	Danish Krone
+213	Nicaragua	Chontales	Cordoba Oro
+214	Bangladesh	Pabna	Taka
+215	Egypt	Al Qalyūbīyah	Egyptian Pound
+216	Uzbekistan	Xorazm	Uzbekistan Sum
+217	Qatar	Al Wakrah	Qatari Rial
+218	Papua New Guinea	Western Highlands	Kina
+219	Mauritania	Tagant	Ouguiya
+220	Mauritania	Adrar	Ouguiya
+221	Cambodia	Banteay Mean Chey	Riel
+222	Mauritania	Trarza	Ouguiya
+223	Iceland	Norðurland eystra	Iceland Krona
+224	Guinea	Nzérékoré	Guinea Franc
+225	United States	Vermont	US Dollar
+226	Thailand	Samut Sakhon	Baht
+227	Uruguay	Salto	Peso Uruguayo
+228	Jordan	‘Ajlūn	Jordanian Dinar
+229	United States	Kentucky	US Dollar
+230	Libya	Sabhā	Libyan Dinar
+231	Libya	Wādī al Ḩayāt	Libyan Dinar
+232	Switzerland	Nidwalden	Swiss Franc
+233	Singapore	North West	Singapore Dollar
+234	India	Tamil Nadu	Indian Rupee
+235	Saudi Arabia	Jīzan	Saudi Riyal
+236	Oman	Al Bāţinah	Rial Omani
+237	Mauritius	Savanne	Mauritius Rupee
+238	Cuba	Ciudad de La Habana	Cuban Peso
+239	United States	Guam	US Dollar
+240	Mauritania	Brakna	Ouguiya
+241	Myanmar	Mon	Kyat
+242	Tunisia	Tunis	Tunisian Dinar
+243	Russian Federation	Vologodskaya oblast'	Russian Ruble
+244	Guatemala	Chiquimula	Quetzal
+245	Guatemala	Escuintla	Quetzal
+246	Hungary	Eger	Forint
+247	Moldova, Republic of	Soroca	Moldovan Leu
+248	Uzbekistan	Farg'ona	Uzbekistan Sum
+249	United Arab Emirates	Umm al Qaywayn	UAE Dirham
+250	Honduras	Lempira	Lempira
+251	Bahamas	Hope Town	Bahamian Dollar
+252	Bolivia, Plurinational State of	La Paz	Boliviano
+253	Namibia	Omaheke	Namibia Dollar
+254	Liberia	Nimba	Liberian Dollar
+255	Jamaica	Saint Andrew	Jamaican Dollar
+256	Guatemala	Baja Verapaz	Quetzal
+257	New Zealand	Auckland	New Zealand Dollar
+258	Bahamas	Grand Cay	Bahamian Dollar
+259	Paraguay	Itapúa	Guarani
+260	Mexico	Baja California Sur	Mexican Peso
+261	Macedonia, Republic of	Novaci	Denar
+262	Honduras	El Paraíso	Lempira
+263	Korea, Republic of	Chungcheongnamdo	Won
+264	Sierra Leone	Western Area (Freetown)	Leone
+265	Papua New Guinea	New Ireland	Kina
+266	United Kingdom	Flintshire; Sir y Fflint	Pound Sterling
+267	Jamaica	Manchester	Jamaican Dollar
+268	Myanmar	Yangon	Kyat
+269	Switzerland	Schwyz	Swiss Franc
+270	Oman	Al Wusţá	Rial Omani
+271	Honduras	Francisco Morazán	Lempira
+272	Nigeria	Anambra	Naira
+273	Libya	Ţarābulus	Libyan Dinar
+274	Croatia	Primorsko-goranska županija	Kuna
+275	Korea, Republic of	Busan Gwang'yeogsi	Won
+276	Macedonia, Republic of	Karpoš	Denar
+277	Trinidad and Tobago	Couva-Tabaquite-Talparo	Trinidad and Tobago Dollar
+278	Saint Helena, Ascension and Tristan da Cunha	Tristan da Cunha	Saint Helena Pound
+279	Lebanon	Nabatîyé	Lebanese Pound
+280	Jamaica	Trelawny	Jamaican Dollar
+281	Liberia	Margibi	Liberian Dollar
+282	Macedonia, Republic of	Bitola	Denar
+283	Maldives	Alifu Alifu	Rufiyaa
+284	New Zealand	Gisborne District	New Zealand Dollar
+285	Japan	Aomori	Yen
+286	Kenya	Central	Kenyan Shilling
+287	Tunisia	Béja	Tunisian Dinar
+288	Cabo Verde	Santa Cruz	Cabo Verde Escudo
+289	South Sudan	Unity	South Sudanese Pound
+290	Nicaragua	Chinandega	Cordoba Oro
+291	Botswana	Central	Pula
+292	Uganda	Kumi	Uganda Shilling
+293	Nicaragua	Granada	Cordoba Oro
+294	Sao Tome and Principe	Príncipe	Dobra
+295	Lao People's Democratic Republic	Louang Namtha	Kip
+296	Korea, Democratic People's Republic of	P’yŏngyang	North Korean Won
+297	Guyana	Mahaica-Berbice	Guyana Dollar
+298	Papua New Guinea	Gulf	Kina
+299	Iran, Islamic Republic of	Semnān	Iranian Rial
+300	Australia	Australian Capital Territory	Australian Dollar
+301	Trinidad and Tobago	Sangre Grande	Trinidad and Tobago Dollar
+302	Norway	Rogaland	Norwegian Krone
+303	Iran, Islamic Republic of	Kordestān	Iranian Rial
+304	Tanzania, United Republic of	Iringa	Tanzanian Shilling
+305	Costa Rica	Puntarenas	Costa Rican Colon
+306	Peru	Lima	Sol
+307	Lao People's Democratic Republic	Phôngsali	Kip
+308	Barbados	Saint Michael	Barbados Dollar
+309	Algeria	Tamanghasset	Algerian Dinar
+310	Libya	An Nuqaţ al Khams	Libyan Dinar
+311	Iraq	Baghdad	Iraqi Dinar
+312	Bahamas	Black Point	Bahamian Dollar
+313	Argentina	Santa Cruz	Argentine Peso
+314	Costa Rica	Cartago	Costa Rican Colon
+315	Chile	Arica y Parinacota	Chilean Peso
+316	Egypt	Janūb Sīnā'	Egyptian Pound
+317	Bhutan	Trashi Yangtse	Ngultrum
+318	Moldova, Republic of	Rîșcani	Moldovan Leu
+319	Morocco	Kénitra	Moroccan Dirham
+320	Morocco	Gharb-Chrarda-Beni Hssen	Moroccan Dirham
+321	Nicaragua	Jinotega	Cordoba Oro
+322	Mongolia	Övörhangay	Tugrik
+323	Sri Lanka	Gālla	Sri Lanka Rupee
+324	Israel	HaZafon	New Israeli Sheqel
+325	Mongolia	Ulanbaatar	Tugrik
+326	Samoa	Atua	Tala
+327	Qatar	Ash Shamal	Qatari Rial
+328	Malaysia	Johor	Malaysian Ringgit
+329	Norway	Oslo	Norwegian Krone
+330	United States	New Jersey	US Dollar
+331	Lesotho	Mokhotlong	Loti
+332	Bangladesh	Habiganj	Taka
+333	Sri Lanka	Næ̆gĕnahira paḷāta	Sri Lanka Rupee
+334	Trinidad and Tobago	Siparia	Trinidad and Tobago Dollar
+335	Gambia	Western	Dalasi
+336	Albania	Mallakastër	Lek
+337	Guinea	Lélouma	Guinea Franc
+338	Iceland	Norðurland vestra	Iceland Krona
+339	Switzerland	Zürich	Swiss Franc
+340	Uganda	Sironko	Uganda Shilling
+341	Paraguay	Caaguazú	Guarani
+342	Macedonia, Republic of	Krivogaštani	Denar
+343	United Arab Emirates	Ra’s al Khaymah	UAE Dirham
+344	Liberia	Grand Bassa	Liberian Dollar
+345	Kazakhstan	Qaraghandy oblysy	Tenge
+346	Kazakhstan	Zhambyl oblysy	Tenge
+347	Libya	Jaghbūb	Libyan Dinar
+348	Solomon Islands	Isabel	Solomon Islands Dollar
+349	Algeria	Relizane	Algerian Dinar
+350	Pakistan	Gilgit-Baltistan	Pakistan Rupee
+351	Somalia	Jubbada Dhexe	Somali Shilling
+352	Malaysia	Terengganu	Malaysian Ringgit
+353	Nepal	Karnali	Nepalese Rupee
+354	United States	Idaho	US Dollar
+355	Mexico	Tlaxcala	Mexican Peso
+356	Lesotho	Mohale's Hoek	Loti
+357	Australia	Tasmania	Australian Dollar
+358	Tunisia	Nabeul	Tunisian Dinar
+359	Uganda	Gulu	Uganda Shilling
+360	Maldives	Central	Rufiyaa
+361	Djibouti	Obock	Djibouti Franc
+362	Somalia	Shabeellaha Hoose	Somali Shilling
+363	Czechia	Louny	Czech Koruna
+364	Mauritania	Hodh ech Chargui	Ouguiya
+365	Croatia	Istarska županija	Kuna
+366	New Zealand	Taranaki	New Zealand Dollar
+367	Cuba	Las Tunas	Cuban Peso
+368	Switzerland	Aargau	Swiss Franc
+369	Cambodia	Kampong Cham	Riel
+370	Iran, Islamic Republic of	Āzarbāyjān-e Gharbī	Iranian Rial
+371	Mauritania	Dakhlet Nouadhibou	Ouguiya
+372	Burundi	Bubanza	Burundi Franc
+373	Malawi	Southern Region	Malawi Kwacha
+374	New Zealand	Otago	New Zealand Dollar
+375	Jordan	Irbid	Jordanian Dinar
+376	Iran, Islamic Republic of	Khorāsān-e Razavī	Iranian Rial
+377	Nepal	Rapti	Nepalese Rupee
+378	Bolivia, Plurinational State of	Pando	Boliviano
+379	Cabo Verde	Mosteiros	Cabo Verde Escudo
+380	Russian Federation	Mordoviya, Respublika	Russian Ruble
+381	Jamaica	Saint Mary	Jamaican Dollar
+382	Maldives	Baa	Rufiyaa
+383	Kenya	Nairobi Municipality	Kenyan Shilling
+384	Libya	Darnah	Libyan Dinar
+385	Botswana	North-East	Pula
+386	India	Dadra and Nagar Haveli	Indian Rupee
+387	Bangladesh	Jhenaidah	Taka
+388	United States	North Dakota	US Dollar
+389	Iran, Islamic Republic of	Gīlān	Iranian Rial
+390	Nigeria	Rivers	Naira
+391	Samoa	Gagaifomauga	Tala
+392	Iran, Islamic Republic of	Qazvīn	Iranian Rial
+393	Barbados	Saint Joseph	Barbados Dollar
+394	Jamaica	Hanover	Jamaican Dollar
+395	United Kingdom	Manchester	Pound Sterling
+396	Belize	Corozal	Belize Dollar
+397	Denmark	Hovedstaden	Danish Krone
+398	Namibia	Oshikoto	Namibia Dollar
+399	United Kingdom	Moray	Pound Sterling
+400	Liberia	Sinoe	Liberian Dollar
+401	Burundi	Kirundo	Burundi Franc
+402	Libya	Ghāt	Libyan Dinar
+403	Moldova, Republic of	Strășeni	Moldovan Leu
+404	Belize	Belize	Belize Dollar
+405	Bahamas	South Abaco	Bahamian Dollar
+406	Australia	Northern Territory	Australian Dollar
+407	Mongolia	Bayanhongor	Tugrik
+408	Jamaica	Westmoreland	Jamaican Dollar
+409	Bahrain	Al Manāmah (Al ‘Āşimah)	Bahraini Dinar
+410	Switzerland	Luzern	Swiss Franc
+411	Cambodia	Krong Pailin	Riel
+412	Peru	Lambayeque	Sol
+413	Korea, Republic of	Gyeongsangnamdo	Won
+414	Armenia	Syunik'	Armenian Dram
+415	Maldives	Noonu	Rufiyaa
+416	Sweden	Skåne län	Swedish Krona
+417	Bahamas	South Andros	Bahamian Dollar
+418	Myanmar	Chin	Kyat
+419	Colombia	Huila	Colombian Peso
+420	Armenia	Gegarkunik'	Armenian Dram
+421	Albania	Tropojë	Lek
+422	Tunisia	Gabès	Tunisian Dinar
+423	Iran, Islamic Republic of	Khūzestān	Iranian Rial
+424	Cuba	Pinar del Rio	Cuban Peso
+425	Rwanda	Ville de Kigali	Rwanda Franc
+426	Fiji	Northern	Fiji Dollar
+427	Botswana	Southern	Pula
+428	Macedonia, Republic of	Štip	Denar
+429	India	Gujarat	Indian Rupee
+430	Malaysia	Wilayah Persekutuan Putrajaya	Malaysian Ringgit
+431	Korea, Republic of	Seoul Teugbyeolsi	Won
+432	Seychelles	Anse Louis	Seychelles Rupee
+433	Iceland	Suðurnes	Iceland Krona
+434	Solomon Islands	Capital Territory (Honiara)	Solomon Islands Dollar
+435	South Sudan	Jonglei	South Sudanese Pound
+436	South Africa	Mpumalanga	Rand
+437	Guinea	Guékédou	Guinea Franc
+438	Argentina	Chaco	Argentine Peso
+439	Canada	British Columbia	Canadian Dollar
+440	Qatar	Az̧ Z̧a‘āyin	Qatari Rial
+441	Russian Federation	Yaroslavskaya oblast'	Russian Ruble
+442	Sweden	Hallands län	Swedish Krona
+443	Algeria	Souk Ahras	Algerian Dinar
+444	Iran, Islamic Republic of	Kohgīlūyeh va Būyer Ahmad	Iranian Rial
+445	Fiji	Western	Fiji Dollar
+446	Indonesia	Sumatra Barat	Rupiah
+447	Haiti	Grande-Anse	Gourde
+448	Guyana	Barima-Waini	Guyana Dollar
+449	New Zealand	Canterbury	New Zealand Dollar
+450	Thailand	Nakhon Nayok	Baht
+451	Nicaragua	Masaya	Cordoba Oro
+452	Kazakhstan	Atyraū oblysy	Tenge
+453	Libya	Al Jufrah	Libyan Dinar
+454	Tanzania, United Republic of	Kaskazini Unguja	Tanzanian Shilling
+455	Japan	Gunma	Yen
+456	Tanzania, United Republic of	Morogoro	Tanzanian Shilling
+457	Malawi	Thyolo	Malawi Kwacha
+458	Lesotho	Berea	Loti
+459	Morocco	Marrakech-Tensift-Al Haouz	Moroccan Dirham
+460	Norway	Hordaland	Norwegian Krone
+461	Malawi	Ntcheu	Malawi Kwacha
+462	Hungary	Békéscsaba	Forint
+463	Qatar	Ar Rayyan	Qatari Rial
+464	Hungary	Győr-Moson-Sopron	Forint
+465	Saudi Arabia	Al Ḥudūd ash Shamāliyah	Saudi Riyal
+466	Philippines	Capiz	Philippine Peso
+467	Bangladesh	Sunamganj	Taka
+468	Seychelles	Takamaka	Seychelles Rupee
+469	Rwanda	Ouest	Rwanda Franc
+470	Maldives	Gaafu Alifu	Rufiyaa
+471	Moldova, Republic of	Căușeni	Moldovan Leu
+472	Norway	Oppland	Norwegian Krone
+473	Brunei Darussalam	Brunei-Muara	Brunei Dollar
+474	Algeria	Tissemsilt	Algerian Dinar
+475	Cuba	Granma	Cuban Peso
+476	Cabo Verde	Santa Catarina de Fogo	Cabo Verde Escudo
+477	India	Himachal Pradesh	Indian Rupee
+478	Cambodia	Kampong Thom	Riel
+479	Dominican Republic	San Cristóbal	Dominican Peso
+480	Switzerland	Basel-Landschaft	Swiss Franc
+481	Trinidad and Tobago	Point Fortin	Trinidad and Tobago Dollar
+482	Uganda	Kitgum	Uganda Shilling
+483	Bhutan	Gasa	Ngultrum
+484	Namibia	Oshana	Namibia Dollar
+485	Switzerland	Vaud	Swiss Franc
+486	Jordan	Al Karak	Jordanian Dinar
+487	Bolivia, Plurinational State of	Chuquisaca	Boliviano
+488	Djibouti	Arta	Djibouti Franc
+489	Morocco	Essaouira	Moroccan Dirham
+490	Czechia	Rokycany	Czech Koruna
+491	Dominican Republic	Distrito Nacional (Santo Domingo)	Dominican Peso
+492	Vanuatu	Torba	Vatu
+493	Croatia	Požeško-slavonska županija	Kuna
+494	New Zealand	Bay of Plenty	New Zealand Dollar
+495	Nicaragua	León	Cordoba Oro
+496	Kenya	Western Magharibi	Kenyan Shilling
+497	China	Hebei	Yuan Renminbi
+498	Sri Lanka	Trikuṇāmalaya	Sri Lanka Rupee
+499	Russian Federation	Adygeya, Respublika	Russian Ruble
+500	Costa Rica	Limón	Costa Rican Colon
+501	Iraq	Dhi Qar	Iraqi Dinar
+502	Saudi Arabia	Ḥā'il	Saudi Riyal
+503	Uzbekistan	Namangan	Uzbekistan Sum
+504	United Kingdom	Fermanagh and Omagh	Pound Sterling
+505	Burundi	Makamba	Burundi Franc
+506	Iran, Islamic Republic of	Tehrān	Iranian Rial
+507	Argentina	Formosa	Argentine Peso
+508	Cabo Verde	São Miguel	Cabo Verde Escudo
+509	Macedonia, Republic of	Šuto Orizari	Denar
+510	Thailand	Ubon Ratchathani	Baht
+511	Philippines	Cagayan Valley (Region II)	Philippine Peso
+512	Cambodia	Taakaev	Riel
+513	Guatemala	Zacapa	Quetzal
+514	Singapore	North East	Singapore Dollar
+515	Macedonia, Republic of	Centar	Denar
+516	Bangladesh	Khulna	Taka
+517	Iceland	Austurland	Iceland Krona
+518	Dominican Republic	María Trinidad Sánchez	Dominican Peso
+519	Sweden	Västmanlands län	Swedish Krona
+520	Uruguay	Treinta y Tres	Peso Uruguayo
+521	Myanmar	Tanintharyi	Kyat
+522	Korea, Republic of	Incheon Gwang'yeogsi	Won
+523	Kyrgyzstan	Bishkek	Som
+524	Sweden	Kalmar län	Swedish Krona
+525	Bahamas	Ragged Island	Bahamian Dollar
+526	Dominican Republic	Sánchez Ramírez	Dominican Peso
+527	Hungary	Borsod-Abaúj-Zemplén	Forint
+528	Burundi	Cankuzo	Burundi Franc
+529	Nepal	Sudur Pashchimanchal	Nepalese Rupee
+530	Mauritius	Flacq	Mauritius Rupee
+531	Somalia	Gedo	Somali Shilling
+532	Malawi	Blantyre	Malawi Kwacha
+533	Bangladesh	Nawabganj	Taka
+534	Sweden	Örebro län	Swedish Krona
+535	Philippines	Iloilo	Philippine Peso
+536	Paraguay	Caazapá	Guarani
+537	Algeria	Illizi	Algerian Dinar
+538	Croatia	Zagrebačka županija	Kuna
+539	Sweden	Kronobergs län	Swedish Krona
+540	Pakistan	Azad Kashmir	Pakistan Rupee
+541	Haiti	Sud-Est	Gourde
+542	Vanuatu	Shéfa	Vatu
+543	Guyana	Demerara-Mahaica	Guyana Dollar
+544	Korea, Democratic People's Republic of	Yanggang-do	North Korean Won
+545	Comoros	Moûhîlî (Mūhīlī)	Comoro Franc
+546	Bangladesh	Comilla	Taka
+547	Bahamas	Spanish Wells	Bahamian Dollar
+548	Iran, Islamic Republic of	Kermān	Iranian Rial
+549	Colombia	Caldas	Colombian Peso
+550	Indonesia	Gorontalo	Rupiah
+551	Pakistan	Punjab	Pakistan Rupee
+552	Philippines	Lanao del Sur	Philippine Peso
+553	Burundi	Muramvya	Burundi Franc
+554	Liberia	Grand Kru	Liberian Dollar
+555	Bangladesh	Munshiganj	Taka
+556	Indonesia	Kalimantan Selatan	Rupiah
+557	Vanuatu	Malampa	Vatu
+558	Bangladesh	Chuadanga	Taka
+559	Cambodia	Preah Vihear	Riel
+560	Macedonia, Republic of	Jegunovce	Denar
+561	Brunei Darussalam	Temburong	Brunei Dollar
+562	Viet Nam	Thừa Thiên-Huế	Dong
+563	Pakistan	Federally Administered Tribal Areas	Pakistan Rupee
+564	Paraguay	Amambay	Guarani
+565	Argentina	Salta	Argentine Peso
+566	Armenia	Ararat	Armenian Dram
+567	Kazakhstan	Qyzylorda oblysy	Tenge
+568	Thailand	Phatthalung	Baht
+569	Papua New Guinea	East New Britain	Kina
+570	Syrian Arab Republic	Hamah	Syrian Pound
+571	Papua New Guinea	Eastern Highlands	Kina
+572	Macedonia, Republic of	Probištip	Denar
+573	Indonesia	Bengkulu	Rupiah
+574	Norway	Sogn og Fjordane	Norwegian Krone
+575	Costa Rica	Guanacaste	Costa Rican Colon
+576	South Sudan	Western Equatoria	South Sudanese Pound
+577	Russian Federation	Kurganskaya oblast'	Russian Ruble
+578	Czechia	Královéhradecký kraj	Czech Koruna
+579	Jordan	Aţ Ţafīlah	Jordanian Dinar
+580	Czechia	Žďár nad Sázavou	Czech Koruna
+581	Egypt	Būr Sa`īd	Egyptian Pound
+582	Tanzania, United Republic of	Kusini Unguja	Tanzanian Shilling
+583	Solomon Islands	Central	Solomon Islands Dollar
+584	Colombia	Cauca	Colombian Peso
+585	Kyrgyzstan	Batken	Som
+586	Israel	HaMerkaz	New Israeli Sheqel
+587	Iraq	Babil	Iraqi Dinar
+588	Cuba	Camagüey	Cuban Peso
+589	Uganda	Mbarara	Uganda Shilling
+590	United Arab Emirates	Abū Ȥaby [Abu Dhabi]	UAE Dirham
+591	Iraq	Karbala'	Iraqi Dinar
+592	Croatia	Koprivničko-križevačka županija	Kuna
+593	Guinea	Koubia	Guinea Franc
+594	Cambodia	Prey Veaeng	Riel
+595	Sri Lanka	Mātara	Sri Lanka Rupee
+596	Argentina	Corrientes	Argentine Peso
+597	Peru	Cajamarca	Sol
+598	Korea, Republic of	Jeonranamdo	Won
+599	Kuwait	Al Ahmadi	Kuwaiti Dinar
+600	Trinidad and Tobago	Eastern Tobago	Trinidad and Tobago Dollar
+601	Bahrain	Al Muḩarraq	Bahraini Dinar
+602	Dominican Republic	Santiago Rodríguez	Dominican Peso
+603	Burundi	Ruyigi	Burundi Franc
+604	Argentina	Misiones	Argentine Peso
+605	Kuwait	Mubārak al Kabīr	Kuwaiti Dinar
+606	Canada	Yukon Territory	Canadian Dollar
+607	Macedonia, Republic of	Gazi Baba	Denar
+608	Bangladesh	Gopalganj	Taka
+609	Russian Federation	Sakhalinskaya oblast'	Russian Ruble
+610	United Kingdom	Gateshead	Pound Sterling
+611	Mauritius	Moka	Mauritius Rupee
+612	Iceland	Vesturland	Iceland Krona
+613	India	West Bengal	Indian Rupee
+614	Syrian Arab Republic	Rif Dimashq	Syrian Pound
+615	Haiti	Nord	Gourde
+616	Russian Federation	Smolenskaya oblast'	Russian Ruble
+617	Liberia	Bong	Liberian Dollar
+618	Bahrain	Al Wusţá	Bahraini Dinar
+619	South Africa	Western Cape	Rand
+620	Liberia	Rivercess	Liberian Dollar
+621	Kazakhstan	Ongtüstik Qazaqstan oblysy	Tenge
+622	Viet Nam	Hải Duong	Dong
+623	Jamaica	Saint Catherine	Jamaican Dollar
+624	Moldova, Republic of	Ialoveni	Moldovan Leu
+625	Indonesia	Kepulauan Riau	Rupiah
+626	Kyrgyzstan	Osh	Som
+627	Swaziland	Shiselweni	Lilangeni
+628	Kuwait	Hawallī	Kuwaiti Dinar
+629	Nepal	Bheri	Nepalese Rupee
+630	Liberia	Bomi	Liberian Dollar
+631	India	Lakshadweep	Indian Rupee
+632	Cambodia	Rotanak Kiri	Riel
+633	Bahamas	Central Abaco	Bahamian Dollar
+634	China	Shanghai	Yuan Renminbi
+635	United Kingdom	Nottinghamshire	Pound Sterling
+636	Qatar	Umm Salal	Qatari Rial
+637	Maldives	North Central	Rufiyaa
+638	Libya	Surt	Libyan Dinar
+639	Costa Rica	Heredia	Costa Rican Colon
+640	Jordan	Ma‘ān	Jordanian Dinar
+641	Nicaragua	Rivas	Cordoba Oro
+642	South Sudan	Eastern Equatoria	South Sudanese Pound
+643	United Arab Emirates	Al Fujayrah	UAE Dirham
+644	Norway	Aust-Agder	Norwegian Krone
+645	Canada	New Brunswick	Canadian Dollar
+646	United Kingdom	Carmarthenshire; Sir Gaerfyrddin	Pound Sterling
+647	India	Andhra Pradesh	Indian Rupee
+648	Trinidad and Tobago	Arima	Trinidad and Tobago Dollar
+649	Mauritius	Rodrigues Island	Mauritius Rupee
+650	United States	Indiana	US Dollar
+651	Barbados	Saint James	Barbados Dollar
+652	United Kingdom	Wandsworth	Pound Sterling
+653	Somalia	Togdheer	Somali Shilling
+654	Sweden	Dalarnas län	Swedish Krona
+655	Morocco	Rabat	Moroccan Dirham
+656	Egypt	As Sādis min Uktūbar	Egyptian Pound
+657	Vanuatu	Taféa	Vatu
+658	Gambia	Lower River	Dalasi
+659	El Salvador	Chalatenango	El Salvador Colon
+660	Albania	Dibër	Lek
+661	Nepal	Janakpur	Nepalese Rupee
+662	Russian Federation	Tyva, Respublika [Tuva]	Russian Ruble
+663	Eritrea	Qāsh-Barkah	Nakfa
+664	Saudi Arabia	Ash Sharqīyah	Saudi Riyal
+665	United Kingdom	Barking and Dagenham	Pound Sterling
+666	Sri Lanka	Kægalla	Sri Lanka Rupee
+667	Jamaica	Saint Ann	Jamaican Dollar
+668	Czechia	Ústecký kraj	Czech Koruna
+669	Trinidad and Tobago	Western Tobago	Trinidad and Tobago Dollar
+670	United Arab Emirates	'Ajmān	UAE Dirham
+671	Rwanda	Est	Rwanda Franc
+672	Nigeria	Akwa Ibom	Naira
+673	Sri Lanka	Pŏḷŏnnaruva	Sri Lanka Rupee
+674	Japan	Kumamoto	Yen
+675	Costa Rica	Alajuela	Costa Rican Colon
+676	Papua New Guinea	Chimbu	Kina
+677	United States	District of Columbia	US Dollar
+678	Colombia	Bolívar	Colombian Peso
+679	Guinea	Forécariah	Guinea Franc
+680	Lesotho	Leribe	Loti
+681	Czechia	Prachatice	Czech Koruna
+682	Cuba	Matanzas	Cuban Peso
+683	Papua New Guinea	Sandaun	Kina
+684	Eritrea	Al Awsaţ	Nakfa
+685	Cuba	Sancti Spíritus	Cuban Peso
+686	Tunisia	Sousse	Tunisian Dinar
+687	Mauritania	Inchiri	Ouguiya
+688	Jamaica	Saint Elizabeth	Jamaican Dollar
+689	United States	Nevada	US Dollar
+690	Hungary	Komárom-Esztergom	Forint
+691	Australia	Queensland	Australian Dollar
+692	Nigeria	Zamfara	Naira
+693	Malaysia	Pahang	Malaysian Ringgit
+694	Bangladesh	Jaipurhat	Taka
+695	Seychelles	Saint Louis	Seychelles Rupee
+696	Jamaica	Portland	Jamaican Dollar
+697	Iran, Islamic Republic of	Māzandarān	Iranian Rial
+698	Sri Lanka	Dakuṇu paḷāta	Sri Lanka Rupee
+699	United States	Washington	US Dollar
+700	Algeria	El Oued	Algerian Dinar
+701	United Kingdom	West Lothian	Pound Sterling
+702	Morocco	Boulemane	Moroccan Dirham
+703	Bahamas	East Grand Bahama	Bahamian Dollar
+704	Algeria	El Bayadh	Algerian Dinar
+705	Singapore	Central Singapore	Singapore Dollar
+706	Russian Federation	Sakha, Respublika [Yakutiya]	Russian Ruble
+707	Cabo Verde	Ribeira Brava	Cabo Verde Escudo
+708	Japan	Gifu	Yen
+709	Guatemala	San Marcos	Quetzal
+710	Albania	Kavajë	Lek
+711	Malawi	Machinga	Malawi Kwacha
+712	Korea, Republic of	Daegu Gwang'yeogsi	Won
+713	Macedonia, Republic of	Vinica	Denar
+714	Guatemala	Chimaltenango	Quetzal
+715	Sri Lanka	Badulla	Sri Lanka Rupee
+716	China	Guangdong	Yuan Renminbi
+717	Cuba	Cienfuegos	Cuban Peso
+718	Croatia	Virovitičko-podravska županija	Kuna
+719	Namibia	Omusati	Namibia Dollar
+720	New Zealand	Nelson City	New Zealand Dollar
+721	Viet Nam	Đắk Nông	Dong
+722	Guyana	East Berbice-Corentyne	Guyana Dollar
+723	Russian Federation	Khakasiya, Respublika	Russian Ruble
+724	Namibia	Karas	Namibia Dollar
+725	Saudi Arabia	Al Jawf	Saudi Riyal
+726	Bhutan	Paro	Ngultrum
+727	Belize	Stann Creek	Belize Dollar
+728	Iran, Islamic Republic of	Hamadān	Iranian Rial
+729	Guyana	Upper Demerara-Berbice	Guyana Dollar
+730	Algeria	Sétif	Algerian Dinar
+731	Albania	Shkodër	Lek
+732	Solomon Islands	Makira	Solomon Islands Dollar
+733	Guinea	Labé	Guinea Franc
+734	Hungary	Kecskemét	Forint
+735	Chile	Región Metropolitana de Santiago	Chilean Peso
+736	Malaysia	Sabah	Malaysian Ringgit
+737	Uganda	Tororo	Uganda Shilling
+738	Czechia	Praha 15	Czech Koruna
+739	Jordan	‘Ammān (Al ‘Aşimah)	Jordanian Dinar
+740	China	Heilongjiang	Yuan Renminbi
+741	Pakistan	Balochistan	Pakistan Rupee
+742	India	Jammu and Kashmir	Indian Rupee
+743	Tunisia	Tozeur	Tunisian Dinar
+744	Iraq	Ninawa	Iraqi Dinar
+745	Czechia	Brno-venkov	Czech Koruna
+746	Viet Nam	Ninh Bình	Dong
+747	Mexico	Michoacán	Mexican Peso
+748	Guatemala	Santa Rosa	Quetzal
+749	Peru	Ancash	Sol
+750	Lesotho	Maseru	Loti
+751	Sierra Leone	Eastern	Leone
+752	Nicaragua	Río San Juan	Cordoba Oro
+753	Sweden	Värmlands län	Swedish Krona
+754	South Africa	Free State	Rand
+755	Syrian Arab Republic	Tartus	Syrian Pound
+756	Cambodia	Battambang	Riel
+757	Syrian Arab Republic	Halab	Syrian Pound
+758	Kazakhstan	Aqtöbe oblysy	Tenge
+759	Iraq	Al Qadisiyah	Iraqi Dinar
+760	Cambodia	Phnom Penh	Riel
+761	Kuwait	Al Farwānīyah	Kuwaiti Dinar
+762	Samoa	Vaisigano	Tala
+763	Peru	La Libertad	Sol
+764	Cambodia	Mondol Kiri	Riel
+765	Bahrain	Al Janūbīyah	Bahraini Dinar
+766	South Africa	Limpopo	Rand
+767	Iran, Islamic Republic of	Īlām	Iranian Rial
+768	Nigeria	Cross River	Naira
+769	South Sudan	Northern Bahr el-Ghazal	South Sudanese Pound
+770	Lebanon	Liban-Nord	Lebanese Pound
+771	Nigeria	Lagos	Naira
+772	Uganda	Pallisa	Uganda Shilling
+773	India	Mizoram	Indian Rupee
+774	Kazakhstan	Batys Quzaqstan oblysy	Tenge
+775	Vanuatu	Sanma	Vatu
+776	Moldova, Republic of	Taraclia	Moldovan Leu
+777	China	Aomen (Macau)	Yuan Renminbi
+778	Burundi	Bujumbura Mairie	Burundi Franc
+779	Barbados	Saint John	Barbados Dollar
+780	China	Jiangxi	Yuan Renminbi
+781	Mauritania	Tiris Zemmour	Ouguiya
+782	Bangladesh	Patuakhali	Taka
+783	Uganda	Jinja	Uganda Shilling
+784	Tanzania, United Republic of	Lindi	Tanzanian Shilling
+785	Kazakhstan	Aqmola oblysy	Tenge
+786	Tunisia	Zaghouan	Tunisian Dinar
+787	Argentina	San Juan	Argentine Peso
+788	Japan	Nagasaki	Yen
+789	Solomon Islands	Guadalcanal	Solomon Islands Dollar
+790	Morocco	Al Hoceïma	Moroccan Dirham
+791	Guinea	Mamou	Guinea Franc
+792	Korea, Republic of	Ulsan Gwang'yeogsi	Won
+793	United States	Utah	US Dollar
+794	Guinea	Faranah	Guinea Franc
+795	Mongolia	Bayan-Ölgiy	Tugrik
+796	Viet Nam	Quảng Trị	Dong
+797	Trinidad and Tobago	San Fernando	Trinidad and Tobago Dollar
+798	Chile	Tarapacá	Chilean Peso
+799	Uganda	Moyo	Uganda Shilling
+800	Peru	El Callao	Sol
+801	Nicaragua	Atlántico Norte	Cordoba Oro
+802	Philippines	Camarines Sur	Philippine Peso
+803	Uzbekistan	Jizzax	Uzbekistan Sum
+804	Paraguay	Ñeembucú	Guarani
+805	Uruguay	Florida	Peso Uruguayo
+806	Maldives	Upper South	Rufiyaa
+807	Guatemala	Huehuetenango	Quetzal
+808	Hungary	Tolna	Forint
+809	Myanmar	Magway	Kyat
+810	Macedonia, Republic of	Mavrovo-i-Rostuša	Denar
+811	Norway	Østfold	Norwegian Krone
+812	Bangladesh	Mymensingh	Taka
+813	Uruguay	Rivera	Peso Uruguayo
+814	Lao People's Democratic Republic	Houaphan	Kip
+815	Morocco	Guelmim-Es Smara	Moroccan Dirham
+816	Argentina	Jujuy	Argentine Peso
+817	Libya	Al Jabal al Gharbī	Libyan Dinar
+818	Armenia	Kotayk'	Armenian Dram
+819	United Kingdom	Essex	Pound Sterling
+820	Botswana	Kgatleng	Pula
+821	Iraq	Al Basrah	Iraqi Dinar
+822	Indonesia	Papua	Rupiah
+823	Uzbekistan	Surxondaryo	Uzbekistan Sum
+824	Switzerland	Schaffhausen	Swiss Franc
+825	Bhutan	Punakha	Ngultrum
+826	Thailand	Roi Et	Baht
+827	Lesotho	Butha-Buthe	Loti
+828	Cabo Verde	Ribeira Grande	Cabo Verde Escudo
+829	Philippines	Central Luzon (Region III)	Philippine Peso
+830	Algeria	Oum el Bouaghi	Algerian Dinar
+831	Dominican Republic	Duarte	Dominican Peso
+832	United Kingdom	Wakefield	Pound Sterling
+833	Cabo Verde	São Lourenço dos Órgãos	Cabo Verde Escudo
+834	United States	Maine	US Dollar
+835	Japan	Akita	Yen
+836	Peru	Apurímac	Sol
+837	Dominican Republic	El Seybo [El Seibo]	Dominican Peso
+838	Kenya	Rift Valley	Kenyan Shilling
+839	Japan	Yamaguchi	Yen
+840	Croatia	Ličko-senjska županija	Kuna
+841	Solomon Islands	Rennell and Bellona	Solomon Islands Dollar
+842	Kazakhstan	Almaty	Tenge
+843	Morocco	Tétouan	Moroccan Dirham
+844	Mauritania	Nouakchott	Ouguiya
+845	Maldives	Upper North	Rufiyaa
+846	Canada	Newfoundland and Labrador	Canadian Dollar
+847	Uruguay	Maldonado	Peso Uruguayo
+848	Guyana	Pomeroon-Supenaam	Guyana Dollar
+849	Nepal	Madhyamanchal	Nepalese Rupee
+850	Cuba	Holguín	Cuban Peso
+851	Korea, Democratic People's Republic of	P’yŏngan-bukto	North Korean Won
+852	Paraguay	Canindeyú	Guarani
+853	Indonesia	Kalimantan Tengah	Rupiah
+854	Moldova, Republic of	Hîncești	Moldovan Leu
+855	Iraq	At Ta'mim	Iraqi Dinar
+856	Samoa	Va'a-o-Fonoti	Tala
+857	Eritrea	Al Janūbī	Nakfa
+858	Macedonia, Republic of	Rankovce	Denar
+859	Barbados	Saint Peter	Barbados Dollar
+860	Macedonia, Republic of	Vasilevo	Denar
+861	Lao People's Democratic Republic	Salavan	Kip
+862	Guinea	Coyah	Guinea Franc
+863	Guyana	Upper Takutu-Upper Essequibo	Guyana Dollar
+864	Sweden	Blekinge län	Swedish Krona
+865	United States	Michigan	US Dollar
+866	Uganda	Kiruhura	Uganda Shilling
+867	Nepal	Pashchimanchal	Nepalese Rupee
+868	Russian Federation	Kamchatskiy kray	Russian Ruble
+869	Mauritania	Gorgol	Ouguiya
+870	Malawi	Zomba	Malawi Kwacha
+871	Cuba	La Habana	Cuban Peso
+872	Lesotho	Qacha's Nek	Loti
+873	Uruguay	Rocha	Peso Uruguayo
+874	Mongolia	Govi-Altay	Tugrik
+875	Bhutan	Bumthang	Ngultrum
+876	Morocco	Tan-Tan	Moroccan Dirham
+877	Sweden	Västernorrlands län	Swedish Krona
+878	Cambodia	Krong Preah Sihanouk	Riel
+879	Russian Federation	Yevreyskaya avtonomnaya oblast'	Russian Ruble
+880	Switzerland	Graubünden	Swiss Franc
+881	Egypt	Al Ismā`īlīyah	Egyptian Pound
+882	Jordan	Jarash	Jordanian Dinar
+883	Libya	Al Jabal al Akhḑar	Libyan Dinar
+884	Guatemala	Jalapa	Quetzal
+885	Uruguay	Colonia	Peso Uruguayo
+886	Libya	Al Marqab	Libyan Dinar
+887	South Sudan	Lakes	South Sudanese Pound
+888	United Kingdom	North Yorkshire	Pound Sterling
+889	Fiji	Eastern	Fiji Dollar
+890	Philippines	Zamboanga del Norte	Philippine Peso
+891	Tanzania, United Republic of	Shinyanga	Tanzanian Shilling
+892	Burundi	Mwaro	Burundi Franc
+893	Qatar	Ad Dawhah	Qatari Rial
+894	Albania	Elbasan	Lek
+895	Albania	Peqin	Lek
+896	China	Qinghai	Yuan Renminbi
+897	Iraq	An Najef	Iraqi Dinar
+898	Brunei Darussalam	Belait	Brunei Dollar
+899	Malawi	Chikwawa	Malawi Kwacha
+900	Malaysia	Negeri Sembilan	Malaysian Ringgit
+901	Viet Nam	Quảng Ngãi	Dong
+902	Malawi	Mulanje	Malawi Kwacha
+903	United Kingdom	East Riding of Yorkshire	Pound Sterling
+904	Bangladesh	Tangail	Taka
+905	Gambia	Banjul	Dalasi
+906	Korea, Democratic People's Republic of	Hamgyŏng-namdo	North Korean Won
+907	Paraguay	Concepción	Guarani
+908	Iceland	Vestfirðir	Iceland Krona
+909	India	Sikkim	Indian Rupee
+910	Honduras	Islas de la Bahía	Lempira
+911	Guinea	Dinguiraye	Guinea Franc
+912	Iceland	Suðurland	Iceland Krona
+913	Paraguay	Asunción	Guarani
+914	Uzbekistan	Qoraqalpog'iston Respublikasi	Uzbekistan Sum
+915	Lao People's Democratic Republic	Khammouan	Kip
+916	Honduras	Choluteca	Lempira
+917	Tunisia	Le Kef	Tunisian Dinar
+918	Tunisia	Mahdia	Tunisian Dinar
+919	Peru	Puno	Sol
+920	India	Bihar	Indian Rupee
+921	Mexico	Durango	Mexican Peso
+922	Nepal	Seti	Nepalese Rupee
+923	Mongolia	Hovd	Tugrik
+924	Cuba	Santiago de Cuba	Cuban Peso
+925	Nigeria	Taraba	Naira
+926	Gambia	Upper River	Dalasi
+927	Guinea	Koundara	Guinea Franc
+928	Morocco	Moulay Yacoub	Moroccan Dirham
+929	Swaziland	Hhohho	Lilangeni
+930	Russian Federation	Nenetskiy avtonomnyy okrug	Russian Ruble
+931	Bangladesh	Panchagarh	Taka
+932	Nigeria	Ebonyi	Naira
+933	Mexico	Puebla	Mexican Peso
+934	Syrian Arab Republic	Al Qunaytirah	Syrian Pound
+935	Czechia	Kroměříž	Czech Koruna
+936	Armenia	Armavir	Armenian Dram
+937	Australia	Victoria	Australian Dollar
+938	Switzerland	Genève	Swiss Franc
+939	Malawi	Phalombe	Malawi Kwacha
+940	Korea, Republic of	Gwangju Gwang'yeogsi	Won
+941	Philippines	Mountain Province	Philippine Peso
+942	Namibia	Ohangwena	Namibia Dollar
+943	Bahamas	Cat Island	Bahamian Dollar
+944	Paraguay	Alto Paraguay	Guarani
+945	Malaysia	Wilayah Persekutuan Labuan	Malaysian Ringgit
+946	Botswana	North-West	Pula
+947	Mexico	Guanajuato	Mexican Peso
+948	United States	Maryland	US Dollar
+949	Hungary	Baranya	Forint
+950	Canada	Northwest Territories	Canadian Dollar
+951	Bangladesh	Sherpur	Taka
+952	Uruguay	Paysandú	Peso Uruguayo
+953	Tunisia	Kasserine	Tunisian Dinar
+954	Korea, Democratic People's Republic of	Hamgyŏng-bukto	North Korean Won
+955	Lao People's Democratic Republic	Savannakhét	Kip
+956	Cabo Verde	Ilhas de Sotavento	Cabo Verde Escudo
+957	Moldova, Republic of	Leova	Moldovan Leu
+958	Trinidad and Tobago	San Juan-Laventille	Trinidad and Tobago Dollar
+959	Nepal	Bagmati	Nepalese Rupee
+960	South Sudan	Central Equatoria	South Sudanese Pound
+961	Russian Federation	Krasnodarskiy kray	Russian Ruble
+962	Iran, Islamic Republic of	Markazī	Iranian Rial
+963	Lebanon	Mont-Liban	Lebanese Pound
+964	Croatia	Dubrovačko-neretvanska županija	Kuna
+965	Indonesia	Kalimantan	Rupiah
+966	United Kingdom	Southend-on-Sea	Pound Sterling
+967	Denmark	Midtjylland	Danish Krone
+968	Morocco	Guelmim	Moroccan Dirham
+969	Guinea	Kérouané	Guinea Franc
+970	United States	Virginia	US Dollar
+971	Japan	Miyazaki	Yen
+972	Thailand	Nonthaburi	Baht
+973	Uganda	Bukwa	Uganda Shilling
+974	Kyrgyzstan	Chü	Som
+975	Guatemala	Jutiapa	Quetzal
+976	Trinidad and Tobago	Diego Martin	Trinidad and Tobago Dollar
+977	Dominican Republic	Valverde	Dominican Peso
+978	New Zealand	South Island	New Zealand Dollar
+979	Egypt	Al Fayyūm	Egyptian Pound
+980	Russian Federation	Khabarovskiy kray	Russian Ruble
+981	Bangladesh	Shariatpur	Taka
+982	Mexico	Jalisco	Mexican Peso
+983	Honduras	Atlántida	Lempira
+984	India	Haryana	Indian Rupee
+985	Korea, Democratic People's Republic of	Chagang-do	North Korean Won
+986	South Africa	Eastern Cape	Rand
+987	Bahamas	Moore's Island	Bahamian Dollar
+988	Lebanon	Beyrouth	Lebanese Pound
+989	Maldives	Raa	Rufiyaa
+990	Myanmar	Kachin	Kyat
+991	Samoa	Gaga'emauga	Tala
+992	China	Taiwan	Yuan Renminbi
+993	Colombia	Quindío	Colombian Peso
+994	Chile	Libertador General Bernardo O'Higgins	Chilean Peso
+995	Honduras	Cortés	Lempira
+996	Paraguay	Guairá	Guarani
+997	Guatemala	Petén	Quetzal
+998	Kuwait	Al Jahrrā’	Kuwaiti Dinar
+999	Nigeria	Borno	Naira
+1000	Tunisia	Siliana	Tunisian Dinar
