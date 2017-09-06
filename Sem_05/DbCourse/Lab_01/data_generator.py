@@ -30,22 +30,30 @@ class Serial:
 
 class User:
     identifier = Serial()
+    names = []
 
     def __init__(self):
         self.fake = Faker(random.choice(list(AVAILABLE_LOCALES)))
         self.id = self.identifier.increment()
-        self.first_name = self.fake.first_name()
-        self.last_name = self.fake.last_name()
+        while True:
+            self.first_name = self.fake.first_name()
+            self.last_name = self.fake.last_name()
+            if self.first_name + ' ' + self.last_name in self.names:
+                continue
+            else:
+                break
+        self.names.append(self.first_name + ' ' + self.last_name)
         self.email = (self.first_name + '_' + self.last_name).lower() + '@' + self.fake.free_email_domain()
         self.birth_date = self.fake.date_time_between(start_date='-90y', end_date='-18y')
 
     def __str__(self):
         return str(self.id) + '\t' + str(self.email) + '\t' + str(self.first_name) + '\t' + str(
-            self.last_name) + '\t' + str(self.birth_date)
+            self.last_name) + '\t' + str(self.birth_date) + '\t'
 
 
 class Location:
     identifier = Serial()
+    locations = []
 
     def __init__(self):
         self.id = self.identifier.increment()
@@ -54,9 +62,13 @@ class Location:
                 self.country = random.choice(list(pycountry.countries))
                 self.place = random.choice(list(pycountry.subdivisions.get(country_code=self.country.alpha_2)))
                 self.currency = pycountry.currencies.get(numeric=self.country.numeric)
-                break
             except Exception:
                 continue
+            if self.country.name + ' ' + self.place.name in self.locations:
+                continue
+            else:
+                break
+        self.locations.append(self.country.name + ' ' + self.place.name)
 
     def __str__(self):
         return str(self.id) + '\t' + str(self.country.name) + '\t' + str(self.place.name) + '\t' + str(
