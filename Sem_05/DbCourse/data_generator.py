@@ -31,20 +31,36 @@ faker_supported_locales = (
 )
 
 
+class Serial:
+    def __init__(self, default=0):
+        self.id = default
+
+    def increment(self, default=1):
+        self.id += default
+        return self.id
+
+
 class User:
+    identifier = Serial()
+
     def __init__(self):
         self.fake = Faker(random.choice(faker_supported_locales))
+        self.id = self.identifier.increment()
         self.first_name = self.fake.first_name()
         self.last_name = self.fake.last_name()
         self.email = (self.first_name + '_' + self.last_name).lower() + '@' + self.fake.free_email_domain()
         self.birth_date = self.fake.date_time_between(start_date='-90y', end_date='-18y')
 
     def __str__(self):
-        return str(self.email) + '\t' + str(self.first_name) + '\t' + str(self.last_name) + '\t' + str(self.birth_date)
+        return str(self.id) + '\t' + str(self.email) + '\t' + str(self.first_name) + '\t' + str(
+            self.last_name) + '\t' + str(self.birth_date)
 
 
 class Location:
+    identifier = Serial()
+
     def __init__(self):
+        self.id = self.identifier.increment()
         while True:
             try:
                 self.country = random.choice(list(pycountry.countries))
@@ -55,17 +71,21 @@ class Location:
                 continue
 
     def __str__(self):
-        return str(self.country.name) + '\t' + str(self.place.name) + '\t' + str(self.currency.name)
+        return str(self.id) + '\t' + str(self.country.name) + '\t' + str(self.place.name) + '\t' + str(
+            self.currency.name)
 
 
 class Visit:
+    identifier = Serial()
+
     def __init__(self):
+        self.id = self.identifier.increment()
         self.fake = Faker()
         self.visited_at = self.fake.date_time_between(start_date='-20y', end_date='now')
         self.days_spent = self.fake.random_int(min=1, max=70)
 
     def __str__(self):
-        return str(self.visited_at) + '\t' + str(self.days_spent)
+        return str(self.id) + '\t' + str(self.visited_at) + '\t' + str(self.days_spent)
 
 
 async def generate_users(amount):
@@ -97,13 +117,14 @@ async def generate_visits(amount):
 
 async def main():
     print(BColors.ENDC + 'Generating users...' + BColors.OKGREEN)
-    await generate_users(1000)
+    await generate_users(amount=1000)
     print(BColors.ENDC + 'Generating locations...' + BColors.OKGREEN)
-    await generate_locations(1000)
+    await generate_locations(amount=1000)
     print(BColors.ENDC + 'Generating visits...' + BColors.OKGREEN)
-    await generate_visits(10000)
+    await generate_visits(amount=10000)
     print(BColors.ENDC + 'All done!')
 
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
