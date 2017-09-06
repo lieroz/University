@@ -79,8 +79,8 @@ class Visit:
     identifier = Serial()
 
     def __init__(self):
-        self.id = self.identifier.increment()
         self.fake = Faker()
+        self.id = self.identifier.increment()
         self.visited_at = self.fake.date_time_between(start_date='-20y', end_date='now')
         self.days_spent = self.fake.random_int(min=1, max=70)
 
@@ -115,13 +115,30 @@ async def generate_visits(amount):
         await f.flush()
 
 
+async def generate_associative_data(users, locations, visits):
+    fake = Faker()
+    async with aiofiles.open('associative.txt', 'w') as f:
+        bar = pyprind.ProgBar(visits, stream=sys.stdout)
+        for i in range(visits):
+            await f.write(
+                str(fake.random_int(min=1, max=users)) + '\t' + str(fake.random_int(min=1, max=locations)) + '\t' + str(
+                    i + 1) + '\t' + str(fake.random_int(min=1, max=10)) + '\n')
+            bar.update()
+        await f.flush()
+
+
+USERS, LOCATIONS, VISITS = 1000, 1000, 10000
+
+
 async def main():
     print(BColors.ENDC + 'Generating users...' + BColors.OKGREEN)
-    await generate_users(amount=1000)
+    await generate_users(amount=USERS)
     print(BColors.ENDC + 'Generating locations...' + BColors.OKGREEN)
-    await generate_locations(amount=1000)
+    await generate_locations(amount=LOCATIONS)
     print(BColors.ENDC + 'Generating visits...' + BColors.OKGREEN)
-    await generate_visits(amount=10000)
+    await generate_visits(amount=VISITS)
+    print(BColors.ENDC + 'Generating associative...' + BColors.OKGREEN)
+    await generate_associative_data(users=USERS, locations=LOCATIONS, visits=VISITS)
     print(BColors.ENDC + 'All done!')
 
 
