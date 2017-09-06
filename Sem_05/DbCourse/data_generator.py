@@ -5,6 +5,7 @@ import sys
 import random
 import aiofiles
 from faker import Faker
+from faker.config import AVAILABLE_LOCALES
 
 
 class BColors:
@@ -16,19 +17,6 @@ class BColors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-
-
-faker_supported_locales = (
-    'bg_BG', 'cs_CZ', 'de_DE', 'dk_DK',
-    'el_GR', 'en_AU', 'en_CA', 'en_GB',
-    'en_US', 'es_ES', 'et_EE', 'fa_IR',
-    'fi_FI', 'fr_FR', 'hi_IN', 'hr_HR',
-    'hu_HU', 'it_IT', 'ja_JP', 'ko_KR',
-    'lt_LT', 'lv_LV', 'ne_NP', 'nl_NL',
-    'no_NO', 'pl_PL', 'pt_BR', 'pt_PT',
-    'ru_RU', 'sl_SI', 'sv_SE', 'tr_TR',
-    'uk_UA', 'zh_CN', 'zh_TW'
-)
 
 
 class Serial:
@@ -44,7 +32,7 @@ class User:
     identifier = Serial()
 
     def __init__(self):
-        self.fake = Faker(random.choice(faker_supported_locales))
+        self.fake = Faker(random.choice(list(AVAILABLE_LOCALES)))
         self.id = self.identifier.increment()
         self.first_name = self.fake.first_name()
         self.last_name = self.fake.last_name()
