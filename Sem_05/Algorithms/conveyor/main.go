@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"os"
 )
 
@@ -14,7 +13,5 @@ func main() {
 	if err != nil {
 		os.Exit(1)
 	}
-	start := time.Now()
 	ExecutePipeline(job(fill), job(SingleHash), job(MultiHash), job(CombineResults))
-	fmt.Println(time.Since(start))
 }
