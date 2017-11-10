@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 const (
 	first  = "cpdkU55pbN"//NO7QzCq3JDSF0cR1tfyNqTWsj6FicWbwufJeHhAWhvds8mciYEQWaiEZuxnH1FbmnDSXsaNN6Bam6Bs54a1p8MR1Aw"
