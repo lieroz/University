@@ -11,6 +11,7 @@ import (
 const (
 	Th   = 6
 	Base = 10
+	sliceLen = 10
 )
 
 func ExecutePipeline(jobs ...job) {
