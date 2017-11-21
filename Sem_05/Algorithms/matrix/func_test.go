@@ -29,13 +29,13 @@ func BenchmarkClassicBufferedProduct(b *testing.B) {
 	}
 }
 
-func BenchmarkGrapeProduct(b *testing.B) {
+func BenchmarkWinogradProduct(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		WinogradProduct(A, B)
 	}
 }
 
-func BenchmarkGrapeImprovedProduct(b *testing.B) {
+func BenchmarkWinogradImprovedProduct(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		WinogradImprovedProduct(A, B)
 	}
