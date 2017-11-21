@@ -34,7 +34,7 @@ func ClassicBufferedProduct(A, B *Matrix) *Matrix {
 	return C
 }
 
-func GrapeProduct(A, B *Matrix) *Matrix {
+func WinogradProduct(A, B *Matrix) *Matrix {
 	if A.Cols != B.Rows {
 		panic("can't multiply: columns != rows")
 	}
@@ -55,7 +55,7 @@ func GrapeProduct(A, B *Matrix) *Matrix {
 		for j := 0; j < B.Cols; j++ {
 			val := -mulH[i] - mulW[j]
 			for k := 0; k < A.Cols/2; k++ {
-				val += (A.Get(i, 2*k) * B.Get(2*k+1, j)) * (A.Get(i, 2*k+1) + B.Get(2*k, j))
+				val += (A.Get(i, 2*k) + B.Get(2*k+1, j)) * (A.Get(i, 2*k+1) + B.Get(2*k, j))
 			}
 			C.Set(i, j, val)
 		}
@@ -64,7 +64,7 @@ func GrapeProduct(A, B *Matrix) *Matrix {
 		for i := 0; i < A.Rows; i++ {
 			for j := 0; j < B.Cols; j++ {
 				val := C.Get(i, j)
-				val += A.Get(i, A.Cols-1) + B.Get(A.Cols-1, j)
+				val += A.Get(i, A.Cols-1) * B.Get(A.Cols-1, j)
 				C.Set(i, j, val)
 			}
 		}
@@ -72,7 +72,7 @@ func GrapeProduct(A, B *Matrix) *Matrix {
 	return C
 }
 
-func GrapeImprovedProduct(A, B *Matrix) *Matrix {
+func WinogradImprovedProduct(A, B *Matrix) *Matrix {
 	if A.Cols != B.Rows {
 		panic("can't multiply: columns != rows")
 	}
@@ -93,9 +93,9 @@ func GrapeImprovedProduct(A, B *Matrix) *Matrix {
 		for j := 0; j < B.Cols; j++ {
 			val := mulH[i] + mulW[j]
 			for k := 1; k < A.Cols; k += 2 {
-				val += (A.Get(i, k-1) * B.Get(k, j)) * (A.Get(i, k) + B.Get(k-1, j))
+				val += (A.Get(i, k-1) + B.Get(k, j)) * (A.Get(i, k) + B.Get(k-1, j))
 			}
-			if A.Cols%2 == 0 {
+			if A.Cols%2 != 0 {
 				val += A.Get(i, A.Cols-1) * B.Get(A.Cols-1, j)
 			}
 			C.Set(i, j, val)
@@ -129,7 +129,7 @@ func ParallelProduct(A, B *Matrix) (C *Matrix) {
 			}
 		}
 	}
-	threads := 2
+	threads := 32
 	for i := 0; i < threads; i++ {
 		go dotRowCol()
 	}
