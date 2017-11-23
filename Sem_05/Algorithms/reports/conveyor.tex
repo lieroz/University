@@ -1,0 +1,323 @@
+%% Преамбула TeX-файла
+
+% 1. Стиль и язык
+\documentclass[utf8x, 12pt]{G7-32} % Стиль (по умолчанию будет 14pt)
+
+% Остальные стандартные настройки убраны в preamble.inc.tex.
+\include{preamble.inc}
+
+% Настройки листингов.
+\ifPDFTeX
+\include{listings.inc}
+\else
+\usepackage{local-minted}
+\fi
+\usepackage{dirtytalk}
+\usepackage{algorithm2e}
+\usepackage[noend]{algpseudocode}
+\usepackage{csquotes}
+\usepackage[at]{easylist}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{listings-golang}
+
+\lstset{ % add your own preferences
+	frame=single,
+	basicstyle=\footnotesize,
+	keywordstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showstringspaces=false, 
+	stringstyle=\color{blue},
+	tabsize=4,
+	language=Golang % this is it !
+}
+
+% Полезные макросы листингов.
+\include{macros.inc}
+
+\begin{document}
+
+\frontmatter % выключает нумерацию ВСЕГО; здесь начинаются ненумерованные главы: реферат, введение, глоссарий, сокращения и прочее.
+
+% Команды \breakingbeforechapters и \nonbreakingbeforechapters
+% управляют разрывом страницы перед главами.
+% По-умолчанию страница разрывается.
+
+% \nobreakingbeforechapters
+% \breakingbeforechapters
+
+% НАЧАЛО ТИТУЛЬНОГО ЛИСТА
+\begin{center}
+	\hfill \break
+	\textit{
+		\normalsize{Государственное образовательное учреждение высшего профессионального образования}}\\ 
+	
+	\textit{
+		\normalsize  {\bf  «Московский государственный технический университет}\\ 
+		\normalsize  {\bf имени Н. Э. Баумана»}\\
+		\normalsize  {\bf (МГТУ им. Н.Э. Баумана)}\\
+	}
+	\noindent\rule{\textwidth}{2pt}
+	\hfill \break
+	\noindent
+	\\
+	\noindent
+	\\
+	\hfill\break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	
+	\hfill \break
+	\large{Лабораторная работа №5\\ \textquote{Конвеер}}\\
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break	
+	\normalsize {
+		\begin{minipage}[t]{7cm}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{7cm}
+			\flushright
+			Студент: Камакин А.С.\\
+			Группа: ИУ7-53\\
+			Преподаватель: Волкова Л.Л.
+		\end{minipage}
+	}\\
+	\hfill \break	
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+\end{center}
+\hfill \break
+\hfill \break
+\begin{center} Москва 2017 \end{center}
+
+\thispagestyle{empty} % 
+% КОНЕЦ ТИТУЛЬНОГО ЛИСТА
+
+\newpage
+% \tableofcontents
+
+\mainmatter % это включает нумерацию глав и секций в документе ниже
+
+Введём модель вычисления, используемую при оценках трудоёмкости:
+\begin{itemize}
+	\item вызов метода объекта структуры имеет трудоёмкость 1;
+	\item объявление переменной/массива/структуры без определения имеет трудоёмкость 0;
+	\item операторы $+$, $-$, $*$, $/$, $=$, $++$, $--$ имеют трудоёмкость 1;
+	\item условный оператор (без условий внутри) имеет трудоёмкость 0;
+	\item логические операции имеют трудоёмкость 1; 
+	\item оператор цикла имеет трудоёмкость $1 + n(3 + T)$, где $n$ – это число повторений цикла, $T$ – трудоёмкость тела цикла;
+	\begin{itemize}
+		\item \textbf{Замечание:} так как доподлинно неизвестно, каким образом компилятор интерпретирует цикл, целесообразно взять модель, предложенную на преподавателем: одно присваивание до цикла (1 операция), внутри цикла присваивание, сравнение и инкремент (3 операции).
+	\end{itemize}
+	\item вызов функции имеет трудоёмкость 0, так как функции компилятор рассматривает как inline и подставляет сразу вместо вызова код.
+	\item $Fn(n)$ – часть трудоёмкости, зависящая только от размера входа;
+	\item $g(D)$ – часть трудоёмкости, зависящая от конкретного входа, значений переменных.
+\end{itemize}
+
+\newpage
+
+\paragraph{Описание задачи}
+
+Программа, которая считает подпись для слайса данных.
+\\
+Используемые функции:
+\begin{itemize}
+	\item $DataSignerMd5$ - md5
+	\item $DataSignerCrc32$ - crc32
+\end{itemize}
+Ограничения:
+\begin{itemize}
+	\item $DataSignerMd5$ может одновременно вызываться только 1 раз, считается 10 мс. Если одновременно запуститеся несколько - будет перегрев на 1 сек
+	\item $DataSignerCrc32$, считается 1 сек
+\end{itemize}
+Необходимо реализовать:
+\begin{itemize}
+	\item $ExecutePipeline$ - объединяет цепочку функций в одну трубу так что выход одной функции передаётся на вход в следующую
+	\item $SingleHash$ считает значение $crc32(data)+crc32(md5(data))$, где data - то что пришло на вход (по сути - числа из первой функции)
+	\item MultiHash считает значение $crc32(th+data))$ (конкатенация цифры, приведённой к строке и строки), где th=0..5, потом берёт конкатенацию результатов в порядке расчета (0..5), где data - то что пришло на вход (и ушло на выход из $SingleHash$)
+	\item $CombineResults$ получает все результаты, сорирует, объединяет отсортированный результат через $\_$ в одну строку
+\end{itemize}
+
+\newpage
+
+\paragraph{Листинг кода}
+
+\begin{lstlisting}
+package main
+
+import (
+	"sync"
+	"sort"
+	"strings"
+	"fmt"
+	"strconv"
+)
+
+const (
+	Th   = 6
+	Base = 10
+	sliceLen = 10
+)
+
+func ExecutePipeline(jobs ...job) {
+	channels := make([]chan interface{}, 0)
+	for i := 0; i < len(jobs)+1; i++ {
+		channels = append(channels, make(chan interface{}, MaxInputDataLen))
+	}
+	for i, j := range jobs {
+		go func(jb job, in, out chan interface{}) {
+			jb(in, out)
+			close(out)
+		}(j, channels[i], channels[i+1])
+	}
+	fmt.Println(<-channels[len(jobs)])
+}
+
+var m sync.Mutex
+
+func singleHash(out chan interface{}, data string) {
+	ch := make(chan string)
+	go func(ch chan string) {
+		ch <- DataSignerCrc32(<-ch)
+	}(ch)
+	ch <- data
+	m.Lock()
+	md5 := DataSignerMd5(data)
+	m.Unlock()
+	crc32md5 := DataSignerCrc32(md5)
+	crc32 := <-ch
+	out <- crc32 + "~" + crc32md5
+}
+
+func SingleHash(in, out chan interface{}) {
+	var wg sync.WaitGroup
+	for val := range in {
+		data := strconv.FormatInt(int64(val.(int)), Base)
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			singleHash(out, data)
+		}()
+	}
+	wg.Wait()
+}
+
+func multiHash(out chan interface{}, data string) {
+	var chs [Th]chan string
+	var resultHash string
+	for i := 0; i < Th; i++ {
+		chs[i] = make(chan string)
+		go func(ch chan string, i int) {
+			ch <- DataSignerCrc32(strconv.FormatInt(int64(i), Base) + data)
+		}(chs[i], i)
+	}
+	for i := 0; i < Th; i++ {
+		resultHash += <-chs[i]
+	}
+	out <- resultHash
+}
+
+func MultiHash(in, out chan interface{}) {
+	var wg sync.WaitGroup
+	for i := range in {
+		data := i.(string)
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			multiHash(out, data)
+		}()
+	}
+	wg.Wait()
+}
+
+func CombineResults(in, out chan interface{}) {
+	result := make([]string, 0)
+	for val := range in {
+		result = append(result, val.(string))
+	}
+	sort.Strings(result)
+	out <- strings.Join(result[:], "_")
+}
+
+func fib() func() int {
+	a, b := 0, 1
+	var tmp int
+	return func() int {
+		tmp, a, b = a, b, a + b
+		return tmp
+	}
+}
+
+func fill(in, out chan interface{}) {
+	f := fib()
+	for i := 0; i < sliceLen; i++ {
+		out <- f()
+	}
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{flushleft}
+	\begin{tikzpicture}
+	\begin{axis}[
+	x=0.012cm,
+	title={Работа конвеера при различном количестве входных данных (gobench)},
+	xlabel={количество данных},
+	ylabel={время $t(ns)$},
+	xmin=5, xmax=1300,
+	ymin=0, ymax=20000000000,
+	legend pos=north west,
+	ymajorgrids=true,
+	grid style=dashed,
+	]
+	
+	\addplot[
+	color=blue,
+	mark=star,
+	]
+	coordinates {
+		(5,2051129323)(10,2101912262)(20,2203757776)(40,2407430935)(80,2814972687)(160,3628018451)(320,5260973211)(640,8516648833)(1280,15041182618)
+	};
+	
+	\end{axis}
+	\end{tikzpicture}
+\end{flushleft}
+
+\paragraph{Тестовые данные}\\
+
+Время работы в секундах (s):\\
+\begin{tabular}{l*{9}{c}r}
+	Алгоритм & 5 & 10 & 20 & 40 & 80 & 160 & 320 & 640 & 1280 \\
+	\hline
+	Конвеер & 2.05 & 2.10 & 2.20 & 2.41 & 2.82 & 3.63 & 5.26 & 8.52 & 15.04 \\
+\end{tabular}
+\\
+\paragraph{Оценка сложности}
+
+
+
+\newpage
+
+\paragraph{Заключение}
+
+В ходе работы была описана и реализована задача конвеера, а именно программа, считающая подпись для слайса данных, и был проведен сравнительный анализ временной эффективности.
+
+\backmatter %% Здесь заканчивается нумерованная часть документа и начинаются ссылки и
+            %% заключение
+
+\appendix   % Тут идут приложения
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
