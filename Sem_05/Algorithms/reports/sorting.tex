@@ -1,0 +1,351 @@
+%% Преамбула TeX-файла
+
+% 1. Стиль и язык
+\documentclass[utf8x, 12pt]{G7-32} % Стиль (по умолчанию будет 14pt)
+
+% Остальные стандартные настройки убраны в preamble.inc.tex.
+\include{preamble.inc}
+
+% Настройки листингов.
+\ifPDFTeX
+\include{listings.inc}
+\else
+\usepackage{local-minted}
+\fi
+\usepackage{dirtytalk}
+\usepackage{algorithm2e}
+\usepackage[noend]{algpseudocode}
+\usepackage{csquotes}
+\usepackage[at]{easylist}
+\usepackage{pgfplots}
+
+% Полезные макросы листингов.
+\include{macros.inc}
+
+\begin{document}
+
+\frontmatter % выключает нумерацию ВСЕГО; здесь начинаются ненумерованные главы: реферат, введение, глоссарий, сокращения и прочее.
+
+% Команды \breakingbeforechapters и \nonbreakingbeforechapters
+% управляют разрывом страницы перед главами.
+% По-умолчанию страница разрывается.
+
+% \nobreakingbeforechapters
+% \breakingbeforechapters
+
+% НАЧАЛО ТИТУЛЬНОГО ЛИСТА
+\begin{center}
+	\hfill \break
+	\textit{
+		\normalsize{Государственное образовательное учреждение высшего профессионального образования}}\\ 
+	
+	\textit{
+		\normalsize  {\bf  «Московский государственный технический университет}\\ 
+		\normalsize  {\bf имени Н. Э. Баумана»}\\
+		\normalsize  {\bf (МГТУ им. Н.Э. Баумана)}\\
+	}
+	\noindent\rule{\textwidth}{2pt}
+	\hfill \break
+	\noindent
+	\\
+	\noindent
+	\\
+	\hfill\break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	
+	\hfill \break
+	\large{Лабораторная работа №3\\ \textquote{Сортировки}}\\
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break	
+	\normalsize {
+		\begin{minipage}[t]{7cm}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{7cm}
+			\flushright
+			Студент: Камакин А.С.\\
+			Группа: ИУ7-53\\
+			Преподаватель: Волкова Л.Л.
+		\end{minipage}
+	}\\
+	\hfill \break	
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+\end{center}
+\hfill \break
+\hfill \break
+\begin{center} Москва 2017 \end{center}
+
+\thispagestyle{empty} % 
+% КОНЕЦ ТИТУЛЬНОГО ЛИСТА
+
+\newpage
+% \tableofcontents
+
+\mainmatter % это включает нумерацию глав и секций в документе ниже
+
+Введём модель вычисления, используемую при оценках трудоёмкости:
+\begin{itemize}
+	\item вызов метода объекта структуры имеет трудоёмкость 1;
+	\item объявление переменной/массива/структуры без определения имеет трудоёмкость 0;
+	\item операторы $+$, $-$, $*$, $/$, $=$, $++$, $--$ имеют трудоёмкость 1;
+	\item условный оператор (без условий внутри) имеет трудоёмкость 0;
+	\item логические операции имеют трудоёмкость 1; 
+	\item оператор цикла имеет трудоёмкость $1 + n(3 + T)$, где $n$ – это число повторений цикла, $T$ – трудоёмкость тела цикла;
+	\begin{itemize}
+		\item \textbf{Замечание:} так как доподлинно неизвестно, каким образом компилятор интерпретирует цикл, целесообразно взять модель, предложенную на преподавателем: одно присваивание до цикла (1 операция), внутри цикла присваивание, сравнение и инкремент (3 операции).
+	\end{itemize}
+	\item вызов функции имеет трудоёмкость 0, так как функции компилятор рассматривает как inline и подставляет сразу вместо вызова код.
+	\item $Fn(n)$ – часть трудоёмкости, зависящая только от размера входа;
+	\item $g(D)$ – часть трудоёмкости, зависящая от конкретного входа, значений переменных.
+\end{itemize}
+
+\newpage
+
+\paragraph{Функция слияния общая для всех алгоритмов}
+\begin{center}
+	\includegraphics[scale=0.32]{images/merge.png}
+\end{center}
+
+\newpage
+
+\paragraph{Классическая сортировка слиянием}
+\begin{center}
+	\includegraphics[scale=0.32]{images/mergeSort.png}
+\end{center}
+
+\newpage
+
+\paragraph{Параллельная сортировка слиянием}
+\begin{center}
+	\includegraphics[scale=0.32]{images/mergeSortMulti.png}
+\end{center}
+
+\newpage
+
+\paragraph{Комбинированная сортировка слиянием}
+\begin{center}
+	\includegraphics[scale=0.32]{images/mergeSortCombined.png}
+\end{center}
+
+\newpage
+
+\paragraph{Графики}
+\begin{center}
+	\begin{tikzpicture}[yscale=0.8]
+	\begin{axis}[
+	title={Сравнение работы алгоритмов по времени (sorted, gobench)},
+	xmode = log,
+	log basis x=10,
+	xlabel={длина строки $l$},
+	ylabel={время $t(ns)$},
+	xmin=0, xmax=101000,
+	ymin=0, ymax=17000000,
+	xtick={0,10,100,1000,10000,100000},%1000000},
+	ytick={0,5000000,10000000,15000000},
+	legend pos=north west,
+	ymajorgrids=true,
+	grid style=dashed,
+	legend style={at={(0.5,-0.1)},anchor=north},
+	]
+	
+	\addplot[
+	color=red,
+	mark=square,
+	]
+	coordinates {
+		(10,659)(100,9098)(1000,102652)(10000,1265028)(100000,13886742)%(1000000,116267374)
+	};
+	\addlegendentry{Классическая}
+	
+	\addplot[
+	color=blue,
+	mark=square,
+	]
+	coordinates {
+		(10,11937)(100,106255)(1000,579249)(10000,9888072)(100000,101543324)%(1000000,1192577864)
+	};
+	\addlegendentry{Параллельная}
+	
+	\addplot[
+	color=green,
+	mark=square,
+	]
+	coordinates {
+		(10,9872)(100,114392)(1000,270951)(10000,1531330)(100000,11532055)%(1000000,87818725)
+	};
+	\addlegendentry{Комбинированная}
+	
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+\begin{center}
+	\begin{tikzpicture}[yscale=0.8]
+	\begin{axis}[
+	title={Сравнение работы алгоритмов по времени (random, gobench)},
+	xmode = log,
+	log basis x=10,
+	xlabel={длина строки $l$},
+	ylabel={время $t(ns)$},
+	xmin=0, xmax=101000,
+	ymin=0, ymax=17000000,
+	xtick={0,10,100,1000,10000,100000},%1000000},
+	ytick={0,5000000,10000000,15000000},
+	legend pos=north west,
+	ymajorgrids=true,
+	grid style=dashed,
+	legend style={at={(0.5,-0.1)},anchor=north},
+	]
+	
+	\addplot[
+	color=red,
+	mark=square,
+	]
+	coordinates {
+		(10,556)(100,9798)(1000,145247)(10000,1979934)(100000,21306925)%(1000000,233665988)
+	};
+	\addlegendentry{Классическая}
+	
+	\addplot[
+	color=blue,
+	mark=square,
+	]
+	coordinates {
+		(10,8413)(100,98786)(1000,579853)(10000,10455389)(100000,114421901)%(1000000,1251387316)
+	};
+	\addlegendentry{Параллельная}
+	
+	\addplot[
+	color=green,
+	mark=square,
+	]
+	coordinates {
+		(10,9546)(100,118593)(1000,285336)(10000,1911819)(100000,15256937)%(1000000,125206941)
+	};
+	\addlegendentry{Комбинированная}
+	
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+\begin{center}
+	\begin{tikzpicture}[yscale=0.8]
+	\begin{axis}[
+	title={Сравнение работы алгоритмов по времени (reversed, gobench)},
+	xmode = log,
+	log basis x=10,
+	xlabel={длина строки $l$},
+	ylabel={время $t(ns)$},
+	xmin=0, xmax=101000,
+	ymin=0, ymax=17000000,
+	xtick={0,10,100,1000,10000,100000},%1000000},
+	ytick={0,5000000,10000000,15000000},
+	legend pos=north west,
+	ymajorgrids=true,
+	grid style=dashed,
+	legend style={at={(0.5,-0.1)},anchor=north},
+	]
+	
+	\addplot[
+	color=red,
+	mark=square,
+	]
+	coordinates {
+		(10,544)(100,9065)(1000,113490)(10000,1402595)(100000,16016143)%(1000000,146387339)
+	};
+	\addlegendentry{Классическая}
+	
+	\addplot[
+	color=blue,
+	mark=square,
+	]
+	coordinates {
+		(10,8374)(100,99514)(1000,556783)(10000,9502080)(100000,100411111)%(1000000,1242225349)
+	};
+	\addlegendentry{Параллельная}
+	
+	\addplot[
+	color=green,
+	mark=square,
+	]
+	coordinates {
+		(10,9807)(100,113806)(1000,263942)(10000,1729743)(100000,12091641)%(1000000,93520440)
+	};
+	\addlegendentry{Комбинированная}
+	
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\paragraph{Тестовые данные}\\
+
+\begin{flushleft}
+	\paragraph{Sorted}
+\end{flushleft}
+
+Время работы в наносекундах (ns):\\
+\begin{tabular}{l*{6}{c}r}
+	Алгоритм & 10 & 100 & 1000 & 10000 & 100000 & 1000000 \\
+	\hline
+	Классическая & 659 & 9098 & 102652 & 1265028 & 13886742 & 116267374 \\
+	Параллельная & 11937 & 106255 & 579249 & 9888072 & 101543324 & 1192577864 \\
+	Комбинированная & 9872 & 114392 & 270951 & 1531330 & 11532055 & 87818725 \\
+\end{tabular}
+
+\begin{flushleft}
+	\paragraph{Random}
+\end{flushleft}
+
+Время работы в наносекундах (ns):\\
+\begin{tabular}{l*{6}{c}r}
+	Алгоритм & 10 & 100 & 1000 & 10000 & 100000 & 1000000 \\
+	\hline
+	Классическая & 556 & 9798 & 145247 & 1979934 & 21306925 & 233665988 \\
+	Параллельная & 8413 & 98786 & 579853 & 10455389 & 114421901 & 1251387316 \\
+	Комбинированная & 9546 & 118593 & 285336 & 1911819 & 15256937 & 125206941 \\
+\end{tabular}
+
+\begin{flushleft}
+	\paragraph{Reversed}
+\end{flushleft}
+
+Время работы в наносекундах (ns):\\
+\begin{tabular}{l*{6}{c}r}
+	Алгоритм & 10 & 100 & 1000 & 10000 & 100000 & 1000000 \\
+	\hline
+	Классическая & 544 & 9065 & 113490 & 1402595 & 16016143 & 146387339 \\
+	Параллельная & 8374 & 99514 & 556783 & 9502080 & 100411111 & 1242225349 \\
+	Комбинированная & 9807 & 113806 & 263942 & 1729743 & 12091641 & 93520440 \\
+\end{tabular}
+
+\newpage
+
+\paragraph{Оценка трудоемкостей алгоритмов}
+
+Во всех алгоритмах сложность будет равняться $nlog(n)$
+
+\paragraph{Заключение}
+
+В ходе работы были описаны и реализованы различные варианты алгоритма сортировки слиянием (классический, параллельный и комбинированный), и был проведен сравнительный анализ их временной эффективности.
+
+\backmatter %% Здесь заканчивается нумерованная часть документа и начинаются ссылки и
+            %% заключение
+
+\appendix   % Тут идут приложения
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
