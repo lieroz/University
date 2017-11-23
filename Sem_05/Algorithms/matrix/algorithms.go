@@ -104,7 +104,7 @@ func WinogradImprovedProduct(A, B *Matrix) *Matrix {
 	return C
 }
 
-func ParallelProduct(A, B *Matrix) (C *Matrix) {
+func ParallelProduct(A, B *Matrix, threads int) (C *Matrix) {
 	if A.Cols != B.Rows {
 		panic("can't multiply: columns != rows")
 	}
@@ -129,7 +129,6 @@ func ParallelProduct(A, B *Matrix) (C *Matrix) {
 			}
 		}
 	}
-	threads := 32
 	for i := 0; i < threads; i++ {
 		go dotRowCol()
 	}

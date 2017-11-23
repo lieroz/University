@@ -3,8 +3,8 @@ package main
 import "testing"
 
 const (
-	Rows = 100
-	Cols = 100
+	Rows = 500
+	Cols = 500
 )
 
 var (
@@ -41,8 +41,32 @@ func BenchmarkWinogradImprovedProduct(b *testing.B) {
 	}
 }
 
-func BenchmarkParallelProduct(b *testing.B) {
+func BenchmarkParallelProduct2(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		ParallelProduct(A, B)
+		ParallelProduct(A, B, 2)
+	}
+}
+
+func BenchmarkParallelProduct4(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ParallelProduct(A, B, 4)
+	}
+}
+
+func BenchmarkParallelProduct8(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ParallelProduct(A, B, 8)
+	}
+}
+
+func BenchmarkParallelProduct16(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ParallelProduct(A, B, 16)
+	}
+}
+
+func BenchmarkParallelProduct32(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ParallelProduct(A, B, 32)
 	}
 }
