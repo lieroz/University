@@ -1,0 +1,362 @@
+%% Преамбула TeX-файла
+
+% 1. Стиль и язык
+\documentclass[utf8x, 12pt]{G7-32} % Стиль (по умолчанию будет 14pt)
+
+% Остальные стандартные настройки убраны в preamble.inc.tex.
+\include{preamble.inc}
+
+% Настройки листингов.
+\ifPDFTeX
+\include{listings.inc}
+\else
+\usepackage{local-minted}
+\fi
+\usepackage{dirtytalk}
+\usepackage{algorithm2e}
+\usepackage[noend]{algpseudocode}
+\usepackage{csquotes}
+\usepackage[at]{easylist}
+\usepackage{pgfplots}
+
+% Полезные макросы листингов.
+\include{macros.inc}
+
+\begin{document}
+
+\frontmatter % выключает нумерацию ВСЕГО; здесь начинаются ненумерованные главы: реферат, введение, глоссарий, сокращения и прочее.
+
+% Команды \breakingbeforechapters и \nonbreakingbeforechapters
+% управляют разрывом страницы перед главами.
+% По-умолчанию страница разрывается.
+
+% \nobreakingbeforechapters
+% \breakingbeforechapters
+
+% НАЧАЛО ТИТУЛЬНОГО ЛИСТА
+\begin{center}
+	\hfill \break
+	\textit{
+		\normalsize{Государственное образовательное учреждение высшего профессионального образования}}\\ 
+	
+	\textit{
+		\normalsize  {\bf  «Московский государственный технический университет}\\ 
+		\normalsize  {\bf имени Н. Э. Баумана»}\\
+		\normalsize  {\bf (МГТУ им. Н.Э. Баумана)}\\
+	}
+	\noindent\rule{\textwidth}{2pt}
+	\hfill \break
+	\noindent
+	\\
+	\noindent
+	\\
+	\hfill\break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	
+	\hfill \break
+	\large{Лабораторная работа №2, 4\\ \textquote{Умножение матриц}}\\
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break	
+	\normalsize {
+		\begin{minipage}[t]{7cm}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{7cm}
+			\flushright
+			Студент: Камакин А.С.\\
+			Группа: ИУ7-53\\
+			Преподаватель: Волкова Л.Л.
+		\end{minipage}
+	}\\
+	\hfill \break	
+	\hfill \break
+	\hfill \break
+	\hfill \break
+	\hfill \break
+\end{center}
+\hfill \break
+\hfill \break
+\begin{center} Москва 2017 \end{center}
+
+\thispagestyle{empty} % 
+% КОНЕЦ ТИТУЛЬНОГО ЛИСТА
+
+\newpage
+% \tableofcontents
+
+\mainmatter % это включает нумерацию глав и секций в документе ниже
+
+Введём модель вычисления, используемую при оценках трудоёмкости:
+\begin{itemize}
+	\item вызов метода объекта структуры имеет трудоёмкость 1;
+	\item объявление переменной/массива/структуры без определения имеет трудоёмкость 0;
+	\item операторы $+$, $-$, $*$, $/$, $=$, $++$, $--$ имеют трудоёмкость 1;
+	\item условный оператор (без условий внутри) имеет трудоёмкость 0;
+	\item логические операции имеют трудоёмкость 1; 
+	\item оператор цикла имеет трудоёмкость $1 + n(3 + T)$, где $n$ – это число повторений цикла, $T$ – трудоёмкость тела цикла;
+	\begin{itemize}
+		\item \textbf{Замечание:} так как доподлинно неизвестно, каким образом компилятор интерпретирует цикл, целесообразно взять модель, предложенную на преподавателем: одно присваивание до цикла (1 операция), внутри цикла присваивание, сравнение и инкремент (3 операции).
+	\end{itemize}
+	\item вызов функции имеет трудоёмкость 0, так как функции компилятор рассматривает как inline и подставляет сразу вместо вызова код.
+	\item $Fn(n)$ – часть трудоёмкости, зависящая только от размера входа;
+	\item $g(D)$ – часть трудоёмкости, зависящая от конкретного входа, значений переменных.
+\end{itemize}
+
+\newpage
+
+\paragraph{Классический алгоритм перемножения матриц}
+\begin{center}
+	\includegraphics[scale=0.32]{images/matrixClassic.png}
+\end{center}
+
+\newpage
+
+\paragraph{Классический алгоритм перемножения матриц с буффером}
+\begin{center}
+	\includegraphics[scale=0.32]{images/matrixClassicBuffered.png}
+\end{center}
+
+\newpage
+
+\paragraph{Алгорим Винограда перемножения матриц}
+\begin{center}
+	\includegraphics[scale=0.3]{images/matrixWinograd.png}
+\end{center}
+
+\newpage
+
+\paragraph{Алгорим Винограда перемножения матриц модифицированный}
+\begin{center}
+	\includegraphics[scale=0.3]{images/matrixWinogradImproved.png}
+\end{center}
+
+\newpage
+
+\paragraph{Параллельный алгоритм перемножения матриц}
+\begin{center}
+	\includegraphics[scale=0.28]{images/matrixParallel.png}
+\end{center}
+
+\newpage
+
+\paragraph{Графики}
+\begin{flushleft}
+\begin{tikzpicture}
+\begin{axis}[
+x=0.025cm,
+title={Сравнение работы алгоритмов по времени (gobench)},
+xlabel={длина строки $l$},
+ylabel={время $t(ns)$},
+xmin=0, xmax=550,
+ymin=0, ymax=3100000000,
+xtick={0,50,100,150,200,250,300,350,400,450,500},
+ytick={0,500000000,1000000000,1500000000,2000000000,2500000000,3000000000},
+legend pos=north west,
+ymajorgrids=true,
+grid style=dashed,
+legend style={at={(0.5,-0.1)},anchor=north},
+]
+
+\addplot[
+color=red,
+mark=square,
+]
+coordinates {
+	(10,18677)(25,279895)(50,2153020)(100,17705457)(200,147803146)(300,660024536)(400,1363797228)(500,3038865567)
+};
+\addlegendentry{Классический}
+
+\addplot[
+color=orange,
+mark=square,
+]
+coordinates {
+	(10,11265)(25,157423)(50,1173421)(100,9730347)(200,82138335)(300,335005111)(400,714476506)(500,1548702807)
+};
+\addlegendentry{Классический с буффером}
+
+\addplot[
+color=yellow,
+mark=square,
+]
+coordinates {
+	(10,12435)(25,176173)(50,1301969)(100,10412686)(200,88803778)(300,365186425)(400,771183619)(500,1813699928)
+};
+\addlegendentry{Алгоритм Винограда}
+
+\addplot[
+color=green,
+mark=square,
+]
+coordinates {
+	(10,12235)(25,163952)(50,1236478)(100,10077546)(200,87102982)(300,367738797)(400,756099434)(500,1656904455)
+};
+\addlegendentry{Алгоритм Винограда модифицированный}
+
+\addplot[
+color=blue,
+mark=square,
+]
+coordinates {
+	(10,46465)(25,166977)(50,780152)(100,5364108)(200,41859545)(300,139707371)(400,333703452)(500,645539756)
+};
+\addlegendentry{Параллельный}
+
+\end{axis}
+\end{tikzpicture}
+\end{flushleft}
+
+\begin{flushleft}
+	\begin{tikzpicture}
+	\begin{axis}[
+	x=0.025cm,
+	title={Сравнение работы параллельного алгоритма при различном количестве горутин (gobench)},
+	xlabel={длина строки $l$},
+	ylabel={время $t(ns)$},
+	xmin=0, xmax=550,
+	ymin=0, ymax=750000000,
+	xtick={0,50,100,150,200,250,300,350,400,450,500},
+	ytick={0,150000000,300000000,450000000,600000000,750000000},
+	legend pos=north west,
+	ymajorgrids=true,
+	grid style=dashed,
+	legend style={at={(0.5,-0.1)},anchor=north},
+	]
+	
+	\addplot[
+	color=red,
+	mark=square,
+	]
+	coordinates {
+		(10,32020)(25,273434)(50,1513511)(100,10260546)(200,64301722)(300,191698369)(400,385928442)(500,743617280)
+	};
+	\addlegendentry{Параллельный (2)}
+	
+	\addplot[
+	color=orange,
+	mark=square,
+	]
+	coordinates {
+		(10,31746)(25,258196)(50,1176791)(100,5917886)(200,45078104)(300,141235234)(400,333947543)(500,647911588)
+	};
+	\addlegendentry{Параллельный (4)}
+	
+	\addplot[
+	color=yellow,
+	mark=square,
+	]
+	coordinates {
+		(10,24461)(25,188844)(50,793409)(100,5341148)(200,41692136)(300,141491379)(400,330992379)(500,656317703)
+	};
+	\addlegendentry{Параллельный (8)}
+	
+	\addplot[
+	color=green,
+	mark=square,
+	]
+	coordinates {
+		(10,30425)(25,201212)(50,790331)(100,5293963)(200,41345338)(300,146082687)(400,329343441)(500,650544862)
+	};
+	\addlegendentry{Параллельный (16)}
+	
+	\addplot[
+	color=blue,
+	mark=square,
+	]
+	coordinates {
+		(10,46101)(25,167110)(50,800557)(100,5416092)(200,41697141)(300,143526081)(400,329695204)(500,643828218)
+	};
+	\addlegendentry{Параллельный (32)}
+	
+	\end{axis}
+	\end{tikzpicture}
+\end{flushleft}
+
+\newpage
+
+\paragraph{Тестовые данные}\\
+
+\begin{flushleft}
+	\paragraph{Все алгоритмы}
+\end{flushleft}
+
+Время работы в наносекундах (ns):\\
+\begin{tabular}{l*{5}{c}r}
+	Алгоритм & 10 & 25 & 50 & 100 & 200 \\
+	\hline
+	Классический & 18677 & 279895 & 2153020 & 17705457 & 147803146 \\
+	Классический с буффером & 11265 & 157423 & 1173421 & 9730347 & 82138335 \\
+	Алгоритм Винограда & 12435 & 176173 & 1301969 & 10412686 & 88803778 \\
+	Алгоритм Винограда модифицированный & 12235 & 163952 & 1236478 & 10077546 & 87102982 \\
+	Параллельный & 46465 & 166977 & 780152 & 5364108 & 41859545 \\
+\end{tabular}
+\begin{tabular}{l*{3}{c}r}
+	Алгоритм & 300 & 400 & 500 \\
+	\hline
+	Классический & 660024536 & 1363797228 & 3038865567 \\
+	Классический с буффером & 335005111 & 714476506 & 1548702807 \\
+	Алгоритм Винограда & 365186425 & 771183619 & 1813699928 \\
+	Алгоритм Винограда модифицированный & 367738797 & 756099434 & 1656904455 \\
+	Параллельный & 139707371 & 333703452 & 645539756 \\
+\end{tabular}
+
+\begin{flushleft}
+	\paragraph{Параллельные алгоритмы с разным количеством горутин}
+\end{flushleft}
+
+Время работы в наносекундах (ns):\\
+\begin{tabular}{l*{5}{c}r}
+	Алгоритм & 10 & 25 & 50 & 100 & 200 \\
+	\hline
+	Параллельный (2) & 32020 & 273434 & 1513511 & 10260546 & 64301722 \\
+	Параллельный (4) & 31746 & 258196 & 1176791 & 5917886 & 45078104 \\
+	Параллельный (8) & 24461 & 188844 & 793409 & 5341148 & 41692136 \\
+	Параллельный (16) & 30425 & 201212 & 790331 & 5293963 & 41345338 \\
+	Параллельный (32) & 46101 & 167110 & 800557 & 5416092 & 41697141 \\
+\end{tabular}
+\begin{tabular}{l*{3}{c}r}
+	Алгоритм & 300 & 400 & 500 \\
+	\hline
+	Параллельный (2) & 191698369 & 385928442 & 743617280 \\
+	Параллельный (4) & 141235234 & 333947543 & 647911588 \\
+	Параллельный (8) & 141491379 & 330992379 & 656317703 \\
+	Параллельный (16) & 146082687 & 329343441 & 650544862 \\
+	Параллельный (32) & 143526081 & 329695204 & 643828218 \\
+\end{tabular}
+
+\newpage
+
+\paragraph{Оценка трудоемкостей алгоритмов}
+\\$A = a\times b$\\$B = b\times c$\\$/ = div$\\$t$ - количество потоков
+\begin{itemize}
+	\item Классический: $a(3 + c(3 + b(3 + 1 + 3 + 1))) = 3a + 3ac + 8abc = 3n + 3n^2 + 8n^3$
+	\item Классический с буффером: $a(3 + c(3 + 1 + b(3 + 3) + 1)) = 3a + 5ac + 6abc = 3n + 3n^2 + 6n^3$
+	\item Алгоритм Винограда: $1 + 1 + a(3 + b/2(3 + 3)) + c(3 + b/2(3 + 3)) + a(3 + c(3 + 3 + b/2(3 + 5) + 1)) + 2 + \begin{cases} a(3 + c(3 + 1 + 3 + 1)),& \text{if b\%2 != 0}\\0,& \text{otherwise}\end{cases} = 4 + 6a + 3c + 3ab + 7ac + 3bc + 4abc + \begin{cases} 3a + 8ac,& \text{if b\%2 != 0}\\0,& \text{otherwise}\end{cases} = 4 + 9n + 13n^2 + 4n^3 + \begin{cases} 3n + 8n^2,& \text{if b\%2 != 0}\\0,& \text{otherwise}\end{cases}$
+	\item Алгоритм Винограда модифицированный: $1 + 1 + a(3 + b/2(3 + 3)) + c(3 + b/2(3 + 3)) + a(3 + c(3 + 2 + b/2(3 + 5) + 2 + \begin{cases} 3,& \text{if b\%2 != 0}\\0,& \text{otherwise}\end{cases} + 1)) = 2 + 6a + 3c + 3ab + \begin{cases} 11ac,& \text{if b\%2 != 0}\\8ac,& \text{otherwise}\end{cases} + 3bc + 4abc = 2 + 9n + \begin{cases} 17n^2,& \text{if b\%2 != 0}\\14n^2,& \text{otherwise}\end{cases} + 4n^3$
+	\item Параллельный:
+	\begin{enumerate}
+		\item $func = 2 + 1 + b(3 + c(3 + 3)) + c(3 + 1) = 3 + 3b + 3c + 6bc = 3 + 6n + 6n^2$
+		\item $1 + 1 + t(3 + func) + a(3 + 1) + t(3 + 2) = 2 + 4a + 8t + func*t = 2 + 4a + 8t + t(3 + 3b + 3c + 6bc) = 2 + 4a + 11t + 3bt + 3ct + 6bct = 2 + 4n + 11t + 3nt + 3nt + 6n^2t$
+	\end{enumerate}
+\end{itemize}
+
+\paragraph{Заключение}
+
+В ходе работы были описаны и реализованы различные варианты алгоритма перемножения матриц (классический, классический с буффером, алгоритм Винограда, модифицированный алгоритм Винограда и параллельный), и был проведен сравнительный анализ их временной эффективности.
+
+\backmatter %% Здесь заканчивается нумерованная часть документа и начинаются ссылки и
+            %% заключение
+
+\appendix   % Тут идут приложения
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
