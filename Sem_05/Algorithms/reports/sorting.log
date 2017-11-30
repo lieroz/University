@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2017.11.30)  30 NOV 2017 03:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2017.11.30)  30 NOV 2017 04:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1045,7 +1045,7 @@ File: tikzlibraryplotmarks.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmarks.co
 de.tex
 File: pgflibraryplotmarks.code.tex 2015/08/03 v3.0.1a (rcs-revision 1.14)
-)))
+))) (./listings-golang.sty)
 \@input{macros.inc.aux}
 \openout2 = `macros.inc.aux'.
 
@@ -1057,24 +1057,24 @@ Package csquotes Info: Redefining alias 'default' -> 'russian'.
  (./sorting.aux)
 \openout1 = `sorting.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 
 (/usr/share/texlive/texmf-dist/tex/latex/ucs/ucsencs.def
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
@@ -1125,7 +1125,7 @@ Package caption Info: End \AtBeginDocument code.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box60
-Package hyperref Info: Link coloring ON on input line 25.
+Package hyperref Info: Link coloring ON on input line 27.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
@@ -1134,9 +1134,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count197
 )
-LaTeX Info: Redefining \ref on input line 25.
-LaTeX Info: Redefining \pageref on input line 25.
-LaTeX Info: Redefining \nameref on input line 25.
+LaTeX Info: Redefining \ref on input line 27.
+LaTeX Info: Redefining \pageref on input line 27.
+LaTeX Info: Redefining \nameref on input line 27.
 
 (./sorting.out) (./sorting.out)
 \@outlinefile=\write4
@@ -1180,7 +1180,7 @@ ABD: EveryShipout initializing macros
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.15} into 
 your preamble.
- on input line 25.
+ on input line 27.
 
 (/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-4.def
 File: uni-4.def 2013/05/13 UCS: Unicode data U+0400..U+04FF
@@ -1191,23 +1191,23 @@ File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 (/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-33.def
 File: uni-33.def 2013/05/13 UCS: Unicode data U+2100..U+21FF
 )
-Underfull \hbox (badness 10000) in paragraph at lines 82--84
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 82--84
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
 
  []
 
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 89.
+(babel)             in language append on input line 91.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 89.
+(babel)             in language append on input line 91.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 89.
+(babel)             in language append on input line 91.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 89.
+(babel)             in language append on input line 91.
 [1
 
 
@@ -1221,245 +1221,258 @@ Package babel Info: Redefining russian shorthand "~
 \FN@pp@footnotehinttrue 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 98.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 100.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
 <<oms.cmap>><<ot1.cmap>><<oml.cmap>><<omx.cmap>>
-LaTeX Font Info:    Try loading font information for U+msa on input line 98.
+LaTeX Font Info:    Try loading font information for U+msa on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 98.
+LaTeX Font Info:    Try loading font information for U+msb on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 98.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 100.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 98.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 100.
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <8> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 98.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 100.
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <6> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 98.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 100.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
-LaTeX Font Info:    Try loading font information for PD1+cmr on input line 98.
-LaTeX Font Info:    No file PD1cmr.fd. on input line 98.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
+LaTeX Font Info:    Try loading font information for PD1+cmr on input line 100.
+
+LaTeX Font Info:    No file PD1cmr.fd. on input line 100.
 
 
 LaTeX Font Warning: Font shape `PD1/cmr/m/n' undefined
-(Font)              using `PD1/pdf/m/n' instead on input line 98.
+(Font)              using `PD1/pdf/m/n' instead on input line 100.
 
-LaTeX Font Info:    Try loading font information for PU+cmr on input line 98.
-LaTeX Font Info:    No file PUcmr.fd. on input line 98.
+LaTeX Font Info:    Try loading font information for PU+cmr on input line 100.
+LaTeX Font Info:    No file PUcmr.fd. on input line 100.
 
 LaTeX Font Warning: Font shape `PU/cmr/m/n' undefined
-(Font)              using `PU/pdf/m/n' instead on input line 98.
+(Font)              using `PU/pdf/m/n' instead on input line 100.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--103
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 104--109
+Underfull \hbox (badness 10000) in paragraph at lines 103--105
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 110--129
+Underfull \hbox (badness 10000) in paragraph at lines 106--111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--131
 
  []
 
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 132.
+(babel)             in language append on input line 134.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 132.
+(babel)             in language append on input line 134.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 132.
+(babel)             in language append on input line 134.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 132.
+(babel)             in language append on input line 134.
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 134--141
+Underfull \hbox (badness 10000) in paragraph at lines 136--143
 
  []
 
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 151.
+(babel)             in language append on input line 153.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 151.
+(babel)             in language append on input line 153.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 151.
+(babel)             in language append on input line 153.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 151.
-[3] (/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-32.def
-File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
-)
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 169.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 169.
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 169.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 169.
- [4]
-<images/merge.png, id=62, 928.46875pt x 1637.11626pt>
+(babel)             in language append on input line 153.
+[3]
+<images/merge.png, id=56, 928.46875pt x 1637.11626pt>
 File: images/merge.png Graphic file (type png)
 <use images/merge.png>
-Package pdftex.def Info: images/merge.png  used on input line 173. on input lin
-e 173.
+Package pdftex.def Info: images/merge.png  used on input line 157. on input lin
+e 157.
 Package pdftex.def Info: Requested size: 297.11607pt x 523.88791pt on input lin
-e 173.
+e 157.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 176.
+(babel)             in language append on input line 160.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 176.
+(babel)             in language append on input line 160.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 176.
+(babel)             in language append on input line 160.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 176.
- [5 <./images/merge.png>]
-<images/mergeSort.png, id=69, 549.05125pt x 1050.92625pt>
+(babel)             in language append on input line 160.
+ [4 <./images/merge.png>]
+<images/mergeSort.png, id=63, 549.05125pt x 1050.92625pt>
 File: images/mergeSort.png Graphic file (type png)
 <use images/mergeSort.png>
-Package pdftex.def Info: images/mergeSort.png  used on input line 180. on input
- line 180.
+Package pdftex.def Info: images/mergeSort.png  used on input line 164. on input
+ line 164.
 Package pdftex.def Info: Requested size: 175.69998pt x 336.30327pt on input lin
-e 180.
+e 164.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 183.
+(babel)             in language append on input line 167.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 183.
+(babel)             in language append on input line 167.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 183.
+(babel)             in language append on input line 167.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 183.
- [6 <./images/mergeSort.png>]
-<images/mergeSortMulti.png, id=75, 580.1675pt x 2222.3025pt>
+(babel)             in language append on input line 167.
+ [5 <./images/mergeSort.png>]
+<images/mergeSortMulti.png, id=69, 580.1675pt x 2222.3025pt>
 File: images/mergeSortMulti.png Graphic file (type png)
 <use images/mergeSortMulti.png>
-Package pdftex.def Info: images/mergeSortMulti.png  used on input line 187. on 
-input line 187.
+Package pdftex.def Info: images/mergeSortMulti.png  used on input line 171. on 
+input line 171.
 Package pdftex.def Info: Requested size: 185.65738pt x 711.15134pt on input lin
-e 187.
+e 171.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 190.
+(babel)             in language append on input line 174.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 190.
+(babel)             in language append on input line 174.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 190.
+(babel)             in language append on input line 174.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 190.
- [7 <./images/mergeSortMulti.png>]
-<images/mergeSortCombined.png, id=82, 404.51125pt x 2222.3025pt>
+(babel)             in language append on input line 174.
+ [6 <./images/mergeSortMulti.png>]
+<images/mergeSortCombined.png, id=75, 404.51125pt x 2222.3025pt>
 File: images/mergeSortCombined.png Graphic file (type png)
 <use images/mergeSortCombined.png>
-Package pdftex.def Info: images/mergeSortCombined.png  used on input line 194. 
-on input line 194.
+Package pdftex.def Info: images/mergeSortCombined.png  used on input line 178. 
+on input line 178.
 Package pdftex.def Info: Requested size: 129.44624pt x 711.15134pt on input lin
-e 194.
+e 178.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 197.
+(babel)             in language append on input line 181.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 197.
+(babel)             in language append on input line 181.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 197.
+(babel)             in language append on input line 181.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 197.
-
-[8 <./images/mergeSortCombined.png>]
+(babel)             in language append on input line 181.
+ [7 <./images/mergeSortCombined.png>]
 
 Package pgfplots Warning: Ignoring illegal input argument xmin=0: cannot apply 
-log. on input line 216.
+log. on input line 200.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
 Package pgfplots Warning: Ignoring illegal input argument xmin=0: cannot apply 
-log. on input line 265.
+log. on input line 249.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
 Package pgfplots Warning: Ignoring illegal input argument xmin=0: cannot apply 
-log. on input line 314.
+log. on input line 298.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 347.
+(babel)             in language append on input line 331.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 347.
+(babel)             in language append on input line 331.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 347.
+(babel)             in language append on input line 331.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 347.
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 349--350
+(babel)             in language append on input line 331.
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 333--334
 
  []
 
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 390.
+(babel)             in language append on input line 374.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 390.
+(babel)             in language append on input line 374.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 390.
+(babel)             in language append on input line 374.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 390.
-[10]
+(babel)             in language append on input line 374.
+[9]
+<images/mergeSortTree.png, id=93, 254.3904pt x 194.6472pt>
+File: images/mergeSortTree.png Graphic file (type png)
+<use images/mergeSortTree.png>
+Package pdftex.def Info: images/mergeSortTree.png  used on input line 383. on i
+nput line 383.
+Package pdftex.def Info: Requested size: 254.38977pt x 194.64671pt on input lin
+e 383.
+Package csquotes Info: Input encoding change on input line 386.
+ (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/koi8-r.def
+File: koi8-r.def 2014/10/28 v1.0d Input encoding file
+)
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 405.
+(babel)             in language append on input line 414.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 405.
+(babel)             in language append on input line 414.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language append on input line 405.
+(babel)             in language append on input line 414.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language append on input line 405.
+(babel)             in language append on input line 414.
+ [10 <./images/mergeSortTree.png>]
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language append on input line 428.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language append on input line 428.
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language append on input line 428.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language append on input line 428.
  [11]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 405.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 405.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 428.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 428.
  (./sorting.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 405.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 405.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 428.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 428.
 Package rerunfilecheck Info: File `sorting.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 405.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 428.
  ) 
 Here is how much of TeX's memory you used:
- 38913 strings out of 494332
- 825371 string characters out of 6170814
- 1049951 words of memory out of 5000000
- 41564 multiletter control sequences out of 15000+600000
- 14534 words of font info for 42 fonts, out of 8000000 for 9000
+ 38981 strings out of 494332
+ 825519 string characters out of 6170814
+ 1071951 words of memory out of 5000000
+ 41595 multiletter control sequences out of 15000+600000
+ 15331 words of font info for 43 fonts, out of 8000000 for 9000
  475 hyphenation exceptions out of 8191
- 62i,17n,96p,937b,2164s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,17n,96p,937b,2274s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t2a.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cm-supe
-r/sfbi1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr
-/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/t
-ype1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super
-/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb>
-Output written on sorting.pdf (11 pages, 431977 bytes).
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbi1
+200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/
+texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/pu
+blic/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm12
+00.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/t
+exmf/fonts/type1/public/cm-super/sfti1200.pfb>
+Output written on sorting.pdf (11 pages, 488979 bytes).
 PDF statistics:
- 144 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
- 16 named destinations out of 1000 (max. 500000)
- 149 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 192 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 154 words of extra memory for PDF output out of 10000 (max. 10000000)
 
