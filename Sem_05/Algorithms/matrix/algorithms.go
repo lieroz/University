@@ -89,13 +89,17 @@ func WinogradImprovedProduct(A, B *Matrix) *Matrix {
 		}
 	}
 	C := NewMatrix(A.Rows, B.Cols)
+	flag := false
+	if A.Cols%2 != 0 {
+		flag = true
+	}
 	for i := 0; i < A.Rows; i++ {
 		for j := 0; j < B.Cols; j++ {
 			val := mulH[i] + mulW[j]
 			for k := 1; k < A.Cols; k += 2 {
 				val += (A.Get(i, k-1) + B.Get(k, j)) * (A.Get(i, k) + B.Get(k-1, j))
 			}
-			if A.Cols%2 != 0 {
+			if flag {
 				val += A.Get(i, A.Cols-1) * B.Get(A.Cols-1, j)
 			}
 			C.Set(i, j, val)
