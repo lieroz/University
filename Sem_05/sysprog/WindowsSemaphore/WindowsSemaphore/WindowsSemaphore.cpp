@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-const DWORD sleep_time = 0;
+const DWORD sleep_time = 50;
 
 const int readers_count = 5;
 const int writers_count = 3;
@@ -27,7 +27,6 @@ int value = 0;
 void start_read()
 {
 	if (writing || WaitForSingleObject(can_write, 0) == WAIT_OBJECT_0) {
-		ResetEvent(can_write);
 		WaitForSingleObject(can_read, INFINITE);
 	}
 
@@ -50,7 +49,6 @@ void stop_read()
 void start_write()
 {
 	if (writing || active_readers > 0) {
-		ResetEvent(can_read);
 		WaitForSingleObject(can_write, INFINITE);
 	}
 
@@ -62,10 +60,9 @@ void stop_write()
 {
 	writing = false;
 
-	if (WaitForSingleObject(can_read, 0) != WAIT_OBJECT_0) {
+	if (WaitForSingleObject(can_read, 0) == WAIT_OBJECT_0) {
 		SetEvent(can_read);
-	}
-	else {
+	} else {
 		SetEvent(can_write);
 	}
 
@@ -106,13 +103,13 @@ int init_handles()
 		return EXIT_FAILURE;
 	}
 
-	can_read = CreateEvent(NULL, TRUE, FALSE, NULL);
+	can_read = CreateEvent(NULL, FALSE, TRUE, NULL);
 	if (can_read == NULL) {
 		printf("can read");
 		return EXIT_FAILURE;
 	}
 
-	can_write = CreateEvent(NULL, TRUE, TRUE, NULL);
+	can_write = CreateEvent(NULL, FALSE, TRUE, NULL);
 	if (can_write == NULL) {
 		printf("can write");
 		return EXIT_FAILURE;
