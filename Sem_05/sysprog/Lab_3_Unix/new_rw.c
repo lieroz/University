@@ -8,6 +8,8 @@
 #include <sys/sem.h>
 #include <sys/stat.h>
 
+#define DEBUG
+
 #define READERS_COUNT 5
 #define WRITERS_COUNT 3
 
@@ -28,10 +30,10 @@ const int semaphore_count = 3; // includes three variables lower
 #define ACTIVE_WRITER 1
 #define ACTIVE_READER 2
 
-struct sembuf start_reading[] = {{BINARY, 0, 0}, {ACTIVE_READER, 1, 0}};
-struct sembuf stop_reading[] = {{ACTIVE_READER, -1, 0}};
-struct sembuf start_writing[] = {{BINARY, 1, 0}, {ACTIVE_READER, 0, 0}, {ACTIVE_WRITER, -1, 0}};
-struct sembuf stop_writing[] = {{ACTIVE_WRITER, 1, 0}, {BINARY, -1, 0}};
+struct sembuf start_reading[] = {{BINARY, 1, 0}};
+struct sembuf stop_reading[] = {{BINARY, -1, 0}};
+struct sembuf start_writing[] = {{BINARY, 1, 0}};
+struct sembuf stop_writing[] = {{BINARY, -1, 0}};
 
 void pexit(const char *msg, enum errors err_code)
 {
@@ -39,34 +41,47 @@ void pexit(const char *msg, enum errors err_code)
     exit(err_code);
 }
 
+void pdebug(const char *msg)
+{
+#ifdef DEBUG
+    printf("\033[91m%s\n\033[0m", msg);
+#endif
+}
+
 void start_read()
 {
-    semop(sem_id, start_reading, 2);
+    pdebug("entered start_read...");
+    semop(sem_id, start_reading, 1);
+    pdebug("left start_read...");
 }
 
 void stop_read()
 {
+    pdebug("entered stop_read...");
     semop(sem_id, stop_reading, 1);
+    pdebug("left stop_read...");
 }
 
 void start_write()
 {
-    semop(sem_id, start_writing, 3);
+    pdebug("entered start_write...");
+    semop(sem_id, start_writing, 1);
+    pdebug("left start_write...");
 }
 
 void stop_write()
 {
-    semop(sem_id, stop_writing, 2);
+    pdebug("entered stop_write...");
+    semop(sem_id, stop_writing, 1);
+    pdebug("exited stop_write...");
 }
 
 void reader(int id)
 {
-    while (*mem_ptr < iterations * WRITERS_COUNT) {
+    while (*mem_ptr < iterations) {
         start_read();
         printf("\tReader #%d read: %d\n", id, *mem_ptr);
         stop_read();
-
-        sleep(1);
     }
 }
 
@@ -74,10 +89,8 @@ void writer(int id)
 {
     for (int i = 0; i < iterations; i++) {
         start_write();
-        printf("Writer #%d wrote: %d\n", id, *(++mem_ptr));
+        printf("Writer #%d wrote: %d\n", id, ++(*mem_ptr));
         stop_write();
-
-        sleep(2);
     }
 }
 
@@ -146,9 +159,6 @@ int main()
         pexit("semget", ERR_SEMGET);
     }
     
-    unsigned short start_value[] = {0, 1, 0};
-    semctl(sem_id, ACTIVE_READER, SETALL, start_value);
-
     create_processes();
     wait_childs();
 
