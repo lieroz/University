@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -24,16 +25,26 @@ int childs = 0;
 
 enum errors {OK = 0, ERR_FORK, ERR_SHMGET, ERR_SHMAT, ERR_SEMGET};
 
-const int semaphore_count = 3; // includes three variables lower
+const int semaphore_count = 1; // includes three variables lower
 
-#define BINARY 0
-#define ACTIVE_WRITER 1
-#define ACTIVE_READER 2
+#define BINARY_SEM 0
+#define WRITER_SEM 1
+#define READER_SEM 2
 
-struct sembuf start_reading[] = {{BINARY, 1, 0}};
-struct sembuf stop_reading[] = {{BINARY, -1, 0}};
-struct sembuf start_writing[] = {{BINARY, 1, 0}};
-struct sembuf stop_writing[] = {{BINARY, -1, 0}};
+struct sembuf lock_binary[] = {{BINARY_SEM, 1, 0}};
+struct sembuf unlock_binary[] = {{BINARY_SEM, -1, 0}};
+
+struct sembuf check_is_reading[] = {{READER_SEM, 0, IPC_NOWAIT}};
+struct sembuf check_is_writing[] = {{WRITER_SEM, 0, IPC_NOWAIT}};
+
+struct sembuf wait_can_read[] = {{READER_SEM, 0, 0}};
+struct sembuf wait_can_write[] = {{WRITER_SEM, 0, 0}};
+
+struct sembuf set_can_read_inc[] = {{WRITER_SEM, 1, 0}};
+struct sembuf set_can_write_inc[] = {{READER_SEM, 1, 0}};
+
+int active_readers = 0;
+int writing = 0;
 
 void pexit(const char *msg, enum errors err_code)
 {
@@ -51,34 +62,67 @@ void pdebug(const char *msg)
 void start_read()
 {
     pdebug("entered start_read...");
-    semop(sem_id, start_reading, 1);
+
+    if (writing || semop(sem_id, check_is_writing, 1) != EAGAIN) {
+        semop(sem_id, wait_can_read, 1);
+    }
+
+    semop(sem_id, lock_binary, 1);
+    active_readers++;
+    semop(sem_id, set_can_read_inc, 1);
+
     pdebug("left start_read...");
 }
 
 void stop_read()
 {
     pdebug("entered stop_read...");
-    semop(sem_id, stop_reading, 1);
+
+    active_readers--;
+
+    if (active_readers == 0) {
+        semop(sem_id, set_can_write_inc, 1);
+    }
+
+    semop(sem_id, unlock_binary, 1);
+
     pdebug("left stop_read...");
 }
 
 void start_write()
 {
     pdebug("entered start_write...");
-    semop(sem_id, start_writing, 1);
+
+    if (writing || active_readers > 0) {
+        semop(sem_id, wait_can_write, 1);
+    }
+
+    semop(sem_id, lock_binary, 1);
+    writing = 1;
+
     pdebug("left start_write...");
 }
 
 void stop_write()
 {
     pdebug("entered stop_write...");
-    semop(sem_id, stop_writing, 1);
+
+    writing = 0;
+
+    if (semop(sem_id, check_is_reading, 1) != EAGAIN) {
+        semop(sem_id, set_can_read_inc, 1);
+    } else {
+        semop(sem_id, set_can_write_inc, 1);
+    }
+
+    semop(sem_id, unlock_binary, 1);
+
     pdebug("exited stop_write...");
 }
 
 void reader(int id)
 {
-    while (*mem_ptr < iterations) {
+    while (*mem_ptr < iterations * WRITERS_COUNT) {
         start_read();
         printf("\tReader #%d read: %d\n", id, *mem_ptr);
         stop_read();
@@ -158,7 +202,7 @@ int main()
     if ((sem_id = semget(IPC_PRIVATE, semaphore_count, perms)) == -1) {
         pexit("semget", ERR_SEMGET);
     }
-    
+
     create_processes();
     wait_childs();
 
