@@ -1,7 +1,7 @@
 #include <unistd.h>
-#include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/ipc.h>
@@ -25,7 +25,7 @@ int childs = 0;
 
 enum errors {OK = 0, ERR_FORK, ERR_SHMGET, ERR_SHMAT, ERR_SEMGET};
 
-const int semaphore_count = 1; // includes three variables lower
+const int semaphore_count = 3; // includes three variables lower
 
 #define BINARY_SEM 0
 #define WRITER_SEM 1
