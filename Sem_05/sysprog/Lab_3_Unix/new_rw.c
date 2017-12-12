@@ -8,6 +8,7 @@
 #include <sys/shm.h>
 #include <sys/sem.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 
 #define DEBUG
 
@@ -46,8 +47,8 @@ struct sembuf unlock_read[] = {{READER_SEM, -1, 0}};
 struct sembuf lock_write[] = {{WRITER_SEM, 0, 0}, {WRITER_SEM, 1, 0}};
 struct sembuf unlock_write[] = {{WRITER_SEM, -1, 0}};
 
-int active_readers = 0;
-int writing = 0;
+static int *active_readers = NULL;
+static int *writing = NULL; 
 
 void pexit(const char *msg, enum errors err_code)
 {
@@ -66,13 +67,13 @@ void start_read()
 {
     pdebug("entered start_read...");
 
-    if (writing || semop(sem_id, write_event, 1) != EAGAIN) {
+    if (*writing || semop(sem_id, write_event, 1) == EAGAIN) {
         semop(sem_id, wait_read, 1);
     }
 
     semop(sem_id, lock, 2);
-    active_readers++;
     semop(sem_id, lock_read, 2);
+    (*active_readers)++;
 
     pdebug("left start_read...");
 }
@@ -81,11 +82,10 @@ void stop_read()
 {
     pdebug("entered stop_read...");
 
-    active_readers--;
+    (*active_readers)--;
 
-    if (active_readers == 0) {
-        semop(sem_id, unlock_read, 1);
-        semop(sem_id, lock_write, 2);
+    if (*active_readers == 0) {
+        semop(sem_id, unlock_write, 1);
     }
 
     semop(sem_id, unlock, 1);
@@ -97,12 +97,13 @@ void start_write()
 {
     pdebug("entered start_write...");
 
-    if (writing || active_readers > 0) {
+    if (*writing || *active_readers > 0) {
         semop(sem_id, wait_write, 1);
     }
 
     semop(sem_id, lock, 2);
-    writing = 1;
+    semop(sem_id, lock_write, 2);
+    *writing = 1;
 
     pdebug("left start_write...");
 }
@@ -111,14 +112,12 @@ void stop_write()
 {
     pdebug("entered stop_write...");
 
-    writing = 0;
+    *writing = 0;
 
-    if (semop(sem_id, read_event, 1) != EAGAIN) {
-        semop(sem_id, unlock_write, 1);
-        semop(sem_id, lock_read, 2);
-    } else {
+    if (semop(sem_id, read_event, 1) == EAGAIN) {
         semop(sem_id, unlock_read, 1);
-        semop(sem_id, lock_write, 2);
+    } else {
+        semop(sem_id, unlock_write, 1);
     }
 
     semop(sem_id, unlock, 1);
@@ -187,11 +186,19 @@ void cleanup()
     if (mem_ptr != (void *) -1) shmdt(mem_ptr);
     if (sem_id >= 0) semctl(sem_id, 0, IPC_RMID);
     if (shm_id >= 0) shmctl(shm_id, IPC_RMID, 0);
+    if (active_readers) munmap(active_readers, sizeof *active_readers);
+    if (writing) munmap(writing, sizeof *writing);
 }
 
 int main()
 {
     int perms = IPC_CREAT | S_IRWXU | S_IRWXG | S_IRWXO;
+
+    active_readers = (int *) mmap(NULL, sizeof *active_readers, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    *active_readers = 0;
+
+    writing = (int *) mmap(NULL, sizeof *writing, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);;
+    *writing = 0;
     
     atexit(cleanup);
 
@@ -217,7 +224,7 @@ int main()
         pexit("semctl", ERR_SEMCTL);
     }
 
-    if (semctl(sem_id, READER_SEM, SETVAL, 0) < 0) {
+    if (semctl(sem_id, READER_SEM, SETVAL, 1) < 0) {
         pexit("semctl", ERR_SEMCTL);
     }
 
