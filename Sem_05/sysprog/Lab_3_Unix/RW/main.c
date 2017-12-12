@@ -11,11 +11,6 @@ const int READERS_COUNT = 5;
 const int WRITERS_COUNT = 3;
 const int ITERATIONS = 20;
 
-#define ACTIVE_READER 0
-#define WAITING_WRITER 1
-#define WRITER_FLAG 2
-#define WAITING_READER 3
-
 enum errors
 {
     OK = 0,
@@ -41,6 +36,11 @@ int sem_id = -1;
 char *mem_ptr = (char *) -1;
 
 int childs = 0;
+
+#define ACTIVE_READER 0
+#define WAITING_WRITER 1
+#define WRITER_FLAG 2
+#define WAITING_READER 3
 
 struct sembuf start_reader[5] = {
         {WAITING_READER, 1,  0},
@@ -131,19 +131,19 @@ int main(int argc, char *argv[])
         pexit("semget", ERR_SEMGET);
     }
 
-    if (semctl(sem_id, 0, SETVAL, 0) < 0) {
+    if (semctl(sem_id, ACTIVE_READER, SETVAL, 0) < 0) {
         pexit("semctl", ERR_SEMCTL);
     }
 
-    if (semctl(sem_id, 1, SETVAL, 0) < 0) {
+    if (semctl(sem_id, WAITING_WRITER, SETVAL, 0) < 0) {
         pexit("semctl", ERR_SEMCTL);
     }
 
-    if (semctl(sem_id, 2, SETVAL, 1) < 0) {
+    if (semctl(sem_id, WRITER_FLAG, SETVAL, 1) < 0) {
         pexit("semctl", ERR_SEMCTL);
     }
 
-    if (semctl(sem_id, 3, SETVAL, 0) < 0) {
+    if (semctl(sem_id, WAITING_READER, SETVAL, 0) < 0) {
         pexit("semctl", ERR_SEMCTL);
     }
 
