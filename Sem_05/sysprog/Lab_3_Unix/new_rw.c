@@ -10,18 +10,17 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 
-#define DEBUG
+//#define DEBUG
 
 #define READERS_COUNT 5
 #define WRITERS_COUNT 3
 
-const int iterations = 5; // how many times each writer modifies memory
+const int iterations = 3; // how many times each writer modifies memory
 
 int sem_id = -1;
 int shm_id = -1;
 int *mem_ptr = (void *) -1;
 
-pid_t child_pids[READERS_COUNT + WRITERS_COUNT];
 int childs = 0;
 
 enum errors {OK = 0, ERR_FORK, ERR_SHMGET, ERR_SHMAT, ERR_SEMGET, ERR_SEMCTL};
@@ -37,9 +36,6 @@ struct sembuf unlock[] = {{BINARY_SEM, -1, 0}};
 
 struct sembuf read_event[] = {{READER_SEM, 0, IPC_NOWAIT}};
 struct sembuf write_event[] = {{WRITER_SEM, 0, IPC_NOWAIT}};
-
-struct sembuf wait_read[] = {{READER_SEM, 0, 0}};
-struct sembuf wait_write[] = {{WRITER_SEM, 0, 0}};
 
 struct sembuf lock_read[] = {{READER_SEM, 0, 0}, {READER_SEM, 1, 0}};
 struct sembuf unlock_read[] = {{READER_SEM, -1, 0}};
@@ -68,12 +64,17 @@ void start_read()
     pdebug("entered start_read...");
 
     if (*writing || semop(sem_id, write_event, 1) == EAGAIN) {
-        semop(sem_id, wait_read, 1);
+        if (semctl(sem_id, READER_SEM, GETVAL, 0) == 0) {
+            semop(sem_id, lock_read, 2);
+        }
     }
 
     semop(sem_id, lock, 2);
-    semop(sem_id, lock_read, 2);
     (*active_readers)++;
+
+    if (semctl(sem_id, READER_SEM, GETVAL, 0) > 0) {
+        semop(sem_id, unlock_read, 1);
+    }
 
     pdebug("left start_read...");
 }
@@ -84,11 +85,13 @@ void stop_read()
 
     (*active_readers)--;
 
-    if (*active_readers == 0) {
-        semop(sem_id, unlock_write, 1);
+    if (semctl(sem_id, BINARY_SEM, GETVAL, 0) > 0) {
+        semop(sem_id, unlock, 1);
     }
-
-    semop(sem_id, unlock, 1);
+    
+    if (*active_readers == 0 && semctl(sem_id, WRITER_SEM, GETVAL, 0) > 0) {
+        semop(sem_id, unlock_write, 2);
+    }
 
     pdebug("left stop_read...");
 }
@@ -98,11 +101,15 @@ void start_write()
     pdebug("entered start_write...");
 
     if (*writing || *active_readers > 0) {
-        semop(sem_id, wait_write, 1);
+        if (semctl(sem_id, WRITER_SEM, GETVAL, 0) == 0) {
+            semop(sem_id, lock_write, 2);
+        }
+    }
+    
+    if (semctl(sem_id, BINARY_SEM, GETVAL, 0) == 0) {
+        semop(sem_id, lock, 2);
     }
 
-    semop(sem_id, lock, 2);
-    semop(sem_id, lock_write, 2);
     *writing = 1;
 
     pdebug("left start_write...");
@@ -114,15 +121,21 @@ void stop_write()
 
     *writing = 0;
 
-    if (semop(sem_id, read_event, 1) == EAGAIN) {
-        semop(sem_id, unlock_read, 1);
-    } else {
-        semop(sem_id, unlock_write, 1);
+    if (semctl(sem_id, BINARY_SEM, GETVAL, 0) > 0) {
+        semop(sem_id, unlock, 1);
     }
 
-    semop(sem_id, unlock, 1);
+    if (semop(sem_id, read_event, 1) == EAGAIN) {
+        if (semctl(sem_id, READER_SEM, GETVAL, 0) > 0) {
+            semop(sem_id, unlock_read, 1);
+        }
+    } else {
+        if (semctl(sem_id, WRITER_SEM, GETVAL, 0) > 0) {
+            semop(sem_id, unlock_write, 1);
+        }
+    }
 
-    pdebug("exited stop_write...");
+    pdebug("left stop_write...");
 }
 
 void reader(int id)
@@ -132,6 +145,8 @@ void reader(int id)
         printf("\tReader #%d read: %d\n", id, *mem_ptr);
         stop_read();
     }
+
+    exit(OK);
 }
 
 void writer(int id)
@@ -141,29 +156,27 @@ void writer(int id)
         printf("Writer #%d wrote: %d\n", id, ++(*mem_ptr));
         stop_write();
     }
+
+    exit(OK);
 }
 
 void create_processes()
 {
     for (int i = 0; i < WRITERS_COUNT; i++) {
-        child_pids[i] = fork();
-        if (child_pids[i] < 0) pexit("fork", ERR_FORK);
-        if (!child_pids[i]) {
+        pid_t pid = fork();
+        if (pid < 0) pexit("fork", ERR_FORK);
+        if (!pid) {
             writer(i + 1);
-            exit(OK);
         } else {
             childs++;
         }
     }
     
-    int proc_count = childs;
-
     for (int i = 0; i < READERS_COUNT; i++) {
-        child_pids[proc_count - 1] = fork();
-        if (child_pids[proc_count] < 0) pexit("fork", ERR_FORK);
-        if (!child_pids[proc_count - 1]) {
+        pid_t pid = fork();
+        if (pid < 0) pexit("fork", ERR_FORK);
+        if (!pid) {
             reader(i + 1);
-            exit(OK);
         } else {
             childs++;
         }
@@ -179,10 +192,6 @@ void wait_childs()
 
 void cleanup()
 {
-    for (int i = 0; i < childs; i++) {
-        if (child_pids[i] > 0) kill(child_pids[i], SIGTERM);
-    }
-
     if (mem_ptr != (void *) -1) shmdt(mem_ptr);
     if (sem_id >= 0) semctl(sem_id, 0, IPC_RMID);
     if (shm_id >= 0) shmctl(shm_id, IPC_RMID, 0);
@@ -224,7 +233,7 @@ int main()
         pexit("semctl", ERR_SEMCTL);
     }
 
-    if (semctl(sem_id, READER_SEM, SETVAL, 1) < 0) {
+    if (semctl(sem_id, READER_SEM, SETVAL, 0) < 0) {
         pexit("semctl", ERR_SEMCTL);
     }
 
