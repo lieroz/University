@@ -23,7 +23,7 @@ int *mem_ptr = (void *) -1;
 pid_t child_pids[READERS_COUNT + WRITERS_COUNT];
 int childs = 0;
 
-enum errors {OK = 0, ERR_FORK, ERR_SHMGET, ERR_SHMAT, ERR_SEMGET};
+enum errors {OK = 0, ERR_FORK, ERR_SHMGET, ERR_SHMAT, ERR_SEMGET, ERR_SEMCTL};
 
 const int semaphore_count = 3; // includes three variables lower
 
@@ -31,17 +31,20 @@ const int semaphore_count = 3; // includes three variables lower
 #define WRITER_SEM 1
 #define READER_SEM 2
 
-struct sembuf lock_binary[] = {{BINARY_SEM, 1, 0}};
-struct sembuf unlock_binary[] = {{BINARY_SEM, -1, 0}};
+struct sembuf lock[] = {{BINARY_SEM, 0, 0}, {BINARY_SEM, 1, 0}};
+struct sembuf unlock[] = {{BINARY_SEM, -1, 0}};
 
-struct sembuf check_is_reading[] = {{READER_SEM, 0, IPC_NOWAIT}};
-struct sembuf check_is_writing[] = {{WRITER_SEM, 0, IPC_NOWAIT}};
+struct sembuf read_event[] = {{READER_SEM, 0, IPC_NOWAIT}};
+struct sembuf write_event[] = {{WRITER_SEM, 0, IPC_NOWAIT}};
 
-struct sembuf wait_can_read[] = {{READER_SEM, 0, 0}};
-struct sembuf wait_can_write[] = {{WRITER_SEM, 0, 0}};
+struct sembuf wait_read[] = {{READER_SEM, 0, 0}};
+struct sembuf wait_write[] = {{WRITER_SEM, 0, 0}};
 
-struct sembuf set_can_read_inc[] = {{WRITER_SEM, 1, 0}};
-struct sembuf set_can_write_inc[] = {{READER_SEM, 1, 0}};
+struct sembuf lock_read[] = {{READER_SEM, 0, 0}, {READER_SEM, 1, 0}};
+struct sembuf unlock_read[] = {{READER_SEM, -1, 0}};
+
+struct sembuf lock_write[] = {{WRITER_SEM, 0, 0}, {WRITER_SEM, 1, 0}};
+struct sembuf unlock_write[] = {{WRITER_SEM, -1, 0}};
 
 int active_readers = 0;
 int writing = 0;
@@ -63,13 +66,13 @@ void start_read()
 {
     pdebug("entered start_read...");
 
-    if (writing || semop(sem_id, check_is_writing, 1) != EAGAIN) {
-        semop(sem_id, wait_can_read, 1);
+    if (writing || semop(sem_id, write_event, 1) != EAGAIN) {
+        semop(sem_id, wait_read, 1);
     }
 
-    semop(sem_id, lock_binary, 1);
+    semop(sem_id, lock, 2);
     active_readers++;
-    semop(sem_id, set_can_read_inc, 1);
+    semop(sem_id, lock_read, 2);
 
     pdebug("left start_read...");
 }
@@ -81,10 +84,11 @@ void stop_read()
     active_readers--;
 
     if (active_readers == 0) {
-        semop(sem_id, set_can_write_inc, 1);
+        semop(sem_id, unlock_read, 1);
+        semop(sem_id, lock_write, 2);
     }
 
-    semop(sem_id, unlock_binary, 1);
+    semop(sem_id, unlock, 1);
 
     pdebug("left stop_read...");
 }
@@ -94,10 +98,10 @@ void start_write()
     pdebug("entered start_write...");
 
     if (writing || active_readers > 0) {
-        semop(sem_id, wait_can_write, 1);
+        semop(sem_id, wait_write, 1);
     }
 
-    semop(sem_id, lock_binary, 1);
+    semop(sem_id, lock, 2);
     writing = 1;
 
     pdebug("left start_write...");
@@ -109,13 +113,15 @@ void stop_write()
 
     writing = 0;
 
-    if (semop(sem_id, check_is_reading, 1) != EAGAIN) {
-        semop(sem_id, set_can_read_inc, 1);
+    if (semop(sem_id, read_event, 1) != EAGAIN) {
+        semop(sem_id, unlock_write, 1);
+        semop(sem_id, lock_read, 2);
     } else {
-        semop(sem_id, set_can_write_inc, 1);
+        semop(sem_id, unlock_read, 1);
+        semop(sem_id, lock_write, 2);
     }
 
-    semop(sem_id, unlock_binary, 1);
+    semop(sem_id, unlock, 1);
 
     pdebug("exited stop_write...");
 }
@@ -201,6 +207,18 @@ int main()
     
     if ((sem_id = semget(IPC_PRIVATE, semaphore_count, perms)) == -1) {
         pexit("semget", ERR_SEMGET);
+    }
+
+    if (semctl(sem_id, BINARY_SEM, SETVAL, 0) < 0) {
+        pexit("semctl", ERR_SEMCTL);
+    }
+
+    if (semctl(sem_id, WRITER_SEM, SETVAL, 0) < 0) {
+        pexit("semctl", ERR_SEMCTL);
+    }
+
+    if (semctl(sem_id, READER_SEM, SETVAL, 0) < 0) {
+        pexit("semctl", ERR_SEMCTL);
     }
 
     create_processes();
