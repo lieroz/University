@@ -6,6 +6,32 @@
 #include <sys/stat.h>
 #include <sys/shm.h>
 #include <stdlib.h>
+#include <sys/wait.h>
+#include <sys/mman.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+
+const int PRODUCERS_COUNT = 3;
+const int CONSUMERS_COUNT = 5;
+
+enum errors
+{
+    OK = 0,
+    ERR_FORK,
+    ERR_SHMGET,
+    ERR_SHMAT,
+    ERR_SEMGET,
+    ERR_SEMCTL
+};
+
+void pexit(const char *, enum errors);
+
+void create_processes();
+
+void wait_childs();
+
+void cleanup();
 
 #define RUN_ACCESS 0
 #define BUF_EMPTY 1
@@ -15,79 +41,143 @@
 
 #define BUF_SIZE 8
 
-unsigned short StartVal[] = {1, BUF_SIZE, 0};
+unsigned short start_value[] = {1, BUF_SIZE, 0};
 
+struct sembuf producer_p[2] = {
+        {BUF_EMPTY,  -1, 0},
+        {RUN_ACCESS, -1, 0}
+};
 
-struct sembuf ProdP[2] = {{BUF_EMPTY,  -1, 0},
-                          {RUN_ACCESS, -1, 0}};
-struct sembuf ProdV[2] = {{BUF_FULL,   1, 0},
-                          {RUN_ACCESS, 1, 0}};
-struct sembuf ConsP[2] = {{BUF_FULL,   -1, 0},
-                          {RUN_ACCESS, -1, 0}};
-struct sembuf ConsV[2] = {{BUF_EMPTY,  1, 0},
-                          {RUN_ACCESS, 1, 0}};
+struct sembuf producer_v[2] = {
+        {BUF_FULL,   1, 0},
+        {RUN_ACCESS, 1, 0}
+};
+
+struct sembuf consumer_p[2] = {
+        {BUF_FULL,   -1, 0},
+        {RUN_ACCESS, -1, 0}
+};
+
+struct sembuf consumer_v[2] = {
+        {BUF_EMPTY,  1, 0},
+        {RUN_ACCESS, 1, 0}
+};
+
+int shm_id = -1;
+int sem_id = -1;
+
+int *mem_ptr = (int *) -1;
+int *buf = (int *) -1;
+int *num = NULL;
+
+int childs = 0;
+
+void producer(int id)
+{
+    while (1) {
+        semop(sem_id, producer_p, 2);
+
+        buf[*mem_ptr] = *num;
+        printf("Producer #%d wrote %d in cell [%d]\n", id, buf[*mem_ptr], *mem_ptr);
+
+        *mem_ptr = (*mem_ptr + 1) % (BUF_SIZE);
+        semop(sem_id, producer_v, 2);
+
+        *num = (*num + 1) % (MAX_VAL + 1);
+        sleep((unsigned int) (rand() % 3)); // NOLINT
+    }
+}
+
+void consumer(int id)
+{
+    while (1) {
+        semop(sem_id, consumer_p, 2);
+
+        *mem_ptr = (*mem_ptr > 1) ? (*mem_ptr - 1) : 0;
+        printf("\tConsumer #%d read %d from cell [%d]\n", id, buf[*mem_ptr], *mem_ptr);
+
+        semop(sem_id, consumer_v, 2);
+        sleep((unsigned int) (rand() % 5)); // NOLINT
+    }
+}
 
 int main()
 {
-    int flags = S_IRWXU | S_IRWXG | S_IRWXO;
+    int perms = IPC_CREAT | S_IRWXU | S_IRWXG | S_IRWXO;
 
-    int semMas = semget(IPC_PRIVATE, 3, flags);
-    if (semMas == -1) {
-        perror("Semget error!\n");
-        return 1;
+    atexit(cleanup);
+
+    num = mmap(NULL, sizeof *num, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    *num = 1;
+
+    if ((shm_id = shmget(IPC_PRIVATE, (BUF_SIZE + 1) * sizeof(int), perms)) == -1) {
+        pexit("shmget", ERR_SHMGET);
     }
 
-    if (semctl(semMas, 0, SETALL, StartVal) == -1) {
-        perror("Semctl error!\n");
-        return 2;
+    if ((mem_ptr = shmat(shm_id, NULL, 0)) == (void *) -1) {
+        pexit("shmat", ERR_SHMAT);
     }
 
-    int shmId = shmget(IPC_PRIVATE, (BUF_SIZE + 1) * sizeof(int), flags);
-    if (shmId == -1) {
-        perror("Shmget error!\n");
-        return 3;
+    *mem_ptr = 0;
+
+    if ((buf = mem_ptr + sizeof(int)) == (int *) (-1)) {
+        pexit("shmat", ERR_SHMAT);
     }
 
-    pid_t child = 0;
-    if ((child = fork()) == -1) {
-        perror("Fork error!\n");
-        return 1;
+    if ((sem_id = semget(IPC_PRIVATE, 3, perms)) == -1) {
+        pexit("semget", ERR_SEMGET);
     }
 
-    int *pos = (int *) shmat(shmId, 0, 0);
-    *pos = 0;
-
-    int *buf = pos + sizeof(int);
-    if (buf == (int *) (-1)) {
-        perror("Shmat error!\n");
-        return 1;
+    if (semctl(sem_id, 0, SETALL, start_value) == -1) {
+        pexit("semctl", ERR_SEMCTL);
     }
 
-    if (child != 0) {
-        while (1) {
-            semop(semMas, ConsP, 2);
+    create_processes();
+    wait_childs();
 
-            *pos = (*pos > 1) ? (*pos - 1) : 0;
-            printf("\tПотребитель считал %d из ячейки [%d]\n", buf[*pos], *pos);
-
-            semop(semMas, ConsV, 2);
-            sleep(rand() % 5);
-        }
-    } else {
-        int num = 1;
-        while (1) {
-            semop(semMas, ProdP, 2);
-
-            buf[*pos] = num;
-            printf("Производитель записал %d в ячейку [%d]\n", buf[*pos], *pos);
-
-            *pos = (*pos + 1) % (BUF_SIZE);
-            semop(semMas, ProdV, 2);
-
-            num = (num + 1) % (MAX_VAL + 1);
-            sleep(rand() % 3);
-        }
-    }
-
-    return 0;
+    return OK;
 }
+
+void pexit(const char *msg, enum errors err_code)
+{
+    perror(msg);
+    exit(err_code);
+}
+
+void create_processes()
+{
+    for (int i = 0; i < PRODUCERS_COUNT; i++) {
+        pid_t pid = fork();
+        if (pid < 0) pexit("fork", ERR_FORK);
+        if (!pid) {
+            producer(i + 1);
+        } else {
+            childs++;
+        }
+    }
+
+    for (int i = 0; i < CONSUMERS_COUNT; i++) {
+        pid_t pid = fork();
+        if (pid < 0) pexit("fork", ERR_FORK);
+        if (!pid) {
+            consumer(i + 1);
+        } else {
+            childs++;
+        }
+    }
+}
+
+void wait_childs()
+{
+    while (childs--) wait(NULL);
+}
+
+
+void cleanup()
+{
+    if (mem_ptr != (void *) -1) shmdt(mem_ptr);
+    if (sem_id >= 0) semctl(sem_id, 0, IPC_RMID);
+    if (shm_id >= 0) shmctl(shm_id, IPC_RMID, 0);
+}
+
+#pragma clang diagnostic pop
