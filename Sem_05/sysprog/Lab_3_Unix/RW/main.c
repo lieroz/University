@@ -94,7 +94,7 @@ void reader(int id)
 
         if (*mem_ptr > ITERATIONS) exit(OK);
 
-        sleep(rand() % 3);
+        sleep((unsigned int) (rand() % 3)); // NOLINT
     }
 }
 
@@ -107,7 +107,7 @@ void writer(int id)
 
         if (*mem_ptr > ITERATIONS) exit(OK);
 
-        sleep(rand() % 3);
+        sleep((unsigned int) (rand() % 3)); // NOLINT
     }
 }
 
