@@ -107,7 +107,7 @@ int main()
 
     atexit(cleanup);
 
-    num = mmap(NULL, sizeof *num, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    num = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     *num = 1;
 
     if ((shm_id = shmget(IPC_PRIVATE, (BUF_SIZE + 1) * sizeof(int), perms)) == -1) {
@@ -178,6 +178,7 @@ void cleanup()
     if (mem_ptr != (void *) -1) shmdt(mem_ptr);
     if (sem_id >= 0) semctl(sem_id, 0, IPC_RMID);
     if (shm_id >= 0) shmctl(shm_id, IPC_RMID, 0);
+    if (num != NULL) munmap(num, sizeof(int));
 }
 
 #pragma clang diagnostic pop
