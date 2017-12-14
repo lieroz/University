@@ -76,15 +76,15 @@ void producer(int id)
 {
     while (1) {
         semop(sem_id, producer_p, 2);
-
         buf[*mem_ptr] = *num;
+
         printf("Producer #%d wrote %d in cell [%d]\n", id, buf[*mem_ptr], *mem_ptr);
 
-        *mem_ptr = (*mem_ptr + 1) % (BUF_SIZE);
+        (*mem_ptr)++;
+        (*num)++;
         semop(sem_id, producer_v, 2);
 
-        *num = (*num + 1) % (MAX_VAL + 1);
-        sleep((unsigned int) (rand() % 3)); // NOLINT
+        sleep(1);
     }
 }
 
@@ -92,12 +92,10 @@ void consumer(int id)
 {
     while (1) {
         semop(sem_id, consumer_p, 2);
-
-        *mem_ptr = (*mem_ptr > 1) ? (*mem_ptr - 1) : 0;
-        printf("\tConsumer #%d read %d from cell [%d]\n", id, buf[*mem_ptr], *mem_ptr);
-
+        printf("\tConsumer #%d read %d from cell [%d]\n", id, buf[*mem_ptr-1], *mem_ptr-1);
         semop(sem_id, consumer_v, 2);
-        sleep((unsigned int) (rand() % 5)); // NOLINT
+
+        sleep(1);
     }
 }
 
