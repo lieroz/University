@@ -1,7 +1,0 @@
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\bin\Debug\DataGenerator.exe.config
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\bin\Debug\DataGenerator.exe
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\bin\Debug\DataGenerator.pdb
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\obj\Debug\DataGenerator.csprojResolveAssemblyReference.cache
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\obj\Debug\DataGenerator.csproj.CoreCompileInputs.cache
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\obj\Debug\DataGenerator.exe
-C:\Users\akama\Desktop\Базы Данных\DB_LAB1\DataGenerator\DataGenerator\obj\Debug\DataGenerator.pdb
