@@ -80,7 +80,6 @@ void producer(int id)
 
         printf("Producer #%d wrote %d in cell [%d]\n", id, buf[*mem_ptr], *mem_ptr);
 
-        (*mem_ptr)++;
         (*num)++;
         semop(sem_id, producer_v, 2);
 
@@ -92,7 +91,8 @@ void consumer(int id)
 {
     while (1) {
         semop(sem_id, consumer_p, 2);
-        printf("\tConsumer #%d read %d from cell [%d]\n", id, buf[*mem_ptr-1], *mem_ptr-1);
+        printf("\tConsumer #%d read %d from cell [%d]\n", id, buf[*mem_ptr], *mem_ptr);
+        *mem_ptr = *mem_ptr == BUF_SIZE - 1 ? 0 : *mem_ptr + 1;
         semop(sem_id, consumer_v, 2);
 
         sleep(1);
