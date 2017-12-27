@@ -40,7 +40,7 @@ func (m *Matrix) Set(row, col, val int) {
 func (m *Matrix) String() string {
 	var result string
 	for i := 0; i < m.Rows; i++ {
-		for j := 0; j < m.Cols; j ++ {
+		for j := 0; j < m.Cols; j++ {
 			result += fmt.Sprintf("%5d", m.Get(i, j))
 		}
 		result += "\n"

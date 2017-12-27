@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"math"
+	"testing"
 )
 
 const (

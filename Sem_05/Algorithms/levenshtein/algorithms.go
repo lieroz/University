@@ -60,7 +60,7 @@ func LevenshteinOptimized(first, second string) int {
 		storage[0][i] = i
 	}
 	storage[1][0] = 1
-	for i := 1; i < cols; i ++ {
+	for i := 1; i < cols; i++ {
 		flag := 0
 		if first[0] != second[i-1] {
 			flag = 1
@@ -78,7 +78,7 @@ func LevenshteinOptimized(first, second string) int {
 			float64(storage[2][0]+1))), float64(storage[1][0]+flag)))
 		for j := 2; j < cols; j++ {
 			flag := 0
-			if first[i-1] != second[j-1]{
+			if first[i-1] != second[j-1] {
 				flag = 1
 			}
 			a := float64(math.Min(float64(storage[1][j]+1), float64(storage[2][j-1]+1)))

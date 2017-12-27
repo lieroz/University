@@ -1,16 +1,16 @@
 package main
 
 import (
-	"sync"
-	"sort"
-	"strings"
 	"fmt"
+	"sort"
 	"strconv"
+	"strings"
+	"sync"
 )
 
 const (
-	Th   = 6
-	Base = 10
+	Th       = 6
+	Base     = 10
 	sliceLen = 10
 )
 
@@ -98,7 +98,7 @@ func fib() func() int {
 	a, b := 0, 1
 	var tmp int
 	return func() int {
-		tmp, a, b = a, b, a + b
+		tmp, a, b = a, b, a+b
 		return tmp
 	}
 }
