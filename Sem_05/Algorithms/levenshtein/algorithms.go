@@ -1,6 +1,8 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 func LevenshteinIteraitive(first, second string) int {
 	lenFirst, lenSecond := len(first), len(second)

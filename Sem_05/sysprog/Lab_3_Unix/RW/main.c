@@ -11,8 +11,7 @@ const int READERS_COUNT = 5;
 const int WRITERS_COUNT = 3;
 const int ITERATIONS = 20;
 
-enum errors
-{
+enum errors {
     OK = 0,
     ERR_FORK,
     ERR_SHMGET,
@@ -33,7 +32,7 @@ void cleanup();
 int shm_id = -1;
 int sem_id = -1;
 
-char *mem_ptr = (char *) -1;
+char *mem_ptr = (char *) - 1;
 
 int childs = 0;
 
@@ -43,26 +42,26 @@ int childs = 0;
 #define WAITING_READER 3
 
 struct sembuf start_reader[5] = {
-        {WAITING_READER, 1,  0},
-        {WRITER_FLAG,    0,  0},
-        {WAITING_WRITER, 0,  0},
-        {ACTIVE_READER,  1,  0},
-        {WAITING_READER, -1, 0}
+    {WAITING_READER, 1,  0},
+    {WRITER_FLAG,    0,  0},
+    {WAITING_WRITER, 0,  0},
+    {ACTIVE_READER,  1,  0},
+    {WAITING_READER, -1, 0}
 };
 
 struct sembuf stop_reader[1] = {
-        {ACTIVE_READER, -1, 0}
+    {ACTIVE_READER, -1, 0}
 };
 
 struct sembuf start_writer[4] = {
-        {WAITING_WRITER, 1,  0},
-        {ACTIVE_READER,  0,  0},
-        {WRITER_FLAG,    -1, 0},
-        {WAITING_WRITER, -1, 0}
+    {WAITING_WRITER, 1,  0},
+    {ACTIVE_READER,  0,  0},
+    {WRITER_FLAG,    -1, 0},
+    {WAITING_WRITER, -1, 0}
 };
 
 struct sembuf stop_writer[1] = {
-        {WRITER_FLAG, 1, 0}
+    {WRITER_FLAG, 1, 0}
 };
 
 void start_read()
@@ -121,7 +120,7 @@ int main(int argc, char *argv[])
         pexit("shmget", ERR_SHMGET);
     }
 
-    if ((mem_ptr = shmat(shm_id, NULL, 0)) == (void *) -1) {
+    if ((mem_ptr = shmat(shm_id, NULL, 0)) == (void *) - 1) {
         pexit("shmat", ERR_SHMAT);
     }
 
@@ -190,7 +189,7 @@ void wait_childs()
 
 void cleanup()
 {
-    if (mem_ptr != (void *) -1) shmdt(mem_ptr);
+    if (mem_ptr != (void *) - 1) shmdt(mem_ptr);
     if (sem_id >= 0) semctl(sem_id, 0, IPC_RMID);
     if (shm_id >= 0) shmctl(shm_id, IPC_RMID, 0);
 }
