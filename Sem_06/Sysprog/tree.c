@@ -74,23 +74,16 @@ void append(vector_t *vec, void *arg)
     vec->data[vec->count++] = arg;
 }
 
-void compare_and_swap(void **a, void **b)
+void sort_vector(vector_t *vec, int (*cmpfunc)(const void *, const void *))
 {
-    if (strcmp(((struct dirent *) * (a))->d_name,
-               ((struct dirent *) * (b))->d_name) > 0) {
-        void *tmp = *a;
-        *a = *b;
-        *b = tmp;
-    }
+    qsort(vec->data, vec->count, sizeof(void *), cmpfunc);
 }
 
-void sort_vector(vector_t *vec, void (*cmpfunc)(void **, void **))
+int dirent_cmpfunc(const void *_a, const void *_b)
 {
-    for (unsigned i = 0; i < vec->count; ++i) {
-        for (unsigned j = 0; j < vec->count - i - 1; ++j) {
-            cmpfunc(&vec->data[j], &vec->data[j + 1]);
-        }
-    }
+    struct dirent *a = *(struct dirent **) _a;
+    struct dirent *b = *(struct dirent **) _b;
+    return strcmp(a->d_name, b->d_name) > 0;
 }
 
 void listdir(const char *name, const char *fmt, bool print_files)
@@ -115,7 +108,7 @@ void listdir(const char *name, const char *fmt, bool print_files)
         append(vec, entry);
     }
 
-    sort_vector(vec, compare_and_swap);
+    sort_vector(vec, dirent_cmpfunc);
 
     for (unsigned i = 0; i < vec->count; ++i) {
         entry = (struct dirent *) vec->data[i];
