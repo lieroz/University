@@ -26,10 +26,78 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+#define INIT_VEC_SIZE 8
+#define VEC_MULT 3
+
+typedef struct vector {
+    unsigned count;
+    unsigned capacity;
+    void **data;
+} vector_t;
+
+vector_t *new_vector()
+{
+    vector_t *vec = (vector_t *) malloc(sizeof(vector_t));
+    if (vec == NULL) return NULL;
+
+    vec->data = (void **) malloc(INIT_VEC_SIZE * sizeof(void *));
+    if (vec->data == NULL) return NULL;
+
+    vec->count = 0;
+    vec->capacity = INIT_VEC_SIZE;
+
+    return vec;
+}
+
+void delete_vector(vector_t **vec)
+{
+    if (vec == NULL) return;
+
+    free((*vec)->data);
+    (*vec)->count = (*vec)->capacity = 0;
+    free(*vec);
+}
+
+void append(vector_t *vec, void *arg)
+{
+    if (vec->count == vec->capacity) {
+        vec->capacity *= VEC_MULT;
+        void **tmp = (void **) realloc(vec->data, vec->capacity * sizeof(void *));
+
+        if (tmp == NULL) {
+            return;
+        } else {
+            vec->data = tmp;
+        }
+    }
+
+    vec->data[vec->count++] = arg;
+}
+
+void compare_and_swap(void **a, void **b)
+{
+    if (strcmp(((struct dirent *) * (a))->d_name,
+               ((struct dirent *) * (b))->d_name) > 0) {
+        void *tmp = *a;
+        *a = *b;
+        *b = tmp;
+    }
+}
+
+void sort_vector(vector_t *vec, void (*cmpfunc)(void **, void **))
+{
+    for (unsigned i = 0; i < vec->count; ++i) {
+        for (unsigned j = 0; j < vec->count - i - 1; ++j) {
+            cmpfunc(&vec->data[j], &vec->data[j + 1]);
+        }
+    }
+}
+
 void listdir(const char *name, const char *fmt, bool print_files)
 {
     DIR *dir;
-    struct dirent *entry, *last_entry;
+    vector_t *vec = new_vector();
+    struct dirent *entry;
     struct stat st;
     const char *indent = "├── ";
 
@@ -38,24 +106,23 @@ void listdir(const char *name, const char *fmt, bool print_files)
     }
 
     while ((entry = readdir(dir)) != NULL) {
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-            continue;
+        if (entry->d_type == DT_DIR) {
+            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+                continue;
+            }
         }
 
-        last_entry = entry;
+        append(vec, entry);
     }
 
-    rewinddir(dir);
+    sort_vector(vec, compare_and_swap);
 
-    while ((entry = readdir(dir)) != NULL) {
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-            continue;
-        }
-
+    for (unsigned i = 0; i < vec->count; ++i) {
+        entry = (struct dirent *) vec->data[i];
         char path[strlen(name) + strlen(entry->d_name) + 3];
         char format[strlen(fmt) + 7];
 
-        if (entry == last_entry) {
+        if (entry == vec->data[vec->count - 1]) {
             indent = "└── ";
             snprintf(format, sizeof(format), "%s%*s", fmt, 4, "");
         } else {
@@ -75,6 +142,7 @@ void listdir(const char *name, const char *fmt, bool print_files)
         }
     }
 
+    delete_vector(&vec);
     closedir(dir);
 }
 
