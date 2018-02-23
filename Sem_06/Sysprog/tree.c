@@ -86,7 +86,7 @@ int dirent_cmpfunc(const void *_a, const void *_b)
     return strcmp(a->d_name, b->d_name) > 0;
 }
 
-void listdir(const char *name, const char *fmt, bool print_files)
+int listdir(const char *name, const char *fmt, bool print_files)
 {
     DIR *dir;
     vector_t *vec = new_vector();
@@ -95,7 +95,7 @@ void listdir(const char *name, const char *fmt, bool print_files)
     const char *indent = "├── ";
 
     if (!(dir = opendir(name))) {
-        return;
+        return 1;
     }
 
     while ((entry = readdir(dir)) != NULL) {
@@ -115,7 +115,7 @@ void listdir(const char *name, const char *fmt, bool print_files)
         char path[strlen(name) + strlen(entry->d_name) + 3];
         char format[strlen(fmt) + 7];
 
-        if (entry == vec->data[vec->count - 1]) {
+        if (i == vec->count - 1) {
             indent = "└── ";
             snprintf(format, sizeof(format), "%s%*s", fmt, 4, "");
         } else {
@@ -137,17 +137,33 @@ void listdir(const char *name, const char *fmt, bool print_files)
 
     delete_vector(&vec);
     closedir(dir);
+
+    return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2 || argc > 3) {
-        fprintf(stderr, "Invalid amount of arguments!");
-        return 1;
+    if (argc == 1) {
+        listdir(".", "", false);
+    } else if (argc == 2) {
+        if (strcmp(argv[1], "-f") == 0) {
+            listdir(".", "", true);
+        } else {
+            if (listdir(argv[1], "", false) != 0) {
+                fprintf(stderr, "Directory not found!\n");
+            }
+        }
+    } else if (argc == 3) {
+        if (strcmp(argv[2], "-f") == 0) {
+            if (listdir(argv[1], "", true) != 0) {
+                fprintf(stderr, "Directory not found!\n");
+            }
+        } else {
+            fprintf(stderr, "Unknown argument: [%s]\n", argv[2]);
+        }
+    } else {
+        fprintf(stderr, "Invalid amount of arguments!\n");
     }
-
-    bool print_files = argc == 3 ? strcmp(argv[2], "-f") == 0 : false;
-    listdir(argv[1], "", print_files);
 
     return 0;
 }
