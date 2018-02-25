@@ -6,6 +6,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_subdirectory(src)
+
+include_directories(src)
+
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
 add_executable(${PROJECT_NAME} "main.cpp" "qml.qrc")
