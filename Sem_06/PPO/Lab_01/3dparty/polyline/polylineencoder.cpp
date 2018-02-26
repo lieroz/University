@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <QVector>
-
 #include "polylineencoder.h"
 
 static const qreal  s_presision   = 100000.0;
@@ -33,16 +31,96 @@ static const qint32 s_asciiOffset = 63;
 static const qint32 s_5bitMask    = 0x1f; // 0b11111 = 31
 static const qint32 s_6bitMask    = 0x20; // 0b100000 = 32
 
-void PolylineEncoder::addPoint(qreal latitude, qreal longitude)
+PolylineEncoder::PolylineEncoder()
 {
-    Q_ASSERT(latitude <= 90.0 && latitude >= -90.0);
-    Q_ASSERT(longitude <= 180.0 && longitude >= -180.0);
 
-    m_polyline.append(QPointF(latitude, longitude));
 }
 
-QString PolylineEncoder::encode() const
+PolylineEncoder::PolylineEncoder(const PolylineEncoder &encoder)
 {
+    QVector<QPointF> tmp(encoder.m_polyline);
+    m_polyline.swap(tmp);
+}
+
+PolylineEncoder::~PolylineEncoder()
+{
+
+}
+
+PolylineEncoder &PolylineEncoder::operator=(const PolylineEncoder &encoder)
+{
+    m_polyline = encoder.m_polyline;
+}
+
+void PolylineEncoder::addPoint(const QPointF &point)
+{
+    Q_ASSERT(point.x() <= 90.0 && point.x() >= -90.0);
+    Q_ASSERT(point.y() <= 180.0 && point.y() >= -180.0);
+
+    QWriteLocker guard(&m_rwlock);
+    m_polyline.append(point);
+}
+
+void PolylineEncoder::addPoints(const QVector<QPointF> &points)
+{
+    QWriteLocker guard(&m_rwlock);
+
+    Q_FOREACH (QPointF point, points) {
+        m_polyline.append(point);
+    }
+}
+
+void PolylineEncoder::insertPoint(qint32 index, const QPointF &point)
+{
+    Q_ASSERT(point.x() <= 90.0 && point.x() >= -90.0);
+    Q_ASSERT(point.y() <= 180.0 && point.y() >= -180.0);
+
+    QWriteLocker guard(&m_rwlock);
+    m_polyline.insert(index, point);
+}
+
+void PolylineEncoder::insertPoints(qint32 index, const QVector<QPointF> &points)
+{
+    QWriteLocker guard(&m_rwlock);
+
+    Q_FOREACH (QPointF point, points) {
+        m_polyline.insert(index++, point);
+    }
+}
+
+void PolylineEncoder::removePoint(qint32 index)
+{
+    QWriteLocker guard(&m_rwlock);
+    m_polyline.remove(index);
+}
+
+void PolylineEncoder::removePoints(qint32 index, qint32 n)
+{
+    QWriteLocker guard(&m_rwlock);
+    m_polyline.remove(index, n);
+}
+
+void PolylineEncoder::replacePoint(qint32 index, const QPointF &point)
+{
+    Q_ASSERT(point.x() <= 90.0 && point.x() >= -90.0);
+    Q_ASSERT(point.y() <= 180.0 && point.y() >= -180.0);
+
+    QWriteLocker guard(&m_rwlock);
+    m_polyline.replace(index, point);
+}
+
+void PolylineEncoder::replacePoints(qint32 index, const QVector<QPointF> &points)
+{
+    QWriteLocker guard(&m_rwlock);
+
+    Q_FOREACH (QPointF point, points) {
+        m_polyline.replace(index++, point);
+    }
+}
+
+QString PolylineEncoder::encode()
+{
+    QReadLocker guard(&m_rwlock);
     return encode(m_polyline);
 }
 
@@ -77,7 +155,7 @@ QString PolylineEncoder::encode(qreal value)
     return result;
 }
 
-QString PolylineEncoder::encode(const PolylineEncoder::Polyline &polyline)
+QString PolylineEncoder::encode(const QVector<QPointF> &polyline)
 {
     QString result;
 
@@ -123,9 +201,9 @@ qreal PolylineEncoder::decode(const QString &coords, size_t &i)
     return result / s_presision; // (2)
 }
 
-PolylineEncoder::Polyline PolylineEncoder::decode(const QString &coords)
+QVector<QPointF> PolylineEncoder::decode(const QString &coords)
 {
-    PolylineEncoder::Polyline polyline;
+    QVector<QPointF> polyline;
 
     size_t i = 0;
     while (i < coords.size()) {
@@ -143,12 +221,14 @@ PolylineEncoder::Polyline PolylineEncoder::decode(const QString &coords)
     return polyline;
 }
 
-const PolylineEncoder::Polyline &PolylineEncoder::polyline() const
+const QVector<QPointF> &PolylineEncoder::polyline()
 {
+    QReadLocker guard(&m_rwlock);
     return m_polyline;
 }
 
 void PolylineEncoder::clear()
 {
+    QWriteLocker guard(&m_rwlock);
     m_polyline.clear();
 }

@@ -25,3 +25,25 @@ public:
 protected:
     QString m_message;
 };
+
+class FileException : public AbstractException
+{
+public:
+    FileException(QString message) : AbstractException(message)
+    {
+    }
+
+    virtual ~FileException()
+    {
+    }
+
+    virtual void raise() const
+    {
+        throw *this;
+    }
+
+    virtual FileException *clone() const
+    {
+        return new FileException(*this);
+    }
+};
