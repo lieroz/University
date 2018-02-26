@@ -1,11 +1,11 @@
 #pragma once
 
-#include <dataloaders/dataloader.h>
+#include <dataloaders/abstractdataloader.h>
 
-class XMLDataLoader : public DataLoader
+class XMLDataLoader : public AbstractDataLoader
 {
 public:
-    XMLDataLoader(QObject *parent = Q_NULLPTR);
+    XMLDataLoader(QString fileName, QObject *parent = Q_NULLPTR);
     virtual ~XMLDataLoader();
 
     virtual void load() override;

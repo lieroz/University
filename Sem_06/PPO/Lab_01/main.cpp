@@ -1,5 +1,10 @@
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QPointer>
+
+#include <dataloaders/abstractdataloader.h>
+#include <dataloaders/gpxdataloader.h>
+#include <3dparty/polyline/polylineencoder.h>
 
 int main(int argc, char *argv[])
 {

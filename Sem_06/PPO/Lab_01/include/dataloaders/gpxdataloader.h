@@ -5,7 +5,7 @@
 class GPXDataLoader : public XMLDataLoader
 {
 public:
-    GPXDataLoader(QObject *parent = Q_NULLPTR);
+    GPXDataLoader(QString fileName, QObject *parent = Q_NULLPTR);
     virtual~GPXDataLoader();
 
     virtual void load() override;

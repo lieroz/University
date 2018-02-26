@@ -1,7 +1,7 @@
 #include <dataloaders/xmldataloader.h>
 
-
-XMLDataLoader::XMLDataLoader(QObject *parent) : DataLoader(parent)
+XMLDataLoader::XMLDataLoader(QString fileName, QObject *parent)
+    : AbstractDataLoader(fileName, parent)
 {
 }
 
