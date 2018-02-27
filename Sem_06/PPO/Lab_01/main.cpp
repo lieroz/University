@@ -2,21 +2,20 @@
 #include <QQuickView>
 #include <QPointer>
 
-#include <dataloaders/abstractdataloader.h>
-#include <dataloaders/gpxdataloader.h>
+#include <libaccessfacade.h>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc,argv);
+    QGuiApplication app(argc, argv);
 
-//    QString filePath = "/home/lieroz/University/Sem_06/PPO/Lab_01/route1.gpx";
-//    QPointer<AbstractDataLoader> loader = new GPXDataLoader(filePath, "trkpt");
-//    loader->load();
+    QString filePath = "/home/lieroz/University/Sem_06/PPO/Lab_01/route1.gpx";
+    LibAccessFacade facade;
+    facade.load(filePath);
 
     QQuickView view;
     view.setSource(QUrl(QStringLiteral("qrc:///main.qml")));
-    view.setWidth(360);
-    view.setHeight(640);
+    view.setWidth(640);
+    view.setHeight(480);
     view.show();
 
     return app.exec();

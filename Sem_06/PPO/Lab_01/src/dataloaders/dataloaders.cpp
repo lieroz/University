@@ -1,27 +1,34 @@
-#include <dataloaders/gpxdataloader.h>
+#include <dataloaders/dataloaders.h>
 #include <common/exceptions.h>
 
 #include <QFile>
 #include <QXmlStreamReader>
-#include <QFileInfo>
 #include <QDebug>
 
-GPXDataLoader::GPXDataLoader(QString fileName, QString field, QObject *parent)
-    : XMLDataLoader(fileName, field, parent)
+AbstractDataLoader::AbstractDataLoader(const QString &fileName, QObject *parent)
+    : m_fileName(fileName), QObject(parent)
 {
 }
 
-GPXDataLoader::~GPXDataLoader()
+AbstractDataLoader::~AbstractDataLoader()
 {
 }
 
-void GPXDataLoader::load()
-{
-    QFileInfo fileInfo(m_fileName);
-    if (!fileInfo.exists() || !fileInfo.isFile()) {
-        throw FileException("file doesn't exist");
-    }
+/******************************************************************************
+** GPXDataLoader
+*/
 
+GpxDataLoader::GpxDataLoader(const QString &fileName, QObject *parent)
+    : AbstractDataLoader(fileName, parent)
+{
+}
+
+GpxDataLoader::~GpxDataLoader()
+{
+}
+
+void GpxDataLoader::load()
+{
     QFile file(m_fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         throw FileException("error opening file");
@@ -33,7 +40,7 @@ void GPXDataLoader::load()
         if (inputStream.isStartElement()) {
 
             QString field = inputStream.name().toString();
-            if (field == m_field) {
+            if (field == "trkpt") {
                 qDebug() << "lon:" << inputStream.attributes().value("lon").toDouble()
                          << "lat:" << inputStream.attributes().value("lat").toDouble();
             }
@@ -41,7 +48,7 @@ void GPXDataLoader::load()
     }
 }
 
-void GPXDataLoader::save()
+void GpxDataLoader::save()
 {
 
 }

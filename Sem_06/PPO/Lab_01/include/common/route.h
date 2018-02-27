@@ -2,8 +2,9 @@
 
 #include <QObject>
 #include <QDateTime>
+#include <QReadWriteLock>
 
-#include <polyline/polylineencoder.h>
+#include <polylineencoder.h>
 
 class Route : public QObject
 {
@@ -45,4 +46,5 @@ private:
     qint32 m_length;
     QDateTime m_date;
     PolylineEncoder m_encoder;
+    QReadWriteLock m_rwlock;
 };

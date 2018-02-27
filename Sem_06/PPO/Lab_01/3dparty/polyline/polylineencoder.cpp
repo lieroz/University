@@ -57,14 +57,11 @@ void PolylineEncoder::addPoint(const QPointF &point)
     Q_ASSERT(point.x() <= 90.0 && point.x() >= -90.0);
     Q_ASSERT(point.y() <= 180.0 && point.y() >= -180.0);
 
-    QWriteLocker guard(&m_rwlock);
     m_polyline.append(point);
 }
 
 void PolylineEncoder::addPoints(const QVector<QPointF> &points)
 {
-    QWriteLocker guard(&m_rwlock);
-
     Q_FOREACH (QPointF point, points) {
         m_polyline.append(point);
     }
@@ -75,14 +72,11 @@ void PolylineEncoder::insertPoint(qint32 index, const QPointF &point)
     Q_ASSERT(point.x() <= 90.0 && point.x() >= -90.0);
     Q_ASSERT(point.y() <= 180.0 && point.y() >= -180.0);
 
-    QWriteLocker guard(&m_rwlock);
     m_polyline.insert(index, point);
 }
 
 void PolylineEncoder::insertPoints(qint32 index, const QVector<QPointF> &points)
 {
-    QWriteLocker guard(&m_rwlock);
-
     Q_FOREACH (QPointF point, points) {
         m_polyline.insert(index++, point);
     }
@@ -90,13 +84,11 @@ void PolylineEncoder::insertPoints(qint32 index, const QVector<QPointF> &points)
 
 void PolylineEncoder::removePoint(qint32 index)
 {
-    QWriteLocker guard(&m_rwlock);
     m_polyline.remove(index);
 }
 
 void PolylineEncoder::removePoints(qint32 index, qint32 n)
 {
-    QWriteLocker guard(&m_rwlock);
     m_polyline.remove(index, n);
 }
 
@@ -105,14 +97,11 @@ void PolylineEncoder::replacePoint(qint32 index, const QPointF &point)
     Q_ASSERT(point.x() <= 90.0 && point.x() >= -90.0);
     Q_ASSERT(point.y() <= 180.0 && point.y() >= -180.0);
 
-    QWriteLocker guard(&m_rwlock);
     m_polyline.replace(index, point);
 }
 
 void PolylineEncoder::replacePoints(qint32 index, const QVector<QPointF> &points)
 {
-    QWriteLocker guard(&m_rwlock);
-
     Q_FOREACH (QPointF point, points) {
         m_polyline.replace(index++, point);
     }
@@ -120,7 +109,6 @@ void PolylineEncoder::replacePoints(qint32 index, const QVector<QPointF> &points
 
 QString PolylineEncoder::encode()
 {
-    QReadLocker guard(&m_rwlock);
     return encode(m_polyline);
 }
 
@@ -223,12 +211,10 @@ QVector<QPointF> PolylineEncoder::decode(const QString &coords)
 
 const QVector<QPointF> &PolylineEncoder::polyline()
 {
-    QReadLocker guard(&m_rwlock);
     return m_polyline;
 }
 
 void PolylineEncoder::clear()
 {
-    QWriteLocker guard(&m_rwlock);
     m_polyline.clear();
 }

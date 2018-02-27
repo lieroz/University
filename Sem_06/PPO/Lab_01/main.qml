@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtPositioning 5.5
 import QtLocation 5.6
-import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 
 Rectangle {

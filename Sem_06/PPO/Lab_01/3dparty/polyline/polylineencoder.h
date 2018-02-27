@@ -28,7 +28,6 @@ SOFTWARE.
 
 #include <QPointF>
 #include <QVector>
-#include <QReadWriteLock>
 
 //! Implements Google's polyline compression algorithm.
 /*!
@@ -95,7 +94,6 @@ private:
 
     //! Store the polyline - the list of points.
     QVector<QPointF> m_polyline;
-    QReadWriteLock m_rwlock;
 };
 
 #endif // POLYLINEENCODER_H

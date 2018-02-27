@@ -64,50 +64,60 @@ const QDateTime &Route::getDate() const
 
 void Route::appendCoordinate(const QPointF &coord)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.addPoint(coord);
 }
 
 void Route::appendCoordinates(const QVector<QPointF> &coords)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.addPoints(coords);
 }
 
 void Route::insertCoordinate(qint32 index, const QPointF &coord)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.insertPoint(index, coord);
 }
 
 void Route::insertCoordinates(qint32 index, const QVector<QPointF> &coords)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.insertPoints(index, coords);
 }
 
 void Route::removeCoordinate(qint32 index)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.removePoint(index);
 }
 
 void Route::removeCoordinates(qint32 index, qint32 n)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.removePoints(index, n);
 }
 
 void Route::replaceCoordinate(qint32 index, const QPointF &coord)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.replacePoint(index, coord);
 }
 
 void Route::replaceCoordinates(qint32 index, const QVector<QPointF> &coords)
 {
+    QWriteLocker guard(&m_rwlock);
     m_encoder.replacePoints(index, coords);
 }
 
 const QVector<QPointF> &Route::getCoordinates()
 {
+    QReadLocker guard(&m_rwlock);
     return m_encoder.polyline();
 }
 
 QString Route::getPolyline()
 {
+    QReadLocker guard(&m_rwlock);
     return m_encoder.encode();
 }

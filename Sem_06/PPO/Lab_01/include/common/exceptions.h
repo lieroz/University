@@ -47,3 +47,25 @@ public:
         return new FileException(*this);
     }
 };
+
+class ExtensionException : public AbstractException
+{
+public:
+    ExtensionException(QString message) : AbstractException(message)
+    {
+    }
+
+    virtual ~ExtensionException()
+    {
+    }
+
+    virtual void raise() const
+    {
+        throw *this;
+    }
+
+    virtual ExtensionException *clone() const
+    {
+        return new ExtensionException(*this);
+    }
+};
