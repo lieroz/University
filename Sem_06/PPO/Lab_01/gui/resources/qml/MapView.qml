@@ -4,9 +4,8 @@ import QtLocation 5.6
 import QtQuick.Controls.Material 2.1
 
 Rectangle {
+    id: mapView
     anchors.fill: parent
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
 
     Plugin {
         id: osmPlugin
@@ -21,7 +20,7 @@ Rectangle {
         MapPolyline {
             id: polyline
             line.width: 3
-            line.color: 'red'
+            line.color: Material.color(Material.Red)
         }
     }
 
@@ -40,21 +39,24 @@ Rectangle {
         property var polylinePoints: []
 
         onPressed : {
-            if (mouse.button & Qt.LeftButton) {
-                var coord = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-                polylinePoints.push(coord)
-                polyline.addCoordinate(coord)
-            } else {
-                polyline.removeCoordinate(polylinePoints.pop())
-            }
-        }
-
-        onPressAndHold: {
-            polyline.removeCoordinate(polylinePoints.pop())
             mouseDown = true
             lastX = mouse.x
             lastY = mouse.y
+//                        if (mouse.button & Qt.LeftButton) {
+//                            var coord = map.toCoordinate(Qt.point(mouse.x, mouse.y))
+//                            polylinePoints.push(coord)
+//                            polyline.addCoordinate(coord)
+//                        } else {
+//                            polyline.removeCoordinate(polylinePoints.pop())
+//                        }
         }
+
+//                    onPressAndHold: {
+//                        polyline.removeCoordinate(polylinePoints.pop())
+//                        mouseDown = true
+//                        lastX = mouse.x
+//                        lastY = mouse.y
+//                    }
 
         onReleased : {
             mouseDown = false
