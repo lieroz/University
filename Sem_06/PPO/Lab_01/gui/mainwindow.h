@@ -22,10 +22,10 @@ public:
 
 private Q_SLOTS:
     void routeInfoTableItemChanged(QTableWidgetItem *item);
-    void routeInfoTableColumnSelected(QModelIndex index);
+    void routeInfoTableRowSelected(QModelIndex index);
 
     void routeTableItemChanged(QTableWidgetItem *item);
-    void routeTableColumnSelected(QModelIndex index);
+    void routeTableRowSelected(QModelIndex index);
 
     void openFile();
 

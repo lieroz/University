@@ -5,7 +5,7 @@
 #include <QFileDialog>
 #include <QDir>
 
-QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length", "Date"};
+QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Longitude", "Latitude"};
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     m_accessor.reset(new LibAccessFacade(this));
 
-    QQuickView *view = new QQuickView();
+    QQuickView *view = new QQuickView;
     QWidget *container = QWidget::createWindowContainer(view, this);
     container->setFocusPolicy(Qt::TabFocus);
     view->setSource(QUrl(QStringLiteral("qrc:/gui/resources/qml/MapView.qml")));
@@ -33,22 +33,33 @@ MainWindow::~MainWindow()
 
 void MainWindow::routeInfoTableItemChanged(QTableWidgetItem *item)
 {
-    qDebug() << item->column() << " " << item->row();
+
 }
 
-void MainWindow::routeInfoTableColumnSelected(QModelIndex index)
+void MainWindow::routeInfoTableRowSelected(QModelIndex index)
 {
-    qDebug() << index.row();
+    Route route = m_accessor->getRoute(index.row());
+    if (ui->routeTableView->rowCount() != 0) {
+        ui->routeTableView->clearContents();
+    }
+    ui->routeTableView->setRowCount(0);
+
+    Q_FOREACH (QGeoCoordinate coord, route.getCoordinates()) {
+        auto rowCount = ui->routeTableView->rowCount();
+        ui->routeTableView->insertRow(rowCount);
+        ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(coord.latitude())));
+        ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
+    }
 }
 
 void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
 {
-    qDebug() << item->column() << " " << item->row();
+
 }
 
-void MainWindow::routeTableColumnSelected(QModelIndex index)
+void MainWindow::routeTableRowSelected(QModelIndex index)
 {
-    qDebug() << index.row();
+
 }
 
 void MainWindow::openFile()
@@ -57,7 +68,13 @@ void MainWindow::openFile()
                             tr("FileDialog"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
 
     Q_FOREACH (QString fileName, fileNames) {
-        m_accessor->load(fileName);
+        Route route = m_accessor->load(fileName);
+        auto rowCount = ui->routeInfoTableView->rowCount();
+        ui->routeInfoTableView->insertRow(rowCount);
+
+        ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem(route.getName()));
+        ui->routeInfoTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(route.getLength() / 1000)));
+        ui->routeInfoTableView->setItem(rowCount, 2, new QTableWidgetItem(route.getDate().toString()));
     }
 }
 
@@ -80,11 +97,7 @@ void MainWindow::setUpRouteDataView()
     connect(ui->routeInfoTableView, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(routeInfoTableItemChanged(QTableWidgetItem *)));
     connect(ui->routeInfoTableView, SIGNAL(pressed(QModelIndex)),
-            this, SLOT(routeInfoTableColumnSelected(QModelIndex)));
-
-    ui->routeInfoTableView->insertRow(ui->routeInfoTableView->rowCount());
-    ui->routeInfoTableView->insertRow(ui->routeInfoTableView->rowCount());
-    ui->routeInfoTableView->insertRow(ui->routeInfoTableView->rowCount());
+            this, SLOT(routeInfoTableRowSelected(QModelIndex)));
 }
 
 void MainWindow::setUpRouteCoordinatesView()
@@ -101,9 +114,5 @@ void MainWindow::setUpRouteCoordinatesView()
     connect(ui->routeTableView, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(routeTableItemChanged(QTableWidgetItem *)));
     connect(ui->routeTableView, SIGNAL(pressed(QModelIndex)),
-            this, SLOT(routeTableColumnSelected(QModelIndex)));
-
-    ui->routeTableView->insertRow(ui->routeTableView->rowCount());
-    ui->routeTableView->insertRow(ui->routeTableView->rowCount());
-    ui->routeTableView->insertRow(ui->routeTableView->rowCount());
+            this, SLOT(routeTableRowSelected(QModelIndex)));
 }
