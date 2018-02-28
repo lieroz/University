@@ -45,8 +45,7 @@ private Q_SLOTS:
     void deleteRoutes();
 
     void addPoint();
-    void modifyPoint();
-    void removePoint();
+    void removePoints();
 
     void undo();
     void redo();

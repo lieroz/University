@@ -161,14 +161,20 @@ void MainWindow::addPoint()
 
 }
 
-void MainWindow::modifyPoint()
+void MainWindow::removePoints()
 {
+    const auto size = ui->routeTableView->selectionModel()->selectedRows().size();
+    Route &route = m_accessor->getRoute(m_selectedRow);
 
-}
+    for (auto i = 0; i < size; ++i) {
+        const auto index = ui->routeTableView->selectionModel()->selectedRows().first().row();
+        ui->routeTableView->removeRow(index);
+        m_accessor->getRoute(m_selectedRow).removeCoordinate(index);
+    }
 
-void MainWindow::removePoint()
-{
-
+    route.updateLength();
+    ui->routeInfoTableView->item(m_selectedRow, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 void MainWindow::undo()
@@ -187,8 +193,7 @@ void MainWindow::setUpActions()
     connect(ui->actionCreate, SIGNAL(triggered()), this, SLOT(createRoute()));
     connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(deleteRoutes()));
     connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addPoint()));
-    connect(ui->actionModify, SIGNAL(triggered()), this, SLOT(modifyPoint()));
-    connect(ui->actionRemove, SIGNAL(triggered()), this, SLOT(removePoint()));
+    connect(ui->actionRemove, SIGNAL(triggered()), this, SLOT(removePoints()));
     connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
     connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(redo()));
 }

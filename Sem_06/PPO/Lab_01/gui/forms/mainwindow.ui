@@ -104,7 +104,6 @@
    <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionAdd"/>
-   <addaction name="actionModify"/>
    <addaction name="actionRemove"/>
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
@@ -174,17 +173,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
-   </property>
-  </action>
-  <action name="actionModify">
-   <property name="text">
-    <string>Modify</string>
-   </property>
-   <property name="toolTip">
-    <string>Modify existing route point</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+M</string>
    </property>
   </action>
   <action name="actionRemove">
