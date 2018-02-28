@@ -5,9 +5,10 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QQmlContext>
+#include <QMessageBox>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
-QVector<QString> routeTableViewColumnNames = {"Longitude", "Latitude"};
+QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     m_accessor.reset(new LibAccessFacade(this));
+    m_selectedRow = 0;
+    m_cellModified = false;
 
     m_mapViewProxy.reset(new MapViewProxy);
     QQuickView *view = new QQuickView;
@@ -36,7 +39,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::routeInfoTableItemChanged(QTableWidgetItem *item)
 {
-
+    m_accessor->getRoute(item->row()).setName(item->text());
 }
 
 void MainWindow::routeInfoTableRowSelected(QModelIndex index)
@@ -55,24 +58,64 @@ void MainWindow::routeInfoTableRowSelected(QModelIndex index)
         ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
     }
 
+    m_selectedRow = index.row();
     ui->label->setText(QString("Polyline: %1").arg(route.getPolyline()));
     emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
-void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
+void MainWindow::routeTableItemDoubleClicked(int row, int column)
 {
+    Q_UNUSED(row);
+    Q_UNUSED(column);
 
+    m_cellModified = true;
 }
 
-void MainWindow::routeTableRowSelected(QModelIndex index)
+void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
 {
+    if (m_cellModified) {
+        Route &route = m_accessor->getRoute(m_selectedRow);
+        QGeoCoordinate coord = route.getCoordinates().coordinateAt(item->row());
+        bool ok = false;
+        qreal number = item->text().toDouble(&ok);
 
+        if (!ok) {
+            item->setText(item->column() == 0 ? QString::number(coord.latitude()) : QString::number(coord.longitude()));
+            QMessageBox::warning(nullptr, "Warning", "This field accepts only double type", QMessageBox::Ok);
+            return;
+        }
+
+        if (item->column() == 0) {
+            if (number < -90.0 || number > 90.0) {
+                item->setText(QString::number(coord.latitude()));
+                QMessageBox::warning(nullptr, "Warning", "Latitude can't be more than 90 and less than -90", QMessageBox::Ok);
+                return;
+            }
+
+            coord.setLatitude(number);
+        } else {
+            if (number < -180.0 || number > 180.0) {
+                item->setText(QString::number(coord.longitude()));
+                QMessageBox::warning(nullptr, "Warning", "Longitude can't be more than 180 and less than -180", QMessageBox::Ok);
+                return;
+            }
+
+            coord.setLongitude(number);
+        }
+
+        route.replaceCoordinate(item->row(), coord);
+        route.updateLength();
+        ui->routeInfoTableView->item(m_selectedRow, 1)->setText(QString::number(route.getLength() / 1000));
+        emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+        m_cellModified = false;
+    }
 }
 
 void MainWindow::importRoutes()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this,
                             tr("FileDialog"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
+    QTableWidgetItem *item;
 
     Q_FOREACH (QString fileName, fileNames) {
         Route route = m_accessor->load(fileName);
@@ -80,8 +123,14 @@ void MainWindow::importRoutes()
         ui->routeInfoTableView->insertRow(rowCount);
 
         ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem(route.getName()));
-        ui->routeInfoTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(route.getLength() / 1000)));
-        ui->routeInfoTableView->setItem(rowCount, 2, new QTableWidgetItem(route.getDate().toString()));
+
+        item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
+        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+        ui->routeInfoTableView->setItem(rowCount, 1, item);
+
+        item = new QTableWidgetItem(route.getDate().toString());
+        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+        ui->routeInfoTableView->setItem(rowCount, 2, item);
     }
 }
 
@@ -172,8 +221,8 @@ void MainWindow::setUpRouteCoordinatesView()
         ui->routeTableView->setHorizontalHeaderItem(i, item);
     }
 
+    connect(ui->routeTableView, SIGNAL(cellDoubleClicked(int, int)),
+            this, SLOT(routeTableItemDoubleClicked(int, int)));
     connect(ui->routeTableView, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(routeTableItemChanged(QTableWidgetItem *)));
-    connect(ui->routeTableView, SIGNAL(pressed(QModelIndex)),
-            this, SLOT(routeTableRowSelected(QModelIndex)));
 }

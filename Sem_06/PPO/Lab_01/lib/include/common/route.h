@@ -21,6 +21,7 @@ public:
     const QString &getName() const;
 
     void setLength(qreal length);
+    void updateLength();
     qreal getLength() const;
 
     void setDate(const QDateTime &date);

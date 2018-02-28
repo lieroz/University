@@ -37,8 +37,8 @@ private Q_SLOTS:
     void routeInfoTableItemChanged(QTableWidgetItem *item);
     void routeInfoTableRowSelected(QModelIndex index);
 
+    void routeTableItemDoubleClicked(int row, int column);
     void routeTableItemChanged(QTableWidgetItem *item);
-    void routeTableRowSelected(QModelIndex index);
 
     void importRoutes();
     void createRoute();
@@ -60,6 +60,8 @@ private:
     QScopedPointer<Ui::MainWindow> ui;
     QScopedPointer<LibAccessFacade> m_accessor;
     QScopedPointer<MapViewProxy> m_mapViewProxy;
+    qint32 m_selectedRow;
+    bool m_cellModified;
 };
 
 #endif // MAINWINDOW_H

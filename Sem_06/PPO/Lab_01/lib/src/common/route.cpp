@@ -48,6 +48,18 @@ void Route::setLength(qreal length)
     m_length = length;
 }
 
+void Route::updateLength()
+{
+    QReadLocker guard(&m_rwlock);
+    m_length = 0;
+
+    for (auto i = 0; i < m_encoder.polyline().size() - 1; ++i) {
+        const auto first =  m_encoder.polyline().coordinateAt(i);
+        const auto second = m_encoder.polyline().coordinateAt(i + 1);
+        m_length += first.distanceTo(second);
+    }
+}
+
 qreal Route::getLength() const
 {
     return m_length;

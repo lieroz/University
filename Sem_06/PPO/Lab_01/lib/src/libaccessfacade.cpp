@@ -28,7 +28,7 @@ const Route &LibAccessFacade::load(const QString &fileName)
     return getRoute(m_store->getRoutes().size() - 1);
 }
 
-const Route &LibAccessFacade::getRoute(qint32 index)
+Route &LibAccessFacade::getRoute(qint32 index)
 {
     return m_store->getRoute(index);
 }

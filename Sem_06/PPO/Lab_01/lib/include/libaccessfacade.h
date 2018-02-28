@@ -14,7 +14,7 @@ public:
 
     const Route &load(const QString &fileName);
 
-    const Route &getRoute(qint32 index);
+    Route &getRoute(qint32 index);
     void deleteRoute(qint32 index);
 
 private:
