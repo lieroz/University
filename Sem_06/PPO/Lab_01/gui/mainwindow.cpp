@@ -116,10 +116,24 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
 void MainWindow::receiveFromWidget(QString text)
 {
     QGeoPath geoPath = PolylineEncoder::decode(text);
+    Route route;
+    route.appendCoordinates(geoPath);
+    route.updateLength();
 
-    for (auto i = 0; i < geoPath.size(); ++i) {
-        printf("(%f, %f)\n", geoPath.coordinateAt(i).latitude(), geoPath.coordinateAt(i).longitude());
-    }
+    QTableWidgetItem *item;
+    const auto rowCount = ui->routeInfoTableView->rowCount();
+
+    m_accessor->addRoute(route);
+    ui->routeInfoTableView->insertRow(rowCount);
+    ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem);
+
+    item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->routeInfoTableView->setItem(rowCount, 1, item);
+
+    item = new QTableWidgetItem(route.getDate().toString());
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->routeInfoTableView->setItem(rowCount, 2, item);
 }
 
 void MainWindow::importRoutes()
