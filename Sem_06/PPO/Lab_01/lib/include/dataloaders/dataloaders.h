@@ -9,6 +9,7 @@ public:
     virtual ~AbstractDataLoader();
 
     virtual void load() = 0;
+    void reset(const QString& fileName);
 
 protected:
     QString m_fileName;

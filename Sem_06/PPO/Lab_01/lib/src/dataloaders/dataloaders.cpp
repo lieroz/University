@@ -15,6 +15,11 @@ AbstractDataLoader::~AbstractDataLoader()
 {
 }
 
+void AbstractDataLoader::reset(const QString &fileName)
+{
+    m_fileName = fileName;
+}
+
 /******************************************************************************
 ** GPXDataLoader
 */

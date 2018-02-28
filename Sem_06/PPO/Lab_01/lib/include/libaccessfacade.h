@@ -1,10 +1,10 @@
 #pragma once
 
 #include <QObject>
-#include <QScopedPointer>
 
 #include <dataloaders/dataloaders.h>
 #include <common/routestore.h>
+#include <common/objectpool.h>
 
 class LibAccessFacade : public QObject
 {
@@ -19,6 +19,6 @@ public:
     Route &getRoute(qint32 index);
 
 private:
-    QScopedPointer<AbstractDataLoader> m_loader;
     QScopedPointer<RouteStore> m_store;
+    ObjectPool<AbstractDataLoader> m_pool;
 };
