@@ -18,13 +18,8 @@ class MapViewProxy : public QQuickItem
     Q_OBJECT
 
 public:
-    MapViewProxy(QQuickItem *parent = Q_NULLPTR) : QQuickItem(parent)
-    {
-    }
-
-    virtual ~MapViewProxy()
-    {
-    }
+    MapViewProxy(QQuickItem *parent = Q_NULLPTR) : QQuickItem(parent) {}
+    virtual ~MapViewProxy() = default;
 
 Q_SIGNALS:
     void setPolyline(const QVariant& geopath);
@@ -38,9 +33,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-Q_SIGNALS:
-    void loadingError(const QString &errorMsg);
-
 private Q_SLOTS:
     void routeInfoTableItemChanged(QTableWidgetItem *item);
     void routeInfoTableRowSelected(QModelIndex index);
@@ -48,7 +40,16 @@ private Q_SLOTS:
     void routeTableItemChanged(QTableWidgetItem *item);
     void routeTableRowSelected(QModelIndex index);
 
-    void openFile();
+    void importRoutes();
+    void createRoute();
+    void deleteRoutes();
+
+    void addPoint();
+    void modifyPoint();
+    void removePoint();
+
+    void undo();
+    void redo();
 
 private:
     void setUpActions();

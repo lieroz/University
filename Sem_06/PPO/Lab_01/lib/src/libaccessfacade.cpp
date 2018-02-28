@@ -32,3 +32,8 @@ const Route &LibAccessFacade::getRoute(qint32 index)
 {
     return m_store->getRoute(index);
 }
+
+void LibAccessFacade::deleteRoute(qint32 index)
+{
+    m_store->deleteRoute(index);
+}

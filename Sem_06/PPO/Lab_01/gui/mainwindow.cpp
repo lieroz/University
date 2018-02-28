@@ -55,6 +55,7 @@ void MainWindow::routeInfoTableRowSelected(QModelIndex index)
         ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
     }
 
+    ui->label->setText(QString("Polyline: %1").arg(route.getPolyline()));
     emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
@@ -68,7 +69,7 @@ void MainWindow::routeTableRowSelected(QModelIndex index)
 
 }
 
-void MainWindow::openFile()
+void MainWindow::importRoutes()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this,
                             tr("FileDialog"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
@@ -84,9 +85,63 @@ void MainWindow::openFile()
     }
 }
 
+void MainWindow::createRoute()
+{
+
+}
+
+void MainWindow::deleteRoutes()
+{
+    const auto size = ui->routeInfoTableView->selectionModel()->selectedRows().size();
+
+    for (auto i = 0; i < size; ++i) {
+        const auto index = ui->routeInfoTableView->selectionModel()->selectedRows().first().row();
+        ui->routeInfoTableView->removeRow(index);
+        m_accessor->deleteRoute(index);
+    }
+
+    if (ui->routeTableView->rowCount() != 0) {
+        ui->routeTableView->clearContents();
+    }
+
+    ui->routeTableView->setRowCount(0);
+}
+
+void MainWindow::addPoint()
+{
+
+}
+
+void MainWindow::modifyPoint()
+{
+
+}
+
+void MainWindow::removePoint()
+{
+
+}
+
+void MainWindow::undo()
+{
+
+}
+
+void MainWindow::redo()
+{
+
+}
+
 void MainWindow::setUpActions()
 {
-    connect(ui->openFileAction, SIGNAL(triggered()), this, SLOT(openFile()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(importRoutes()));
+    connect(ui->actionCreate, SIGNAL(triggered()), this, SLOT(createRoute()));
+    connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(deleteRoutes()));
+    connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addPoint()));
+    connect(ui->actionModify, SIGNAL(triggered()), this, SLOT(modifyPoint()));
+    connect(ui->actionRemove, SIGNAL(triggered()), this, SLOT(removePoint()));
+    connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
+    connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(redo()));
 }
 
 void MainWindow::setUpRouteDataView()

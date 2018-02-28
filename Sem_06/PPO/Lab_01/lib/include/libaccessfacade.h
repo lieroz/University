@@ -13,7 +13,9 @@ public:
     ~LibAccessFacade();
 
     const Route &load(const QString &fileName);
+
     const Route &getRoute(qint32 index);
+    void deleteRoute(qint32 index);
 
 private:
     QScopedPointer<AbstractDataLoader> m_loader;
