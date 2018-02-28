@@ -9,7 +9,7 @@ Route::Route()
 }
 
 Route::Route(const QString &name, qreal length, const QDateTime &date,
-             const QVector<QGeoCoordinate> &coords, QObject *parent)
+             const QGeoPath &coords, QObject *parent)
     : m_name(name), m_length(length), m_date(date), QObject(parent)
 {
     m_encoder.addPoints(coords);
@@ -69,7 +69,7 @@ void Route::appendCoordinate(const QGeoCoordinate &coord)
     m_encoder.addPoint(coord);
 }
 
-void Route::appendCoordinates(const QVector<QGeoCoordinate> &coords)
+void Route::appendCoordinates(const QGeoPath &coords)
 {
     QWriteLocker guard(&m_rwlock);
     m_encoder.addPoints(coords);
@@ -81,7 +81,7 @@ void Route::insertCoordinate(qint32 index, const QGeoCoordinate &coord)
     m_encoder.insertPoint(index, coord);
 }
 
-void Route::insertCoordinates(qint32 index, const QVector<QGeoCoordinate> &coords)
+void Route::insertCoordinates(qint32 index, const QGeoPath &coords)
 {
     QWriteLocker guard(&m_rwlock);
     m_encoder.insertPoints(index, coords);
@@ -105,13 +105,13 @@ void Route::replaceCoordinate(qint32 index, const QGeoCoordinate &coord)
     m_encoder.replacePoint(index, coord);
 }
 
-void Route::replaceCoordinates(qint32 index, const QVector<QGeoCoordinate> &coords)
+void Route::replaceCoordinates(qint32 index, const QGeoPath &coords)
 {
     QWriteLocker guard(&m_rwlock);
     m_encoder.replacePoints(index, coords);
 }
 
-const QVector<QGeoCoordinate> &Route::getCoordinates()
+const QGeoPath &Route::getCoordinates()
 {
     QReadLocker guard(&m_rwlock);
     return m_encoder.polyline();

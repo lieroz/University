@@ -38,8 +38,8 @@ PolylineEncoder::PolylineEncoder()
 
 PolylineEncoder::PolylineEncoder(const PolylineEncoder &encoder)
 {
-    QVector<QGeoCoordinate> tmp(encoder.m_polyline);
-    m_polyline.swap(tmp);
+    QGeoPath tmp(encoder.m_geoPath);
+    m_geoPath = tmp;
 }
 
 PolylineEncoder::~PolylineEncoder()
@@ -49,67 +49,69 @@ PolylineEncoder::~PolylineEncoder()
 
 PolylineEncoder &PolylineEncoder::operator=(const PolylineEncoder &encoder)
 {
-    m_polyline = encoder.m_polyline;
+    m_geoPath = encoder.m_geoPath;
 }
 
-void PolylineEncoder::addPoint(const QGeoCoordinate &point)
+void PolylineEncoder::addPoint(const QGeoCoordinate &geoCoord)
 {
-    Q_ASSERT(point.latitude() <= 90.0 && point.latitude() >= -90.0);
-    Q_ASSERT(point.longitude() <= 180.0 && point.longitude() >= -180.0);
+    Q_ASSERT(geoCoord.latitude() <= 90.0 && geoCoord.latitude() >= -90.0);
+    Q_ASSERT(geoCoord.longitude() <= 180.0 && geoCoord.longitude() >= -180.0);
 
-    m_polyline.append(point);
+    m_geoPath.addCoordinate(geoCoord);
 }
 
-void PolylineEncoder::addPoints(const QVector<QGeoCoordinate> &points)
+void PolylineEncoder::addPoints(const QGeoPath &geoPath)
 {
-    Q_FOREACH (QGeoCoordinate point, points) {
-        m_polyline.append(point);
+    for (auto i = 0; i < geoPath.size(); ++i) {
+        m_geoPath.addCoordinate(geoPath.coordinateAt(i));
     }
 }
 
-void PolylineEncoder::insertPoint(qint32 index, const QGeoCoordinate &point)
+void PolylineEncoder::insertPoint(qint32 index, const QGeoCoordinate &geoCoord)
 {
-    Q_ASSERT(point.latitude() <= 90.0 && point.latitude() >= -90.0);
-    Q_ASSERT(point.longitude() <= 180.0 && point.longitude() >= -180.0);
+    Q_ASSERT(geoCoord.latitude() <= 90.0 && geoCoord.latitude() >= -90.0);
+    Q_ASSERT(geoCoord.longitude() <= 180.0 && geoCoord.longitude() >= -180.0);
 
-    m_polyline.insert(index, point);
+    m_geoPath.insertCoordinate(index, geoCoord);
 }
 
-void PolylineEncoder::insertPoints(qint32 index, const QVector<QGeoCoordinate> &points)
+void PolylineEncoder::insertPoints(qint32 index, const QGeoPath &geoPath)
 {
-    Q_FOREACH (QGeoCoordinate point, points) {
-        m_polyline.insert(index++, point);
+    for (auto i = 0; i < geoPath.size(); ++i) {
+        m_geoPath.insertCoordinate(index++, geoPath.coordinateAt(i));
     }
 }
 
 void PolylineEncoder::removePoint(qint32 index)
 {
-    m_polyline.remove(index);
+    m_geoPath.removeCoordinate(index);
 }
 
 void PolylineEncoder::removePoints(qint32 index, qint32 n)
 {
-    m_polyline.remove(index, n);
+    for (auto i = index; i < index + n; ++i) {
+        removePoint(i);
+    }
 }
 
-void PolylineEncoder::replacePoint(qint32 index, const QGeoCoordinate &point)
+void PolylineEncoder::replacePoint(qint32 index, const QGeoCoordinate &geoCoord)
 {
-    Q_ASSERT(point.latitude() <= 90.0 && point.latitude() >= -90.0);
-    Q_ASSERT(point.longitude() <= 180.0 && point.longitude() >= -180.0);
+    Q_ASSERT(geoCoord.latitude() <= 90.0 && geoCoord.latitude() >= -90.0);
+    Q_ASSERT(geoCoord.longitude() <= 180.0 && geoCoord.longitude() >= -180.0);
 
-    m_polyline.replace(index, point);
+    m_geoPath.replaceCoordinate(index, geoCoord);
 }
 
-void PolylineEncoder::replacePoints(qint32 index, const QVector<QGeoCoordinate> &points)
+void PolylineEncoder::replacePoints(qint32 index, const QGeoPath &geoPath)
 {
-    Q_FOREACH (QGeoCoordinate point, points) {
-        m_polyline.replace(index++, point);
+    for (auto i = index; i < index + geoPath.size(); ++i) {
+        removePoint(i);
     }
 }
 
 QString PolylineEncoder::encode()
 {
-    return encode(m_polyline);
+    return encode(m_geoPath);
 }
 
 QString PolylineEncoder::encode(qreal value)
@@ -143,7 +145,7 @@ QString PolylineEncoder::encode(qreal value)
     return result;
 }
 
-QString PolylineEncoder::encode(const QVector<QGeoCoordinate> &polyline)
+QString PolylineEncoder::encode(const QGeoPath &geoPath)
 {
     QString result;
 
@@ -151,9 +153,10 @@ QString PolylineEncoder::encode(const QVector<QGeoCoordinate> &polyline)
     qreal latPrev = .0;
     qreal lonPrev = .0;
 
-    Q_FOREACH (QGeoCoordinate point, polyline) {
-        const auto lat = point.latitude();
-        const auto lon = point.longitude();
+    for (auto i = 0; i < geoPath.size(); ++i) {
+        const auto coord = geoPath.coordinateAt(i);
+        const auto lat = coord.latitude();
+        const auto lon = coord.longitude();
 
         // Offset from the previous point
         result.append(encode(lat - latPrev));
@@ -189,32 +192,32 @@ qreal PolylineEncoder::decode(const QString &coords, size_t &i)
     return result / s_presision; // (2)
 }
 
-QVector<QGeoCoordinate> PolylineEncoder::decode(const QString &coords)
+QGeoPath PolylineEncoder::decode(const QString &coords)
 {
-    QVector<QGeoCoordinate> polyline;
+    QGeoPath geoPath;
 
     size_t i = 0;
     while (i < coords.size()) {
         auto lat = decode(coords, i);
         auto lon = decode(coords, i);
 
-        if (!polyline.empty()) {
-            QGeoCoordinate &prevPoint = polyline.back();
+        if (!geoPath.isEmpty()) {
+            const auto prevPoint = geoPath.coordinateAt(geoPath.size());
             lat += prevPoint.latitude();
             lon += prevPoint.longitude();
         }
-        polyline.append(QGeoCoordinate(lat, lon));
+        geoPath.addCoordinate(QGeoCoordinate(lat, lon));
     }
 
-    return polyline;
+    return geoPath;
 }
 
-const QVector<QGeoCoordinate> &PolylineEncoder::polyline()
+const QGeoPath &PolylineEncoder::polyline()
 {
-    return m_polyline;
+    return m_geoPath;
 }
 
 void PolylineEncoder::clear()
 {
-    m_polyline.clear();
+    m_geoPath.~QGeoPath();
 }

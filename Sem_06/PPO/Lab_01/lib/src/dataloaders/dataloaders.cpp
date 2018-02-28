@@ -51,12 +51,13 @@ void GpxDataLoader::load()
             }
 
             if (currentField == "trkpt") {
-                auto lat = inputStream.attributes().value("lat").toDouble();
-                auto lon = inputStream.attributes().value("lon").toDouble();
+                const auto lat = inputStream.attributes().value("lat").toDouble();
+                const auto lon = inputStream.attributes().value("lon").toDouble();
                 QGeoCoordinate coord(lat, lon);
 
                 if (!route.getCoordinates().isEmpty()) {
-                    dist += route.getCoordinates().last().distanceTo(coord);
+                    const auto count = route.getCoordinates().size();
+                    dist += route.getCoordinates().coordinateAt(count - 1).distanceTo(coord);
                 }
 
                 route.appendCoordinate(coord);

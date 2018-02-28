@@ -4,6 +4,7 @@
 #include <QQuickView>
 #include <QFileDialog>
 #include <QDir>
+#include <QQmlContext>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Longitude", "Latitude"};
@@ -15,7 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     m_accessor.reset(new LibAccessFacade(this));
 
+    m_mapViewProxy.reset(new MapViewProxy);
     QQuickView *view = new QQuickView;
+    view->rootContext()->setContextProperty("mapViewProxy", m_mapViewProxy.data());
     QWidget *container = QWidget::createWindowContainer(view, this);
     container->setFocusPolicy(Qt::TabFocus);
     view->setSource(QUrl(QStringLiteral("qrc:/gui/resources/qml/MapView.qml")));
@@ -44,12 +47,15 @@ void MainWindow::routeInfoTableRowSelected(QModelIndex index)
     }
     ui->routeTableView->setRowCount(0);
 
-    Q_FOREACH (QGeoCoordinate coord, route.getCoordinates()) {
-        auto rowCount = ui->routeTableView->rowCount();
+    for (auto i = 0; i < route.getCoordinates().size(); ++i) {
+        const auto coord = route.getCoordinates().coordinateAt(i);
+        const auto rowCount = ui->routeTableView->rowCount();
         ui->routeTableView->insertRow(rowCount);
         ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(coord.latitude())));
         ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
     }
+
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
@@ -69,7 +75,7 @@ void MainWindow::openFile()
 
     Q_FOREACH (QString fileName, fileNames) {
         Route route = m_accessor->load(fileName);
-        auto rowCount = ui->routeInfoTableView->rowCount();
+        const auto rowCount = ui->routeInfoTableView->rowCount();
         ui->routeInfoTableView->insertRow(rowCount);
 
         ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem(route.getName()));

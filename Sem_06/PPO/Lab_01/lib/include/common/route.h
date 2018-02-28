@@ -11,7 +11,7 @@ class Route : public QObject
 public:
     Route();
     Route(const QString &name, qreal length, const QDateTime &date,
-          const QVector<QGeoCoordinate> &coords, QObject *parent = Q_NULLPTR);
+          const QGeoPath &coords, QObject *parent = Q_NULLPTR);
     Route(const Route&);
     ~Route();
 
@@ -27,18 +27,18 @@ public:
     const QDateTime &getDate() const;
 
     void appendCoordinate(const QGeoCoordinate &coord);
-    void appendCoordinates(const QVector<QGeoCoordinate> &coords);
+    void appendCoordinates(const QGeoPath &coords);
 
     void insertCoordinate(qint32 index, const QGeoCoordinate &coord);
-    void insertCoordinates(qint32 index, const QVector<QGeoCoordinate> &coords);
+    void insertCoordinates(qint32 index, const QGeoPath &coords);
 
     void removeCoordinate(qint32 index);
     void removeCoordinates(qint32 index, qint32 n);
 
     void replaceCoordinate(qint32 index, const QGeoCoordinate &coord);
-    void replaceCoordinates(qint32 index, const QVector<QGeoCoordinate> &coords);
+    void replaceCoordinates(qint32 index, const QGeoPath &coords);
 
-    const QVector<QGeoCoordinate> &getCoordinates();
+    const QGeoPath &getCoordinates();
     QString getPolyline();
 
 private:

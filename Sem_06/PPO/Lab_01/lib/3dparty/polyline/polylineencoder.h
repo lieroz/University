@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include <QGeoCoordinate>
 #include <QVector>
+#include <QGeoPath>
 
 //! Implements Google's polyline compression algorithm.
 /*!
@@ -43,29 +44,17 @@ public:
 
     PolylineEncoder &operator=(const PolylineEncoder &encoder);
 
-    //! Adds new point with the given \p point for encoding.
-    void addPoint(const QGeoCoordinate &point);
+    void addPoint(const QGeoCoordinate &geoCoord);
+    void addPoints(const QGeoPath &geopath);
 
-    //! Adds new points with the given \p points for encoding.
-    void addPoints(const QVector<QGeoCoordinate> &points);
+    void insertPoint(qint32 index, const QGeoCoordinate &geoCoord);
+    void insertPoints(qint32 index, const QGeoPath &geoPath);
 
-    //! Adds new point with the given \p point for encoding.
-    void insertPoint(qint32 index, const QGeoCoordinate &point);
-
-    //! Adds new points with the given \p points for encoding.
-    void insertPoints(qint32 index, const QVector<QGeoCoordinate> &points);
-
-    //! Removes point at the given \p position index.
     void removePoint(qint32 index);
-
-    //! Removes points starting from the given \p position index.
     void removePoints(qint32 index, qint32 n);
 
-    //! Relpaces point at the given \p position index.
-    void replacePoint(qint32 index, const QGeoCoordinate &point);
-
-    //! Replaces points starting from the given \p position index.
-    void replacePoints(qint32 index, const QVector<QGeoCoordinate> &points);
+    void replacePoint(qint32 index, const QGeoCoordinate &geoCoord);
+    void replacePoints(qint32 index, const QGeoPath &geoPath);
 
     //! Encode the polyline according to the defined compression algorithm.
     /*!
@@ -74,16 +63,16 @@ public:
     QString encode();
 
     //! Returns the existing polyline.
-    const QVector<QGeoCoordinate> &polyline();
+    const QGeoPath &polyline();
 
     //! Clears the list of polyline.
     void clear();
 
     //! Returns the result of encoding of the given polyline.
-    static QString encode(const QVector<QGeoCoordinate> &polyline);
+    static QString encode(const QGeoPath &geoPath);
 
     //! Returns polyline decoded from the given \p coordinates string.
-    static QVector<QGeoCoordinate> decode(const QString &coordinates);
+    static QGeoPath decode(const QString &coordinates);
 
 private:
     //! Encodes a single value according to the compression algorithm.
@@ -93,7 +82,7 @@ private:
     static qreal decode(const QString &coords, size_t &i);
 
     //! Store the polyline - the list of points.
-    QVector<QGeoCoordinate> m_polyline;
+    QGeoPath m_geoPath;
 };
 
 #endif // POLYLINEENCODER_H
