@@ -197,12 +197,12 @@ QGeoPath PolylineEncoder::decode(const QString &coords)
     QGeoPath geoPath;
 
     size_t i = 0;
-    while (i < coords.size()) {
+    while (i < coords.count()) {
         auto lat = decode(coords, i);
         auto lon = decode(coords, i);
 
         if (!geoPath.isEmpty()) {
-            const auto prevPoint = geoPath.coordinateAt(geoPath.size());
+            const auto prevPoint = geoPath.coordinateAt(geoPath.size() - 1);
             lat += prevPoint.latitude();
             lon += prevPoint.longitude();
         }

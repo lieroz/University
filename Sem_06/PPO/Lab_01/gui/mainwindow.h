@@ -7,6 +7,7 @@
 #include <QQuickItem>
 
 #include <libaccessfacade.h>
+#include "widget.h"
 
 namespace Ui
 {
@@ -40,7 +41,10 @@ private Q_SLOTS:
     void routeTableItemDoubleClicked(int row, int column);
     void routeTableItemChanged(QTableWidgetItem *item);
 
+    void receiveFromWidget(QString text);
+
     void importRoutes();
+    void importRoute();
     void createRoute();
     void deleteRoutes();
 

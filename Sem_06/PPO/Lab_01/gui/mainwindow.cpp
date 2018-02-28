@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QQmlContext>
 #include <QMessageBox>
+#include <QDebug>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_accessor.reset(new LibAccessFacade(this));
     m_selectedRow = 0;
     m_cellModified = false;
+    ui->label->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     m_mapViewProxy.reset(new MapViewProxy);
     QQuickView *view = new QQuickView;
@@ -59,7 +61,7 @@ void MainWindow::routeInfoTableRowSelected(QModelIndex index)
     }
 
     m_selectedRow = index.row();
-    ui->label->setText(QString("Polyline: %1").arg(route.getPolyline()));
+    ui->label->setText(route.getPolyline());
     emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
@@ -111,6 +113,15 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
     }
 }
 
+void MainWindow::receiveFromWidget(QString text)
+{
+    QGeoPath geoPath = PolylineEncoder::decode(text);
+
+    for (auto i = 0; i < geoPath.size(); ++i) {
+        printf("(%f, %f)\n", geoPath.coordinateAt(i).latitude(), geoPath.coordinateAt(i).longitude());
+    }
+}
+
 void MainWindow::importRoutes()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this,
@@ -132,6 +143,13 @@ void MainWindow::importRoutes()
         item->setFlags(item->flags() & ~Qt::ItemIsEditable);
         ui->routeInfoTableView->setItem(rowCount, 2, item);
     }
+}
+
+void MainWindow::importRoute()
+{
+    Widget *widget = new Widget;
+    connect(widget, SIGNAL(sendToMainWindow(QString)), this, SLOT(receiveFromWidget(QString)));
+    widget->show();
 }
 
 void MainWindow::createRoute()
@@ -213,6 +231,7 @@ void MainWindow::redo()
 void MainWindow::setUpActions()
 {
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(importRoutes()));
+    connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(importRoute()));
     connect(ui->actionCreate, SIGNAL(triggered()), this, SLOT(createRoute()));
     connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(deleteRoutes()));
     connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addPoint()));

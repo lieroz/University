@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 
 #include <gui/mainwindow.h>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
