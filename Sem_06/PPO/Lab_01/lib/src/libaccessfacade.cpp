@@ -28,6 +28,11 @@ const Route &LibAccessFacade::load(const QString &fileName)
     return getRoute(m_store->getRoutes().size() - 1);
 }
 
+void LibAccessFacade::addRoute(const Route &route)
+{
+    m_store->addRoute(route);
+}
+
 Route &LibAccessFacade::getRoute(qint32 index)
 {
     return m_store->getRoute(index);

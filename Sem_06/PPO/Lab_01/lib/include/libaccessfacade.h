@@ -14,8 +14,9 @@ public:
 
     const Route &load(const QString &fileName);
 
-    Route &getRoute(qint32 index);
+    void addRoute(const Route& route);
     void deleteRoute(qint32 index);
+    Route &getRoute(qint32 index);
 
 private:
     QScopedPointer<AbstractDataLoader> m_loader;

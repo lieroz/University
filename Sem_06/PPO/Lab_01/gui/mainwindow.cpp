@@ -136,7 +136,21 @@ void MainWindow::importRoutes()
 
 void MainWindow::createRoute()
 {
+    QTableWidgetItem *item;
+    Route route;
+    const auto rowCount = ui->routeInfoTableView->rowCount();
 
+    m_accessor->addRoute(route);
+    ui->routeInfoTableView->insertRow(rowCount);
+    ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem);
+
+    item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->routeInfoTableView->setItem(rowCount, 1, item);
+
+    item = new QTableWidgetItem(route.getDate().toString());
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->routeInfoTableView->setItem(rowCount, 2, item);
 }
 
 void MainWindow::deleteRoutes()
@@ -158,7 +172,16 @@ void MainWindow::deleteRoutes()
 
 void MainWindow::addPoint()
 {
+    if (ui->routeInfoTableView->selectionModel()->selectedRows().size() != 0) {
+        Route &route = m_accessor->getRoute(m_selectedRow);
+        QGeoCoordinate coord(0, 0);
+        route.appendCoordinate(coord);
+        const auto rowCount = ui->routeTableView->rowCount();
 
+        ui->routeTableView->insertRow(rowCount);
+        ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(0)));
+        ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(0)));
+    }
 }
 
 void MainWindow::removePoints()
