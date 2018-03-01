@@ -1,24 +1,26 @@
 #pragma once
 
-#include <common/route.h>
-
-#include <QObject>
 #include <QReadWriteLock>
 #include <QAtomicPointer>
 #include <QMutex>
 
-class RouteStore : public QObject
+#include <common/route.h>
+
+class RouteStore
 {
+    Q_DISABLE_COPY(RouteStore)
+    RouteStore() = default;
+
 public:
-    ~RouteStore();
+    ~RouteStore() = default;
 
     static RouteStore *instance();
 
-    void addRoute(const Route &route);
-    void addRoutes(const QVector<Route> &routes);
+    void addRoute(Route &route);
+    void addRoutes(QVector<Route> &routes);
 
-    void insertRoute(qint32 index, const Route &route);
-    void insertRoutes(qint32 index, const QVector<Route> &routes);
+    void insertRoute(qint32 index, Route &route);
+    void insertRoutes(qint32 index, QVector<Route> &routes);
 
     void deleteRoute(qint32 index);
     void deleteRoutes(qint32 index, qint32 n);
@@ -26,13 +28,8 @@ public:
     Route &getRoute(qint32 index);
     QVector<Route> &getRoutes();
 
-private:
-    RouteStore(QObject *parent = Q_NULLPTR);
-    RouteStore(const RouteStore &) = delete;
-    RouteStore(RouteStore &&) = delete;
-
-    RouteStore &operator=(const RouteStore &) = delete;
-    RouteStore &operator=(RouteStore &&) = delete;
+    qint32 size() const;
+    bool isEmpty() const;
 
 private:
     static QAtomicPointer<RouteStore> m_instance;

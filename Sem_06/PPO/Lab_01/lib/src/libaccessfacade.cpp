@@ -4,49 +4,39 @@
 
 #include <QFileInfo>
 
-LibAccessFacade::LibAccessFacade(QObject *parent) : QObject(parent)
-{
-    m_store.reset(RouteStore::instance());
-}
-
-LibAccessFacade::~LibAccessFacade()
-{
-
-}
-
-const Route &LibAccessFacade::load(const QString &fileName)
+void LibAccessFacade::load(const QString &fileName, Route &route)
 {
     QFileInfo fileInfo(fileName);
     if (!fileInfo.exists() || !fileInfo.isFile()) {
         throw FileException("file doesn't exist");
     }
 
+    QSharedPointer<AbstractDataLoader> loader;
+
     if (m_pool.isEmpty()) {
         auto createFunc = LoaderFactory::createDataloader(fileInfo.completeSuffix());
-        QSharedPointer<AbstractDataLoader> loader(createFunc(fileName));
-        loader->load();
-        m_pool.put(loader);
+        QSharedPointer<AbstractDataLoader> tmp(createFunc(fileName));
+        loader.swap(tmp);
     } else {
-        auto loader = m_pool.take();
+        loader = m_pool.take();
         loader->reset(fileName);
-        loader->load();
-        m_pool.put(loader);
     }
 
-    return getRoute(m_store->getRoutes().size() - 1);
+    loader->load(route);
+    m_pool.put(loader);
 }
 
-void LibAccessFacade::addRoute(const Route &route)
+void LibAccessFacade::addRoute(Route &route)
 {
-    m_store->addRoute(route);
+    RouteStore::instance()->addRoute(route);
 }
 
 Route &LibAccessFacade::getRoute(qint32 index)
 {
-    return m_store->getRoute(index);
+    return RouteStore::instance()->getRoute(index);
 }
 
 void LibAccessFacade::deleteRoute(qint32 index)
 {
-    m_store->deleteRoute(index);
+    RouteStore::instance()->deleteRoute(index);
 }

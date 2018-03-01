@@ -1,31 +1,30 @@
 #pragma once
 
-#include <QObject>
 #include <QDateTime>
 #include <QReadWriteLock>
 
 #include <polylineencoder.h>
 
-class Route : public QObject
+class Route
 {
 public:
     Route();
-    Route(const QString &name, qreal length, const QDateTime &date,
-          const QGeoPath &coords, QObject *parent = Q_NULLPTR);
-    Route(const Route&);
-    ~Route();
+    Route(const QString &name, qreal length,
+          const QDateTime &date, const QGeoPath &coords);
+    Route(const Route &route);
+    ~Route() = default;
 
     Route &operator=(const Route &route);
 
     void setName(const QString &name);
-    const QString &getName() const;
+    QString getName();
 
     void setLength(qreal length);
     void updateLength();
-    qreal getLength() const;
+    qreal getLength();
 
     void setDate(const QDateTime &date);
-    const QDateTime &getDate() const;
+    QDateTime getDate();
 
     void appendCoordinate(const QGeoCoordinate &coord);
     void appendCoordinates(const QGeoPath &coords);
@@ -39,7 +38,7 @@ public:
     void replaceCoordinate(qint32 index, const QGeoCoordinate &coord);
     void replaceCoordinates(qint32 index, const QGeoPath &coords);
 
-    const QGeoPath &getCoordinates();
+    QGeoPath getCoordinates();
     QString getPolyline();
 
 private:

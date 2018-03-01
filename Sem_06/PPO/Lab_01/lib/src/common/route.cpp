@@ -1,17 +1,17 @@
 #include <common/route.h>
 
-#include <QVector>
-
 Route::Route()
 {
     m_length = 0;
     m_date = QDateTime::currentDateTime();
 }
 
-Route::Route(const QString &name, qreal length, const QDateTime &date,
-             const QGeoPath &coords, QObject *parent)
-    : m_name(name), m_length(length), m_date(date), QObject(parent)
+Route::Route(const QString &name, qreal length,
+             const QDateTime &date, const QGeoPath &coords)
 {
+    m_name = name;
+    m_length = length;
+    m_date = date;
     m_encoder.addPoints(coords);
 }
 
@@ -20,17 +20,15 @@ Route::Route(const Route &route)
     m_name = route.m_name;
     m_length = route.m_length;
     m_date = route.m_date;
-    m_encoder = route.m_encoder;
-}
-
-Route::~Route()
-{
-
+    m_encoder.addPoints(route.m_encoder.polyline());
 }
 
 Route &Route::operator=(const Route &route)
 {
-
+    m_name = route.m_name;
+    m_length = route.m_length;
+    m_date = route.m_date;
+    m_encoder = route.m_encoder;
 }
 
 void Route::setName(const QString &name)
@@ -38,7 +36,7 @@ void Route::setName(const QString &name)
     m_name = name;
 }
 
-const QString &Route::getName() const
+QString Route::getName()
 {
     return m_name;
 }
@@ -60,7 +58,7 @@ void Route::updateLength()
     }
 }
 
-qreal Route::getLength() const
+qreal Route::getLength()
 {
     return m_length;
 }
@@ -70,7 +68,7 @@ void Route::setDate(const QDateTime &date)
     m_date = date;
 }
 
-const QDateTime &Route::getDate() const
+QDateTime Route::getDate()
 {
     return m_date;
 }
@@ -123,7 +121,7 @@ void Route::replaceCoordinates(qint32 index, const QGeoPath &coords)
     m_encoder.replacePoints(index, coords);
 }
 
-const QGeoPath &Route::getCoordinates()
+QGeoPath Route::getCoordinates()
 {
     QReadLocker guard(&m_rwlock);
     return m_encoder.polyline();

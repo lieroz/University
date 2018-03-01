@@ -63,7 +63,7 @@ public:
     QString encode();
 
     //! Returns the existing polyline.
-    const QGeoPath &polyline();
+    QGeoPath polyline() const;
 
     //! Clears the list of polyline.
     void clear();

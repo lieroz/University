@@ -5,6 +5,7 @@
 #include <QScopedPointer>
 #include <QTableWidgetItem>
 #include <QQuickItem>
+#include <QUndoStack>
 
 #include <libaccessfacade.h>
 #include "widget.h"
@@ -35,6 +36,7 @@ public:
     ~MainWindow();
 
 private Q_SLOTS:
+    void routeInfoTableItemDoubleClicked(int row, int column);
     void routeInfoTableItemChanged(QTableWidgetItem *item);
     void routeInfoTableRowSelected(QModelIndex index);
 
@@ -51,9 +53,6 @@ private Q_SLOTS:
     void addPoint();
     void removePoints();
 
-    void undo();
-    void redo();
-
 private:
     void setUpActions();
     void setUpRouteDataView();
@@ -63,8 +62,14 @@ private:
     QScopedPointer<Ui::MainWindow> ui;
     QScopedPointer<LibAccessFacade> m_accessor;
     QScopedPointer<MapViewProxy> m_mapViewProxy;
+
+    QUndoStack *m_undoStack;
+    QAction *m_undoAction;
+    QAction *m_redoAction;
+
     qint32 m_selectedRow;
-    bool m_cellModified;
+    bool m_routeInfoTableCellModified;
+    bool m_routeTableCellModified;
 };
 
 #endif // MAINWINDOW_H

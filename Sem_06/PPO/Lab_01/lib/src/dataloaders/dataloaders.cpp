@@ -6,12 +6,8 @@
 #include <QDebug>
 #include <common/routestore.h>
 
-AbstractDataLoader::AbstractDataLoader(const QString &fileName, QObject *parent)
-    : m_fileName(fileName), QObject(parent)
-{
-}
-
-AbstractDataLoader::~AbstractDataLoader()
+AbstractDataLoader::AbstractDataLoader(const QString &fileName)
+    : m_fileName(fileName)
 {
 }
 
@@ -24,16 +20,12 @@ void AbstractDataLoader::reset(const QString &fileName)
 ** GPXDataLoader
 */
 
-GpxDataLoader::GpxDataLoader(const QString &fileName, QObject *parent)
-    : AbstractDataLoader(fileName, parent)
+GpxDataLoader::GpxDataLoader(const QString &fileName)
+    : AbstractDataLoader(fileName)
 {
 }
 
-GpxDataLoader::~GpxDataLoader()
-{
-}
-
-void GpxDataLoader::load()
+void GpxDataLoader::load(Route &route)
 {
     QFile file(m_fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -42,7 +34,6 @@ void GpxDataLoader::load()
 
     QXmlStreamReader inputStream(&file);
     QString currentField;
-    Route route;
     qreal dist = 0;
 
     while (!inputStream.atEnd() && !inputStream.hasError()) {
@@ -71,5 +62,4 @@ void GpxDataLoader::load()
     }
 
     route.setLength(dist);
-    RouteStore::instance()->addRoute(route);
 }

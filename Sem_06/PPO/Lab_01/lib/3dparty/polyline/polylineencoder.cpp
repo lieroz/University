@@ -212,7 +212,7 @@ QGeoPath PolylineEncoder::decode(const QString &coords)
     return geoPath;
 }
 
-const QGeoPath &PolylineEncoder::polyline()
+QGeoPath PolylineEncoder::polyline() const
 {
     return m_geoPath;
 }

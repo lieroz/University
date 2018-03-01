@@ -1,14 +1,16 @@
 #pragma once
 
-#include <QObject>
+#include <common/route.h>
 
-class AbstractDataLoader : public QObject
+class AbstractDataLoader
 {
-public:
-    AbstractDataLoader(const QString &fileName, QObject *parent = Q_NULLPTR);
-    virtual ~AbstractDataLoader();
+    Q_DISABLE_COPY(AbstractDataLoader)
 
-    virtual void load() = 0;
+public:
+    AbstractDataLoader(const QString &fileName);
+    virtual ~AbstractDataLoader() = default;
+
+    virtual void load(Route &route) = 0;
     void reset(const QString& fileName);
 
 protected:
@@ -17,9 +19,11 @@ protected:
 
 class GpxDataLoader : public AbstractDataLoader
 {
-public:
-    GpxDataLoader(const QString &fileName, QObject *parent = Q_NULLPTR);
-    virtual~GpxDataLoader();
+    Q_DISABLE_COPY(GpxDataLoader)
 
-    virtual void load() override;
+public:
+    GpxDataLoader(const QString &fileName);
+    ~GpxDataLoader() = default;
+
+    void load(Route &route) override;
 };

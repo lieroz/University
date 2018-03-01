@@ -1,14 +1,15 @@
 #pragma once
 
 #include <QtWidgets/QUndoCommand>
-#include <QSharedPointer>
+#include <QTableWidget>
 
 #include <common/routestore.h>
 
 class AddRouteCommand : public QUndoCommand
 {
 public:
-    AddRouteCommand(qint32 index, const Route &route, QUndoCommand *parent = Q_NULLPTR);
+    AddRouteCommand(qint32 index, const Route &route,
+                    QTableWidget *widget, QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
@@ -16,12 +17,13 @@ public:
 private:
     qint32 m_index;
     Route m_route;
+    QTableWidget *m_widget;
 };
 
 class DeleteRouteCommand : public QUndoCommand
 {
 public:
-    DeleteRouteCommand(qint32 index, const Route &route, QUndoCommand *parent = Q_NULLPTR);
+    DeleteRouteCommand(qint32 index, QTableWidget *widget, QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
@@ -29,6 +31,7 @@ public:
 private:
     qint32 m_index;
     Route m_route;
+    QTableWidget *m_widget;
 };
 
 class AddPointCommand : public QUndoCommand

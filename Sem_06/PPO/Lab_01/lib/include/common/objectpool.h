@@ -1,25 +1,19 @@
 #pragma once
 
 #include <QQueue>
-#include <QSharedPointer>
 #include <QMutex>
 #include <QWaitCondition>
+#include <QSharedPointer>
 
 template <class T>
 class ObjectPool
 {
+    Q_DISABLE_COPY(ObjectPool)
     const static int MAX_POOL_SIZE = 10;
 
 public:
-    ObjectPool()
-    {
-
-    }
-
-    ~ObjectPool()
-    {
-
-    }
+    ObjectPool() = default;
+    ~ObjectPool() = default;
 
     QSharedPointer<T> take()
     {

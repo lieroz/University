@@ -7,21 +7,25 @@
 #include <QQmlContext>
 #include <QMessageBox>
 #include <QDebug>
+#include <QTableWidget>
+
+#include <commands/commands.h>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow),
+    m_accessor(new LibAccessFacade), m_mapViewProxy(new MapViewProxy)
 {
-    ui->setupUi(this);
-    m_accessor.reset(new LibAccessFacade(this));
+    m_undoStack = new QUndoStack(this);
     m_selectedRow = 0;
-    m_cellModified = false;
+    m_routeInfoTableCellModified = false;
+    m_routeTableCellModified = false;
+
+    ui->setupUi(this);
     ui->label->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-    m_mapViewProxy.reset(new MapViewProxy);
     QQuickView *view = new QQuickView;
     view->rootContext()->setContextProperty("mapViewProxy", m_mapViewProxy.data());
     QWidget *container = QWidget::createWindowContainer(view, this);
@@ -32,6 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setUpActions();
     setUpRouteDataView();
     setUpRouteCoordinatesView();
+
+    ui->mainToolBar->addAction(m_undoAction);
+    ui->mainToolBar->addAction(m_redoAction);
 }
 
 MainWindow::~MainWindow()
@@ -39,14 +46,25 @@ MainWindow::~MainWindow()
 
 }
 
+void MainWindow::routeInfoTableItemDoubleClicked(int row, int column)
+{
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+
+    m_routeInfoTableCellModified = true;
+}
+
 void MainWindow::routeInfoTableItemChanged(QTableWidgetItem *item)
 {
-    m_accessor->getRoute(item->row()).setName(item->text());
+    if (m_routeInfoTableCellModified) {
+        Route &route = m_accessor->getRoute(item->row());
+        route.setName(item->text());
+    }
 }
 
 void MainWindow::routeInfoTableRowSelected(QModelIndex index)
 {
-    Route route = m_accessor->getRoute(index.row());
+    Route &route = m_accessor->getRoute(index.row());
     if (ui->routeTableView->rowCount() != 0) {
         ui->routeTableView->clearContents();
     }
@@ -70,12 +88,12 @@ void MainWindow::routeTableItemDoubleClicked(int row, int column)
     Q_UNUSED(row);
     Q_UNUSED(column);
 
-    m_cellModified = true;
+    m_routeTableCellModified = true;
 }
 
 void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
 {
-    if (m_cellModified) {
+    if (m_routeTableCellModified) {
         Route &route = m_accessor->getRoute(m_selectedRow);
         QGeoCoordinate coord = route.getCoordinates().coordinateAt(item->row());
         bool ok = false;
@@ -109,7 +127,7 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
         route.updateLength();
         ui->routeInfoTableView->item(m_selectedRow, 1)->setText(QString::number(route.getLength() / 1000));
         emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
-        m_cellModified = false;
+        m_routeTableCellModified = false;
     }
 }
 
@@ -120,42 +138,20 @@ void MainWindow::receiveFromWidget(QString text)
     route.appendCoordinates(geoPath);
     route.updateLength();
 
-    QTableWidgetItem *item;
     const auto rowCount = ui->routeInfoTableView->rowCount();
-
-    m_accessor->addRoute(route);
-    ui->routeInfoTableView->insertRow(rowCount);
-    ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem);
-
-    item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    ui->routeInfoTableView->setItem(rowCount, 1, item);
-
-    item = new QTableWidgetItem(route.getDate().toString());
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    ui->routeInfoTableView->setItem(rowCount, 2, item);
+    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView));
 }
 
 void MainWindow::importRoutes()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this,
                             tr("FileDialog"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
-    QTableWidgetItem *item;
 
     Q_FOREACH (QString fileName, fileNames) {
-        Route route = m_accessor->load(fileName);
+        Route route;
+        m_accessor->load(fileName, route);
         const auto rowCount = ui->routeInfoTableView->rowCount();
-        ui->routeInfoTableView->insertRow(rowCount);
-
-        ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem(route.getName()));
-
-        item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
-        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-        ui->routeInfoTableView->setItem(rowCount, 1, item);
-
-        item = new QTableWidgetItem(route.getDate().toString());
-        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-        ui->routeInfoTableView->setItem(rowCount, 2, item);
+        m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView));
     }
 }
 
@@ -168,21 +164,9 @@ void MainWindow::importRoute()
 
 void MainWindow::createRoute()
 {
-    QTableWidgetItem *item;
     Route route;
     const auto rowCount = ui->routeInfoTableView->rowCount();
-
-    m_accessor->addRoute(route);
-    ui->routeInfoTableView->insertRow(rowCount);
-    ui->routeInfoTableView->setItem(rowCount, 0, new QTableWidgetItem);
-
-    item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    ui->routeInfoTableView->setItem(rowCount, 1, item);
-
-    item = new QTableWidgetItem(route.getDate().toString());
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    ui->routeInfoTableView->setItem(rowCount, 2, item);
+    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView));
 }
 
 void MainWindow::deleteRoutes()
@@ -191,8 +175,7 @@ void MainWindow::deleteRoutes()
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeInfoTableView->selectionModel()->selectedRows().first().row();
-        ui->routeInfoTableView->removeRow(index);
-        m_accessor->deleteRoute(index);
+        m_undoStack->push(new DeleteRouteCommand(index, ui->routeInfoTableView));
     }
 
     if (ui->routeTableView->rowCount() != 0) {
@@ -224,22 +207,12 @@ void MainWindow::removePoints()
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeTableView->selectionModel()->selectedRows().first().row();
         ui->routeTableView->removeRow(index);
-        m_accessor->getRoute(m_selectedRow).removeCoordinate(index);
+        route.removeCoordinate(index);
     }
 
     route.updateLength();
     ui->routeInfoTableView->item(m_selectedRow, 1)->setText(QString::number(route.getLength() / 1000));
     emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
-}
-
-void MainWindow::undo()
-{
-
-}
-
-void MainWindow::redo()
-{
-
 }
 
 void MainWindow::setUpActions()
@@ -250,8 +223,11 @@ void MainWindow::setUpActions()
     connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(deleteRoutes()));
     connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(addPoint()));
     connect(ui->actionRemove, SIGNAL(triggered()), this, SLOT(removePoints()));
-    connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
-    connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(redo()));
+
+    m_undoAction = m_undoStack->createUndoAction(this, tr("&Undo"));
+    m_undoAction->setShortcuts(QKeySequence::Undo);
+    m_redoAction = m_undoStack->createRedoAction(this, tr("&Redo"));
+    m_redoAction->setShortcuts(QKeySequence::Redo);
 }
 
 void MainWindow::setUpRouteDataView()

@@ -3,16 +3,6 @@
 QAtomicPointer<RouteStore> RouteStore::m_instance;
 QMutex RouteStore::m_mutex;
 
-RouteStore::RouteStore(QObject *parent) : QObject(parent)
-{
-
-}
-
-RouteStore::~RouteStore()
-{
-
-}
-
 RouteStore *RouteStore::instance()
 {
     RouteStore *tmp = m_instance.loadAcquire();
@@ -30,25 +20,25 @@ RouteStore *RouteStore::instance()
     return tmp;
 }
 
-void RouteStore::addRoute(const Route &route)
+void RouteStore::addRoute(Route &route)
 {
     QWriteLocker guard(&m_rwlock);
     m_routes.append(route);
 }
 
-void RouteStore::addRoutes(const QVector<Route> &routes)
+void RouteStore::addRoutes(QVector<Route> &routes)
 {
     QWriteLocker guard(&m_rwlock);
     m_routes.append(routes);
 }
 
-void RouteStore::insertRoute(qint32 index, const Route &route)
+void RouteStore::insertRoute(qint32 index, Route &route)
 {
     QWriteLocker guard(&m_rwlock);
     m_routes.insert(index, route);
 }
 
-void RouteStore::insertRoutes(qint32 index, const QVector<Route> &routes)
+void RouteStore::insertRoutes(qint32 index, QVector<Route> &routes)
 {
     QWriteLocker guard(&m_rwlock);
 
@@ -79,4 +69,14 @@ QVector<Route> &RouteStore::getRoutes()
 {
     QReadLocker guard(&m_rwlock);
     return m_routes;
+}
+
+qint32 RouteStore::size() const
+{
+    return m_routes.size();
+}
+
+bool RouteStore::isEmpty() const
+{
+    return m_routes.isEmpty();
 }
