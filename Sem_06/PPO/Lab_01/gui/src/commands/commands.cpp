@@ -95,25 +95,41 @@ void AddPointCommand::redo()
 ** ModifyPointCommand
 */
 
-ModifyPointCommand::ModifyPointCommand(qint32 routeIndex, qint32 pointIndex,
-                                       const QGeoCoordinate &oldPoint, const QGeoCoordinate &newPoint,
+ModifyPointCommand::ModifyPointCommand(qint32 routeIndex, qint32 pointIndex, MapViewProxy *proxy,
+                                       QTableWidget *routeWidget, QTableWidget *pointWidget,
+                                       const QGeoCoordinate &point, const QGeoCoordinate &oldPoint,
                                        QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     m_routeIndex = routeIndex;
     m_pointIndex = pointIndex;
+    m_proxy = proxy;
+    m_routeWidget = routeWidget;
+    m_pointWidget = pointWidget;
+    m_point = point;
     m_oldPoint = oldPoint;
-    m_newPoint = newPoint;
 }
 
 void ModifyPointCommand::undo()
 {
-//    RouteStore::instance()->getRoute(m_routeIndex).replaceCoordinate(m_pointIndex, m_oldPoint);
+    Route &route = RouteStore::instance()->getRoute(m_routeIndex);
+    route.replaceCoordinate(m_pointIndex, m_oldPoint);
+    route.updateLength();
+    m_pointWidget->item(m_pointIndex, 0)->setText(QString::number(m_oldPoint.latitude()));
+    m_pointWidget->item(m_pointIndex, 1)->setText(QString::number(m_oldPoint.longitude()));
+    m_routeWidget->item(m_routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_proxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 void ModifyPointCommand::redo()
 {
-//    RouteStore::instance()->getRoute(m_routeIndex).replaceCoordinate(m_pointIndex, m_newPoint);
+    Route &route = RouteStore::instance()->getRoute(m_routeIndex);
+    route.replaceCoordinate(m_pointIndex, m_point);
+    route.updateLength();
+    m_pointWidget->item(m_pointIndex, 0)->setText(QString::number(m_point.latitude()));
+    m_pointWidget->item(m_pointIndex, 1)->setText(QString::number(m_point.longitude()));
+    m_routeWidget->item(m_routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_proxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 /******************************************************************************

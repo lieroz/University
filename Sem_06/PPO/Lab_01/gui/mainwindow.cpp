@@ -91,6 +91,7 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
     if (m_routeTableCellModified) {
         Route &route = m_accessor->getRoute(m_selectedRow);
         QGeoCoordinate coord = route.getCoordinates().coordinateAt(item->row());
+        QGeoCoordinate oldCoord = coord;
         bool ok = false;
         qreal number = item->text().toDouble(&ok);
 
@@ -118,10 +119,9 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
             coord.setLongitude(number);
         }
 
-        route.replaceCoordinate(item->row(), coord);
-        route.updateLength();
-        ui->routeInfoTableView->item(m_selectedRow, 1)->setText(QString::number(route.getLength() / 1000));
-        emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+        m_undoStack->push(new ModifyPointCommand(m_selectedRow, item->row(), m_mapViewProxy,
+                          ui->routeInfoTableView, ui->routeTableView,
+                          coord, oldCoord));
         m_routeTableCellModified = false;
     }
 }

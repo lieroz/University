@@ -53,8 +53,9 @@ private:
 class ModifyPointCommand : public QUndoCommand
 {
 public:
-    ModifyPointCommand(qint32 routeIndex, qint32 pointIndex,
-                       const QGeoCoordinate &oldPoint, const QGeoCoordinate &newPoint,
+    ModifyPointCommand(qint32 routeIndex, qint32 pointIndex, MapViewProxy *proxy,
+                       QTableWidget *routeWidget, QTableWidget *pointWidget,
+                       const QGeoCoordinate &point, const QGeoCoordinate &oldPoint,
                        QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
@@ -63,7 +64,10 @@ public:
 private:
     qint32 m_routeIndex;
     qint32 m_pointIndex;
-    QGeoCoordinate m_newPoint;
+    MapViewProxy *m_proxy;
+    QTableWidget *m_routeWidget;
+    QTableWidget *m_pointWidget;
+    QGeoCoordinate m_point;
     QGeoCoordinate m_oldPoint;
 };
 

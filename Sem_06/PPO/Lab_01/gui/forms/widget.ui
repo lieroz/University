@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTextEdit" name="textEdit"/>
+      <widget class="QPlainTextEdit" name="textEdit"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
