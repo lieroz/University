@@ -9,7 +9,7 @@
 #include <QDebug>
 #include <QTableWidget>
 
-#include <commands/commands.h>
+#include <commands.h>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     QQuickView *view = new QQuickView;
-    view->rootContext()->setContextProperty("mapViewProxy", m_mapViewProxy.data());
+    view->rootContext()->setContextProperty("mapViewProxy", m_mapViewProxy);
     QWidget *container = QWidget::createWindowContainer(view, this);
     container->setFocusPolicy(Qt::TabFocus);
     view->setSource(QUrl(QStringLiteral("qrc:/gui/resources/qml/MapView.qml")));
@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-
+    delete m_mapViewProxy;
 }
 
 void MainWindow::routeInfoTableItemDoubleClicked(int row, int column)
@@ -188,31 +188,19 @@ void MainWindow::deleteRoutes()
 void MainWindow::addPoint()
 {
     if (ui->routeInfoTableView->selectionModel()->selectedRows().size() != 0) {
-        Route &route = m_accessor->getRoute(m_selectedRow);
-        QGeoCoordinate coord(0, 0);
-        route.appendCoordinate(coord);
         const auto rowCount = ui->routeTableView->rowCount();
-
-        ui->routeTableView->insertRow(rowCount);
-        ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(0)));
-        ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(0)));
+        m_undoStack->push(new AddPointCommand(m_selectedRow, rowCount, ui->routeTableView));
     }
 }
 
 void MainWindow::removePoints()
 {
     const auto size = ui->routeTableView->selectionModel()->selectedRows().size();
-    Route &route = m_accessor->getRoute(m_selectedRow);
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeTableView->selectionModel()->selectedRows().first().row();
-        ui->routeTableView->removeRow(index);
-        route.removeCoordinate(index);
+        m_undoStack->push(new DeletePointCommand(m_selectedRow, index, m_mapViewProxy, ui->routeInfoTableView, ui->routeTableView));
     }
-
-    route.updateLength();
-    ui->routeInfoTableView->item(m_selectedRow, 1)->setText(QString::number(route.getLength() / 1000));
-    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 void MainWindow::setUpActions()

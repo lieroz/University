@@ -1,4 +1,4 @@
-#include <commands/commands.h>
+#include <commands.h>
 #include <QDebug>
 
 AddRouteCommand::AddRouteCommand(qint32 index, const Route &route,
@@ -70,22 +70,26 @@ void DeleteRouteCommand::redo()
 */
 
 AddPointCommand::AddPointCommand(qint32 routeIndex, qint32 pointIndex,
-                                 const QGeoCoordinate &point, QUndoCommand *parent)
+                                 QTableWidget *widget, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     m_routeIndex = routeIndex;
     m_pointIndex = pointIndex;
-    m_point = point;
+    m_widget = widget;
 }
 
 void AddPointCommand::undo()
 {
-//    RouteStore::instance()->getRoute(m_routeIndex).removeCoordinate(m_pointIndex);
+    m_widget->removeRow(m_pointIndex);
+    RouteStore::instance()->getRoute(m_routeIndex).removeCoordinate(m_pointIndex);
 }
 
 void AddPointCommand::redo()
 {
-//    RouteStore::instance()->getRoute(m_routeIndex).insertCoordinate(m_pointIndex, m_point);
+    m_widget->insertRow(m_pointIndex);
+    m_widget->setItem(m_pointIndex, 0, new QTableWidgetItem(QString::number(0)));
+    m_widget->setItem(m_pointIndex, 1, new QTableWidgetItem(QString::number(0)));
+    RouteStore::instance()->getRoute(m_routeIndex).appendCoordinate(QGeoCoordinate(0, 0));
 }
 
 /******************************************************************************
@@ -117,21 +121,37 @@ void ModifyPointCommand::redo()
 ** DeletePointCommand
 */
 
-DeletePointCommand::DeletePointCommand(qint32 routeIndex, qint32 pointIndex,
-                                       const QGeoCoordinate &point, QUndoCommand *parent)
+DeletePointCommand::DeletePointCommand(qint32 routeIndex, qint32 pointIndex, MapViewProxy *proxy,
+                                       QTableWidget *routeWidget, QTableWidget *pointWidget,
+                                       QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     m_routeIndex = routeIndex;
     m_pointIndex = pointIndex;
-    m_point = point;
+    m_proxy = proxy;
+    m_routeWidget = routeWidget;
+    m_pointWidget = pointWidget;
 }
 
 void DeletePointCommand::undo()
 {
-//    RouteStore::instance()->getRoute(m_routeIndex).insertCoordinate(m_pointIndex, m_point);
+    m_pointWidget->insertRow(m_pointIndex);
+    m_pointWidget->setItem(m_pointIndex, 0, new QTableWidgetItem(QString::number(m_point.latitude())));
+    m_pointWidget->setItem(m_pointIndex, 1, new QTableWidgetItem(QString::number(m_point.longitude())));
+    Route &route = RouteStore::instance()->getRoute(m_routeIndex);
+    route.insertCoordinate(m_pointIndex, m_point);
+    route.updateLength();
+    m_routeWidget->item(m_routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_proxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 void DeletePointCommand::redo()
 {
-//    RouteStore::instance()->getRoute(m_routeIndex).removeCoordinate(m_pointIndex);
+    m_pointWidget->removeRow(m_pointIndex);
+    Route &route = RouteStore::instance()->getRoute(m_routeIndex);
+    m_point = route.getCoordinates().coordinateAt(m_pointIndex);
+    route.removeCoordinate(m_pointIndex);
+    route.updateLength();
+    m_routeWidget->item(m_routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_proxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }

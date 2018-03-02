@@ -31,20 +31,9 @@ static const qint32 s_asciiOffset = 63;
 static const qint32 s_5bitMask    = 0x1f; // 0b11111 = 31
 static const qint32 s_6bitMask    = 0x20; // 0b100000 = 32
 
-PolylineEncoder::PolylineEncoder()
-{
-
-}
-
 PolylineEncoder::PolylineEncoder(const PolylineEncoder &encoder)
 {
-    QGeoPath tmp(encoder.m_geoPath);
-    m_geoPath = tmp;
-}
-
-PolylineEncoder::~PolylineEncoder()
-{
-
+    m_geoPath = encoder.m_geoPath;
 }
 
 PolylineEncoder &PolylineEncoder::operator=(const PolylineEncoder &encoder)

@@ -11,13 +11,11 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 file(GLOB GLOB_SOURCES src/*.cpp)
 file(GLOB COMMON_SOURCES src/common/*.cpp)
-file(GLOB COMMANDS_SOURCES src/commands/*.cpp)
 file(GLOB DATALOADERS_SOURCES src/dataloaders/*.cpp)
 
 set(SOURCE_FILES
     ${GLOB_SOURCES}
     ${COMMON_SOURCES}
-    ${COMMANDS_SOURCES}
     ${DATALOADERS_SOURCES})
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})

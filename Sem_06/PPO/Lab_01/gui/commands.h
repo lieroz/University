@@ -4,6 +4,7 @@
 #include <QTableWidget>
 
 #include <common/routestore.h>
+#include <mainwindow.h>
 
 class AddRouteCommand : public QUndoCommand
 {
@@ -38,7 +39,7 @@ class AddPointCommand : public QUndoCommand
 {
 public:
     AddPointCommand(qint32 routeIndex, qint32 pointIndex,
-                    const QGeoCoordinate &point, QUndoCommand *parent = Q_NULLPTR);
+                    QTableWidget *widget, QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
@@ -46,7 +47,7 @@ public:
 private:
     qint32 m_routeIndex;
     qint32 m_pointIndex;
-    QGeoCoordinate m_point;
+    QTableWidget *m_widget;
 };
 
 class ModifyPointCommand : public QUndoCommand
@@ -69,8 +70,9 @@ private:
 class DeletePointCommand : public QUndoCommand
 {
 public:
-    DeletePointCommand(qint32 routeIndex, qint32 pointIndex,
-                       const QGeoCoordinate &point, QUndoCommand *parent = Q_NULLPTR);
+    DeletePointCommand(qint32 routeIndex, qint32 pointIndex, MapViewProxy *proxy,
+                       QTableWidget *routeWidget, QTableWidget *pointWidget,
+                       QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
@@ -78,5 +80,8 @@ public:
 private:
     qint32 m_routeIndex;
     qint32 m_pointIndex;
+    MapViewProxy *m_proxy;
+    QTableWidget *m_routeWidget;
+    QTableWidget *m_pointWidget;
     QGeoCoordinate m_point;
 };

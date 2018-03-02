@@ -38,9 +38,9 @@ SOFTWARE.
 class PolylineEncoder
 {
 public:
-    PolylineEncoder();
+    PolylineEncoder() = default;
     PolylineEncoder(const PolylineEncoder &encoder);
-    ~PolylineEncoder();
+    ~PolylineEncoder() = default;
 
     PolylineEncoder &operator=(const PolylineEncoder &encoder);
 

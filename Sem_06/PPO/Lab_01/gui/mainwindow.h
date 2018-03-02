@@ -61,7 +61,7 @@ private:
 private:
     QScopedPointer<Ui::MainWindow> ui;
     QScopedPointer<LibAccessFacade> m_accessor;
-    QScopedPointer<MapViewProxy> m_mapViewProxy;
+    MapViewProxy *m_mapViewProxy;
 
     QUndoStack *m_undoStack;
     QAction *m_undoAction;
