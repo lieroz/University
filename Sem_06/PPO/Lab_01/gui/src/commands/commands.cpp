@@ -1,5 +1,4 @@
-#include <commands.h>
-#include <QDebug>
+#include <commands/commands.h>
 
 AddRouteCommand::AddRouteCommand(qint32 index, const Route &route,
                                  QTableWidget *widget, QUndoCommand *parent)

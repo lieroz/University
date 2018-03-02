@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    ~MainWindow() = default;
 
 private Q_SLOTS:
     void routeInfoTableItemDoubleClicked(int row, int column);
@@ -59,9 +59,10 @@ private:
     void setUpRouteCoordinatesView();
 
 private:
-    QScopedPointer<Ui::MainWindow> ui;
-    QScopedPointer<LibAccessFacade> m_accessor;
+    Ui::MainWindow *ui;
     MapViewProxy *m_mapViewProxy;
+
+    QScopedPointer<LibAccessFacade> m_accessor;
 
     QUndoStack *m_undoStack;
     QAction *m_undoAction;

@@ -7,8 +7,6 @@ set(CMAKE_AUTOMOC ON)
 
 add_subdirectory(3dparty)
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-
 file(GLOB GLOB_SOURCES src/*.cpp)
 file(GLOB COMMON_SOURCES src/common/*.cpp)
 file(GLOB DATALOADERS_SOURCES src/dataloaders/*.cpp)
@@ -20,4 +18,4 @@ set(SOURCE_FILES
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_link_libraries(${PROJECT_NAME} 3dparty Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} 3dparty)

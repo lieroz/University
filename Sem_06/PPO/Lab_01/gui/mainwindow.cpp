@@ -9,7 +9,7 @@
 #include <QDebug>
 #include <QTableWidget>
 
-#include <commands.h>
+#include <commands/commands.h>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
@@ -39,11 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->mainToolBar->addAction(m_undoAction);
     ui->mainToolBar->addAction(m_redoAction);
-}
-
-MainWindow::~MainWindow()
-{
-    delete m_mapViewProxy;
 }
 
 void MainWindow::routeInfoTableItemDoubleClicked(int row, int column)
