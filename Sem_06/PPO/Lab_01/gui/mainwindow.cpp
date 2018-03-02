@@ -6,18 +6,21 @@
 #include <QDir>
 #include <QQmlContext>
 #include <QMessageBox>
-#include <QDebug>
 #include <QTableWidget>
+#include <QThreadPool>
 
 #include <commands/commands.h>
+#include <task.h>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow),
-    m_accessor(new LibAccessFacade), m_mapViewProxy(new MapViewProxy)
+    m_accessor(new LibAccessFacade), m_mapViewProxy(new MapViewProxy),
+    m_pool(new QThreadPool)
 {
+    m_pool->setMaxThreadCount(10);
     m_undoStack = new QUndoStack(this);
     m_selectedRow = 0;
     m_routeInfoTableCellModified = false;
@@ -32,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     container->setFocusPolicy(Qt::TabFocus);
     view->setSource(QUrl(QStringLiteral("qrc:/gui/resources/qml/MapView.qml")));
     ui->tabWidget->addTab(container, "MapView");
-
     setUpActions();
     setUpRouteDataView();
     setUpRouteCoordinatesView();

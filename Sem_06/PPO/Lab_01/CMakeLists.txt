@@ -7,6 +7,7 @@ set(CMAKE_AUTOMOC ON)
 
 add_subdirectory(lib)
 add_subdirectory(gui)
+add_subdirectory(tests)
 
 find_package(Qt5 COMPONENTS Quick REQUIRED)
 qt5_add_Resources(RESOURCES resources.qrc)

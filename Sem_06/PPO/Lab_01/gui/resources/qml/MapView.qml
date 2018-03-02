@@ -34,11 +34,10 @@ Rectangle {
     Connections {
         target: mapViewProxy
         onSetPolyline: {
-            var lines = []
+            polyline.path = []
             for (var i = 0; i < geopath.size(); i++){
-                lines[i] = geopath.coordinateAt(i)
+                polyline.addCoordinate(geopath.coordinateAt(i))
             }
-            polyline.path = lines
         }
     }
 }

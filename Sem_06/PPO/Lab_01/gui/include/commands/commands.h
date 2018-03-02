@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtWidgets/QUndoCommand>
-#include <QTableWidget>
 
 #include <common/routestore.h>
 #include <mainwindow.h>
