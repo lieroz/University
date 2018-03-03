@@ -39,6 +39,7 @@ PolylineEncoder::PolylineEncoder(const PolylineEncoder &encoder)
 PolylineEncoder &PolylineEncoder::operator=(const PolylineEncoder &encoder)
 {
     m_geoPath = encoder.m_geoPath;
+    return *this;
 }
 
 void PolylineEncoder::addPoint(const QGeoCoordinate &geoCoord)

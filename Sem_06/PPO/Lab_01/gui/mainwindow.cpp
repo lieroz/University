@@ -10,7 +10,6 @@
 #include <QThreadPool>
 
 #include <commands/commands.h>
-#include <task.h>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
@@ -136,7 +135,7 @@ void MainWindow::receiveFromWidget(QString text)
     route.updateLength();
 
     const auto rowCount = ui->routeInfoTableView->rowCount();
-    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView));
+    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView, ui->routeTableView));
 }
 
 void MainWindow::importRoutes()
@@ -148,7 +147,7 @@ void MainWindow::importRoutes()
         Route route;
         m_accessor->load(fileName, route);
         const auto rowCount = ui->routeInfoTableView->rowCount();
-        m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView));
+        m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView, ui->routeTableView));
     }
 }
 
@@ -163,7 +162,7 @@ void MainWindow::createRoute()
 {
     Route route;
     const auto rowCount = ui->routeInfoTableView->rowCount();
-    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView));
+    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView, ui->routeTableView));
 }
 
 void MainWindow::deleteRoutes()
@@ -172,7 +171,7 @@ void MainWindow::deleteRoutes()
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeInfoTableView->selectionModel()->selectedRows().first().row();
-        m_undoStack->push(new DeleteRouteCommand(index, ui->routeInfoTableView));
+        m_undoStack->push(new DeleteRouteCommand(index, ui->routeInfoTableView, ui->routeTableView));
     }
 
     if (ui->routeTableView->rowCount() != 0) {

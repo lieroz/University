@@ -8,8 +8,8 @@
 class AddRouteCommand : public QUndoCommand
 {
 public:
-    AddRouteCommand(qint32 index, const Route &route,
-                    QTableWidget *widget, QUndoCommand *parent = Q_NULLPTR);
+    AddRouteCommand(qint32 index, const Route &route, QTableWidget *routeWidget,
+                    QTableWidget *pointWidget, QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
@@ -17,13 +17,15 @@ public:
 private:
     qint32 m_index;
     Route m_route;
-    QTableWidget *m_widget;
+    QTableWidget *m_routeWidget;
+    QTableWidget *m_pointWidget;
 };
 
 class DeleteRouteCommand : public QUndoCommand
 {
 public:
-    DeleteRouteCommand(qint32 index, QTableWidget *widget, QUndoCommand *parent = Q_NULLPTR);
+    DeleteRouteCommand(qint32 index, QTableWidget *routeWidget,
+                       QTableWidget *pointWidget, QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
@@ -31,7 +33,8 @@ public:
 private:
     qint32 m_index;
     Route m_route;
-    QTableWidget *m_widget;
+    QTableWidget *m_routeWidget;
+    QTableWidget *m_pointWidget;
 };
 
 class AddPointCommand : public QUndoCommand

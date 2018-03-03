@@ -1,32 +1,40 @@
 #include <commands/commands.h>
+#include <QDebug>
 
-AddRouteCommand::AddRouteCommand(qint32 index, const Route &route,
-                                 QTableWidget *widget, QUndoCommand *parent)
+AddRouteCommand::AddRouteCommand(qint32 index, const Route &route, QTableWidget *routeWidget,
+                                 QTableWidget *pointWidget, QUndoCommand *parent)
     : m_route(route), QUndoCommand(parent)
 {
     m_index = index;
-    m_widget = widget;
+    m_routeWidget = routeWidget;
+    m_pointWidget = pointWidget;
 }
 
 void AddRouteCommand::undo()
 {
-    m_widget->removeRow(m_index);
+    m_routeWidget->removeRow(m_index);
     RouteStore::instance()->deleteRoute(m_index);
+
+    if (m_pointWidget->rowCount() != 0) {
+        m_pointWidget->clearContents();
+    }
+
+    m_pointWidget->setRowCount(0);
 }
 
 void AddRouteCommand::redo()
 {
-    m_widget->insertRow(m_index);
-    m_widget->setItem(m_index, 0, new QTableWidgetItem(m_route.getName()));
+    m_routeWidget->insertRow(m_index);
+    m_routeWidget->setItem(m_index, 0, new QTableWidgetItem(m_route.getName()));
 
     QTableWidgetItem *item;
     item = new QTableWidgetItem(QString::number(m_route.getLength() / 1000));
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_widget->setItem(m_index, 1, item);
+    m_routeWidget->setItem(m_index, 1, item);
 
     item = new QTableWidgetItem(m_route.getDate().toString());
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_widget->setItem(m_index, 2, item);
+    m_routeWidget->setItem(m_index, 2, item);
     RouteStore::instance()->addRoute(m_route);
 }
 
@@ -34,34 +42,42 @@ void AddRouteCommand::redo()
 ** DeleteRouteCommand
 */
 
-DeleteRouteCommand::DeleteRouteCommand(qint32 index, QTableWidget *widget, QUndoCommand *parent)
+DeleteRouteCommand::DeleteRouteCommand(qint32 index, QTableWidget *routeWidget,
+                                       QTableWidget *pointWidget, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     m_index = index;
-    m_widget = widget;
+    m_routeWidget = routeWidget;
+    m_pointWidget = pointWidget;
 }
 
 void DeleteRouteCommand::undo()
 {
-    m_widget->insertRow(m_index);
-    m_widget->setItem(m_index, 0, new QTableWidgetItem(m_route.getName()));
+    m_routeWidget->insertRow(m_index);
+    m_routeWidget->setItem(m_index, 0, new QTableWidgetItem(m_route.getName()));
 
     QTableWidgetItem *item;
     item = new QTableWidgetItem(QString::number(m_route.getLength() / 1000));
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_widget->setItem(m_index, 1, item);
+    m_routeWidget->setItem(m_index, 1, item);
 
     item = new QTableWidgetItem(m_route.getDate().toString());
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_widget->setItem(m_index, 2, item);
+    m_routeWidget->setItem(m_index, 2, item);
     RouteStore::instance()->addRoute(m_route);
 }
 
 void DeleteRouteCommand::redo()
 {
     m_route = RouteStore::instance()->getRoute(m_index);
-    m_widget->removeRow(m_index);
+    m_routeWidget->removeRow(m_index);
     RouteStore::instance()->deleteRoute(m_index);
+
+    if (m_pointWidget->rowCount() != 0) {
+        m_pointWidget->clearContents();
+    }
+
+    m_pointWidget->setRowCount(0);
 }
 
 /******************************************************************************

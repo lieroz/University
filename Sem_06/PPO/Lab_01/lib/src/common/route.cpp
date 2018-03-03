@@ -29,6 +29,7 @@ Route &Route::operator=(const Route &route)
     m_length = route.m_length;
     m_date = route.m_date;
     m_encoder = route.m_encoder;
+    return *this;
 }
 
 void Route::setName(const QString &name)
