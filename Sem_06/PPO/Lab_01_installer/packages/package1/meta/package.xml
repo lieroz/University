@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Lab_01</DisplayName>
+    <Description>This is first lab for software design course in BMSTU IU7 6-th semester</Description>
+    <Version>1.0.0-1</Version>
+    <ReleaseDate>2018-03-03</ReleaseDate>
+    <Default>true</Default>
+</Package>

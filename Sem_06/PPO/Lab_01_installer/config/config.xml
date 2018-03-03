@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Software Design Lab_01</Name>
+    <Title>Software Design Lab_01</Title>
+    <Version>1.0.0</Version>
+    <TargetDir>@HomeDir@/PPO/Lab_01</TargetDir>
+</Installer>
