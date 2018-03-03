@@ -20,8 +20,8 @@ task/
 
 # Shared objects (inc. Windows DLLs)
 *.dll
-*.so
-*.so.*
+#*.so
+#*.so.*
 *.dylib
 
 # Executables
