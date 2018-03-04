@@ -314,10 +314,13 @@ void MainWindow::modifyPointCommand(QGeoCoordinate &point, qint32 routeIndex, qi
     Route &route = m_accessor->getRoute(routeIndex);
     route.replaceCoordinate(pointIndex, point);
     route.updateLength();
-    ui->routeTableView->item(pointIndex, 0)->setText(QString::number(point.latitude()));
-    ui->routeTableView->item(pointIndex, 1)->setText(QString::number(point.longitude()));
     ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
-    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+
+    if (m_selectedRow == routeIndex) {
+        ui->routeTableView->item(pointIndex, 0)->setText(QString::number(point.latitude()));
+        ui->routeTableView->item(pointIndex, 1)->setText(QString::number(point.longitude()));
+        emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+    }
 }
 
 void MainWindow::removePointCommand(qint32 routeIndex, qint32 pointIndex)
