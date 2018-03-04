@@ -59,13 +59,16 @@ private:
     void setUpRouteDataView();
     void setUpRouteCoordinatesView();
 
-    void addRoute(Route &route, qint32 index);
-    void removeRoute(qint32 index);
+    void addRouteCommand(Route &route, qint32 index);
+    void removeRouteCommand(qint32 index);
+
+    void addPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex);
+    void modifyPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex);
+    void removePointCommand(qint32 routeIndex, qint32 pointIndex);
 
 private:
     Ui::MainWindow *ui;
     MapViewProxy *m_mapViewProxy;
-    QScopedPointer<QThreadPool> m_pool;
 
     QScopedPointer<LibAccessFacade> m_accessor;
 

@@ -16,10 +16,8 @@ QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow),
-    m_accessor(new LibAccessFacade), m_mapViewProxy(new MapViewProxy),
-    m_pool(new QThreadPool)
+    m_accessor(new LibAccessFacade), m_mapViewProxy(new MapViewProxy)
 {
-    m_pool->setMaxThreadCount(10);
     m_undoStack = new QUndoStack(this);
     m_selectedRow = 0;
     m_routeInfoTableCellModified = false;
@@ -120,9 +118,8 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
             coord.setLongitude(number);
         }
 
-        m_undoStack->push(new ModifyPointCommand(m_selectedRow, item->row(), m_mapViewProxy,
-                          ui->routeInfoTableView, ui->routeTableView,
-                          coord, oldCoord));
+        auto undoRedoFunc = std::bind(&MainWindow::modifyPointCommand, this, std::placeholders::_1, m_selectedRow, item->row());
+        m_undoStack->push(new ModifyPointCommand(coord, oldCoord, undoRedoFunc));
         m_routeTableCellModified = false;
     }
 }
@@ -135,8 +132,8 @@ void MainWindow::receiveFromWidget(QString text)
     route.updateLength();
 
     const auto rowCount = ui->routeInfoTableView->rowCount();
-    auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, rowCount);
-    auto undoFunc = std::bind(&MainWindow::removeRoute, this, rowCount);
+    auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
+    auto undoFunc = std::bind(&MainWindow::removeRouteCommand, this, rowCount);
     m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
 }
 
@@ -149,8 +146,8 @@ void MainWindow::importRoutes()
         Route route;
         m_accessor->load(fileName, route);
         const auto rowCount = ui->routeInfoTableView->rowCount();
-        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, rowCount);
-        auto undoFunc = std::bind(&MainWindow::removeRoute, this, rowCount);
+        auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
+        auto undoFunc = std::bind(&MainWindow::removeRouteCommand, this, rowCount);
         m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
     }
 }
@@ -166,8 +163,8 @@ void MainWindow::createRoute()
 {
     Route route;
     const auto rowCount = ui->routeInfoTableView->rowCount();
-    auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, rowCount);
-    auto undoFunc = std::bind(&MainWindow::removeRoute, this, rowCount);
+    auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
+    auto undoFunc = std::bind(&MainWindow::removeRouteCommand, this, rowCount);
     m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
 }
 
@@ -177,24 +174,20 @@ void MainWindow::deleteRoutes()
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeInfoTableView->selectionModel()->selectedRows().first().row();
-        auto redoFunc = std::bind(&MainWindow::removeRoute, this, index);
-        auto undoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
         Route route = m_accessor->getRoute(index);
+        auto redoFunc = std::bind(&MainWindow::removeRouteCommand, this, index);
+        auto undoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, index);
         m_undoStack->push(new DeleteRouteCommand(route, redoFunc, undoFunc));
     }
-
-    if (ui->routeTableView->rowCount() != 0) {
-        ui->routeTableView->clearContents();
-    }
-
-    ui->routeTableView->setRowCount(0);
 }
 
 void MainWindow::addPoint()
 {
     if (ui->routeInfoTableView->selectionModel()->selectedRows().size() != 0) {
         const auto rowCount = ui->routeTableView->rowCount();
-        m_undoStack->push(new AddPointCommand(m_selectedRow, rowCount, ui->routeTableView));
+        auto redoFunc = std::bind(&MainWindow::addPointCommand, this, std::placeholders::_1, m_selectedRow, rowCount);
+        auto undoFunc = std::bind(&MainWindow::removePointCommand, this, m_selectedRow, rowCount);
+        m_undoStack->push(new AddPointCommand(QGeoCoordinate(0, 0), redoFunc, undoFunc));
     }
 }
 
@@ -204,7 +197,10 @@ void MainWindow::removePoints()
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeTableView->selectionModel()->selectedRows().first().row();
-        m_undoStack->push(new DeletePointCommand(m_selectedRow, index, m_mapViewProxy, ui->routeInfoTableView, ui->routeTableView));
+        auto redoFunc = std::bind(&MainWindow::removePointCommand, this, m_selectedRow, index);
+        auto undoFunc = std::bind(&MainWindow::addPointCommand, this, std::placeholders::_1, m_selectedRow, index);
+        QGeoCoordinate point = m_accessor->getRoute(m_selectedRow).getCoordinates().coordinateAt(index);
+        m_undoStack->push(new DeletePointCommand(point, redoFunc, undoFunc));
     }
 }
 
@@ -257,7 +253,7 @@ void MainWindow::setUpRouteCoordinatesView()
             this, SLOT(routeTableItemChanged(QTableWidgetItem *)));
 }
 
-void MainWindow::addRoute(Route &route, qint32 index)
+void MainWindow::addRouteCommand(Route &route, qint32 index)
 {
     ui->routeInfoTableView->insertRow(index);
     ui->routeInfoTableView->setItem(index, 0, new QTableWidgetItem(route.getName()));
@@ -270,17 +266,50 @@ void MainWindow::addRoute(Route &route, qint32 index)
     item = new QTableWidgetItem(route.getDate().toString());
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
     ui->routeInfoTableView->setItem(index, 2, item);
-    RouteStore::instance()->addRoute(route);
+    m_accessor->addRoute(route);
 }
 
-void MainWindow::removeRoute(qint32 index)
+void MainWindow::removeRouteCommand(qint32 index)
 {
     ui->routeInfoTableView->removeRow(index);
-    RouteStore::instance()->deleteRoute(index);
+    m_accessor->deleteRoute(index);
 
     if (ui->routeTableView->rowCount() != 0) {
         ui->routeTableView->clearContents();
     }
 
     ui->routeTableView->setRowCount(0);
+}
+
+void MainWindow::addPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex)
+{
+    ui->routeTableView->insertRow(pointIndex);
+    ui->routeTableView->setItem(pointIndex, 0, new QTableWidgetItem(QString::number(point.latitude())));
+    ui->routeTableView->setItem(pointIndex, 1, new QTableWidgetItem(QString::number(point.longitude())));
+    Route &route = m_accessor->getRoute(routeIndex);
+    route.insertCoordinate(pointIndex, point);
+    route.updateLength();
+    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+}
+
+void MainWindow::modifyPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex)
+{
+    Route &route = m_accessor->getRoute(routeIndex);
+    route.replaceCoordinate(pointIndex, point);
+    route.updateLength();
+    ui->routeTableView->item(pointIndex, 0)->setText(QString::number(point.latitude()));
+    ui->routeTableView->item(pointIndex, 1)->setText(QString::number(point.longitude()));
+    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+}
+
+void MainWindow::removePointCommand(qint32 routeIndex, qint32 pointIndex)
+{
+    ui->routeTableView->removeRow(pointIndex);
+    Route &route = m_accessor->getRoute(routeIndex);
+    route.removeCoordinate(pointIndex);
+    route.updateLength();
+    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }

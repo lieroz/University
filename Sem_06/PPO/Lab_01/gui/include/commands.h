@@ -43,54 +43,50 @@ private:
 class AddPointCommand : public QUndoCommand
 {
 public:
-    AddPointCommand(qint32 routeIndex, qint32 pointIndex,
-                    QTableWidget *widget, QUndoCommand *parent = Q_NULLPTR);
+    AddPointCommand(const QGeoCoordinate &point,
+                    const std::function<void (QGeoCoordinate &)> &redoFunc,
+                    const std::function<void ()> &undoFunc,
+                    QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
 
 private:
-    qint32 m_routeIndex;
-    qint32 m_pointIndex;
-    QTableWidget *m_widget;
+    QGeoCoordinate m_point;
+    std::function<void (QGeoCoordinate &)> m_redoFunc;
+    std::function<void ()> m_undoFunc;
 };
 
 class ModifyPointCommand : public QUndoCommand
 {
 public:
-    ModifyPointCommand(qint32 routeIndex, qint32 pointIndex, MapViewProxy *proxy,
-                       QTableWidget *routeWidget, QTableWidget *pointWidget,
-                       const QGeoCoordinate &point, const QGeoCoordinate &oldPoint,
+    ModifyPointCommand(const QGeoCoordinate &point,
+                       const QGeoCoordinate &oldPoint,
+                       const std::function<void (QGeoCoordinate &)> &undoRedoFunc,
                        QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
 
 private:
-    qint32 m_routeIndex;
-    qint32 m_pointIndex;
-    MapViewProxy *m_proxy;
-    QTableWidget *m_routeWidget;
-    QTableWidget *m_pointWidget;
     QGeoCoordinate m_point;
     QGeoCoordinate m_oldPoint;
+    std::function<void (QGeoCoordinate &)> m_undoRedoFunc;
 };
 
 class DeletePointCommand : public QUndoCommand
 {
 public:
-    DeletePointCommand(qint32 routeIndex, qint32 pointIndex, MapViewProxy *proxy,
-                       QTableWidget *routeWidget, QTableWidget *pointWidget,
+    DeletePointCommand(const QGeoCoordinate &point,
+                       const std::function<void ()> &redoFunc,
+                       const std::function<void (QGeoCoordinate &)> &undoFunc,
                        QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
 
 private:
-    qint32 m_routeIndex;
-    qint32 m_pointIndex;
-    MapViewProxy *m_proxy;
-    QTableWidget *m_routeWidget;
-    QTableWidget *m_pointWidget;
     QGeoCoordinate m_point;
+    std::function<void ()> m_redoFunc;
+    std::function<void (QGeoCoordinate &)> m_undoFunc;
 };
