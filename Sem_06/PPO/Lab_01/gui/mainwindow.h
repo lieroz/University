@@ -55,6 +55,9 @@ private Q_SLOTS:
     void removePoints();
 
 private:
+    void populateRouteTableView(Route &route);
+    void clearRouteTableView();
+
     void setUpActions();
     void setUpRouteDataView();
     void setUpRouteCoordinatesView();

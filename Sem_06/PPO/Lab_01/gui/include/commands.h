@@ -3,8 +3,7 @@
 #include <QtWidgets/QUndoCommand>
 #include <functional>
 
-#include <common/routestore.h>
-#include <mainwindow.h>
+#include <common/route.h>
 
 class AddRouteCommand : public QUndoCommand
 {

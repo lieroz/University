@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     container->setFocusPolicy(Qt::TabFocus);
     view->setSource(QUrl(QStringLiteral("qrc:/gui/resources/qml/MapView.qml")));
     ui->tabWidget->addTab(container, "MapView");
+
     setUpActions();
     setUpRouteDataView();
     setUpRouteCoordinatesView();
@@ -59,22 +60,9 @@ void MainWindow::routeInfoTableItemChanged(QTableWidgetItem *item)
 void MainWindow::routeInfoTableRowSelected(QModelIndex index)
 {
     Route &route = m_accessor->getRoute(index.row());
-    if (ui->routeTableView->rowCount() != 0) {
-        ui->routeTableView->clearContents();
-    }
-    ui->routeTableView->setRowCount(0);
-
-    for (auto i = 0; i < route.getCoordinates().size(); ++i) {
-        const auto coord = route.getCoordinates().coordinateAt(i);
-        const auto rowCount = ui->routeTableView->rowCount();
-        ui->routeTableView->insertRow(rowCount);
-        ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(coord.latitude())));
-        ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
-    }
-
+    clearRouteTableView();
+    populateRouteTableView(route);
     m_selectedRow = index.row();
-    ui->label->setText(route.getPolyline());
-    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
 }
 
 void MainWindow::routeTableItemDoubleClicked(int row, int column)
@@ -204,6 +192,32 @@ void MainWindow::removePoints()
     }
 }
 
+void MainWindow::populateRouteTableView(Route &route)
+{
+    for (auto i = 0; i < route.getCoordinates().size(); ++i) {
+        const auto coord = route.getCoordinates().coordinateAt(i);
+        const auto rowCount = ui->routeTableView->rowCount();
+        ui->routeTableView->insertRow(rowCount);
+        ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(coord.latitude())));
+        ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
+    }
+
+    ui->label->setText(route.getPolyline());
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+}
+
+void MainWindow::clearRouteTableView()
+{
+    if (ui->routeTableView->rowCount() != 0) {
+        ui->routeTableView->clearContents();
+    }
+
+    ui->routeTableView->setRowCount(0);
+    QGeoPath path;
+    path.addCoordinate(QGeoCoordinate(0, 0));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(path));
+}
+
 void MainWindow::setUpActions()
 {
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(importRoutes()));
@@ -267,6 +281,10 @@ void MainWindow::addRouteCommand(Route &route, qint32 index)
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
     ui->routeInfoTableView->setItem(index, 2, item);
     m_accessor->addRoute(route);
+
+    if (m_selectedRow == index) {
+        populateRouteTableView(route);
+    }
 }
 
 void MainWindow::removeRouteCommand(qint32 index)
@@ -274,11 +292,9 @@ void MainWindow::removeRouteCommand(qint32 index)
     ui->routeInfoTableView->removeRow(index);
     m_accessor->deleteRoute(index);
 
-    if (ui->routeTableView->rowCount() != 0) {
-        ui->routeTableView->clearContents();
+    if (m_selectedRow == index) {
+        clearRouteTableView();
     }
-
-    ui->routeTableView->setRowCount(0);
 }
 
 void MainWindow::addPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex)
