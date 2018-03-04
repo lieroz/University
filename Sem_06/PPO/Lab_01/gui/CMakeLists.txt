@@ -8,7 +8,6 @@ set(CMAKE_AUTORCC ON)
 
 file(GLOB MAIN_SOURCE_FILES *.cpp)
 file(GLOB SOURCE_FILES src/*.cpp)
-file(GLOB COMMAND_SOURCE_FILES src/commands/*.cpp)
 file(GLOB FORM_FILES forms/*.ui)
 
 set(SOURCES

@@ -9,7 +9,7 @@
 #include <QTableWidget>
 #include <QThreadPool>
 
-#include <commands/commands.h>
+#include <commands.h>
 
 QVector<QString> routeInfoTableViewColumnNames = {"Name", "Length (km)", "Date"};
 QVector<QString> routeTableViewColumnNames = {"Latitude", "Longitude"};
@@ -135,7 +135,9 @@ void MainWindow::receiveFromWidget(QString text)
     route.updateLength();
 
     const auto rowCount = ui->routeInfoTableView->rowCount();
-    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView, ui->routeTableView));
+    auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, rowCount);
+    auto undoFunc = std::bind(&MainWindow::removeRoute, this, rowCount);
+    m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
 }
 
 void MainWindow::importRoutes()
@@ -147,7 +149,9 @@ void MainWindow::importRoutes()
         Route route;
         m_accessor->load(fileName, route);
         const auto rowCount = ui->routeInfoTableView->rowCount();
-        m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView, ui->routeTableView));
+        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, rowCount);
+        auto undoFunc = std::bind(&MainWindow::removeRoute, this, rowCount);
+        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
     }
 }
 
@@ -162,7 +166,9 @@ void MainWindow::createRoute()
 {
     Route route;
     const auto rowCount = ui->routeInfoTableView->rowCount();
-    m_undoStack->push(new AddRouteCommand(rowCount, route, ui->routeInfoTableView, ui->routeTableView));
+    auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, rowCount);
+    auto undoFunc = std::bind(&MainWindow::removeRoute, this, rowCount);
+    m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
 }
 
 void MainWindow::deleteRoutes()
@@ -171,7 +177,10 @@ void MainWindow::deleteRoutes()
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeInfoTableView->selectionModel()->selectedRows().first().row();
-        m_undoStack->push(new DeleteRouteCommand(index, ui->routeInfoTableView, ui->routeTableView));
+        auto redoFunc = std::bind(&MainWindow::removeRoute, this, index);
+        auto undoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
+        Route route = m_accessor->getRoute(index);
+        m_undoStack->push(new DeleteRouteCommand(route, redoFunc, undoFunc));
     }
 
     if (ui->routeTableView->rowCount() != 0) {
@@ -246,4 +255,32 @@ void MainWindow::setUpRouteCoordinatesView()
             this, SLOT(routeTableItemDoubleClicked(int, int)));
     connect(ui->routeTableView, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(routeTableItemChanged(QTableWidgetItem *)));
+}
+
+void MainWindow::addRoute(Route &route, qint32 index)
+{
+    ui->routeInfoTableView->insertRow(index);
+    ui->routeInfoTableView->setItem(index, 0, new QTableWidgetItem(route.getName()));
+
+    QTableWidgetItem *item;
+    item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->routeInfoTableView->setItem(index, 1, item);
+
+    item = new QTableWidgetItem(route.getDate().toString());
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->routeInfoTableView->setItem(index, 2, item);
+    RouteStore::instance()->addRoute(route);
+}
+
+void MainWindow::removeRoute(qint32 index)
+{
+    ui->routeInfoTableView->removeRow(index);
+    RouteStore::instance()->deleteRoute(index);
+
+    if (ui->routeTableView->rowCount() != 0) {
+        ui->routeTableView->clearContents();
+    }
+
+    ui->routeTableView->setRowCount(0);
 }

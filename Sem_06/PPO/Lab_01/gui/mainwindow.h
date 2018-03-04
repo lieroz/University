@@ -59,6 +59,9 @@ private:
     void setUpRouteDataView();
     void setUpRouteCoordinatesView();
 
+    void addRoute(Route &route, qint32 index);
+    void removeRoute(qint32 index);
+
 private:
     Ui::MainWindow *ui;
     MapViewProxy *m_mapViewProxy;

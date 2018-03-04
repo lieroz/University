@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QUndoCommand>
+#include <functional>
 
 #include <common/routestore.h>
 #include <mainwindow.h>
@@ -8,33 +9,35 @@
 class AddRouteCommand : public QUndoCommand
 {
 public:
-    AddRouteCommand(qint32 index, const Route &route, QTableWidget *routeWidget,
-                    QTableWidget *pointWidget, QUndoCommand *parent = Q_NULLPTR);
+    AddRouteCommand(const Route &route,
+                    const std::function<void (Route &)> &redoFunc,
+                    const std::function<void ()> &undoFunc,
+                    QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
 
 private:
-    qint32 m_index;
     Route m_route;
-    QTableWidget *m_routeWidget;
-    QTableWidget *m_pointWidget;
+    std::function<void (Route &)> m_redoFunc;
+    std::function<void ()> m_undoFunc;
 };
 
 class DeleteRouteCommand : public QUndoCommand
 {
 public:
-    DeleteRouteCommand(qint32 index, QTableWidget *routeWidget,
-                       QTableWidget *pointWidget, QUndoCommand *parent = Q_NULLPTR);
+    DeleteRouteCommand(const Route &route,
+                       const std::function<void ()> &redoFunc,
+                       const std::function<void (Route &)> &undoFunc,
+                       QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
 
 private:
-    qint32 m_index;
     Route m_route;
-    QTableWidget *m_routeWidget;
-    QTableWidget *m_pointWidget;
+    std::function<void ()> m_redoFunc;
+    std::function<void (Route &)> m_undoFunc;
 };
 
 class AddPointCommand : public QUndoCommand

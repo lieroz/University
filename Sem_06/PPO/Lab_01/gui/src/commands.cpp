@@ -1,83 +1,49 @@
-#include <commands/commands.h>
-#include <QDebug>
+#include <commands.h>
 
-AddRouteCommand::AddRouteCommand(qint32 index, const Route &route, QTableWidget *routeWidget,
-                                 QTableWidget *pointWidget, QUndoCommand *parent)
-    : m_route(route), QUndoCommand(parent)
+AddRouteCommand::AddRouteCommand(const Route &route,
+                                 const std::function<void (Route &)> &redoFunc,
+                                 const std::function<void ()> &undoFunc,
+                                 QUndoCommand *parent)
+    : QUndoCommand(parent)
 {
-    m_index = index;
-    m_routeWidget = routeWidget;
-    m_pointWidget = pointWidget;
+    m_route = route;
+    m_redoFunc = redoFunc;
+    m_undoFunc = undoFunc;
 }
 
 void AddRouteCommand::undo()
 {
-    m_routeWidget->removeRow(m_index);
-    RouteStore::instance()->deleteRoute(m_index);
-
-    if (m_pointWidget->rowCount() != 0) {
-        m_pointWidget->clearContents();
-    }
-
-    m_pointWidget->setRowCount(0);
+    m_undoFunc();
 }
 
 void AddRouteCommand::redo()
 {
-    m_routeWidget->insertRow(m_index);
-    m_routeWidget->setItem(m_index, 0, new QTableWidgetItem(m_route.getName()));
-
-    QTableWidgetItem *item;
-    item = new QTableWidgetItem(QString::number(m_route.getLength() / 1000));
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_routeWidget->setItem(m_index, 1, item);
-
-    item = new QTableWidgetItem(m_route.getDate().toString());
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_routeWidget->setItem(m_index, 2, item);
-    RouteStore::instance()->addRoute(m_route);
+    m_redoFunc(m_route);
 }
 
 /******************************************************************************
 ** DeleteRouteCommand
 */
 
-DeleteRouteCommand::DeleteRouteCommand(qint32 index, QTableWidget *routeWidget,
-                                       QTableWidget *pointWidget, QUndoCommand *parent)
+DeleteRouteCommand::DeleteRouteCommand(const Route &route,
+                                       const std::function<void ()> &redoFunc,
+                                       const std::function<void (Route &)> &undoFunc,
+                                       QUndoCommand *parent)
     : QUndoCommand(parent)
 {
-    m_index = index;
-    m_routeWidget = routeWidget;
-    m_pointWidget = pointWidget;
+    m_route = route;
+    m_redoFunc = redoFunc;
+    m_undoFunc = undoFunc;
 }
 
 void DeleteRouteCommand::undo()
 {
-    m_routeWidget->insertRow(m_index);
-    m_routeWidget->setItem(m_index, 0, new QTableWidgetItem(m_route.getName()));
-
-    QTableWidgetItem *item;
-    item = new QTableWidgetItem(QString::number(m_route.getLength() / 1000));
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_routeWidget->setItem(m_index, 1, item);
-
-    item = new QTableWidgetItem(m_route.getDate().toString());
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    m_routeWidget->setItem(m_index, 2, item);
-    RouteStore::instance()->addRoute(m_route);
+    m_undoFunc(m_route);
 }
 
 void DeleteRouteCommand::redo()
 {
-    m_route = RouteStore::instance()->getRoute(m_index);
-    m_routeWidget->removeRow(m_index);
-    RouteStore::instance()->deleteRoute(m_index);
-
-    if (m_pointWidget->rowCount() != 0) {
-        m_pointWidget->clearContents();
-    }
-
-    m_pointWidget->setRowCount(0);
+    m_redoFunc();
 }
 
 /******************************************************************************
