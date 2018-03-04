@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QScopedPointer>
@@ -33,7 +32,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow() = default;
+    ~MainWindow();
 
 private Q_SLOTS:
     void routeInfoTableItemDoubleClicked(int row, int column);
@@ -70,7 +69,6 @@ private:
 
 private:
     Ui::MainWindow *ui;
-
     QScopedPointer<MapViewProxy> m_mapViewProxy;
     QScopedPointer<LibAccessFacade> m_accessor;
 
@@ -82,5 +80,3 @@ private:
     bool m_routeInfoTableCellModified;
     bool m_routeTableCellModified;
 };
-
-#endif // MAINWINDOW_H

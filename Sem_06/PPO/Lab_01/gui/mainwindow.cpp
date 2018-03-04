@@ -40,6 +40,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainToolBar->addAction(m_redoAction);
 }
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
 void MainWindow::routeInfoTableItemDoubleClicked(int row, int column)
 {
     Q_UNUSED(row);

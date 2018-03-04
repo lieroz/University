@@ -1,5 +1,4 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#pragma once
 
 #include <QWidget>
 #include <QScopedPointer>
@@ -26,5 +25,3 @@ private Q_SLOTS:
 private:
     QScopedPointer<Ui::Widget> ui;
 };
-
-#endif // WIDGET_H
