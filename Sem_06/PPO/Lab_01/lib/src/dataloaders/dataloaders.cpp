@@ -1,9 +1,9 @@
 #include <dataloaders/dataloaders.h>
-#include <common/exceptions.h>
 
 #include <QFile>
 #include <QXmlStreamReader>
-#include <QDebug>
+
+#include <common/exceptions.h>
 #include <common/routestore.h>
 
 AbstractDataLoader::AbstractDataLoader(const QString &fileName)

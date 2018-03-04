@@ -27,7 +27,6 @@ SOFTWARE.
 #define POLYLINEENCODER_H
 
 #include <QGeoCoordinate>
-#include <QVector>
 #include <QGeoPath>
 
 //! Implements Google's polyline compression algorithm.

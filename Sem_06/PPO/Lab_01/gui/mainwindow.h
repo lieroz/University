@@ -6,7 +6,6 @@
 #include <QTableWidgetItem>
 #include <QQuickItem>
 #include <QUndoStack>
-#include <QThreadPool>
 
 #include <libaccessfacade.h>
 #include "widget.h"
@@ -71,8 +70,8 @@ private:
 
 private:
     Ui::MainWindow *ui;
-    MapViewProxy *m_mapViewProxy;
 
+    QScopedPointer<MapViewProxy> m_mapViewProxy;
     QScopedPointer<LibAccessFacade> m_accessor;
 
     QUndoStack *m_undoStack;

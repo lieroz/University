@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "polylineencoder.h"
+#include <polylineencoder.h>
 
 static const qreal  s_presision   = 100000.0;
 static const qint32 s_chunkSize   = 5;

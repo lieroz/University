@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include <mainwindow.h>
+#include <ui_mainwindow.h>
 
 #include <QQuickView>
 #include <QFileDialog>
@@ -7,7 +7,6 @@
 #include <QQmlContext>
 #include <QMessageBox>
 #include <QTableWidget>
-#include <QThreadPool>
 
 #include <commands.h>
 
@@ -27,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     QQuickView *view = new QQuickView;
-    view->rootContext()->setContextProperty("mapViewProxy", m_mapViewProxy);
+    view->rootContext()->setContextProperty("mapViewProxy", m_mapViewProxy.data());
     QWidget *container = QWidget::createWindowContainer(view, this);
     container->setFocusPolicy(Qt::TabFocus);
     view->setSource(QUrl(QStringLiteral("qrc:/gui/resources/qml/MapView.qml")));

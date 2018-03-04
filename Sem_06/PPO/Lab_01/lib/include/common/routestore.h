@@ -2,6 +2,7 @@
 
 #include <QReadWriteLock>
 #include <QAtomicPointer>
+#include <QVector>
 #include <QMutex>
 
 #include <common/route.h>
