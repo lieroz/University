@@ -20,29 +20,29 @@ RouteStore *RouteStore::instance()
     return tmp;
 }
 
-void RouteStore::addRoute(Route &route)
+void RouteStore::addRoute(QSharedPointer<Route> route)
 {
     QWriteLocker guard(&m_rwlock);
     m_routes.append(route);
 }
 
-void RouteStore::addRoutes(QVector<Route> &routes)
+void RouteStore::addRoutes(QVector<QSharedPointer<Route>> &routes)
 {
     QWriteLocker guard(&m_rwlock);
     m_routes.append(routes);
 }
 
-void RouteStore::insertRoute(qint32 index, Route &route)
+void RouteStore::insertRoute(qint32 index, QSharedPointer<Route> route)
 {
     QWriteLocker guard(&m_rwlock);
     m_routes.insert(index, route);
 }
 
-void RouteStore::insertRoutes(qint32 index, QVector<Route> &routes)
+void RouteStore::insertRoutes(qint32 index, QVector<QSharedPointer<Route>> &routes)
 {
     QWriteLocker guard(&m_rwlock);
 
-    Q_FOREACH (Route route, routes) {
+    Q_FOREACH (QSharedPointer<Route> route, routes) {
         m_routes.insert(index++, route);
     }
 }
@@ -59,13 +59,13 @@ void RouteStore::deleteRoutes(qint32 index, qint32 n)
     m_routes.remove(index, n);
 }
 
-Route &RouteStore::getRoute(qint32 index)
+QSharedPointer<Route> RouteStore::getRoute(qint32 index)
 {
     QReadLocker guard(&m_rwlock);
     return m_routes[index];
 }
 
-QVector<Route> &RouteStore::getRoutes()
+QVector<QSharedPointer<Route>> &RouteStore::getRoutes()
 {
     QReadLocker guard(&m_rwlock);
     return m_routes;

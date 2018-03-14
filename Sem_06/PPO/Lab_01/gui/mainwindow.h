@@ -53,14 +53,14 @@ private Q_SLOTS:
     void removePoints();
 
 private:
-    void populateRouteTableView(Route &route);
+    void populateRouteTableView(QSharedPointer<Route> route);
     void clearRouteTableView();
 
     void setUpActions();
     void setUpRouteDataView();
     void setUpRouteCoordinatesView();
 
-    void addRouteCommand(Route &route, qint32 index);
+    void addRouteCommand(QSharedPointer<Route> route, qint32 index);
     void removeRouteCommand(qint32 index);
 
     void addPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex);

@@ -56,14 +56,15 @@ void MainWindow::routeInfoTableItemDoubleClicked(int row, int column)
 void MainWindow::routeInfoTableItemChanged(QTableWidgetItem *item)
 {
     if (m_routeInfoTableCellModified) {
-        Route &route = m_accessor->getRoute(item->row());
-        route.setName(item->text());
+        QSharedPointer<Route> route = m_accessor->getRoute(item->row());
+        route->setName(item->text());
+        m_routeInfoTableCellModified = false;
     }
 }
 
 void MainWindow::routeInfoTableRowSelected(QModelIndex index)
 {
-    Route &route = m_accessor->getRoute(index.row());
+    QSharedPointer<Route> route = m_accessor->getRoute(index.row());
     clearRouteTableView();
     populateRouteTableView(route);
     m_selectedRow = index.row();
@@ -80,8 +81,8 @@ void MainWindow::routeTableItemDoubleClicked(int row, int column)
 void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
 {
     if (m_routeTableCellModified) {
-        Route &route = m_accessor->getRoute(m_selectedRow);
-        QGeoCoordinate coord = route.getCoordinates().coordinateAt(item->row());
+        QSharedPointer<Route> route = m_accessor->getRoute(m_selectedRow);
+        QGeoCoordinate coord = route->getCoordinates().coordinateAt(item->row());
         QGeoCoordinate oldCoord = coord;
         bool ok = false;
         qreal number = item->text().toDouble(&ok);
@@ -119,9 +120,9 @@ void MainWindow::routeTableItemChanged(QTableWidgetItem *item)
 void MainWindow::receiveFromWidget(QString text)
 {
     QGeoPath geoPath = PolylineEncoder::decode(text);
-    Route route;
-    route.appendCoordinates(geoPath);
-    route.updateLength();
+    QSharedPointer<Route> route(new Route);
+    route->appendCoordinates(geoPath);
+    route->updateLength();
 
     const auto rowCount = ui->routeInfoTableView->rowCount();
     auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
@@ -135,7 +136,7 @@ void MainWindow::importRoutes()
                             tr("FileDialog"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
 
     Q_FOREACH (QString fileName, fileNames) {
-        Route route;
+        QSharedPointer<Route> route(new Route);
         m_accessor->load(fileName, route);
         const auto rowCount = ui->routeInfoTableView->rowCount();
         auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
@@ -153,7 +154,7 @@ void MainWindow::importRoute()
 
 void MainWindow::createRoute()
 {
-    Route route;
+    QSharedPointer<Route> route(new Route);
     const auto rowCount = ui->routeInfoTableView->rowCount();
     auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
     auto undoFunc = std::bind(&MainWindow::removeRouteCommand, this, rowCount);
@@ -166,7 +167,7 @@ void MainWindow::deleteRoutes()
 
     for (auto i = 0; i < size; ++i) {
         const auto index = ui->routeInfoTableView->selectionModel()->selectedRows().first().row();
-        Route route = m_accessor->getRoute(index);
+        QSharedPointer<Route> route = m_accessor->getRoute(index);
         auto redoFunc = std::bind(&MainWindow::removeRouteCommand, this, index);
         auto undoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, index);
         m_undoStack->push(new DeleteRouteCommand(route, redoFunc, undoFunc));
@@ -191,23 +192,23 @@ void MainWindow::removePoints()
         const auto index = ui->routeTableView->selectionModel()->selectedRows().first().row();
         auto redoFunc = std::bind(&MainWindow::removePointCommand, this, m_selectedRow, index);
         auto undoFunc = std::bind(&MainWindow::addPointCommand, this, std::placeholders::_1, m_selectedRow, index);
-        QGeoCoordinate point = m_accessor->getRoute(m_selectedRow).getCoordinates().coordinateAt(index);
+        QGeoCoordinate point = m_accessor->getRoute(m_selectedRow)->getCoordinates().coordinateAt(index);
         m_undoStack->push(new DeletePointCommand(point, redoFunc, undoFunc));
     }
 }
 
-void MainWindow::populateRouteTableView(Route &route)
+void MainWindow::populateRouteTableView(QSharedPointer<Route> route)
 {
-    for (auto i = 0; i < route.getCoordinates().size(); ++i) {
-        const auto coord = route.getCoordinates().coordinateAt(i);
+    for (auto i = 0; i < route->getCoordinates().size(); ++i) {
+        const auto coord = route->getCoordinates().coordinateAt(i);
         const auto rowCount = ui->routeTableView->rowCount();
         ui->routeTableView->insertRow(rowCount);
         ui->routeTableView->setItem(rowCount, 0, new QTableWidgetItem(QString::number(coord.latitude())));
         ui->routeTableView->setItem(rowCount, 1, new QTableWidgetItem(QString::number(coord.longitude())));
     }
 
-    ui->label->setText(route.getPolyline());
-    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+    ui->label->setText(route->getPolyline());
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route->getCoordinates()));
 }
 
 void MainWindow::clearRouteTableView()
@@ -248,6 +249,8 @@ void MainWindow::setUpRouteDataView()
         ui->routeInfoTableView->setHorizontalHeaderItem(i, item);
     }
 
+    connect(ui->routeInfoTableView, SIGNAL(cellDoubleClicked(int, int)),
+            this, SLOT(routeInfoTableItemDoubleClicked(int, int)));
     connect(ui->routeInfoTableView, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(routeInfoTableItemChanged(QTableWidgetItem *)));
     connect(ui->routeInfoTableView, SIGNAL(pressed(QModelIndex)),
@@ -271,17 +274,17 @@ void MainWindow::setUpRouteCoordinatesView()
             this, SLOT(routeTableItemChanged(QTableWidgetItem *)));
 }
 
-void MainWindow::addRouteCommand(Route &route, qint32 index)
+void MainWindow::addRouteCommand(QSharedPointer<Route> route, qint32 index)
 {
     ui->routeInfoTableView->insertRow(index);
-    ui->routeInfoTableView->setItem(index, 0, new QTableWidgetItem(route.getName()));
+    ui->routeInfoTableView->setItem(index, 0, new QTableWidgetItem(route->getName()));
 
     QTableWidgetItem *item;
-    item = new QTableWidgetItem(QString::number(route.getLength() / 1000));
+    item = new QTableWidgetItem(QString::number(route->getLength() / 1000));
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
     ui->routeInfoTableView->setItem(index, 1, item);
 
-    item = new QTableWidgetItem(route.getDate().toString());
+    item = new QTableWidgetItem(route->getDate().toString());
     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
     ui->routeInfoTableView->setItem(index, 2, item);
     m_accessor->addRoute(route);
@@ -306,33 +309,33 @@ void MainWindow::addPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint3
     ui->routeTableView->insertRow(pointIndex);
     ui->routeTableView->setItem(pointIndex, 0, new QTableWidgetItem(QString::number(point.latitude())));
     ui->routeTableView->setItem(pointIndex, 1, new QTableWidgetItem(QString::number(point.longitude())));
-    Route &route = m_accessor->getRoute(routeIndex);
-    route.insertCoordinate(pointIndex, point);
-    route.updateLength();
-    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
-    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+    QSharedPointer<Route> route = m_accessor->getRoute(routeIndex);
+    route->insertCoordinate(pointIndex, point);
+    route->updateLength();
+    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route->getLength() / 1000));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route->getCoordinates()));
 }
 
 void MainWindow::modifyPointCommand(QGeoCoordinate &point, qint32 routeIndex, qint32 pointIndex)
 {
-    Route &route = m_accessor->getRoute(routeIndex);
-    route.replaceCoordinate(pointIndex, point);
-    route.updateLength();
-    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
+    QSharedPointer<Route> route = m_accessor->getRoute(routeIndex);
+    route->replaceCoordinate(pointIndex, point);
+    route->updateLength();
+    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route->getLength() / 1000));
 
     if (m_selectedRow == routeIndex) {
         ui->routeTableView->item(pointIndex, 0)->setText(QString::number(point.latitude()));
         ui->routeTableView->item(pointIndex, 1)->setText(QString::number(point.longitude()));
-        emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+        emit m_mapViewProxy->setPolyline(QVariant::fromValue(route->getCoordinates()));
     }
 }
 
 void MainWindow::removePointCommand(qint32 routeIndex, qint32 pointIndex)
 {
     ui->routeTableView->removeRow(pointIndex);
-    Route &route = m_accessor->getRoute(routeIndex);
-    route.removeCoordinate(pointIndex);
-    route.updateLength();
-    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route.getLength() / 1000));
-    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route.getCoordinates()));
+    QSharedPointer<Route> route = m_accessor->getRoute(routeIndex);
+    route->removeCoordinate(pointIndex);
+    route->updateLength();
+    ui->routeInfoTableView->item(routeIndex, 1)->setText(QString::number(route->getLength() / 1000));
+    emit m_mapViewProxy->setPolyline(QVariant::fromValue(route->getCoordinates()));
 }

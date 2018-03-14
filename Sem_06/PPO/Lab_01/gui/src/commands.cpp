@@ -1,7 +1,7 @@
 #include <commands.h>
 
-AddRouteCommand::AddRouteCommand(const Route &route,
-                                 const std::function<void (Route &)> &redoFunc,
+AddRouteCommand::AddRouteCommand(QSharedPointer<Route> route,
+                                 const std::function<void (QSharedPointer<Route>)> &redoFunc,
                                  const std::function<void ()> &undoFunc,
                                  QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -25,9 +25,9 @@ void AddRouteCommand::redo()
 ** DeleteRouteCommand
 */
 
-DeleteRouteCommand::DeleteRouteCommand(const Route &route,
+DeleteRouteCommand::DeleteRouteCommand(QSharedPointer<Route> route,
                                        const std::function<void ()> &redoFunc,
-                                       const std::function<void (Route &)> &undoFunc,
+                                       const std::function<void (QSharedPointer<Route>)> &undoFunc,
                                        QUndoCommand *parent)
     : QUndoCommand(parent)
 {

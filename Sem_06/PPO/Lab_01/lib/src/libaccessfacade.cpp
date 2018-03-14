@@ -5,7 +5,7 @@
 #include <dataloaders/loaderfactory.h>
 #include <common/exceptions.h>
 
-void LibAccessFacade::load(const QString &fileName, Route &route)
+void LibAccessFacade::load(const QString &fileName, QSharedPointer<Route> route)
 {
     QFileInfo fileInfo(fileName);
     if (!fileInfo.exists() || !fileInfo.isFile()) {
@@ -16,12 +16,12 @@ void LibAccessFacade::load(const QString &fileName, Route &route)
     loadFunc(fileName, route);
 }
 
-void LibAccessFacade::addRoute(Route &route)
+void LibAccessFacade::addRoute(QSharedPointer<Route> route)
 {
     RouteStore::instance()->addRoute(route);
 }
 
-Route &LibAccessFacade::getRoute(qint32 index)
+QSharedPointer<Route> LibAccessFacade::getRoute(qint32 index)
 {
     return RouteStore::instance()->getRoute(index);
 }

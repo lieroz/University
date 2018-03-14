@@ -6,7 +6,7 @@
 #include <common/exceptions.h>
 #include <common/routestore.h>
 
-void GpxDataLoader::load(const QString &fileName, Route &route)
+void GpxDataLoader::load(const QString &fileName, QSharedPointer<Route> route)
 {
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -24,7 +24,7 @@ void GpxDataLoader::load(const QString &fileName, Route &route)
             currentField = inputStream.name().toString();
 
             if (currentField == "name") {
-                route.setName(inputStream.readElementText());
+                route->setName(inputStream.readElementText());
             }
 
             if (currentField == "trkpt") {
@@ -32,15 +32,15 @@ void GpxDataLoader::load(const QString &fileName, Route &route)
                 const auto lon = inputStream.attributes().value("lon").toDouble();
                 QGeoCoordinate coord(lat, lon);
 
-                if (!route.getCoordinates().isEmpty()) {
-                    const auto count = route.getCoordinates().size();
-                    dist += route.getCoordinates().coordinateAt(count - 1).distanceTo(coord);
+                if (!route->getCoordinates().isEmpty()) {
+                    const auto count = route->getCoordinates().size();
+                    dist += route->getCoordinates().coordinateAt(count - 1).distanceTo(coord);
                 }
 
-                route.appendCoordinate(coord);
+                route->appendCoordinate(coord);
             }
         }
     }
 
-    route.setLength(dist);
+    route->setLength(dist);
 }

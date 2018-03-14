@@ -5,7 +5,7 @@
 void RouteDeleteTest::testRouteDeleteSequential()
 {
     for (int i = 0; i < 10; ++i) {
-        Route route;
+        QSharedPointer<Route> route(new Route);
         RouteStore::instance()->addRoute(route);
     }
 
@@ -40,7 +40,7 @@ void RouteDeleteTest::testRouteDeleteMultithreaded()
 
     for (int i = 0; i < 1000; ++i) {
         Task *task = new Task([]() {
-            Route route;
+            QSharedPointer<Route> route(new Route);
             RouteStore::instance()->addRoute(route);
         });
         task->setAutoDelete(true);

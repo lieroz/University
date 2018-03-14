@@ -2,7 +2,6 @@
 
 #include <dataloaders/dataloaders.h>
 #include <common/routestore.h>
-#include <common/objectpool.h>
 
 class LibAccessFacade
 {
@@ -12,8 +11,8 @@ public:
     LibAccessFacade() = default;
     ~LibAccessFacade() = default;
 
-    void load(const QString &fileName, Route &route);
-    void addRoute(Route& route);
+    void load(const QString &fileName, QSharedPointer<Route> route);
+    void addRoute(QSharedPointer<Route> route);
     void deleteRoute(qint32 index);
-    Route &getRoute(qint32 index);
+    QSharedPointer<Route> getRoute(qint32 index);
 };

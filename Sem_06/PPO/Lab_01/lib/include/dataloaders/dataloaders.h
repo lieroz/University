@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QSharedPointer>
+
 #include <common/route.h>
 
 class GpxDataLoader
@@ -10,5 +12,5 @@ public:
     GpxDataLoader() = default;
     ~GpxDataLoader() = default;
 
-    static void load(const QString &fileName, Route &route);
+    static void load(const QString &fileName, QSharedPointer<Route> route);
 };

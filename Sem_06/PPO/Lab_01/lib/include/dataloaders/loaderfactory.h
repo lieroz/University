@@ -6,7 +6,7 @@
 
 #include <dataloaders/dataloaders.h>
 
-typedef std::function<void (const QString &, Route &)> LoaderFunc;
+typedef std::function<void (const QString &, QSharedPointer<Route>)> LoaderFunc;
 extern QMap<QString, LoaderFunc> registeredFileTypes;
 
 class LoaderFactory : public QObject

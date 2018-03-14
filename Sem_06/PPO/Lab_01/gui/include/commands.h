@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QUndoCommand>
+#include <QSharedPointer>
 #include <functional>
 
 #include <common/route.h>
@@ -8,8 +9,8 @@
 class AddRouteCommand : public QUndoCommand
 {
 public:
-    AddRouteCommand(const Route &route,
-                    const std::function<void (Route &)> &redoFunc,
+    AddRouteCommand(QSharedPointer<Route> route,
+                    const std::function<void (QSharedPointer<Route>)> &redoFunc,
                     const std::function<void ()> &undoFunc,
                     QUndoCommand *parent = Q_NULLPTR);
 
@@ -17,26 +18,26 @@ public:
     void redo() override;
 
 private:
-    Route m_route;
-    std::function<void (Route &)> m_redoFunc;
+    QSharedPointer<Route> m_route;
+    std::function<void (QSharedPointer<Route>)> m_redoFunc;
     std::function<void ()> m_undoFunc;
 };
 
 class DeleteRouteCommand : public QUndoCommand
 {
 public:
-    DeleteRouteCommand(const Route &route,
+    DeleteRouteCommand(QSharedPointer<Route> route,
                        const std::function<void ()> &redoFunc,
-                       const std::function<void (Route &)> &undoFunc,
+                       const std::function<void (QSharedPointer<Route>)> &undoFunc,
                        QUndoCommand *parent = Q_NULLPTR);
 
     void undo() override;
     void redo() override;
 
 private:
-    Route m_route;
+    QSharedPointer<Route> m_route;
     std::function<void ()> m_redoFunc;
-    std::function<void (Route &)> m_undoFunc;
+    std::function<void (QSharedPointer<Route>)> m_undoFunc;
 };
 
 class AddPointCommand : public QUndoCommand
