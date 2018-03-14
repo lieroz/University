@@ -16,7 +16,4 @@ public:
     void addRoute(Route& route);
     void deleteRoute(qint32 index);
     Route &getRoute(qint32 index);
-
-private:
-    ObjectPool<AbstractDataLoader> m_pool;
 };

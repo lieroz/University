@@ -6,10 +6,11 @@
 
 #include <dataloaders/dataloaders.h>
 
-extern QMap<QString, std::function<AbstractDataLoader *(const QString &)>> registeredFileTypes;
+typedef std::function<void (const QString &, Route &)> LoaderFunc;
+extern QMap<QString, LoaderFunc> registeredFileTypes;
 
 class LoaderFactory : public QObject
 {
 public:
-    static std::function<AbstractDataLoader *(const QString &)> createDataloader(const QString &fileType);
+    static LoaderFunc getDataloader(const QString &fileType);
 };

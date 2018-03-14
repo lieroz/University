@@ -6,28 +6,9 @@
 #include <common/exceptions.h>
 #include <common/routestore.h>
 
-AbstractDataLoader::AbstractDataLoader(const QString &fileName)
-    : m_fileName(fileName)
+void GpxDataLoader::load(const QString &fileName, Route &route)
 {
-}
-
-void AbstractDataLoader::reset(const QString &fileName)
-{
-    m_fileName = fileName;
-}
-
-/******************************************************************************
-** GPXDataLoader
-*/
-
-GpxDataLoader::GpxDataLoader(const QString &fileName)
-    : AbstractDataLoader(fileName)
-{
-}
-
-void GpxDataLoader::load(Route &route)
-{
-    QFile file(m_fileName);
+    QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         throw FileException("error opening file");
     }

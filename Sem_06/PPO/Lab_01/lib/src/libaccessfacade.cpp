@@ -12,19 +12,8 @@ void LibAccessFacade::load(const QString &fileName, Route &route)
         throw FileException("file doesn't exist");
     }
 
-    QSharedPointer<AbstractDataLoader> loader;
-
-    if (m_pool.isEmpty()) {
-        auto createFunc = LoaderFactory::createDataloader(fileInfo.completeSuffix());
-        QSharedPointer<AbstractDataLoader> tmp(createFunc(fileName));
-        loader.swap(tmp);
-    } else {
-        loader = m_pool.take();
-        loader->reset(fileName);
-    }
-
-    loader->load(route);
-    m_pool.put(loader);
+    auto loadFunc = LoaderFactory::getDataloader(fileInfo.completeSuffix());
+    loadFunc(fileName, route);
 }
 
 void LibAccessFacade::addRoute(Route &route)
