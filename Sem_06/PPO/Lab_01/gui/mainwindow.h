@@ -52,7 +52,11 @@ private Q_SLOTS:
     void addPoint();
     void removePoints();
 
+    void onAppQuit();
+
 private:
+    void prepareAppContext();
+
     void populateRouteTableView(QSharedPointer<Route> route);
     void clearRouteTableView();
 

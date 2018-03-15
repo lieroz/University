@@ -7,6 +7,7 @@
 #include <QQmlContext>
 #include <QMessageBox>
 #include <QTableWidget>
+#include <QXmlStreamWriter>
 
 #include <commands.h>
 
@@ -38,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->mainToolBar->addAction(m_undoAction);
     ui->mainToolBar->addAction(m_redoAction);
+
+    connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(onAppQuit()));
+    prepareAppContext();
 }
 
 MainWindow::~MainWindow()
@@ -194,6 +198,71 @@ void MainWindow::removePoints()
         auto undoFunc = std::bind(&MainWindow::addPointCommand, this, std::placeholders::_1, m_selectedRow, index);
         QGeoCoordinate point = m_accessor->getRoute(m_selectedRow)->getCoordinates().coordinateAt(index);
         m_undoStack->push(new DeletePointCommand(point, redoFunc, undoFunc));
+    }
+}
+
+
+// For this must be created separate class or func in dataloader, but I'm to lazy to do that :)
+void MainWindow::onAppQuit()
+{
+    QDir dir(QDir::currentPath() + "/appcontext");
+    dir.setNameFilters(QStringList() << "*.*");
+    dir.setFilter(QDir::Files);
+
+    Q_FOREACH (QString dirFile, dir.entryList()) {
+        dir.remove(dirFile);
+    }
+
+    quint32 fileName = 0;
+    Q_FOREACH (QSharedPointer<Route> route, m_accessor->getRoutes()) {
+        QFile file(QString("%1/%2.gpx").arg(dir.absolutePath()).arg(QString::number(++fileName)));
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            return;
+        }
+
+        QXmlStreamWriter xmlWriter(&file);
+        xmlWriter.setAutoFormatting(true);
+
+        xmlWriter.writeStartDocument();
+        xmlWriter.writeStartElement("trk");
+
+        xmlWriter.writeStartElement("name");
+        xmlWriter.writeCharacters(route->getName());
+        xmlWriter.writeEndElement();
+
+        xmlWriter.writeStartElement("trkseg");
+
+        for (auto i = 0; i < route->getCoordinates().size(); ++i) {
+            xmlWriter.writeStartElement("trkpt");
+            xmlWriter.writeAttribute("lat", QString::number(route->getCoordinates().coordinateAt(i).latitude()));
+            xmlWriter.writeAttribute("lon", QString::number(route->getCoordinates().coordinateAt(i).longitude()));
+            xmlWriter.writeEndElement();
+        }
+
+        xmlWriter.writeEndElement();
+        xmlWriter.writeEndDocument();
+
+        file.close();
+    }
+}
+
+void MainWindow::prepareAppContext()
+{
+    QDir dir(QDir::currentPath());
+    dir.mkdir("appcontext");
+    dir.cd("appcontext");
+
+    Q_FOREACH (QFileInfo fileInfo, dir.entryInfoList()) {
+        if (fileInfo.fileName() == "." || fileInfo.fileName() == "..") {
+            continue;
+        }
+
+        QSharedPointer<Route> route(new Route);
+        m_accessor->load(fileInfo.absoluteFilePath(), route);
+        const auto rowCount = ui->routeInfoTableView->rowCount();
+        auto redoFunc = std::bind(&MainWindow::addRouteCommand, this, std::placeholders::_1, rowCount);
+        auto undoFunc = std::bind(&MainWindow::removeRouteCommand, this, rowCount);
+        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
     }
 }
 

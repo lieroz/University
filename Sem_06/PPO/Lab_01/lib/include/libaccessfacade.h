@@ -15,4 +15,5 @@ public:
     void addRoute(QSharedPointer<Route> route);
     void deleteRoute(qint32 index);
     QSharedPointer<Route> getRoute(qint32 index);
+    QVector<QSharedPointer<Route> > &getRoutes();
 };

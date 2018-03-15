@@ -26,6 +26,11 @@ QSharedPointer<Route> LibAccessFacade::getRoute(qint32 index)
     return RouteStore::instance()->getRoute(index);
 }
 
+QVector<QSharedPointer<Route> > &LibAccessFacade::getRoutes()
+{
+    return RouteStore::instance()->getRoutes();
+}
+
 void LibAccessFacade::deleteRoute(qint32 index)
 {
     RouteStore::instance()->deleteRoute(index);
