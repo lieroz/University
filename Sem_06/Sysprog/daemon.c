@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <syslog.h>
 #include <signal.h>
-#include <getopt.h>
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -39,8 +38,6 @@ void handle_signal(int sig)
         running = 0;
         /* Reset signal handling to default behavior */
         signal(SIGINT, SIG_DFL);
-    } else if (sig == SIGCHLD) {
-        fprintf(log_stream, "Debug: received SIGCHLD signal\n");
     }
 }
 
