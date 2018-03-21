@@ -28,6 +28,10 @@
 
 #define INIT_VEC_SIZE 8
 #define VEC_MULT 3
+#define BUFFER_SIZE 1024
+
+typedef struct dirent dirent_t;
+typedef struct stat stat_t;
 
 typedef struct vector {
     unsigned count;
@@ -58,7 +62,7 @@ void delete_vector(vector_t **vec)
     free(*vec);
 }
 
-void append(vector_t *vec, void *arg)
+void push(vector_t *vec, void *arg)
 {
     if (vec->count == vec->capacity) {
         vec->capacity *= VEC_MULT;
@@ -74,27 +78,33 @@ void append(vector_t *vec, void *arg)
     vec->data[vec->count++] = arg;
 }
 
+void *pop(vector_t *vec)
+{
+    void *result = vec->data[--vec->count];
+    return result;
+}
+
 void sort_vector(vector_t *vec, int (*cmpfunc)(const void *, const void *))
 {
     qsort(vec->data, vec->count, sizeof(void *), cmpfunc);
 }
 
-int dirent_cmpfunc(const void *_a, const void *_b)
+int dirent_cmp_func(const void *_a, const void *_b)
 {
-    struct dirent *a = *(struct dirent **) _a;
-    struct dirent *b = *(struct dirent **) _b;
+    dirent_t *a = *(dirent_t **) _a;
+    dirent_t *b = *(dirent_t **) _b;
     return strcmp(a->d_name, b->d_name) > 0;
 }
 
-int listdir(const char *name, const char *fmt, bool print_files)
+int recursive_walker(const char *dir_name, const char *fmt, bool print_files)
 {
     DIR *dir;
     vector_t *vec = new_vector();
-    struct dirent *entry;
-    struct stat st;
+    dirent_t *entry;
+    stat_t st;
     const char *indent = "├── ";
 
-    if (!(dir = opendir(name))) {
+    if (!(dir = opendir(dir_name))) {
         return 1;
     }
 
@@ -105,15 +115,15 @@ int listdir(const char *name, const char *fmt, bool print_files)
             }
         }
 
-        append(vec, entry);
+        push(vec, entry);
     }
 
-    sort_vector(vec, dirent_cmpfunc);
+    sort_vector(vec, dirent_cmp_func);
 
     for (unsigned i = 0; i < vec->count; ++i) {
-        entry = (struct dirent *) vec->data[i];
-        char path[strlen(name) + strlen(entry->d_name) + 3];
-        char format[strlen(fmt) + 7];
+        entry = (dirent_t *) vec->data[i];
+        char path[BUFFER_SIZE];
+        char format[BUFFER_SIZE];
 
         if (i == vec->count - 1) {
             indent = "└── ";
@@ -122,19 +132,22 @@ int listdir(const char *name, const char *fmt, bool print_files)
             snprintf(format, sizeof(format), "%s│%*s", fmt, 3, "");
         }
 
-        snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
 
         if (entry->d_type == DT_DIR) {
             printf("%s%s%s%s%s\n", fmt, indent, BOLDBLUE, entry->d_name, RESET);
-            listdir(path, format, print_files);
+            chdir(entry->d_name);
+            getcwd(path, BUFFER_SIZE);
+            recursive_walker(path, format, print_files);
         }
 
         if (entry->d_type != DT_DIR && print_files) {
-            stat(path, &st);
+            getcwd(path, BUFFER_SIZE);
+            lstat(path, &st);
             printf("%s%s%s (%s%ld b%s)\n", fmt, indent, entry->d_name, BOLDGREEN, st.st_size, RESET);
         }
     }
 
+    chdir("..");
     delete_vector(&vec);
     closedir(dir);
 
@@ -144,18 +157,18 @@ int listdir(const char *name, const char *fmt, bool print_files)
 int main(int argc, char *argv[])
 {
     if (argc == 1) {
-        listdir(".", "", false);
+        recursive_walker(".", "", false);
     } else if (argc == 2) {
         if (strcmp(argv[1], "-f") == 0) {
-            listdir(".", "", true);
+            recursive_walker(".", "", true);
         } else {
-            if (listdir(argv[1], "", false) != 0) {
+            if (recursive_walker(argv[1], "", false) != 0) {
                 fprintf(stderr, "Directory not found!\n");
             }
         }
     } else if (argc == 3) {
         if (strcmp(argv[2], "-f") == 0) {
-            if (listdir(argv[1], "", true) != 0) {
+            if (recursive_walker(argv[1], "", true) != 0) {
                 fprintf(stderr, "Directory not found!\n");
             }
         } else {
@@ -167,4 +180,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
