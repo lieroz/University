@@ -38,6 +38,8 @@ void handle_signal(int sig)
         running = 0;
         /* Reset signal handling to default behavior */
         signal(SIGINT, SIG_DFL);
+    } else if (sig == SIGHUP) {
+        fprintf(log_stream, "Debug: recieved SIGHUP signal ...\n");
     }
 }
 
@@ -55,10 +57,8 @@ static void daemonize(void)
     /* An error occurred */
     if (pid < 0) {
         exit(EXIT_FAILURE);
-    }
-
-    /* Success: Let the parent terminate */
-    if (pid > 0) {
+    } else if (pid > 0) {
+        /* Success: Let the parent terminate */
         exit(EXIT_SUCCESS);
     }
 
@@ -69,19 +69,6 @@ static void daemonize(void)
 
     /* Ignore signal sent from child to parent process */
     signal(SIGCHLD, SIG_IGN);
-
-    /* Fork off for the second time*/
-    pid = fork();
-
-    /* An error occurred */
-    if (pid < 0) {
-        exit(EXIT_FAILURE);
-    }
-
-    /* Success: Let the parent terminate */
-    if (pid > 0) {
-        exit(EXIT_SUCCESS);
-    }
 
     /* Set new file permissions */
     umask(0);

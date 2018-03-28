@@ -109,13 +109,9 @@ int recursive_walker(const char *dir_name, const char *fmt, bool print_files)
     }
 
     while ((entry = readdir(dir)) != NULL) {
-        if (entry->d_type == DT_DIR) {
-            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-                continue;
-            }
+        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
+            push(vec, entry);
         }
-
-        push(vec, entry);
     }
 
     sort_vector(vec, dirent_cmp_func);
@@ -132,22 +128,33 @@ int recursive_walker(const char *dir_name, const char *fmt, bool print_files)
             snprintf(format, sizeof(format), "%s│%*s", fmt, 3, "");
         }
 
+        getcwd(path, BUFFER_SIZE);
+
+        if (lstat(path, &st) == -1) {
+            return 1;
+        }
 
         if (entry->d_type == DT_DIR) {
             printf("%s%s%s%s%s\n", fmt, indent, BOLDBLUE, entry->d_name, RESET);
-            chdir(entry->d_name);
+            snprintf(path, sizeof(path), "%s/%s", dir_name, entry->d_name);
+
+            if (chdir(path) == -1) {
+                return 1;
+            }
+
             getcwd(path, BUFFER_SIZE);
             recursive_walker(path, format, print_files);
         }
 
         if (entry->d_type != DT_DIR && print_files) {
-            getcwd(path, BUFFER_SIZE);
-            lstat(path, &st);
             printf("%s%s%s (%s%ld b%s)\n", fmt, indent, entry->d_name, BOLDGREEN, st.st_size, RESET);
         }
     }
 
-    chdir("..");
+    if (chdir("..") == -1) {
+        return 1;
+    }
+
     delete_vector(&vec);
     closedir(dir);
 
