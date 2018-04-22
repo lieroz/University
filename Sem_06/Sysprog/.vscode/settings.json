@@ -1,0 +1,15 @@
+{
+  "files.associations": {
+    "kernel.h": "c",
+    "sysinfo.h": "c",
+    "sched.h": "c",
+    "fs.h": "c",
+    "chrono": "c",
+    "algorithm": "c",
+    "array": "c",
+    "slist": "c",
+    "initializer_list": "c",
+    "*.ipp": "c"
+  },
+  "C_Cpp.errorSquiggles": "Disabled"
+}

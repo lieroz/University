@@ -1,0 +1,5 @@
+0x00000000	export_int	/home/lieroz/University/Sem_06/Sysprog/kernel_modules/md1	EXPORT_SYMBOL
+0x00000000	factorial	/home/lieroz/University/Sem_06/Sysprog/kernel_modules/md1	EXPORT_SYMBOL
+0x00000000	even_or_odd	/home/lieroz/University/Sem_06/Sysprog/kernel_modules/md1	EXPORT_SYMBOL
+0x00000000	return_zero	/home/lieroz/University/Sem_06/Sysprog/kernel_modules/md1	EXPORT_SYMBOL
+0x00000000	export_char	/home/lieroz/University/Sem_06/Sysprog/kernel_modules/md1	EXPORT_SYMBOL

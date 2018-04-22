@@ -105,7 +105,7 @@ int recursive_walker(const char *dir_name, const char *fmt, bool print_files)
     const char *indent = "├── ";
 
     if (!(dir = opendir(dir_name))) {
-        return 1;
+        return -1;
     }
 
     while ((entry = readdir(dir)) != NULL) {
@@ -139,7 +139,7 @@ int recursive_walker(const char *dir_name, const char *fmt, bool print_files)
             snprintf(path, sizeof(path), "%s/%s", dir_name, entry->d_name);
 
             if (chdir(path) == -1) {
-                return 1;
+                return -1;
             }
 
             getcwd(path, BUFFER_SIZE);
@@ -152,7 +152,7 @@ int recursive_walker(const char *dir_name, const char *fmt, bool print_files)
     }
 
     if (chdir("..") == -1) {
-        return 1;
+        return -1;
     }
 
     delete_vector(&vec);
