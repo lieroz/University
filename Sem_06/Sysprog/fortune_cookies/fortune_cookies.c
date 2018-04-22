@@ -44,7 +44,7 @@ ssize_t fortune_write(struct file *filp, const char *buf, size_t count, loff_t *
 {
     if (dict.word_count >= COOKIE_BUF_LEN)
     {
-        printk(KERN_INFO "Cookie pot full.\n");
+        printk(KERN_ERR "Cookie pot full.\n");
         return -ENOSPC;
     }
 
@@ -63,7 +63,7 @@ int proc_init(void)
 
     if (!(dict.cookie_buf = vmalloc(sizeof(char *) * COOKIE_BUF_LEN)))
     {
-        printk(KERN_WARNING "Not enough memory for cookie pot.\n");
+        printk(KERN_ERR "Not enough memory for cookie pot.\n");
         return -ENOMEM;
     }
 
@@ -71,7 +71,7 @@ int proc_init(void)
     {
         if (!(dict.cookie_buf[i] = vmalloc(WORD_LEN)))
         {
-            printk(KERN_WARNING "Not enough memory for word in cookie pot.\n");
+            printk(KERN_ERR "Not enough memory for word in cookie pot.\n");
             return -ENOMEM;
         }
 
@@ -86,7 +86,7 @@ int proc_init(void)
         }
 
         vfree(dict.cookie_buf);
-        printk(KERN_WARNING "Cannot create fortune file.\n");
+        printk(KERN_ERR "Cannot create fortune file.\n");
         return -ENOMEM;
     }
 
