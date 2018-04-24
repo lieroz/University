@@ -14,7 +14,7 @@ static const char *PROC_FILENAME = "fortune_cookies";
 typedef struct
 {
     size_t word_count;
-    char **cookie_buf;
+    char *cookie_buf;
 } dict_t;
 
 static dict_t dict = {
@@ -29,8 +29,9 @@ ssize_t fortune_read(struct file *filp, char *buf, size_t count, loff_t *offp)
         return 0;
     }
 
-    copy_to_user(buf, dict.cookie_buf[--dict.word_count], WORD_LEN);
-    memset(dict.cookie_buf[dict.word_count], 0, WORD_LEN);
+    dict.word_count--;
+    copy_to_user(buf, &dict.cookie_buf[dict.word_count * WORD_LEN], WORD_LEN);
+    memset(&dict.cookie_buf[dict.word_count * WORD_LEN], 0, WORD_LEN);
 
     // Hey ho dear friend,
     // this is a simple crutch,
@@ -48,7 +49,8 @@ ssize_t fortune_write(struct file *filp, const char *buf, size_t count, loff_t *
         return -ENOSPC;
     }
 
-    copy_from_user(dict.cookie_buf[dict.word_count++], buf, count);
+    copy_from_user(&dict.cookie_buf[dict.word_count * WORD_LEN], buf, count);
+    dict.word_count++;
     return count;
 }
 
@@ -59,32 +61,16 @@ struct file_operations proc_fops = {
 
 int proc_init(void)
 {
-    size_t i;
-
-    if (!(dict.cookie_buf = vmalloc(sizeof(char *) * COOKIE_BUF_LEN)))
+    if (!(dict.cookie_buf = vmalloc(sizeof(char *) * COOKIE_BUF_LEN * WORD_LEN)))
     {
         printk(KERN_ERR "Not enough memory for cookie pot.\n");
         return -ENOMEM;
     }
 
-    for (i = 0; i < COOKIE_BUF_LEN; ++i)
-    {
-        if (!(dict.cookie_buf[i] = vmalloc(WORD_LEN)))
-        {
-            printk(KERN_ERR "Not enough memory for word in cookie pot.\n");
-            return -ENOMEM;
-        }
-
-        memset(dict.cookie_buf[i], 0, WORD_LEN);
-    }
+    memset(dict.cookie_buf, 0, COOKIE_BUF_LEN * WORD_LEN);
 
     if (!(proc_create(PROC_FILENAME, 0666, NULL, &proc_fops)))
     {
-        for (i = 0; i < COOKIE_BUF_LEN; ++i)
-        {
-            vfree(dict.cookie_buf[i]);
-        }
-
         vfree(dict.cookie_buf);
         printk(KERN_ERR "Cannot create fortune file.\n");
         return -ENOMEM;
@@ -100,13 +86,6 @@ void proc_cleanup(void)
 
     if (dict.cookie_buf)
     {
-        size_t i;
-
-        for (i = 0; i < dict.word_count; ++i)
-        {
-            vfree(dict.cookie_buf[i]);
-        }
-
         vfree(dict.cookie_buf);
     }
 
