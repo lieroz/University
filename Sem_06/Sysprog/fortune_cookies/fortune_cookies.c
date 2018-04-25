@@ -10,6 +10,12 @@
 static const size_t COOKIE_BUF_LEN = 100;
 static const size_t WORD_LEN = 100;
 static const char *PROC_FILENAME = "fortune_cookies";
+static const char *PROC_DIRNAME = "fortune_cookies_dir";
+static const char *PROC_SYMLINK = "fortune_symlink";
+
+static struct proc_dir_entry *proc_dir = NULL;
+static struct proc_dir_entry *proc_file = NULL;
+static struct proc_dir_entry *proc_sym = NULL;
 
 typedef struct
 {
@@ -69,10 +75,29 @@ int proc_init(void)
 
     memset(dict.cookie_buf, 0, COOKIE_BUF_LEN * WORD_LEN);
 
-    if (!(proc_create(PROC_FILENAME, 0666, NULL, &proc_fops)))
+    if (!(proc_dir = proc_mkdir(PROC_DIRNAME, NULL)))
     {
+	vfree(dict.cookie_buf);
+        printk(KERN_ERR "Can't create proc directory.\n");
+        return -ENOMEM;
+    }
+
+    if (!(proc_file = proc_create(PROC_FILENAME, 0666, proc_dir, &proc_fops)))
+    {
+    	remove_proc_entry(PROC_DIRNAME, NULL);
         vfree(dict.cookie_buf);
         printk(KERN_ERR "Cannot create fortune file.\n");
+        return -ENOMEM;
+    }
+	
+    
+    if (!(proc_sym = proc_symlink(PROC_SYMLINK, NULL, PROC_DIRNAME))) 
+    {
+	
+    	remove_proc_entry(PROC_DIRNAME, NULL);
+	remove_proc_entry(PROC_FILENAME, NULL);
+	vfree(dict.cookie_buf);
+        printk(KERN_ERR "Can't create symlink.\n");
         return -ENOMEM;
     }
 
@@ -82,7 +107,9 @@ int proc_init(void)
 
 void proc_cleanup(void)
 {
+    remove_proc_entry(PROC_SYMLINK, NULL);
     remove_proc_entry(PROC_FILENAME, NULL);
+    remove_proc_entry(PROC_DIRNAME, NULL);
 
     if (dict.cookie_buf)
     {
