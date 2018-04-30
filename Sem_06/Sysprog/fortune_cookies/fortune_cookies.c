@@ -77,26 +77,24 @@ int proc_init(void)
 
     if (!(proc_dir = proc_mkdir(PROC_DIRNAME, NULL)))
     {
-	vfree(dict.cookie_buf);
+        vfree(dict.cookie_buf);
         printk(KERN_ERR "Can't create proc directory.\n");
         return -ENOMEM;
     }
 
     if (!(proc_file = proc_create(PROC_FILENAME, 0666, proc_dir, &proc_fops)))
     {
-    	remove_proc_entry(PROC_DIRNAME, NULL);
+        remove_proc_entry(PROC_DIRNAME, NULL);
         vfree(dict.cookie_buf);
         printk(KERN_ERR "Cannot create fortune file.\n");
         return -ENOMEM;
     }
-	
     
     if (!(proc_sym = proc_symlink(PROC_SYMLINK, NULL, PROC_DIRNAME))) 
     {
-	
-    	remove_proc_entry(PROC_DIRNAME, NULL);
-	remove_proc_entry(PROC_FILENAME, NULL);
-	vfree(dict.cookie_buf);
+        remove_proc_entry(PROC_DIRNAME, NULL);
+        remove_proc_entry(PROC_FILENAME, NULL);
+        vfree(dict.cookie_buf);
         printk(KERN_ERR "Can't create symlink.\n");
         return -ENOMEM;
     }
