@@ -1,6 +1,7 @@
 # My folders
 task/
 .vs/
+cmake-*/
 
 # Object files
 *.o
