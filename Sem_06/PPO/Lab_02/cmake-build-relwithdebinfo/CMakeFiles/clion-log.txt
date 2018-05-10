@@ -1,4 +1,0 @@
-/home/lieroz/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/181.4668.70/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "CodeBlocks - Unix Makefiles" /home/lieroz/University/Sem_06/PPO/Lab_02
--- Configuring done
--- Generating done
--- Build files have been written to: /home/lieroz/University/Sem_06/PPO/Lab_02/cmake-build-relwithdebinfo
