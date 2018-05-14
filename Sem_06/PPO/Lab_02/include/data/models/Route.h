@@ -36,6 +36,7 @@ public:
     bool addCoordinate(qint32 index, const Coordinate &coordinate);
     void addCoordinate(const Coordinate &coordinate);
     bool removeCoordinate(qint32 index);
+    void removeCoordinate();
     bool updateCoordinate(qint32 index, const Coordinate &coordinate);
     QSharedPointer<Coordinate> getCoordinate(qint32 index);
 

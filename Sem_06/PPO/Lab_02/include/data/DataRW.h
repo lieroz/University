@@ -5,8 +5,13 @@
 #ifndef LAB_02_DATARW_H
 #define LAB_02_DATARW_H
 
-#include <QPair>
+#include <functional>
 
-QPair<rFunc, wFunc> getRWFunctions(const QString &fileType);
+#include <data/models/Route.h>
+
+typedef std::function<QSharedPointer<Route>(const QString &)> rFunc;
+typedef std::function<bool(const QString &, QSharedPointer<Route>)> wFunc;
+
+std::pair<rFunc, wFunc> getRWFunctions(const QString &fileType);
 
 #endif //LAB_02_DATARW_H

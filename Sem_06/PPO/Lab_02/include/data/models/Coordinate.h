@@ -22,6 +22,9 @@ public:
     Coordinate &operator=(const Coordinate &other);
     Coordinate &operator=(Coordinate &&other) noexcept;
 
+    friend bool operator==(const Coordinate &lhs, const Coordinate &rhs);
+    friend bool operator!=(const Coordinate &lhs, const Coordinate &rhs);
+
     qreal getLatitude() const;
     qreal getLongitude() const;
     qreal getAltitude() const;

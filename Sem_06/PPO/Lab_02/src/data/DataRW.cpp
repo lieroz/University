@@ -46,7 +46,7 @@ QSharedPointer<Route> readGpx(const QString &fileName)
         }
     }
 
-    return QSharedPointer::create(Route(name, path));
+    return QSharedPointer<Route>::create(Route(name, path));
 }
 
 bool writeGpx(const QString &fileName, QSharedPointer<Route> route)
@@ -81,17 +81,14 @@ bool writeGpx(const QString &fileName, QSharedPointer<Route> route)
     return true;
 }
 
-typedef std::function<QSharedPointer<Route>(const QString &)> rFunc;
-typedef std::function<bool(const QString &, QSharedPointer<Route>)> wFunc;
-
-QMap<QString, QPair<rFunc, wFunc>> registeredFileTypes = {
-        {"gpx", qMakePair(readGpx, writeGpx)}
+QMap<QString, std::pair<rFunc, wFunc>> registeredFileTypes = {
+    {"gpx", std::make_pair(readGpx, writeGpx)}
 };
 
-QPair<rFunc, wFunc> getRWFunctions(const QString &fileType)
+std::pair<rFunc, wFunc> getRWFunctions(const QString &fileType)
 {
     if (registeredFileTypes.find(fileType) != registeredFileTypes.end()) {
         return registeredFileTypes[fileType];
     }
-    return nullptr;
-};
+    return std::make_pair(nullptr, nullptr);
+}

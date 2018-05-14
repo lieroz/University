@@ -77,20 +77,20 @@ namespace Polyline
 
     QSharedPointer<Route> decode(const QString &polyline)
     {
-        QSharedPointer<Route> route(new Route);
+        Route route;
         unsigned int i = 0;
         while (i < polyline.size()) {
             auto lat = decodeValue(polyline, i);
             auto lon = decodeValue(polyline, i);
 
-            if (!route->getPath().isEmpty()) {
-                const auto &prevPoint = route->getPath().back();
+            if (!route.getPath().isEmpty()) {
+                const auto &prevPoint = route.getPath().back();
                 lat += prevPoint.getLatitude();
                 lon += prevPoint.getLongitude();
             }
-            route->addCoordinate({lat, lon, 0});
+            route.addCoordinate({lat, lon, 0});
         }
 
-        return route;
+        return QSharedPointer<Route>::create(route);
     }
-} // Polyline
+} //Polyline

@@ -7,17 +7,17 @@
 #include <data/models/Coordinate.h>
 
 Coordinate::Coordinate()
-        : m_latitude(0), m_longitude(0), m_altitude(0)
+    : m_latitude(0), m_longitude(0), m_altitude(0)
 {
 }
 
 Coordinate::Coordinate(const Coordinate &other)
-        : Coordinate(other.m_latitude, other.m_longitude, other.m_altitude)
+    : Coordinate(other.m_latitude, other.m_longitude, other.m_altitude)
 {
 }
 
 Coordinate::Coordinate(Coordinate &&other)
-        : m_latitude(other.m_latitude), m_longitude(other.m_longitude), m_altitude(other.m_altitude)
+    : m_latitude(other.m_latitude), m_longitude(other.m_longitude), m_altitude(other.m_altitude)
 {
     other.m_latitude = 0;
     other.m_longitude = 0;
@@ -25,7 +25,7 @@ Coordinate::Coordinate(Coordinate &&other)
 }
 
 Coordinate::Coordinate(qreal latitude, qreal longitude, qreal altitude)
-        : m_latitude(latitude), m_longitude(longitude), m_altitude(altitude)
+    : m_latitude(latitude), m_longitude(longitude), m_altitude(altitude)
 {
 }
 
@@ -39,7 +39,7 @@ Coordinate &Coordinate::operator=(const Coordinate &other)
     return *this;
 }
 
-Coordinate &Coordinate::operator=(Coordinate &&other)
+Coordinate &Coordinate::operator=(Coordinate &&other) noexcept
 {
     if (this != &other) {
         m_latitude = other.m_latitude;
@@ -51,6 +51,18 @@ Coordinate &Coordinate::operator=(Coordinate &&other)
         other.m_altitude = 0;
     }
     return *this;
+}
+
+bool operator==(const Coordinate &lhs, const Coordinate &rhs)
+{
+    return lhs.getLatitude() == rhs.getLatitude() &&
+           lhs.getLongitude() == rhs.getLongitude() &&
+           lhs.getAltitude() == rhs.getAltitude();
+}
+
+bool operator!=(const Coordinate &lhs, const Coordinate &rhs)
+{
+    return !(lhs == rhs);
 }
 
 qreal Coordinate::getLatitude() const

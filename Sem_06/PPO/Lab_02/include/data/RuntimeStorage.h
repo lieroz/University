@@ -22,12 +22,15 @@ public:
     bool addRoute(qint32 index, QSharedPointer<Route> route);
     void addRoute(QSharedPointer<Route> route);
     bool removeRoute(qint32 index);
+    void removeRoute();
     QSharedPointer<Route> getRoute(qint32 index);
+
+    qint32 count();
 
 private:
     RuntimeStorage() = default;
 
-    std::vector<QSharedPointer<Route>> m_routes;
+    QVector<QSharedPointer<Route>> m_routes;
 };
 
 #endif //LAB_02_RUNTIMESTORAGE_H

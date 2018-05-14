@@ -4,7 +4,7 @@
 
 #include <data/RuntimeStorage.h>
 
-static RuntimeStorage &RuntimeStorage::instance()
+RuntimeStorage &RuntimeStorage::instance()
 {
     static RuntimeStorage instance;
     return instance;
@@ -33,10 +33,20 @@ bool RuntimeStorage::removeRoute(qint32 index)
     return true;
 }
 
+void RuntimeStorage::removeRoute()
+{
+    m_routes.pop_back();
+}
+
 QSharedPointer<Route> RuntimeStorage::getRoute(qint32 index)
 {
     if (index < 0 || index >= m_routes.size()) {
         return nullptr;
     }
     return m_routes[index];
+}
+
+qint32 RuntimeStorage::count()
+{
+    return m_routes.count();
 }

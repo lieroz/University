@@ -11,6 +11,6 @@ namespace Polyline
 {
     QString encode(QSharedPointer<Route> route);
     QSharedPointer<Route> decode(const QString &polyline);
-} // Polyline
+} //Polyline
 
 #endif //LAB_02_POLYLINE_H
