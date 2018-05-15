@@ -18,8 +18,6 @@
 #include <ui/MainWindow.h>
 #include "ui_MainWindow.h"
 
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -105,6 +103,7 @@ void MainWindow::on_comboBox_currentIndexChanged(qint32 index)
 
     m_coordinatesPresenter->setCurrentRouteIndex(index - 1);
     emit m_coordinatesPresenter->layoutChanged();
+    ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void MainWindow::on_actionDelete_triggered()
@@ -123,7 +122,6 @@ void MainWindow::on_actionDelete_triggered()
 void MainWindow::on_addCoordinateButton_clicked()
 {
     if (ui->comboBox->currentIndex() == 0) {
-        // TODO maybe put messagebox here
         return;
     }
 
@@ -134,7 +132,38 @@ void MainWindow::on_addCoordinateButton_clicked()
 
 void MainWindow::on_removeCoordinateButton_clicked()
 {
-    // TODO implement me plzzz
+    auto rows = ui->coordinatesView->selectionModel()->selectedRows();
+    qint32 routeIndex = ui->comboBox->currentIndex();
+    qint32 coordinateIndex = rows.first().row();
+
+    for (auto i = 0; i < rows.count(); ++i) {
+        Coordinate coordinate;
+
+        for (auto j = 0; j < 3; ++j) {
+            QModelIndex index = m_coordinatesPresenter->index(rows[i].row(), j);
+            qreal value = m_coordinatesPresenter->data(index, Qt::DisplayRole).toDouble();
+
+            switch (j) {
+            case 0:
+                coordinate.setLatitude(value);
+                break;
+            case 1:
+                coordinate.setLongitude(value);
+                break;
+            case 2:
+                coordinate.setAltitude(value);
+                break;
+            default:
+                break;
+            }
+        }
+
+        auto redoFunc = std::bind(&MainWindow::removeCoordinate,
+                                  this, routeIndex - 1, coordinateIndex);
+        auto undoFunc = std::bind(&MainWindow::addCoordinate,
+                                  this, std::placeholders::_1, routeIndex - 1, coordinateIndex);
+        m_undoStack->push(new RemoveCoordinateCommand(coordinate, redoFunc, undoFunc));
+    }
 }
 
 void MainWindow::updateComboBox(qint32 index, const QString &value)

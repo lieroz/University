@@ -16,20 +16,6 @@ qint32 RoutesPresenter::rowCount(const QModelIndex &parent) const
     return RuntimeStorage::instance().count();
 }
 
-QVariant RoutesPresenter::headerData(qint32 section, Qt::Orientation orientation, qint32 role) const
-{
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-    if (orientation == Qt::Horizontal) {
-        return m_headers[section];
-    }
-    if (orientation == Qt::Vertical) {
-        return QString::number(section + 1);
-    }
-    return QVariant();
-}
-
 QVariant RoutesPresenter::data(const QModelIndex &index, qint32 role) const
 {
     if (role == Qt::DisplayRole) {

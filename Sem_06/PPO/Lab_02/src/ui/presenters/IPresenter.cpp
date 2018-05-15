@@ -24,6 +24,9 @@ QVariant IPresenter::headerData(qint32 section, Qt::Orientation orientation, qin
     if (orientation == Qt::Horizontal) {
         return m_headers[section];
     }
+    if (orientation == Qt::Vertical) {
+        return section + 1;
+    }
     return QVariant();
 }
 

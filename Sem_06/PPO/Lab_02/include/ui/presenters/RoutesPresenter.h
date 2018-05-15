@@ -15,7 +15,6 @@ public:
     RoutesPresenter(const QStringList &headers, QObject *parent = nullptr);
 
     qint32 rowCount(const QModelIndex &parent) const override;
-    QVariant headerData(qint32 section, Qt::Orientation orientation, qint32 role) const override;
     QVariant data(const QModelIndex &index, qint32 role) const override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     bool setData(const QModelIndex &index, const QVariant &value, qint32 role = Qt::EditRole) override;
