@@ -10,6 +10,8 @@
 #include <data/DataRW.h>
 #include <data/models/Route.h>
 
+#include <QDebug>
+
 QSharedPointer<Route> readGpx(const QString &fileName)
 {
     QFile file(fileName);
@@ -18,7 +20,7 @@ QSharedPointer<Route> readGpx(const QString &fileName)
     }
 
     QXmlStreamReader inputStream(&file);
-    QString currentField;
+    QString currentField, prevField;
     qreal dist = 0;
 
     QString name;
@@ -43,19 +45,21 @@ QSharedPointer<Route> readGpx(const QString &fileName)
                 }
                 path.append(coord);
             }
+
+            if (currentField == "ele" && prevField == "trkpt") {
+                const auto alt = inputStream.readElementText().toDouble();
+                path[path.count() - 1].setAltitude(alt);
+            }
+
+            prevField = currentField;
         }
     }
 
     return QSharedPointer<Route>::create(Route(name, path));
 }
 
-bool writeGpx(const QString &fileName, QSharedPointer<Route> route)
+bool writeGpx(QFile &file, QSharedPointer<Route> route)
 {
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        return false;
-    }
-
     QXmlStreamWriter xmlWriter(&file);
     xmlWriter.setAutoFormatting(true);
 
@@ -72,6 +76,9 @@ bool writeGpx(const QString &fileName, QSharedPointer<Route> route)
         xmlWriter.writeStartElement("trkpt");
         xmlWriter.writeAttribute("lat", QString::number(coordinate.getLatitude()));
         xmlWriter.writeAttribute("lon", QString::number(coordinate.getLongitude()));
+        xmlWriter.writeStartElement("ele");
+        xmlWriter.writeCharacters(QString::number(coordinate.getAltitude()));
+        xmlWriter.writeEndElement();
         xmlWriter.writeEndElement();
     }
 

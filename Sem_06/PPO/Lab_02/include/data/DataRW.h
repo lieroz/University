@@ -5,12 +5,13 @@
 #ifndef LAB_02_DATARW_H
 #define LAB_02_DATARW_H
 
+#include <QFile>
 #include <functional>
 
 #include <data/models/Route.h>
 
 typedef std::function<QSharedPointer<Route>(const QString &)> rFunc;
-typedef std::function<bool(const QString &, QSharedPointer<Route>)> wFunc;
+typedef std::function<bool(QFile &, QSharedPointer<Route>)> wFunc;
 
 std::pair<rFunc, wFunc> getRWFunctions(const QString &fileType);
 

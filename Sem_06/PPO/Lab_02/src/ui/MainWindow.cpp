@@ -70,11 +70,6 @@ void MainWindow::on_actionOpen_triggered()
 
     for (const auto &fileName : fileNames) {
         QFileInfo fileInfo(fileName);
-        if (!fileInfo.exists() || !fileInfo.isFile()) {
-            QMessageBox::warning(this, tr("Warning"),
-                                 QString("File %1 doesn't exist").arg(fileName), QMessageBox::Ok);
-        }
-
         auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
         QSharedPointer<Route> route = rwFuncs.first(fileName);
         qint32 index = RuntimeStorage::instance().count();
@@ -91,6 +86,32 @@ void MainWindow::on_actionImport_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
+    qint32 index = ui->comboBox->currentIndex();
+    if (index != 0) {
+        QString fileName =
+            QFileDialog::getSaveFileName(this, tr("Save Route"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
+
+        if (fileName.isEmpty()) {
+            return;
+        } else {
+            QFileInfo fileInfo(fileName);
+            if (fileInfo.exists()) {
+                QMessageBox::warning(this, tr("Warning"),
+                                     QString("File %1 already exists").arg(fileName), QMessageBox::Ok);
+                return;
+            }
+
+            QFile file(fileName);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QMessageBox::warning(this, tr("Warning"),
+                                     QString("Can't open file %1").arg(fileName), QMessageBox::Ok);
+                return;
+            }
+
+            auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
+            rwFuncs.second(file, RuntimeStorage::instance().getRoute(ui->comboBox->currentIndex() - 1));
+        }
+    }
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(qint32 index)
@@ -136,11 +157,11 @@ void MainWindow::on_removeCoordinateButton_clicked()
     qint32 routeIndex = ui->comboBox->currentIndex();
     qint32 coordinateIndex = rows.first().row();
 
-    for (auto i = 0; i < rows.count(); ++i) {
+    for (auto &row : rows) {
         Coordinate coordinate;
 
         for (auto j = 0; j < 3; ++j) {
-            QModelIndex index = m_coordinatesPresenter->index(rows[i].row(), j);
+            QModelIndex index = m_coordinatesPresenter->index(row.row(), j);
             qreal value = m_coordinatesPresenter->data(index, Qt::DisplayRole).toDouble();
 
             switch (j) {
