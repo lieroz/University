@@ -1,5 +1,5 @@
-#include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/module.h>
 #include <linux/init.h>
 #include <linux/fs.h>
 #include <linux/time.h>
@@ -30,11 +30,11 @@ static struct super_operations const myfs_super_ops = {
 
 static int myfs_fill_sb(struct super_block *sb, void *data, int silent)
 {
-    struct inode * root = NULL ;
-    sb->s_blocksize = PAGE_SIZE ;
-    sb->s_blocksize_bits = PAGE_SHIFT ;
-    sb->s_magic = MYFS_MAGIC_NUMBER ;
-    sb->s_op = &myfs_super_ops ;
+    struct inode * root = NULL;
+    sb->s_blocksize = PAGE_SIZE;
+    sb->s_blocksize_bits = PAGE_SHIFT;
+    sb->s_magic = MYFS_MAGIC_NUMBER;
+    sb->s_op = &myfs_super_ops;
     root = myfs_make_inode(sb, S_IFDIR | 0755) ;
     if (! root) {
         printk(KERN_ERR "MYFS inode allocation failed!\n");
@@ -69,9 +69,9 @@ static struct file_system_type myfs_type = {
     .kill_sb = kill_block_super,
 };
 
-static int __init myfs_init(void)
+static int myfs_init(void)
 {
-    int ret = register_filesystem(& myfs_type) ;
+    int ret = register_filesystem(&myfs_type);
     if (ret != 0) {
         printk(KERN_ERR "MYFS_MODULE cannot register filesystem!\n") ;
         return ret;
@@ -80,9 +80,9 @@ static int __init myfs_init(void)
     return 0;
 }
 
-static void __exit myfs_exit(void)
+static void myfs_exit(void)
 {
-    int ret = unregister_filesystem(& myfs_type) ;
+    int ret = unregister_filesystem(&myfs_type);
     if (ret != 0) {
         printk(KERN_ERR "MYFS_MODULE cannot unregister filesystem!\n");
     }
