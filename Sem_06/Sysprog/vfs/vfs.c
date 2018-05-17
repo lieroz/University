@@ -36,7 +36,7 @@ static int myfs_fill_sb(struct super_block *sb, void *data, int silent)
     sb->s_magic = MYFS_MAGIC_NUMBER;
     sb->s_op = &myfs_super_ops;
     root = myfs_make_inode(sb, S_IFDIR | 0755) ;
-    if (! root) {
+    if (!root) {
         printk(KERN_ERR "MYFS inode allocation failed!\n");
         return -ENOMEM;
     }
