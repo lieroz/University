@@ -4,9 +4,11 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTextStream>
 
 #include <data/DataRW.h>
 #include <data/RuntimeStorage.h>
+#include <data/Polyline.h>
 
 #include <ui/commands/AddRouteCommand.h>
 #include <ui/commands/RemoveRouteCommand.h>
@@ -17,6 +19,8 @@
 
 #include <ui/MainWindow.h>
 #include "ui_MainWindow.h"
+
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -66,7 +70,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionOpen_triggered()
 {
     QStringList fileNames =
-        QFileDialog::getOpenFileNames(this, tr("FileDialog"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
+        QFileDialog::getOpenFileNames(this, tr("File Dialog"), QDir::homePath(), tr("All Files (*.gpx)"));
 
     for (const auto &fileName : fileNames) {
         QFileInfo fileInfo(fileName);
@@ -80,51 +84,46 @@ void MainWindow::on_actionOpen_triggered()
     }
 }
 
-void MainWindow::on_actionImport_triggered()
-{
-}
-
 void MainWindow::on_actionSave_triggered()
 {
-    qint32 index = ui->comboBox->currentIndex();
-    if (index != 0) {
-        QString fileName =
-            QFileDialog::getSaveFileName(this, tr("Save Route"), QDir::homePath(), tr("Gpx Files (*.gpx)"));
+    saveFile([](qint32 index, QFile & file, QFileInfo & fileInfo) {
+        auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
+        rwFuncs.second(file, RuntimeStorage::instance().getRoute(index));
+    });
+}
 
-        if (fileName.isEmpty()) {
+void MainWindow::on_actionImport_triggered()
+{
+    QStringList fileNames =
+        QFileDialog::getOpenFileNames(this, tr("Load polyline"), QDir::homePath(), tr("Txt Files (*.txt)"));
+
+    for (const auto &fileName : fileNames) {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QMessageBox::warning(this, tr("Warning"),
+                                 QString("Can't open file %1").arg(fileName), QMessageBox::Ok);
             return;
-        } else {
-            QFileInfo fileInfo(fileName);
-            if (fileInfo.exists()) {
-                QMessageBox::warning(this, tr("Warning"),
-                                     QString("File %1 already exists").arg(fileName), QMessageBox::Ok);
-                return;
-            }
-
-            QFile file(fileName);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                QMessageBox::warning(this, tr("Warning"),
-                                     QString("Can't open file %1").arg(fileName), QMessageBox::Ok);
-                return;
-            }
-
-            auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
-            rwFuncs.second(file, RuntimeStorage::instance().getRoute(ui->comboBox->currentIndex() - 1));
         }
+
+        QTextStream stream(&file);
+        QString polyline;
+        stream >> polyline;
+        // FIXME plzzz...
+//        QSharedPointer<Route> route = Polyline::decode(polyline);
+//        qint32 index = RuntimeStorage::instance().count();
+
+//        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
+//        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
+//        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
     }
 }
 
-void MainWindow::on_comboBox_currentIndexChanged(qint32 index)
+void MainWindow::on_actionExport_triggered()
 {
-    if (index == 0) {
-        m_coordinatesPresenter->setCurrentRouteIndex(-1);
-        m_coordinatesPresenter->clear();
-        return;
-    }
-
-    m_coordinatesPresenter->setCurrentRouteIndex(index - 1);
-    emit m_coordinatesPresenter->layoutChanged();
-    ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    saveFile([](qint32 index, QFile & file, QFileInfo & fileInfo) {
+        QTextStream stream(&file);
+        stream << Polyline::encode(RuntimeStorage::instance().getRoute(index));
+    });
 }
 
 void MainWindow::on_actionDelete_triggered()
@@ -138,6 +137,19 @@ void MainWindow::on_actionDelete_triggered()
     auto redoFunc = std::bind(&MainWindow::removeRoute, this, index - 1);
     auto undoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index - 1);
     m_undoStack->push(new RemoveRouteCommand(route, redoFunc, undoFunc));
+}
+
+void MainWindow::on_comboBox_currentIndexChanged(qint32 index)
+{
+    if (index == 0) {
+        m_coordinatesPresenter->setCurrentRouteIndex(-1);
+        m_coordinatesPresenter->clear();
+        return;
+    }
+
+    m_coordinatesPresenter->setCurrentRouteIndex(index - 1);
+    emit m_coordinatesPresenter->layoutChanged();
+    ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void MainWindow::on_addCoordinateButton_clicked()
@@ -206,6 +218,33 @@ void MainWindow::coordinateChanged(qint32 index, const Coordinate &oldCoordinate
     auto undoRedoFunc = std::bind(&MainWindow::updateCoordinate,
                                   this, std::placeholders::_1, ui->comboBox->currentIndex() - 1, index);
     m_undoStack->push(new UpdateCoordinateCommand(oldCoordinate, newCoordinate, undoRedoFunc));
+}
+
+void MainWindow::saveFile(const std::function<void (qint32, QFile &, QFileInfo &)> &func)
+{
+    qint32 index = ui->comboBox->currentIndex();
+    if (index != 0) {
+        QString fileName =
+            QFileDialog::getSaveFileName(this, tr("Save Polyline"), QDir::homePath(), tr("All Files (*)"));
+
+        if (fileName.isEmpty()) {
+            return;
+        } else {
+            QFileInfo fileInfo(fileName);
+            if (fileInfo.exists()) {
+                QMessageBox::warning(this, tr("Warning"),
+                                     QString("File %1 already exists").arg(fileName), QMessageBox::Ok);
+                return;
+            }
+            QFile file(fileName);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QMessageBox::warning(this, tr("Warning"),
+                                     QString("Can't open file %1").arg(fileName), QMessageBox::Ok);
+                return;
+            }
+            func(index - 1, file, fileInfo);
+        }
+    }
 }
 
 void MainWindow::addRoute(QSharedPointer<Route> route, qint32 index)

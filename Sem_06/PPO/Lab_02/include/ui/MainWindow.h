@@ -7,6 +7,8 @@
 
 #include <QMainWindow>
 #include <QUndoStack>
+#include <QFile>
+#include <QFileInfo>
 
 #include <ui/presenters/RoutesPresenter.h>
 #include <ui/presenters/CoordinatesPresenter.h>
@@ -29,8 +31,9 @@ public:
 
 private slots:
     void on_actionOpen_triggered();
-    void on_actionImport_triggered();
     void on_actionSave_triggered();
+    void on_actionImport_triggered();
+    void on_actionExport_triggered();
     void on_actionDelete_triggered();
 
     void on_comboBox_currentIndexChanged(qint32 index);
@@ -43,6 +46,8 @@ private slots:
     void coordinateChanged(qint32 index, const Coordinate &oldCoordinate, const Coordinate newCoordinate);
 
 private:
+    void saveFile(const std::function<void(qint32, QFile &, QFileInfo &)> &func);
+
     void addRoute(QSharedPointer<Route> route, qint32 index);
     void removeRoute(qint32 index);
 
