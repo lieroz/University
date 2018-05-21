@@ -4,7 +4,6 @@
 
 #include <ui/presenters/IPresenter.h>
 
-
 IPresenter::IPresenter(const QStringList &headers, QObject *parent)
     : m_headers(headers), QAbstractTableModel(parent)
 {

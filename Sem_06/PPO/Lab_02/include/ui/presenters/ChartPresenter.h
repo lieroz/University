@@ -1,3 +1,7 @@
+//
+// Created by lieroz on 21.05.18.
+//
+
 #ifndef CHARTPRESENTER_H
 #define CHARTPRESENTER_H
 

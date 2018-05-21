@@ -1,10 +1,14 @@
-#include <ui/presenters/ChartPresenter.h>
+//
+// Created by lieroz on 21.05.18.
+//
 
 #include <QLineSeries>
 #include <QVXYModelMapper>
 #include <QPanGesture>
 #include <QRandomGenerator>
 #include <QtMath>
+
+#include <ui/presenters/ChartPresenter.h>
 
 ChartPresenter::ChartPresenter(QWidget *parent)
     : QChartView(parent)
