@@ -3,7 +3,6 @@
 //
 
 #include <data/RuntimeStorage.h>
-#include <QDebug>
 
 #include <ui/presenters/CoordinatesPresenter.h>
 
