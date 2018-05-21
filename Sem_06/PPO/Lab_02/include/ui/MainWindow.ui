@@ -82,7 +82,7 @@
         </layout>
        </widget>
       </widget>
-      <widget class="QGraphicsView" name="chartView"/>
+      <widget class="ChartPresenter" name="chartView"/>
      </widget>
     </item>
    </layout>
@@ -159,6 +159,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ChartPresenter</class>
+   <extends>QGraphicsView</extends>
+   <header>include/ui/presenters/ChartPresenter.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

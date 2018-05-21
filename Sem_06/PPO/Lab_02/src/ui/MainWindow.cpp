@@ -154,12 +154,14 @@ void MainWindow::on_comboBox_currentIndexChanged(qint32 index)
     if (index == 0) {
         m_coordinatesPresenter->setCurrentRouteIndex(-1);
         m_coordinatesPresenter->clear();
+        ui->chartView->setData(QSharedPointer<Route>::create(Route()));
         return;
     }
 
     m_coordinatesPresenter->setCurrentRouteIndex(index - 1);
     emit m_coordinatesPresenter->layoutChanged();
     ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->chartView->setData(RuntimeStorage::instance().getRoute(index - 1));
 }
 
 void MainWindow::on_addCoordinateButton_clicked()
@@ -321,27 +323,33 @@ void MainWindow::removeRoute(qint32 index)
 
 void MainWindow::addCoordinate(const Coordinate &coordinate, qint32 routeIndex, qint32 coordinateIndex)
 {
-    RuntimeStorage::instance().getRoute(routeIndex)->addCoordinate(coordinateIndex, coordinate);
+    auto route = RuntimeStorage::instance().getRoute(routeIndex);
+    route->addCoordinate(coordinateIndex, coordinate);
     emit m_coordinatesPresenter->layoutChanged();
     emit m_routesPresenter->layoutChanged();
     ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->routesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->chartView->setData(route);
 }
 
 void MainWindow::updateCoordinate(const Coordinate &coordinate, qint32 routeIndex, qint32 coordinateIndex)
 {
-    RuntimeStorage::instance().getRoute(routeIndex)->updateCoordinate(coordinateIndex, coordinate);
+    auto route = RuntimeStorage::instance().getRoute(routeIndex);
+    route->updateCoordinate(coordinateIndex, coordinate);
     emit m_coordinatesPresenter->layoutChanged();
     emit m_routesPresenter->layoutChanged();
     ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->routesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->chartView->setData(route);
 }
 
 void MainWindow::removeCoordinate(qint32 routeIndex, qint32 coordinateIndex)
 {
-    RuntimeStorage::instance().getRoute(routeIndex)->removeCoordinate(coordinateIndex);
+    auto route = RuntimeStorage::instance().getRoute(routeIndex);
+    route->removeCoordinate(coordinateIndex);
     emit m_coordinatesPresenter->layoutChanged();
     emit m_routesPresenter->layoutChanged();
     ui->coordinatesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->routesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->chartView->setData(route);
 }
