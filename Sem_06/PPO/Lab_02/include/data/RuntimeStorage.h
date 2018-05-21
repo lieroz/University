@@ -24,6 +24,7 @@ public:
     bool removeRoute(qint32 index);
     void removeRoute();
     QSharedPointer<Route> getRoute(qint32 index);
+    const QVector<QSharedPointer<Route> > &getAll();
 
     qint32 count();
 

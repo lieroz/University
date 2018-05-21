@@ -46,6 +46,11 @@ QSharedPointer<Route> RuntimeStorage::getRoute(qint32 index)
     return m_routes[index];
 }
 
+const QVector<QSharedPointer<Route> > &RuntimeStorage::getAll()
+{
+    return m_routes;
+}
+
 qint32 RuntimeStorage::count()
 {
     return m_routes.count();

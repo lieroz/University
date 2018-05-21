@@ -20,8 +20,6 @@
 #include <ui/MainWindow.h>
 #include "ui_MainWindow.h"
 
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -60,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_addCoordinateDialog = new AddCoordinateDialog(this);
     connect(m_addCoordinateDialog, SIGNAL(sendCoordinate(qint32, Coordinate)),
             this, SLOT(recieveCoordinate(qint32, Coordinate)));
+
+    prepareAppContext();
+    connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(appAboutToQuit()));
 }
 
 MainWindow::~MainWindow()
@@ -108,13 +109,12 @@ void MainWindow::on_actionImport_triggered()
         QTextStream stream(&file);
         QString polyline;
         stream >> polyline;
-        // FIXME plzzz...
-//        QSharedPointer<Route> route = Polyline::decode(polyline);
-//        qint32 index = RuntimeStorage::instance().count();
+        QSharedPointer<Route> route = Polyline::decode(polyline);
+        qint32 index = RuntimeStorage::instance().count();
 
-//        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
-//        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
-//        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
+        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
+        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
+        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
     }
 }
 
@@ -124,6 +124,16 @@ void MainWindow::on_actionExport_triggered()
         QTextStream stream(&file);
         stream << Polyline::encode(RuntimeStorage::instance().getRoute(index));
     });
+}
+
+void MainWindow::on_actionNew_triggered()
+{
+    Route route;
+    qint32 index = RuntimeStorage::instance().count();
+
+    auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
+    auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
+    m_undoStack->push(new AddRouteCommand(QSharedPointer<Route>::create(route), redoFunc, undoFunc));
 }
 
 void MainWindow::on_actionDelete_triggered()
@@ -167,8 +177,11 @@ void MainWindow::on_removeCoordinateButton_clicked()
 {
     auto rows = ui->coordinatesView->selectionModel()->selectedRows();
     qint32 routeIndex = ui->comboBox->currentIndex();
-    qint32 coordinateIndex = rows.first().row();
+    if (routeIndex == 0 || rows.isEmpty()) {
+        return;
+    }
 
+    qint32 coordinateIndex = rows.first().row();
     for (auto &row : rows) {
         Coordinate coordinate;
 
@@ -218,6 +231,49 @@ void MainWindow::coordinateChanged(qint32 index, const Coordinate &oldCoordinate
     auto undoRedoFunc = std::bind(&MainWindow::updateCoordinate,
                                   this, std::placeholders::_1, ui->comboBox->currentIndex() - 1, index);
     m_undoStack->push(new UpdateCoordinateCommand(oldCoordinate, newCoordinate, undoRedoFunc));
+}
+
+void MainWindow::appAboutToQuit()
+{
+    QDir dir(QDir::currentPath() + "/appcontext");
+    dir.setNameFilters(QStringList() << "*.*");
+    dir.setFilter(QDir::Files);
+
+    for (const auto &dirFile : dir.entryList()) {
+        dir.remove(dirFile);
+    }
+
+    quint32 fileName = 0;
+    for (auto route : RuntimeStorage::instance().getAll()) {
+        QFile file(QString("%1/%2.gpx").arg(dir.absolutePath()).arg(QString::number(++fileName)));
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            return;
+        }
+
+        auto rwFuncs = getRWFunctions("gpx");
+        rwFuncs.second(file, route);
+    }
+}
+
+void MainWindow::prepareAppContext()
+{
+    QDir dir(QDir::currentPath());
+    dir.mkdir("appcontext");
+    dir.cd("appcontext");
+
+    for (auto fileInfo : dir.entryInfoList()) {
+        if (fileInfo.fileName() == "." || fileInfo.fileName() == "..") {
+            continue;
+        }
+
+        auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
+        auto route = rwFuncs.first(fileInfo.absoluteFilePath());
+        qint32 index = RuntimeStorage::instance().count();
+
+        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
+        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
+        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
+    }
 }
 
 void MainWindow::saveFile(const std::function<void (qint32, QFile &, QFileInfo &)> &func)

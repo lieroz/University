@@ -34,6 +34,7 @@ private slots:
     void on_actionSave_triggered();
     void on_actionImport_triggered();
     void on_actionExport_triggered();
+    void on_actionNew_triggered();
     void on_actionDelete_triggered();
 
     void on_comboBox_currentIndexChanged(qint32 index);
@@ -45,7 +46,10 @@ private slots:
     void recieveCoordinate(qint32 position, const Coordinate &coordinate);
     void coordinateChanged(qint32 index, const Coordinate &oldCoordinate, const Coordinate newCoordinate);
 
+    void appAboutToQuit();
+
 private:
+    void prepareAppContext();
     void saveFile(const std::function<void(qint32, QFile &, QFileInfo &)> &func);
 
     void addRoute(QSharedPointer<Route> route, qint32 index);

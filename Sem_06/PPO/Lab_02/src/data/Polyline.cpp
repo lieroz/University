@@ -4,49 +4,51 @@
 
 #include <data/Polyline.h>
 
-static const qreal s_presision = 100000.0;
-static const quint32 s_chunkSize = 5;
-static const quint32 s_asciiOffset = 63;
-static const quint32 s_5bitMask = 0x1f;
-static const quint32 s_6bitMask = 0x20;
+static const qreal  s_presision   = 100000.0;
+static const qint32 s_chunkSize   = 5;
+static const qint32 s_asciiOffset = 63;
+static const qint32 s_5bitMask    = 0x1f;
+static const qint32 s_6bitMask    = 0x20;
 
-void encodeValue(QString &str, double value)
+void encodeValue(QString &str, qreal value)
 {
-    auto e5 = static_cast<quint32>(qRound(value * s_presision));
+    qint32 e5 = qRound(value * s_presision);
     e5 <<= 1;
     if (value < 0) {
         e5 = ~e5;
     }
 
-    bool hasNextChunk;
+    bool hasNextChunk = false;
     do {
-        quint32 nextChunk = (e5 >> s_chunkSize);
+        qint32 nextChunk = (e5 >> s_chunkSize);
         hasNextChunk = nextChunk > 0;
 
-        quint32 charVar = e5 & s_5bitMask;
+        qint32 charVar = e5 & s_5bitMask;
         if (hasNextChunk) {
             charVar |= s_6bitMask;
         }
         charVar += s_asciiOffset;
-        str += (char) charVar;
+        str += static_cast<uchar>(charVar);
 
         e5 = nextChunk;
     } while (hasNextChunk);
 }
 
-double decodeValue(const QString &polyline, quint32 i)
+double decodeValue(const QString &polyline, qint32 &i)
 {
-    quint32 result = 0;
-    quint32 shift = 0;
+    Q_ASSERT(i < polyline.size());
+
+    qint32 result = 0;
+    qint32 shift = 0;
     uchar c = 0;
     do {
-        c = static_cast<uchar>(polyline.at(i++).toLatin1());
+        c = polyline.at(i++).cell();
         c -= s_asciiOffset;
         result |= (c & s_5bitMask) << shift;
         shift += s_chunkSize;
     } while (c >= s_6bitMask);
 
-    if (result & static_cast<quint32>(1)) {
+    if (result & 1) {
         result = ~result;
     }
     result >>= 1;
@@ -58,8 +60,8 @@ namespace Polyline
     QString encode(QSharedPointer<Route> route)
     {
         QString result;
-        double latPrev = .0;
-        double lonPrev = .0;
+        qreal latPrev = 0;
+        qreal lonPrev = 0;
 
         for (auto &coordinate : route->getPath()) {
             const auto lat = coordinate.getLatitude();
@@ -78,13 +80,13 @@ namespace Polyline
     QSharedPointer<Route> decode(const QString &polyline)
     {
         Route route;
-        unsigned int i = 0;
-        while (i < polyline.size()) {
+        qint32 i = 0;
+        while (i < polyline.count()) {
             auto lat = decodeValue(polyline, i);
             auto lon = decodeValue(polyline, i);
 
             if (!route.getPath().isEmpty()) {
-                const auto &prevPoint = route.getPath().back();
+                const auto &prevPoint = route.getPath().last();
                 lat += prevPoint.getLatitude();
                 lon += prevPoint.getLongitude();
             }
