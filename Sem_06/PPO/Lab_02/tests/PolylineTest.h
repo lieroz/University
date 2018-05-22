@@ -5,7 +5,6 @@
 #ifndef POLYLINETEST_H
 #define POLYLINETEST_H
 
-#include <QObject>
 #include <QTest>
 
 #include <data/Polyline.h>

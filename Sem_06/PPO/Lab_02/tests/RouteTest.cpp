@@ -4,7 +4,6 @@
 
 #include <QAction>
 #include <QComboBox>
-#include <QDebug>
 
 #include <data/RuntimeStorage.h>
 
@@ -26,6 +25,7 @@ void RouteTest::testCreateRoute()
 void RouteTest::testRemoveRoute()
 {
     QComboBox *box = window.findChild<QComboBox *>("comboBox");
+    QVERIFY(box != nullptr);
     box->setCurrentIndex(1);
     QAction *action = window.findChild<QAction *>("actionDelete");
     QVERIFY(action != nullptr);

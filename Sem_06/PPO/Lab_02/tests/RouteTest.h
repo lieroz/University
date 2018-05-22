@@ -1,7 +1,10 @@
+//
+// Created by lieroz on 22.05.18.
+//
+
 #ifndef ROUTETEST_H
 #define ROUTETEST_H
 
-#include <QObject>
 #include <QTest>
 
 #include <ui/MainWindow.h>

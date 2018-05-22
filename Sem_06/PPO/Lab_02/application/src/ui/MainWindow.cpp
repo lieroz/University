@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(updateComboBox(qint32, QString)));
 
     m_addCoordinateDialog = new AddCoordinateDialog(this);
+    m_addCoordinateDialog->setObjectName("m_addCoordinateDialog");
     connect(m_addCoordinateDialog, SIGNAL(sendCoordinate(qint32, Coordinate)),
             this, SLOT(recieveCoordinate(qint32, Coordinate)));
 
