@@ -9,6 +9,7 @@
 #include <QUndoStack>
 #include <QFile>
 #include <QFileInfo>
+#include <QFileDialog>
 
 #include <ui/presenters/RoutesPresenter.h>
 #include <ui/presenters/CoordinatesPresenter.h>
@@ -32,8 +33,6 @@ public:
 private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
-    void on_actionImport_triggered();
-    void on_actionExport_triggered();
     void on_actionNew_triggered();
     void on_actionDelete_triggered();
 
@@ -47,10 +46,12 @@ private slots:
     void coordinateChanged(qint32 index, const Coordinate &oldCoordinate, const Coordinate newCoordinate);
 
     void appAboutToQuit();
+    void filesSelected(const QStringList& fileNames);
+    void accepted();
 
 private:
     void prepareAppContext();
-    void saveFile(const std::function<void(qint32, QFile &, QFileInfo &)> &func);
+    void saveFile();
 
     void addRoute(QSharedPointer<Route> route, qint32 index);
     void removeRoute(qint32 index);
@@ -66,6 +67,8 @@ private:
     QUndoStack *m_undoStack;
     AddCoordinateDialog *m_addCoordinateDialog;
     SpinBoxDelegate *m_delegate;
+    QFileDialog *m_fileDialog;
+    QStringList m_fileNames;
 };
 
 #endif // MAINWINDOW_H

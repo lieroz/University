@@ -62,6 +62,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     prepareAppContext();
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(appAboutToQuit()));
+
+    m_fileDialog = new QFileDialog(this, tr("File Dialog"), QDir::homePath(), tr("All Files (*)"));
+    m_fileDialog->setObjectName("m_fileDialog");
+    m_fileDialog->setFileMode(QFileDialog::ExistingFiles);
+    connect(m_fileDialog, SIGNAL(filesSelected(QStringList)), this, SLOT(filesSelected(QStringList)));
+    connect(m_fileDialog, SIGNAL(accepted()), this, SLOT(accepted()));
 }
 
 MainWindow::~MainWindow()
@@ -71,60 +77,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QStringList fileNames =
-        QFileDialog::getOpenFileNames(this, tr("File Dialog"), QDir::homePath(), tr("All Files (*.gpx)"));
-
-    for (const auto &fileName : fileNames) {
-        QFileInfo fileInfo(fileName);
-        auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
-        QSharedPointer<Route> route = rwFuncs.first(fileName);
-        qint32 index = RuntimeStorage::instance().count();
-
-        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
-        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
-        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
-    }
+    m_fileDialog->exec();
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-    saveFile([](qint32 index, QFile & file, QFileInfo & fileInfo) {
-        auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
-        rwFuncs.second(file, RuntimeStorage::instance().getRoute(index));
-    });
-}
-
-void MainWindow::on_actionImport_triggered()
-{
-    QStringList fileNames =
-        QFileDialog::getOpenFileNames(this, tr("Load polyline"), QDir::homePath(), tr("Txt Files (*.txt)"));
-
-    for (const auto &fileName : fileNames) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QMessageBox::warning(this, tr("Warning"),
-                                 QString("Can't open file %1").arg(fileName), QMessageBox::Ok);
-            return;
-        }
-
-        QTextStream stream(&file);
-        QString polyline;
-        stream >> polyline;
-        QSharedPointer<Route> route = Polyline::decode(polyline);
-        qint32 index = RuntimeStorage::instance().count();
-
-        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
-        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
-        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
-    }
-}
-
-void MainWindow::on_actionExport_triggered()
-{
-    saveFile([](qint32 index, QFile & file, QFileInfo & fileInfo) {
-        QTextStream stream(&file);
-        stream << Polyline::encode(RuntimeStorage::instance().getRoute(index));
-    });
+    saveFile();
 }
 
 void MainWindow::on_actionNew_triggered()
@@ -258,6 +216,25 @@ void MainWindow::appAboutToQuit()
     }
 }
 
+void MainWindow::filesSelected(const QStringList &fileNames)
+{
+    m_fileNames = fileNames;
+}
+
+void MainWindow::accepted()
+{
+    for (const auto &fileName : m_fileNames) {
+        QFileInfo fileInfo(fileName);
+        auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
+        QSharedPointer<Route> route = rwFuncs.first(fileName);
+        qint32 index = RuntimeStorage::instance().count();
+
+        auto redoFunc = std::bind(&MainWindow::addRoute, this, std::placeholders::_1, index);
+        auto undoFunc = std::bind(&MainWindow::removeRoute, this, index);
+        m_undoStack->push(new AddRouteCommand(route, redoFunc, undoFunc));
+    }
+}
+
 void MainWindow::prepareAppContext()
 {
     QDir dir(QDir::currentPath());
@@ -279,7 +256,7 @@ void MainWindow::prepareAppContext()
     }
 }
 
-void MainWindow::saveFile(const std::function<void (qint32, QFile &, QFileInfo &)> &func)
+void MainWindow::saveFile()
 {
     qint32 index = ui->comboBox->currentIndex();
     if (index != 0) {
@@ -301,7 +278,8 @@ void MainWindow::saveFile(const std::function<void (qint32, QFile &, QFileInfo &
                                      QString("Can't open file %1").arg(fileName), QMessageBox::Ok);
                 return;
             }
-            func(index - 1, file, fileInfo);
+            auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
+            rwFuncs.second(file, RuntimeStorage::instance().getRoute(index));
         }
     }
 }

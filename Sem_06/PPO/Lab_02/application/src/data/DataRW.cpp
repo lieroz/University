@@ -9,6 +9,7 @@
 
 #include <data/DataRW.h>
 #include <data/models/Route.h>
+#include <data/Polyline.h>
 
 #include <QDebug>
 
@@ -55,6 +56,7 @@ QSharedPointer<Route> readGpx(const QString &fileName)
         }
     }
 
+    file.close();
     return QSharedPointer<Route>::create(Route(name, path));
 }
 
@@ -88,8 +90,31 @@ bool writeGpx(QFile &file, QSharedPointer<Route> route)
     return true;
 }
 
+QSharedPointer<Route> readPolyline(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return nullptr;
+    }
+
+    QTextStream stream(&file);
+    QString polyline;
+    stream >> polyline;
+    file.close();
+    return Polyline::decode(polyline);
+}
+
+bool writePolyline(QFile &file, QSharedPointer<Route> route)
+{
+    QTextStream stream(&file);
+    stream << Polyline::encode(route);
+    file.close();
+    return true;
+}
+
 QMap<QString, std::pair<rFunc, wFunc>> registeredFileTypes = {
-    {"gpx", std::make_pair(readGpx, writeGpx)}
+    {"gpx", std::make_pair(readGpx, writeGpx)},
+    {"txt", std::make_pair(readPolyline, writePolyline)}
 };
 
 std::pair<rFunc, wFunc> getRWFunctions(const QString &fileType)
