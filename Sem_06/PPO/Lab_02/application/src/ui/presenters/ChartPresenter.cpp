@@ -7,6 +7,7 @@
 #include <QPanGesture>
 #include <QRandomGenerator>
 #include <QtMath>
+#include <QDebug>
 
 #include <ui/presenters/ChartPresenter.h>
 
@@ -20,19 +21,21 @@ ChartPresenter::ChartPresenter(QWidget *parent)
 void ChartPresenter::setData(QSharedPointer<Route> route)
 {
     QLineSeries *series = new QLineSeries(this);
-    QSharedPointer<Coordinate> first;
+    qint32 distance = 0;
+
     for (auto i = 0; i < route->getPath().count(); ++i) {
         QPointF point;
-        auto coordinate = route->getCoordinate(i);
+        auto curr = route->getCoordinate(i);
 
         if (i == 0) {
-            first = route->getCoordinate(0);
             point.setX(0);
         } else {
-            point.setX(first->distanceTo(*coordinate));
+            auto prev = route->getCoordinate(i - 1);
+            distance += prev->distanceTo(*curr) * 1000;
+            point.setX(distance);
         }
 
-        point.setY(coordinate->getAltitude());
+        point.setY(curr->getAltitude());
         *series << point;
     }
 

@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QStringList routesViewHeaders = {"Name", "Length", "Created"};
+    QStringList routesViewHeaders = {"Name", "Length (km)", "Created"};
     m_routesPresenter = new RoutesPresenter(routesViewHeaders, this);
     ui->routesView->setModel(m_routesPresenter);
     ui->routesView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
