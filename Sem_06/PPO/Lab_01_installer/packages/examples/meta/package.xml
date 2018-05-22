@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Package>
-    <DisplayName>Examples</DisplayName>
-    <Description>Contains files for Lab_01</Description>
-    <Version>1.0.0-1</Version>
-    <ReleaseDate>2018-03-06</ReleaseDate>
-    <Default>true</Default>
-</Package>
