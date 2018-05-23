@@ -17,7 +17,7 @@
 #include <ui/AddCoordinateDialog.h>
 #include <ui/presenters/SpinBoxDelegate.h>
 
-#include "../../plugins/PluginInterface.h"
+#include <../plugins/PluginInterface.h>
 
 namespace Ui
 {

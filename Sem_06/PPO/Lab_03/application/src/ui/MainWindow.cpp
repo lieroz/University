@@ -249,7 +249,7 @@ void MainWindow::executePlugin(QAction *action)
 
     auto actions = ui->menuPlugins->actions();
     for (auto i = 0; i < actions.count(); ++i) {
-        if (actions[i] == action) {
+        if (actions[i] == action && !m_plugins[i]->isRunning()) {
             m_plugins[i]->exec(RuntimeStorage::instance().getRoute(index - 1));
             return;
         }

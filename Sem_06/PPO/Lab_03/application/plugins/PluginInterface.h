@@ -17,6 +17,7 @@ public:
 
     virtual QString name() = 0;
     virtual void exec(QSharedPointer<Route> route) = 0;
+    virtual bool isRunning() = 0;
 };
 
 #define PluginInterface_iid "ru.bmstu.SoftwareDesign.PluginInterface"

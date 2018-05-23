@@ -24,6 +24,7 @@ public:
 
     QString name() override;
     void exec(QSharedPointer<Route> route) override;
+    bool isRunning() override;
 
 private Q_SLOTS:
     void setSpinBoxData(qint32 index);

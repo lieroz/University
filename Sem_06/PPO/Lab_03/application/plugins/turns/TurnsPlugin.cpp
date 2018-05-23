@@ -44,6 +44,11 @@ void TurnsPlugin::exec(QSharedPointer<Route> route)
     show();
 }
 
+bool TurnsPlugin::isRunning()
+{
+    return isVisible();
+}
+
 void TurnsPlugin::setSpinBoxData(qint32 index)
 {
     m_spinBox->setValue(m_cathegories[index]);
