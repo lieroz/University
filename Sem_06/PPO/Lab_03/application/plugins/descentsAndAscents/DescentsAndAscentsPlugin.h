@@ -25,7 +25,6 @@ class DescentsAndAscentsPlugin : public QWidget, PluginInterface
 
 public:
     DescentsAndAscentsPlugin(QWidget *parent = nullptr);
-    ~DescentsAndAscentsPlugin();
 
     QString name() override;
     void exec(QSharedPointer<Route> route) override;
@@ -43,7 +42,7 @@ private:
     QComboBox *m_lengthComboBox;
     QComboBox *m_steepnessComboBox;
     QSpinBox *m_spinBox;
-    qint32 *m_cathegories;
+    QVector<QVector<int>> m_cathegories;
 };
 
 #endif // DESCENTSANDASCENTSPLUGIN_H

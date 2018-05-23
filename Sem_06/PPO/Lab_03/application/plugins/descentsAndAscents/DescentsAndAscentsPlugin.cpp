@@ -11,8 +11,10 @@
 DescentsAndAscentsPlugin::DescentsAndAscentsPlugin(QWidget *parent)
     : QWidget(parent)
 {
-    const qint32 length = LENGTH_CATHEGORIES_COUNT * STEEPNESS_CATHEGORIES_COUNT;
-    m_cathegories = new qint32[length];
+    for (auto i = 0; i < LENGTH_CATHEGORIES_COUNT; ++i) {
+        m_cathegories.append(QVector<int>(STEEPNESS_CATHEGORIES_COUNT));
+        m_cathegories[i].fill(0);
+    }
 
     m_lengthComboBox = new QComboBox(this);
     m_steepnessComboBox = new QComboBox(this);
@@ -33,21 +35,12 @@ DescentsAndAscentsPlugin::DescentsAndAscentsPlugin(QWidget *parent)
         }
     }
 
-    for (auto i = 0; i < length; ++i) {
-        m_cathegories[i] = 0;
-    }
-
     setLayout(layout);
     setFixedSize({500, 100});
     setWindowTitle("Descents And Ascents Plugin");
 
     connect(m_lengthComboBox, SIGNAL(currentIndexChanged(qint32)), this, SLOT(setLengthCathegory(qint32)));
     connect(m_steepnessComboBox, SIGNAL(currentIndexChanged(qint32)), this, SLOT(setSteepnessCathegory(qint32)));
-}
-
-DescentsAndAscentsPlugin::~DescentsAndAscentsPlugin()
-{
-    delete[] m_cathegories;
 }
 
 QString DescentsAndAscentsPlugin::name()
@@ -62,10 +55,10 @@ void DescentsAndAscentsPlugin::exec(QSharedPointer<Route> route)
         auto curr = route->getCoordinate(i);
         const auto lengthCathegory = getLengthCathegory(prev, curr);
         const auto steepnessCathegory = getSteepnessCathegory(prev, curr);
-        *((m_cathegories + lengthCathegory) + steepnessCathegory) += 1;
+        m_cathegories[lengthCathegory][steepnessCathegory] += 1;
     }
 
-    m_spinBox->setValue(*m_cathegories);
+    m_spinBox->setValue(m_cathegories[0][0]);
     show();
 }
 
@@ -76,12 +69,12 @@ bool DescentsAndAscentsPlugin::isRunning()
 
 void DescentsAndAscentsPlugin::setLengthCathegory(qint32 index)
 {
-    m_spinBox->setValue(*((m_cathegories + index) + m_steepnessComboBox->currentIndex()));
+    m_spinBox->setValue(m_cathegories[index][m_steepnessComboBox->currentIndex()]);
 }
 
 void DescentsAndAscentsPlugin::setSteepnessCathegory(qint32 index)
 {
-    m_spinBox->setValue(*((m_cathegories + index) + m_lengthComboBox->currentIndex()));
+    m_spinBox->setValue(m_cathegories[m_lengthComboBox->currentIndex()][index]);
 }
 
 qint32 DescentsAndAscentsPlugin::getLengthCathegory(QSharedPointer<Coordinate> a, QSharedPointer<Coordinate> b)
