@@ -7,8 +7,6 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
-#include <QDebug>
-
 #include <SlopesPlugin.h>
 
 SlopesPlugin::SlopesPlugin(QWidget *parent)
@@ -44,7 +42,7 @@ void SlopesPlugin::exec(QSharedPointer<Route> route)
         qreal height = qAbs(curr->getAltitude() - prev->getAltitude());
 
         // Or maybe Asin, but still 0...
-        if (qAtan(height / distance) > 15) {
+        if (qAtan(height / distance) > STEEP_SLOPE_BOARDER) {
             ++count;
         }
     }

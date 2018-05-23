@@ -18,6 +18,8 @@ class SlopesPlugin : public QWidget, PluginInterface
     Q_PLUGIN_METADATA(IID "ru.bmstu.SoftwareDesign.PluginInterface" FILE "slopesplugin.json")
     Q_INTERFACES(PluginInterface)
 
+    const qreal STEEP_SLOPE_BOARDER = 15.0;
+
 public:
     SlopesPlugin(QWidget *parent = nullptr);
 
