@@ -45,6 +45,11 @@ DescentsAndAscentsPlugin::DescentsAndAscentsPlugin(QWidget *parent)
     connect(m_steepnessComboBox, SIGNAL(currentIndexChanged(qint32)), this, SLOT(setSteepnessCathegory(qint32)));
 }
 
+DescentsAndAscentsPlugin::~DescentsAndAscentsPlugin()
+{
+    delete[] m_cathegories;
+}
+
 QString DescentsAndAscentsPlugin::name()
 {
     return "DescentsAndAscentsPlugin";

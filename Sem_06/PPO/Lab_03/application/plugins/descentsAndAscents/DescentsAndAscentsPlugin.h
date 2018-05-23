@@ -25,6 +25,7 @@ class DescentsAndAscentsPlugin : public QWidget, PluginInterface
 
 public:
     DescentsAndAscentsPlugin(QWidget *parent = nullptr);
+    ~DescentsAndAscentsPlugin();
 
     QString name() override;
     void exec(QSharedPointer<Route> route) override;
