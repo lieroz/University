@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_fileDialog, SIGNAL(accepted()), this, SLOT(accepted()));
 
     loadPlugins();
+    connect(ui->menuPlugins, SIGNAL(triggered(QAction *)), this, SLOT(executePlugin(QAction *)));
 }
 
 MainWindow::~MainWindow()
@@ -239,6 +240,22 @@ void MainWindow::accepted()
     }
 }
 
+void MainWindow::executePlugin(QAction *action)
+{
+    qint32 index = ui->comboBox->currentIndex();
+    if (index == 0) {
+        return;
+    }
+
+    auto actions = ui->menuPlugins->actions();
+    for (auto i = 0; i < actions.count(); ++i) {
+        if (actions[i] == action) {
+            m_plugins[i]->exec(RuntimeStorage::instance().getRoute(index - 1));
+            return;
+        }
+    }
+}
+
 void MainWindow::prepareAppContext()
 {
     QDir dir(QDir::currentPath());
@@ -296,8 +313,11 @@ void MainWindow::loadPlugins()
     for (QString fileName : pluginsDir.entryList(QDir::Files)) {
         QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
         QObject *plugin = pluginLoader.instance();
+
         if (plugin) {
             QSharedPointer<PluginInterface> pointer(qobject_cast<PluginInterface *>(plugin));
+            QAction *action = new QAction(pointer->name(), this);
+            ui->menuPlugins->addAction(action);
             m_plugins.append(pointer);
         }
     }

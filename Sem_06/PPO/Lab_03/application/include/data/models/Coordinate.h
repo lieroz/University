@@ -17,7 +17,7 @@ public:
     Coordinate(Coordinate &&other);
     ~Coordinate() = default;
 
-    Coordinate(qreal latitude, qreal longitude, qreal altitude);
+    Coordinate(qreal latitude, qreal longitude);
 
     Coordinate &operator=(const Coordinate &other);
     Coordinate &operator=(Coordinate &&other) noexcept;
@@ -28,10 +28,12 @@ public:
     qreal getLatitude() const;
     qreal getLongitude() const;
     qreal getAltitude() const;
+    qreal getCourse() const;
 
     void setLatitude(qreal latitude);
     void setLongitude(qreal longitude);
     void setAltitude(qreal altitude);
+    void setCourse(qreal course);
 
     qreal distanceTo(const Coordinate &other);
 
@@ -39,6 +41,7 @@ private:
     qreal m_latitude;
     qreal m_longitude;
     qreal m_altitude;
+    qreal m_course;
 };
 
 #endif //LAB_02_COORDINATE_H

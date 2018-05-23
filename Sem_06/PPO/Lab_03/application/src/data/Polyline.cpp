@@ -90,7 +90,7 @@ namespace Polyline
                 lat += prevPoint.getLatitude();
                 lon += prevPoint.getLongitude();
             }
-            route.addCoordinate({lat, lon, 0});
+            route.addCoordinate({lat, lon});
         }
 
         return QSharedPointer<Route>::create(route);

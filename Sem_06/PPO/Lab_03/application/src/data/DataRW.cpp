@@ -39,7 +39,7 @@ QSharedPointer<Route> readGpx(const QString &fileName)
             if (currentField == "trkpt") {
                 const auto lat = inputStream.attributes().value("lat").toDouble();
                 const auto lon = inputStream.attributes().value("lon").toDouble();
-                Coordinate coord(lat, lon, 0);
+                Coordinate coord(lat, lon);
 
                 if (!path.isEmpty()) {
                     dist += path.back().distanceTo(coord);
@@ -50,6 +50,11 @@ QSharedPointer<Route> readGpx(const QString &fileName)
             if (currentField == "ele" && prevField == "trkpt") {
                 const auto alt = inputStream.readElementText().toDouble();
                 path[path.count() - 1].setAltitude(alt);
+            }
+
+            if (currentField == "course" && prevField == "ele") {
+                const auto course = inputStream.readElementText().toDouble();
+                path[path.count() - 1].setCourse(course);
             }
 
             prevField = currentField;
@@ -80,6 +85,9 @@ bool writeGpx(QFile &file, QSharedPointer<Route> route)
         xmlWriter.writeAttribute("lon", QString::number(coordinate.getLongitude()));
         xmlWriter.writeStartElement("ele");
         xmlWriter.writeCharacters(QString::number(coordinate.getAltitude()));
+        xmlWriter.writeEndElement();
+        xmlWriter.writeStartElement("course");
+        xmlWriter.writeCharacters(QString::number(coordinate.getCourse()));
         xmlWriter.writeEndElement();
         xmlWriter.writeEndElement();
     }

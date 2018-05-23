@@ -41,7 +41,8 @@ void AddCoordinateDialog::setMaxPosition(qint32 position)
 void AddCoordinateDialog::on_okButton_clicked()
 {
     Coordinate coordinate(ui->latitudeSpinBox->value(),
-                          ui->longitudeSpinBox->value(), ui->altitudeSpinBox->value());
+                          ui->longitudeSpinBox->value());
+    coordinate.setAltitude(ui->altitudeSpinBox->value());
     emit sendCoordinate(ui->positionSpinBox->value(), coordinate);
     close();
 }

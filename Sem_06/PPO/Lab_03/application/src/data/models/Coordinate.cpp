@@ -7,26 +7,32 @@
 #include <data/models/Coordinate.h>
 
 Coordinate::Coordinate()
-    : m_latitude(0), m_longitude(0), m_altitude(0)
+    : m_latitude(0), m_longitude(0), m_altitude(0), m_course(0)
 {
 }
 
 Coordinate::Coordinate(const Coordinate &other)
-    : Coordinate(other.m_latitude, other.m_longitude, other.m_altitude)
+    : Coordinate(other.m_latitude, other.m_longitude)
 {
+    m_altitude = other.m_altitude;
+    m_course = other.m_course;
 }
 
 Coordinate::Coordinate(Coordinate &&other)
-    : m_latitude(other.m_latitude), m_longitude(other.m_longitude), m_altitude(other.m_altitude)
+    : m_latitude(other.m_latitude), m_longitude(other.m_longitude),
+      m_altitude(other.m_altitude), m_course(other.m_course)
 {
     other.m_latitude = 0;
     other.m_longitude = 0;
     other.m_altitude = 0;
+    other.m_course = 0;
 }
 
-Coordinate::Coordinate(qreal latitude, qreal longitude, qreal altitude)
-    : m_latitude(latitude), m_longitude(longitude), m_altitude(altitude)
+Coordinate::Coordinate(qreal latitude, qreal longitude)
+    : m_latitude(latitude), m_longitude(longitude)
 {
+    m_altitude = 0;
+    m_course = 0;
 }
 
 Coordinate &Coordinate::operator=(const Coordinate &other)
@@ -35,6 +41,7 @@ Coordinate &Coordinate::operator=(const Coordinate &other)
         m_latitude = other.m_latitude;
         m_longitude = other.m_longitude;
         m_altitude = other.m_altitude;
+        m_course = other.m_course;
     }
     return *this;
 }
@@ -45,10 +52,12 @@ Coordinate &Coordinate::operator=(Coordinate &&other) noexcept
         m_latitude = other.m_latitude;
         m_longitude = other.m_longitude;
         m_altitude = other.m_altitude;
+        m_course = other.m_course;
 
         other.m_latitude = 0;
         other.m_longitude = 0;
         other.m_altitude = 0;
+        other.m_course = 0;
     }
     return *this;
 }
@@ -56,8 +65,7 @@ Coordinate &Coordinate::operator=(Coordinate &&other) noexcept
 bool operator==(const Coordinate &lhs, const Coordinate &rhs)
 {
     return lhs.getLatitude() == rhs.getLatitude() &&
-           lhs.getLongitude() == rhs.getLongitude() &&
-           lhs.getAltitude() == rhs.getAltitude();
+           lhs.getLongitude() == rhs.getLongitude();
 }
 
 bool operator!=(const Coordinate &lhs, const Coordinate &rhs)
@@ -80,6 +88,11 @@ qreal Coordinate::getAltitude() const
     return m_altitude;
 }
 
+qreal Coordinate::getCourse() const
+{
+    return m_course;
+}
+
 void Coordinate::setLatitude(qreal latitude)
 {
     m_latitude = latitude;
@@ -93,6 +106,11 @@ void Coordinate::setLongitude(qreal longitude)
 void Coordinate::setAltitude(qreal altitude)
 {
     m_altitude = altitude;
+}
+
+void Coordinate::setCourse(qreal course)
+{
+    m_course = course;
 }
 
 qreal Coordinate::distanceTo(const Coordinate &other)

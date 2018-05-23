@@ -50,6 +50,7 @@ private slots:
     void appAboutToQuit();
     void filesSelected(const QStringList& fileNames);
     void accepted();
+    void executePlugin(QAction *action);
 
 private:
     void prepareAppContext();
