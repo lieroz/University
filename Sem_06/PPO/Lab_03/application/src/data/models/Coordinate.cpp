@@ -65,7 +65,8 @@ Coordinate &Coordinate::operator=(Coordinate &&other) noexcept
 bool operator==(const Coordinate &lhs, const Coordinate &rhs)
 {
     return lhs.getLatitude() == rhs.getLatitude() &&
-           lhs.getLongitude() == rhs.getLongitude();
+           lhs.getLongitude() == rhs.getLongitude() &&
+           lhs.getAltitude() == rhs.getAltitude();
 }
 
 bool operator!=(const Coordinate &lhs, const Coordinate &rhs)

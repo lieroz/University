@@ -231,6 +231,12 @@ void MainWindow::accepted()
     for (const auto &fileName : m_fileNames) {
         QFileInfo fileInfo(fileName);
         auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
+        if (rwFuncs.first == nullptr) {
+            QMessageBox::warning(this, tr("Warning"),
+                                 QString("Not implemented file format: %1").arg(fileName), QMessageBox::Ok);
+            return;
+        }
+
         QSharedPointer<Route> route = rwFuncs.first(fileName);
         qint32 index = RuntimeStorage::instance().count();
 
