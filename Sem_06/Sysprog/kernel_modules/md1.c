@@ -37,12 +37,12 @@ extern int return_zero(void)
     return 0;
 }
 
-EXPORT_SYMBOL(export_char)
-EXPORT_SYMBOL(export_int)
+EXPORT_SYMBOL(export_char);
+EXPORT_SYMBOL(export_int);
 
-EXPORT_SYMBOL(even_or_odd)
-EXPORT_SYMBOL(factorial)
-EXPORT_SYMBOL(return_zero)
+EXPORT_SYMBOL(even_or_odd);
+EXPORT_SYMBOL(factorial);
+EXPORT_SYMBOL(return_zero);
 
 static int __init md1_init(void)
 {
