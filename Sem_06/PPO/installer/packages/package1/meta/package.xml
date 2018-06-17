@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Package>
-    <DisplayName>Lab</DisplayName>
-    <Description>BMSTU IU7 faculty software design Lab_</Description>
-    <Version>1.0.0-1</Version>
-    <ReleaseDate>2018-03-06</ReleaseDate>
-    <Default>true</Default>
-</Package>
