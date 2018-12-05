@@ -4,8 +4,9 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <string.h>
+#include <fcntl.h>
 
-static const unsigned char key[] = {64, 73, 15, 167, 193, 83};
+#define SIZE 6 
 
 static const char hack_success[] = 
     " ____________________________\n" \
@@ -41,8 +42,8 @@ int get_device_mac_addr(unsigned char mac_address[6])
     ifc.ifc_buf = buf;
     if (ioctl(sock, SIOCGIFCONF, &ifc) == -1) return -1;
 
-    struct ifreq* it = ifc.ifc_req;
-    const struct ifreq* const end = it + (ifc.ifc_len / sizeof(struct ifreq));
+    struct ifreq *it = ifc.ifc_req;
+    const struct ifreq *end = it + (ifc.ifc_len / sizeof(struct ifreq));
 
     for (; it != end, !success; ++it) {
         strcpy(ifr.ifr_name, it->ifr_name);
@@ -67,19 +68,48 @@ int get_device_mac_addr(unsigned char mac_address[6])
 
 int main()
 {
-    int code = 0;
-    unsigned char mac_address[6];
+    int fd, code = 0;
+    char buf[SIZE];
+    unsigned char mac_address[SIZE];
 
     if ((code = get_device_mac_addr(mac_address))) {
         goto exit;
     }
 
-    if (memcmp(key, mac_address, 6) == 0) {
+    if ((fd = open("license.key", O_CREAT | O_RDWR, 0644)) != -1) {
+        if (!read(fd, buf, SIZE)) {
+            unsigned char *it = mac_address;
+            const unsigned char *end = mac_address + SIZE;
+
+            for (int i = 0; it != end; ++it, ++i) {
+                snprintf(buf + i, 2, "%c", *it);
+            }
+
+            write(fd, buf, SIZE);
+            goto exit;
+        }
+
+        printf("%s\n", buf);
+    } else 
+        goto exit;
+
+    char buf2[SIZE];
+    unsigned char *it = mac_address;
+    const unsigned char *end = mac_address + SIZE;
+
+    for (int i = 0; it != end; ++it, ++i) {
+        snprintf(buf2 + i, 2, "%c", *it);
+    }
+
+    printf("%s\n", buf2);
+
+    if (strcmp(buf, buf2) == 0) {
         printf("%s\n", hack_success);
     } else {
         printf("%s\n", hack_denied);
     }
 
 exit:
+    close(fd);
     return code;
 }

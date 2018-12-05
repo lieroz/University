@@ -10,4 +10,4 @@ lab_01: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
-	rm -rf *.o lab_01
+	rm -rf *.o lab_01 *.key
