@@ -8,7 +8,7 @@
 
 #define SIZE 6 
 
-static const char hack_success[] = 
+static const char success[] = 
     " ____________________________\n" \
     "( Good, you are 1337 hacker! )\n" \
     " ----------------------------\n" \
@@ -18,7 +18,7 @@ static const char hack_success[] =
     "                ||----w |\n" \
     "                ||     ||\n";
 
-static const char hack_denied[] = 
+static const char denied[] = 
     " ________________________________________\n" \
     "( C'mon man! You're not 1337 hacker yet. )\n" \
     " ----------------------------------------\n" \
@@ -28,7 +28,7 @@ static const char hack_denied[] =
     "                ||----w |\n" \
     "                ||     ||\n";
 
-int get_device_mac_addr(unsigned char mac_address[6])
+int get_device_mac_addr(unsigned char mac_address[])
 {
     struct ifreq ifr;
     struct ifconf ifc;
@@ -52,7 +52,7 @@ int get_device_mac_addr(unsigned char mac_address[6])
             if (!(ifr.ifr_flags & IFF_LOOPBACK)) {
                 if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
                     success = 1;
-                    memcpy(mac_address, ifr.ifr_hwaddr.sa_data, 6);
+                    memcpy(mac_address, ifr.ifr_hwaddr.sa_data, SIZE);
                 }
             }
         }
@@ -66,10 +66,20 @@ int get_device_mac_addr(unsigned char mac_address[6])
     return success ? 0 : -1;
 }
 
+void mac_to_str(unsigned char mac_address[], char buf[])
+{
+    unsigned char *it = mac_address;
+    const unsigned char *end = mac_address + SIZE;
+
+    for (int i = 0; it != end; ++it, ++i) {
+        snprintf(buf + i, 2, "%c", *it);
+    }
+}
+
 int main()
 {
     int fd, code = 0;
-    char buf[SIZE];
+    char buf[SIZE], check_buf[SIZE];
     unsigned char mac_address[SIZE];
 
     if ((code = get_device_mac_addr(mac_address))) {
@@ -78,35 +88,19 @@ int main()
 
     if ((fd = open("license.key", O_CREAT | O_RDWR, 0644)) != -1) {
         if (!read(fd, buf, SIZE)) {
-            unsigned char *it = mac_address;
-            const unsigned char *end = mac_address + SIZE;
-
-            for (int i = 0; it != end; ++it, ++i) {
-                snprintf(buf + i, 2, "%c", *it);
-            }
-
+            mac_to_str(mac_address, buf);
             write(fd, buf, SIZE);
             goto exit;
         }
-
-        printf("%s\n", buf);
     } else 
         goto exit;
 
-    char buf2[SIZE];
-    unsigned char *it = mac_address;
-    const unsigned char *end = mac_address + SIZE;
+    mac_to_str(mac_address, check_buf);
 
-    for (int i = 0; it != end; ++it, ++i) {
-        snprintf(buf2 + i, 2, "%c", *it);
-    }
-
-    printf("%s\n", buf2);
-
-    if (strcmp(buf, buf2) == 0) {
-        printf("%s\n", hack_success);
+    if (strcmp(buf, check_buf) == 0) {
+        printf("%s\n", success);
     } else {
-        printf("%s\n", hack_denied);
+        printf("%s\n", denied);
     }
 
 exit:
