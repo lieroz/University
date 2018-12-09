@@ -6,7 +6,8 @@
 #include <string.h>
 #include <fcntl.h>
 
-#define SIZE 6 
+#define MAC_SIZE 6
+#define BUF_SIZE 19
 
 static const char success[] = 
     " ____________________________\n" \
@@ -52,7 +53,7 @@ int get_device_mac_addr(unsigned char mac_address[])
             if (!(ifr.ifr_flags & IFF_LOOPBACK)) {
                 if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
                     success = 1;
-                    memcpy(mac_address, ifr.ifr_hwaddr.sa_data, SIZE);
+                    memcpy(mac_address, ifr.ifr_hwaddr.sa_data, MAC_SIZE);
                 }
             }
         }
@@ -69,29 +70,34 @@ int get_device_mac_addr(unsigned char mac_address[])
 void mac_to_str(unsigned char mac_address[], char buf[])
 {
     unsigned char *it = mac_address;
-    const unsigned char *end = mac_address + SIZE;
+    const unsigned char *end = mac_address + MAC_SIZE;
+    int w_bytes = 0;
 
-    for (int i = 0; it != end; ++it, ++i) {
-        snprintf(buf + i, 2, "%c", *it);
+    for (; it != end; ++it) {
+        w_bytes += sprintf(buf + w_bytes, "%d", *it);
     }
+    
+    buf[w_bytes] = '\0';
 }
 
 int main()
 {
-    int fd, code = 0;
-    char buf[SIZE], check_buf[SIZE];
-    unsigned char mac_address[SIZE];
+    int fd, r_bytes, code = 0;
+    char buf[BUF_SIZE], check_buf[BUF_SIZE];
+    unsigned char mac_address[MAC_SIZE];
 
     if ((code = get_device_mac_addr(mac_address))) {
         goto exit;
     }
 
     if ((fd = open("license.key", O_CREAT | O_RDWR, 0644)) != -1) {
-        if (!read(fd, buf, SIZE)) {
+        if (!(r_bytes = read(fd, buf, BUF_SIZE))) {
             mac_to_str(mac_address, buf);
-            write(fd, buf, SIZE);
+            write(fd, buf, BUF_SIZE);
             goto exit;
         }
+
+        buf[r_bytes] = '\0';
     } else 
         goto exit;
 
