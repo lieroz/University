@@ -85,6 +85,11 @@ void server_loop(int listen_sd, pollfd_t *fds)
                         } else {
                             msg[msg_len] = '\0';
                             printf("Msg: %s\n", msg);
+
+                            if (send(fds[i].fd, msg, msg_len, 0) < 0) {
+                                error_log("send() failed", &msg_len);
+                                close_conn = 1;
+                            }
                         }
                     } while (msg_len > 0);
 
