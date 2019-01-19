@@ -279,7 +279,7 @@ void MainWindow::saveFile()
                 return;
             }
             auto rwFuncs = getRWFunctions(fileInfo.completeSuffix());
-            rwFuncs.second(file, RuntimeStorage::instance().getRoute(index));
+            rwFuncs.second(file, RuntimeStorage::instance().getRoute(index - 1));
         }
     }
 }
